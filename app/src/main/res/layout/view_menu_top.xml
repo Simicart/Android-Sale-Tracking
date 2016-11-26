@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_56">
+
+    <RelativeLayout
+        android:id="@+id/rl_menu"
+        android:layout_width="@dimen/size_50"
+        android:layout_height="@dimen/size_56"
+        android:layout_alignParentStart="true"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="@dimen/size_45"
+            android:layout_height="@dimen/size_45"
+            android:contentDescription="@null"
+            android:padding="@dimen/size_5"
+            android:src="@drawable/ic_menu"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_store"
+        android:layout_width="@dimen/size_70"
+        android:layout_height="@dimen/size_30"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/size_10">
+
+        <Spinner
+            android:id="@+id/sp_store"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"></Spinner>
+
+        <ImageView
+            android:layout_width="@dimen/size_10"
+            android:layout_height="@dimen/size_10"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="@dimen/size_5"
+        android:layout_marginStart="@dimen/size_5"
+        android:layout_toEndOf="@+id/rl_menu"
+        android:layout_toStartOf="@+id/rl_store"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textSize="@dimen/text_20"
+        android:textStyle="bold"/>
+
+</RelativeLayout>

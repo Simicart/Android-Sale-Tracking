@@ -15,6 +15,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
+import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
@@ -43,21 +44,21 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
     public void initView() {
 
         rlLogin = (RelativeLayout) mView.findViewById(R.id.rl_login);
-        rlLogin.setBackgroundColor(Color.parseColor("#FD9802"));
+        rlLogin.setBackgroundColor(AppColor.getInstance().getThemeColor());
 
         ivLogo = (ImageView) mView.findViewById(R.id.iv_logo);
         ivLogo.setBackgroundResource(R.drawable.login_logo);
 
         ivUrl = (ImageView) mView.findViewById(R.id.iv_url);
-        ivUrl.setImageDrawable(Utils.coloringIcon(R.drawable.ic_url, "#FD9802"));
+        ivUrl.setImageDrawable(AppColor.getInstance().coloringIcon(R.drawable.ic_url, "#fc9900"));
         ivUrl.setBackgroundColor(Color.parseColor("#000000"));
 
         ivUser = (ImageView) mView.findViewById(R.id.iv_user);
-        ivUser.setImageDrawable(Utils.coloringIcon(R.drawable.ic_user, "#FD9802"));
+        ivUser.setImageDrawable(AppColor.getInstance().coloringIcon(R.drawable.ic_user, "#fc9900"));
         ivUser.setBackgroundColor(Color.parseColor("#000000"));
 
         ivPass = (ImageView) mView.findViewById(R.id.iv_password);
-        ivPass.setImageDrawable(Utils.coloringIcon(R.drawable.ic_password, "#FD9802"));
+        ivPass.setImageDrawable(AppColor.getInstance().coloringIcon(R.drawable.ic_password, "#fc9900"));
         ivPass.setBackgroundColor(Color.parseColor("#000000"));
 
         etUrl = (EditText) mView.findViewById(R.id.et_url);
@@ -70,10 +71,10 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
         etPass.setHint("Your Password");
 
         btLogin = (AppCompatButton) mView.findViewById(R.id.bt_login);
-        Utils.initButton(btLogin, "LOGIN");
+        AppColor.getInstance().initButton(btLogin, "LOGIN");
 
         btDemo = (AppCompatButton) mView.findViewById(R.id.bt_demo);
-        Utils.initButton(btDemo, "TRY DEMO");
+        AppColor.getInstance().initButton(btDemo, "TRY DEMO");
 
         tvOr = (TextView) mView.findViewById(R.id.tv_or);
         tvOr.setText("or");

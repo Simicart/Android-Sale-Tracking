@@ -3,6 +3,7 @@ package com.simicart.saletracking.login.controller;
 import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.AppRequest;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
@@ -56,7 +57,7 @@ public class LoginController extends AppController {
         loginDemoRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-
+                goToHome();
             }
         });
         loginDemoRequest.setExtendUrl("staffs/login");
@@ -70,7 +71,7 @@ public class LoginController extends AppController {
         loginUserRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-
+                goToHome();
             }
         });
         loginUserRequest.setExtendUrl("staffs/login");
@@ -78,6 +79,12 @@ public class LoginController extends AppController {
         loginUserRequest.addParam("email", loginEntity.getEmail());
         loginUserRequest.addParam("password", loginEntity.getPassword());
         loginUserRequest.request();
+    }
+
+    protected void goToHome() {
+        AppManager.getInstance().getManager().popBackStack();
+        AppManager.getInstance().openOrderPage();
+        AppManager.getInstance().getMenuTopController().showMenuTop(true);
     }
 
     public void setDelegate(LoginDelegate delegate) {
