@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatButton;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -12,11 +13,15 @@ import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
+import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
+import com.simicart.saletracking.login.entity.LoginEntity;
 
 import org.json.JSONObject;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -85,8 +90,48 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
 
     }
 
+    @Override
+    public LoginEntity getLoginInfo() {
+
+        LoginEntity loginEntity = null;
+        boolean isValidate = true;
+
+        String url = etUrl.getText().toString();
+        String email = etUser.getText().toString();
+        String password = etPass.getText().toString();
+
+        if(!Utils.validateString(url) || !Patterns.WEB_URL.matcher(url).matches()) {
+            AppNotify.getInstance().showToast("URL is invalid!");
+            isValidate = false;
+        }
+
+        if(!Utils.validateString(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            AppNotify.getInstance().showToast("Email is invalid!");
+            isValidate = false;
+        }
+
+        if (!Utils.validateString(password)) {
+            AppNotify.getInstance().showToast("Password is empty.Please input a password.");
+            isValidate = false;
+        }
+
+        if(!isValidate) {
+            return null;
+        }
+
+        loginEntity = new LoginEntity();
+        loginEntity.setUrl(url);
+        loginEntity.setEmail(email);
+        loginEntity.setPassword(password);
+
+        return loginEntity;
+    }
+
     public void onTryDemoClick(View.OnClickListener listener) {
         btDemo.setOnClickListener(listener);
     }
 
+    public void onLoginClick(View.OnClickListener listener) {
+        btLogin.setOnClickListener(listener);
+    }
 }

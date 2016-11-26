@@ -40,6 +40,7 @@ public class LoginFragment extends Fragment {
             mController.onResume();
         }
         mBlock.onTryDemoClick(mController.getOnTryDemoClick());
+        mBlock.onLoginClick(mController.getOnLoginClick());
 
         return rootView;
     }
