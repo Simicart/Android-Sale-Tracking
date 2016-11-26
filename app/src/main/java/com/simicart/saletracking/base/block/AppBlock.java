@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.base.request.AppCollection;
 
 import org.json.JSONObject;
 
@@ -127,11 +128,7 @@ public class AppBlock implements AppDelegate {
     }
 
     @Override
-    public void updateView(JSONObject objectResult) {
-        this.drawView(objectResult);
-    }
-
-    public void drawView(JSONObject objectResult) {
+    public void updateView(AppCollection collection) {
 
     }
 

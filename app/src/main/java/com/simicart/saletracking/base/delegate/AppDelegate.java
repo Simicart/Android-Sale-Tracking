@@ -1,5 +1,7 @@
 package com.simicart.saletracking.base.delegate;
 
+import com.simicart.saletracking.base.request.AppCollection;
+
 import org.json.JSONObject;
 
 /**
@@ -16,6 +18,6 @@ public interface AppDelegate {
 
     public void dismissDialogLoading();
 
-    public void updateView(JSONObject objectResult);
+    public void updateView(AppCollection collection);
 
 }

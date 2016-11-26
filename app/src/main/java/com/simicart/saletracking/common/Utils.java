@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatButton;
 
-import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
 
 /**
@@ -42,6 +41,47 @@ public class Utils {
         if (content.equals("null")) {
             return false;
         }
+
+        return true;
+    }
+
+    public static boolean isFloat(String s) {
+        try {
+            Float.parseFloat(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean isInteger(String s) {
+        try {
+            Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public static final boolean getBoolean(String data) {
+        if (!Utils.validateString(data)) {
+            return false;
+        }
+
+        data = data.toLowerCase();
+
+        if (data.equals("no")) {
+            return false;
+        }
+
+        if (data.equals("0")) {
+            return false;
+        }
+
+        if (data.equals("false")) {
+            return false;
+        }
+
 
         return true;
     }

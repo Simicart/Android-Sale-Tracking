@@ -1,19 +1,14 @@
 package com.simicart.saletracking.login.controller;
 
-import android.util.Log;
 import android.view.View;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.AppRequest;
-import com.simicart.saletracking.base.request.AppRequestController;
-import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.Config;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
+import com.simicart.saletracking.login.request.LoginRequest;
 
 import org.json.JSONObject;
 
@@ -45,22 +40,16 @@ public class LoginController extends AppController {
     }
 
     protected void onLoginDemo() {
-        AppRequest loginDemoRequest = new AppRequest();
+        LoginRequest loginDemoRequest = new LoginRequest();
         loginDemoRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
-            public void onSuccess(JSONObject response) {
-                Log.e("abc", response.toString());
-            }
-        });
-        loginDemoRequest.setRequestFailCallback(new RequestFailCallback() {
-            @Override
-            public void onFail(String message) {
-                Log.e("abc", message);
+            public void onSuccess(AppCollection collection) {
+
             }
         });
         loginDemoRequest.setExtendUrl("staffs/login");
-        loginDemoRequest.setParam("email", "test@simicart.com");
-        loginDemoRequest.setParam("password", "123456");
+        loginDemoRequest.addParam("email", "test@simicart.com");
+        loginDemoRequest.addParam("password", "123456");
         loginDemoRequest.request();
     }
 

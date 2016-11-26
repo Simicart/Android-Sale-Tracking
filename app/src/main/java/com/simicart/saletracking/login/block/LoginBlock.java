@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
+import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 
@@ -80,8 +81,8 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
     }
 
     @Override
-    public void updateView(JSONObject objectResult) {
-        super.updateView(objectResult);
+    public void updateView(AppCollection collection) {
+
     }
 
     public void onTryDemoClick(View.OnClickListener listener) {

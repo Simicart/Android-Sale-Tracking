@@ -1,5 +1,7 @@
 package com.simicart.saletracking.base.request;
 
+import android.util.Log;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -31,6 +33,7 @@ public class AppRequestController {
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
+        Log.e("Request", req.getUrl());
         getRequestQueue().add(req);
     }
 

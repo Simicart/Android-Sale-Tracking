@@ -8,6 +8,6 @@ import org.json.JSONObject;
 
 public interface RequestSuccessCallback {
 
-    public void onSuccess(JSONObject response);
+    public void onSuccess(AppCollection collection);
 
 }
