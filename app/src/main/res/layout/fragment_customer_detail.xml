@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_summary_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="CUSTOMER SUMMARY"/>
+
+            <TableLayout
+                android:id="@+id/tl_summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_customer_id_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Customer Id"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_customer_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_customer_email_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Customer Email"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_customer_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="glenn@simicart.com" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_first_name_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="First Name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_first_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Glenn" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_last_name_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Last Name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_last_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Nguyen" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_info_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="CUSTOMER INFORMATION"/>
+
+            <TableLayout
+                android:id="@+id/tl_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_created_at_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Created At"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_created_at"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="2016-11-27 11:04:30" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_updated_at_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Last Updated At"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_updated_at"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="2016-11-27 11:04:30" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_active_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Is Active"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_active"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Yes" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_dob_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Date Of Birth"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_dob"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="06/03/1994" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_created_in_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Created In"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_created_in"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Admin" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_gender_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Gender"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_gender"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Male" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_order_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="CUSTOMER ORDERS"/>
+
+            <TextView
+                android:id="@+id/tv_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:text="VIEW CUSTOMER ORDERS"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/tv_address_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="CUSTOMER ADDRESSES"/>
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:drawableEnd="@drawable/ic_arrow_right"
+                android:text="VIEW CUSTOMER ADDRESSES"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/tv_billing_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="DEFAULT BILLING ADDRESS"/>
+
+            <LinearLayout
+                android:id="@+id/ll_billing_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_shipping_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="DEFAULT SHIPPING ADDRESS"/>
+
+            <LinearLayout
+                android:id="@+id/ll_shipping_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

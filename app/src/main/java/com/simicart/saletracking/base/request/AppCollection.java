@@ -13,6 +13,10 @@ public class AppCollection {
     protected JSONObject mJSONObject;
     protected HashMap<String,Object> hmData;
 
+    public AppCollection() {
+        hmData = new HashMap<>();
+    }
+
     public HashMap<String, Object> getData() {
         return hmData;
     }
@@ -28,4 +32,16 @@ public class AppCollection {
     public void setJSONObject(JSONObject JSONObject) {
         mJSONObject = JSONObject;
     }
+
+    public Object getDataWithKey(String key) {
+        if(hmData.containsKey(key)) {
+            return hmData.get(key);
+        }
+        return null;
+    }
+
+    public void putDataWithKey(String key, Object value) {
+        hmData.put(key, value);
+    }
+
 }

@@ -95,7 +95,6 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
     public LoginEntity getLoginInfo() {
 
         LoginEntity loginEntity = null;
-        boolean isValidate = true;
 
         String url = etUrl.getText().toString();
         String email = etUser.getText().toString();
@@ -103,20 +102,16 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
 
         if(!Utils.validateString(url) || !Patterns.WEB_URL.matcher(url).matches()) {
             AppNotify.getInstance().showToast("URL is invalid!");
-            isValidate = false;
+            return null;
         }
 
         if(!Utils.validateString(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             AppNotify.getInstance().showToast("Email is invalid!");
-            isValidate = false;
+            return null;
         }
 
         if (!Utils.validateString(password)) {
             AppNotify.getInstance().showToast("Password is empty.Please input a password.");
-            isValidate = false;
-        }
-
-        if(!isValidate) {
             return null;
         }
 

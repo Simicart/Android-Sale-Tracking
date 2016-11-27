@@ -1,4 +1,4 @@
-package com.simicart.saletracking.user;
+package com.simicart.saletracking.common.user;
 
 import com.simicart.saletracking.base.entity.AppEntity;
 

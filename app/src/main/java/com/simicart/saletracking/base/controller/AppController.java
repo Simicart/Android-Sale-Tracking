@@ -1,5 +1,7 @@
 package com.simicart.saletracking.base.controller;
 
+import com.simicart.saletracking.base.request.AppCollection;
+
 import org.json.JSONObject;
 
 /**
@@ -8,7 +10,7 @@ import org.json.JSONObject;
 
 public abstract class AppController {
 
-    protected JSONObject objectResult;
+    protected AppCollection mCollection;
 
     public abstract  void onStart();
 

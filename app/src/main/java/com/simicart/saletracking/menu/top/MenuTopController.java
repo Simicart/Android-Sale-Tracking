@@ -27,6 +27,7 @@ public class MenuTopController {
     protected TextView tvTitle;
     protected Spinner spStore;
     protected RelativeLayout rlStore;
+    protected boolean isOnDetail = false;
 
     public MenuTopController(Toolbar toolbar) {
         mToolbar = toolbar;
@@ -42,6 +43,7 @@ public class MenuTopController {
         rootView = inflater.inflate(R.layout.view_menu_top, null);
 
         ivMenu = (ImageView) rootView.findViewById(R.id.iv_menu);
+        ivMenu.setImageResource(R.drawable.ic_menu);
 
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         tvTitle.setTextColor(AppColor.getInstance().getWhiteColor());
@@ -70,6 +72,16 @@ public class MenuTopController {
             rlStore.setVisibility(View.VISIBLE);
         } else {
             rlStore.setVisibility(View.GONE);
+        }
+    }
+
+    public void setOnDetail(boolean isDetail) {
+        if(isDetail) {
+            ivMenu.setImageResource(R.drawable.ic_back);
+            isOnDetail = true;
+        } else {
+            ivMenu.setImageResource(R.drawable.ic_menu);
+            isOnDetail = false;
         }
     }
 

@@ -1,10 +1,12 @@
 package com.simicart.saletracking.common;
 
+import android.app.Service;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatButton;
+import android.view.inputmethod.InputMethodManager;
 
 import com.simicart.saletracking.base.manager.AppManager;
 
@@ -67,8 +69,19 @@ public class Utils {
             return false;
         }
 
-
         return true;
+    }
+
+    public static void hideKeyboard() {
+        try {
+            if (AppManager.getInstance().getCurrentActivity() != null) {
+                InputMethodManager imm = (InputMethodManager) AppManager.getInstance().getCurrentActivity()
+                        .getSystemService(Service.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(AppManager.getInstance().getCurrentActivity().getCurrentFocus()
+                        .getWindowToken(), 0);
+            }
+        } catch (Exception e) {
+        }
     }
 
 }

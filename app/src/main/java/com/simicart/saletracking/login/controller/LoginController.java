@@ -4,15 +4,15 @@ import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
-import com.simicart.saletracking.base.request.AppRequest;
+import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
-import com.simicart.saletracking.common.Config;
+import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
 import com.simicart.saletracking.login.request.LoginRequest;
-
-import org.json.JSONObject;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -30,7 +30,8 @@ public class LoginController extends AppController {
         onTryDemoClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Config.getInstance().setDemo(true);
+                Utils.hideKeyboard();
+                AppPreferences.setIsDemo(true);
                 onLoginDemo();
             }
         };
@@ -38,6 +39,7 @@ public class LoginController extends AppController {
         onLoginClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Utils.hideKeyboard();
                 LoginEntity loginEntity = mDelegate.getLoginInfo();
                 if(loginEntity != null) {
                     onLoginUser(loginEntity);
@@ -53,11 +55,20 @@ public class LoginController extends AppController {
     }
 
     protected void onLoginDemo() {
+        mDelegate.showDialogLoading();
         LoginRequest loginDemoRequest = new LoginRequest();
         loginDemoRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
+                mDelegate.dismissDialogLoading();
                 goToHome();
+            }
+        });
+        loginDemoRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                mDelegate.dismissDialogLoading();
+                AppNotify.getInstance().showError(message);
             }
         });
         loginDemoRequest.setExtendUrl("staffs/login");
@@ -67,11 +78,19 @@ public class LoginController extends AppController {
     }
 
     protected void onLoginUser(LoginEntity loginEntity) {
+        mDelegate.showDialogLoading();
         LoginRequest loginUserRequest = new LoginRequest();
         loginUserRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
                 goToHome();
+            }
+        });
+        loginUserRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                mDelegate.dismissDialogLoading();
+                AppNotify.getInstance().showError(message);
             }
         });
         loginUserRequest.setExtendUrl("staffs/login");
@@ -82,8 +101,9 @@ public class LoginController extends AppController {
     }
 
     protected void goToHome() {
+        AppPreferences.setSignInComplete(true);
         AppManager.getInstance().getManager().popBackStack();
-        AppManager.getInstance().openOrderPage();
+        AppManager.getInstance().openCustomerDetail();
         AppManager.getInstance().getMenuTopController().showMenuTop(true);
     }
 

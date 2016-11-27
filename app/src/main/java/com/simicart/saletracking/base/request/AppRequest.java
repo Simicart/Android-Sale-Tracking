@@ -3,12 +3,14 @@ package com.simicart.saletracking.base.request;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.simicart.saletracking.base.manager.AppNotify;
-import com.simicart.saletracking.common.Config;
+import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 
 import org.json.JSONArray;
@@ -34,6 +36,15 @@ public class AppRequest {
 
     public AppRequest() {
         hmParams = new HashMap<>();
+        if (AppPreferences.isSignInComplete()) {
+            if (AppPreferences.isDemo()) {
+                hmParams.put("email", Constants.demoEmail);
+                hmParams.put("password", Constants.demoPassword);
+            } else {
+                hmParams.put("email", AppPreferences.getCustomerEmail());
+                hmParams.put("password", AppPreferences.getCustomerPassword());
+            }
+        }
     }
 
     public void request() {
@@ -42,10 +53,25 @@ public class AppRequest {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            if(Utils.validateString(response)) {
+                            if (Utils.validateString(response)) {
                                 Log.e("Response", response);
                                 mJSONResult = new JSONObject(response);
-                                new ParseAsync().execute();
+                                if (mJSONResult.has("errors")) {
+                                    JSONArray array = mJSONResult.getJSONArray("errors");
+                                    if (null != array && array.length() > 0) {
+                                        JSONObject json = array.getJSONObject(0);
+                                        String error = json.getString("message");
+                                        if (Utils.validateString(error)) {
+                                            if (mRequestFailCallback != null) {
+                                                mRequestFailCallback.onFail(error);
+                                            } else {
+                                                AppNotify.getInstance().showError(error);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    new ParseAsync().execute();
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -55,15 +81,22 @@ public class AppRequest {
             @Override
             public void onErrorResponse(VolleyError error) {
                 String errorMessage = error.getMessage();
-                if(Utils.validateString(errorMessage)) {
-                    if(mRequestFailCallback != null) {
+                if (Utils.validateString(errorMessage)) {
+                    if (mRequestFailCallback != null) {
                         mRequestFailCallback.onFail(errorMessage);
                     } else {
                         AppNotify.getInstance().showError(errorMessage);
                     }
                 }
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
         AppRequestController.getInstance().addToRequestQueue(stringRequest);
     }
 
@@ -77,33 +110,20 @@ public class AppRequest {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            if(mRequestSuccessCallback != null) {
+            if (mRequestSuccessCallback != null) {
                 mRequestSuccessCallback.onSuccess(mCollection);
             }
         }
     }
 
     protected void parseData() {
-        if (mJSONResult.has("errors")) {
-            try {
-                JSONArray array = mJSONResult.getJSONArray("errors");
-                if (null != array && array.length() > 0) {
-                    JSONObject json = array.getJSONObject(0);
-                    String error = json.getString("message");
-                    if(Utils.validateString(error)) {
-                        AppNotify.getInstance().showError(error);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
+
     }
 
     private String getUrl() {
         String mBaseUrl = "";
-        if (Config.getInstance().isDemo()) {
-            mBaseUrl = Config.getInstance().getDemoUrl();
+        if (AppPreferences.isDemo()) {
+            mBaseUrl = Constants.demoUrl;
         }
 
         String url = mBaseUrl + mExtendUrl;

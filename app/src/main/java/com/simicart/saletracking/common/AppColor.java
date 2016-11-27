@@ -18,6 +18,8 @@ public class AppColor {
     private final String mButtonColor = "#F08002";
     private final String mButtonTextColor = "#FFFFFF";
     private final String mWhite = "#FFFFFF";
+    private final String mBlack = "#000000";
+    private final String mSectionColor = "#CACACA";
 
     public static AppColor instance;
 
@@ -55,4 +57,13 @@ public class AppColor {
     public int getWhiteColor() {
         return Color.parseColor(mWhite);
     }
+
+    public int getBlackColor() {
+        return Color.parseColor(mBlack);
+    }
+
+    public int getSectionColor() {
+        return Color.parseColor(mSectionColor);
+    }
+
 }

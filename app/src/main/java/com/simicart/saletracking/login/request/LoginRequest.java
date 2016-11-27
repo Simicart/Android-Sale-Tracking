@@ -2,7 +2,7 @@ package com.simicart.saletracking.login.request;
 
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.request.AppRequest;
-import com.simicart.saletracking.user.UserEntity;
+import com.simicart.saletracking.common.user.UserEntity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
