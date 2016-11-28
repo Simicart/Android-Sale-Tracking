@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menu.top.MenuTopController;
-import com.simicart.saletracking.order.fragment.OrderFragment;
+import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 
@@ -65,7 +65,7 @@ public class AppManager {
     }
 
     public void replaceFragment(Fragment fragment) {
-        if(fragment instanceof OrderFragment) {
+        if(fragment instanceof ListOrdersFragment) {
             mMenuTopController.showStorePicker(true);
         } else {
             mMenuTopController.showStorePicker(false);
@@ -83,8 +83,8 @@ public class AppManager {
         mMenuTopController.showMenuTop(false);
     }
 
-    public void openOrderPage() {
-        OrderFragment orderFragment = OrderFragment.newInstance();
+    public void openListOrders() {
+        ListOrdersFragment orderFragment = ListOrdersFragment.newInstance();
         replaceFragment(orderFragment);
         mMenuTopController.setTitle("Orders");
     }

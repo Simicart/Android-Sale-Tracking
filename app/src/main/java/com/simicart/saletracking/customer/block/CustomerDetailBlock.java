@@ -26,7 +26,6 @@ public class CustomerDetailBlock extends AppBlock {
             tvCreatedAt, tvUpdatedAt, tvActive, tvDob, tvCreatedIn, tvGender, tvOrder, tvAddress;
     protected LinearLayout llBillingAddress, llShippingAddress;
 
-
     public CustomerDetailBlock(View view) {
         super(view);
     }

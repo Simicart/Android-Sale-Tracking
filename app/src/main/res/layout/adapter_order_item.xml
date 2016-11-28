@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:id="@+id/ll_item_order">
+
+    <View
+        android:id="@+id/view_status"
+        android:layout_width="@dimen/size_5"
+        android:layout_height="match_parent"></View>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_10">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/tv_increment_id"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="#123456789"
+                    android:paddingStart="@dimen/size_10"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_customer_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Full Name"
+                    android:paddingStart="@dimen/size_10"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/size_5" >
+
+                <TextView
+                    android:id="@+id/tv_customer_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="v@simi.com"
+                    android:paddingStart="@dimen/size_10"/>
+
+                <TextView
+                    android:id="@+id/tv_order_status"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Pending"
+                    android:paddingStart="@dimen/size_10"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/size_5" >
+
+                <TextView
+                    android:id="@+id/tv_created_at"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="01:02:03"
+                    android:paddingStart="@dimen/size_10"/>
+
+                <TextView
+                    android:id="@+id/tv_grand_total"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="USD 100"
+                    android:paddingStart="@dimen/size_10"/>
+            </TableRow>
+
+        </TableLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

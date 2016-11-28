@@ -25,7 +25,6 @@ public class LoginRequest extends AppRequest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
 
 }

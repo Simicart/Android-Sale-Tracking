@@ -33,6 +33,10 @@ public class AppCollection {
         mJSONObject = JSONObject;
     }
 
+    public boolean containKey(String key) {
+        return hmData.containsKey(key);
+    }
+
     public Object getDataWithKey(String key) {
         if(hmData.containsKey(key)) {
             return hmData.get(key);
