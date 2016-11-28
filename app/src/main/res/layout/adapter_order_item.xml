@@ -7,7 +7,7 @@
 
     <View
         android:id="@+id/view_status"
-        android:layout_width="@dimen/size_5"
+        android:layout_width="@dimen/size_3"
         android:layout_height="match_parent"></View>
 
     <LinearLayout

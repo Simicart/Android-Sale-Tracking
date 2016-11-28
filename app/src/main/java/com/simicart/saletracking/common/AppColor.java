@@ -21,6 +21,9 @@ public class AppColor {
     private final String mBlack = "#000000";
     private final String mSectionColor = "#CACACA";
 
+    private final String mOrderPendingColor = "#00b200";
+    private final String mOrderNAColor = "#333333";
+
     public static AppColor instance;
 
     public static AppColor getInstance() {
@@ -66,4 +69,11 @@ public class AppColor {
         return Color.parseColor(mSectionColor);
     }
 
+    public int getOrderNAColor() {
+        return Color.parseColor(mOrderNAColor);
+    }
+
+    public int getOrderPendingColor() {
+        return Color.parseColor(mOrderPendingColor);
+    }
 }

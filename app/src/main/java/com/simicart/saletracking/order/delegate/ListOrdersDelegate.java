@@ -7,4 +7,9 @@ import com.simicart.saletracking.base.delegate.AppDelegate;
  */
 
 public interface ListOrdersDelegate extends AppDelegate {
+
+    public void showBottom(boolean show);
+
+    public void showPage(int current, int total);
+
 }

@@ -59,14 +59,6 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
     public void updateView(AppCollection collection) {
 
         if(collection != null) {
-            if(collection.containKey("total")) {
-                int totalResult = (int) collection.getDataWithKey("total");
-                int page = totalResult/30;
-                if(totalResult%30 != 0) {
-                    page +=1;
-                }
-                tvPage.setText("1/" + page);
-            }
             if(collection.containKey("orders")) {
                 ArrayList<OrderEntity> listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
                 if(listOrders != null && listOrders.size() > 0) {
@@ -87,6 +79,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
                                 if (date.equals(orderSection.getDate())) {
                                     listOrdersSection.add(entity);
                                 } else {
+                                    i--;
                                     break;
                                 }
                             }
@@ -94,8 +87,13 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
                         orderSection.setListOrders(listOrdersSection);
                         listSections.add(orderSection);
                     }
-                    mAdapter = new ListOrdersAdapter(listSections);
-                    rvOrders.setAdapter(mAdapter);
+                    if(mAdapter == null) {
+                        mAdapter = new ListOrdersAdapter(listSections);
+                        rvOrders.setAdapter(mAdapter);
+                    } else {
+                        mAdapter.setListSections(listSections);
+                        mAdapter.notifyAllSectionsDataSetChanged();
+                    }
                 }
             }
         }
@@ -127,4 +125,29 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
     }
 
+    public void setOnListScroll(RecyclerView.OnScrollListener listener) {
+        rvOrders.setOnScrollListener(listener);
+    }
+
+    public void setOnPreviousPage(View.OnClickListener listener) {
+        ivPrevious.setOnClickListener(listener);
+    }
+
+    public void setOnNextPage(View.OnClickListener listener) {
+        ivNext.setOnClickListener(listener);
+    }
+
+    @Override
+    public void showBottom(boolean show) {
+        if(show) {
+            rlMenuBottom.setVisibility(View.VISIBLE);
+        } else {
+            rlMenuBottom.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showPage(int current, int total) {
+        tvPage.setText(current + "/" + total);
+    }
 }

@@ -23,8 +23,8 @@ public class OrderEntity extends AppEntity {
 
     private final String ENTITY_ID = "entity_id";
     private final String STATUS = "status";
-    private final String CUSTOMER_FIRST_NAME = "frank";
-    private final String CUSTOMER_LAST_NAME = "vu";
+    private final String CUSTOMER_FIRST_NAME = "customer_firstname";
+    private final String CUSTOMER_LAST_NAME = "customer_lastname";
     private final String INCREMENT_ID = "increment_id";
     private final String CUSTOMER_EMAIL = "customer_email";
     private final String CREATED_AT = "created_at";

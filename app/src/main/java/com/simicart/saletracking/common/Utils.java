@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatButton;
+import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
 import com.simicart.saletracking.base.manager.AppManager;
@@ -82,6 +83,18 @@ public class Utils {
             }
         } catch (Exception e) {
         }
+    }
+
+    public static int toDp(int value) {
+        float unit = AppManager.getInstance().getCurrentActivity().getResources().getDisplayMetrics().density;
+        int result = (int) (value * unit + 0.5f);
+        return result;
+    }
+
+    public static int toPixel(int value) {
+        DisplayMetrics metrics = AppManager.getInstance().getCurrentActivity().getResources().getDisplayMetrics();
+        int px = value * ((int) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
+        return px;
     }
 
 }

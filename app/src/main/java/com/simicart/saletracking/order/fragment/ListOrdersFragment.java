@@ -39,6 +39,9 @@ public class ListOrdersFragment extends Fragment {
             mController.setDelegate(mBlock);
             mController.onResume();
         }
+        mBlock.setOnListScroll(mController.getOnListScroll());
+        mBlock.setOnNextPage(mController.getOnNextPageClick());
+        mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
 
         return rootView;
     }

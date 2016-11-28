@@ -1,5 +1,8 @@
 package com.simicart.saletracking.order.controller;
 
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
@@ -15,45 +18,135 @@ import com.simicart.saletracking.order.request.ListOrdersRequest;
 public class ListOrdersController extends AppController {
 
     protected ListOrdersDelegate mDelegate;
+    protected ListOrdersRequest mListOrdersRequest;
+    protected RecyclerView.OnScrollListener mOnListScroll;
+    protected View.OnClickListener mOnPreviousPageClick;
+    protected View.OnClickListener mOnNextPageClick;
+
+    protected int mCurrentPage = 1;
+    protected int mTotalPage;
+    protected int mOffset = 0;
+    protected int mLimit = 30;
+    protected boolean isFirstRequest = true;
+
+    @Override
+    public void onStart() {
+        requestListOrders();
+        initListener();
+    }
+
+    @Override
+    public void onResume() {
+        mDelegate.showPage(mCurrentPage, mTotalPage);
+        mDelegate.updateView(mCollection);
+    }
+
+    protected void requestListOrders() {
+        if(mListOrdersRequest == null) {
+            mListOrdersRequest = new ListOrdersRequest();
+            mDelegate.showLoading();
+        } else {
+            mDelegate.showDialogLoading();
+        }
+        mListOrdersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                if(isFirstRequest) {
+                    mDelegate.dismissLoading();
+                    isFirstRequest = false;
+                } else {
+                    mDelegate.dismissDialogLoading();
+                }
+                mCollection = collection;
+                if(collection != null) {
+                    if (collection.containKey("total")) {
+                        int totalResult = (int) collection.getDataWithKey("total");
+                        mTotalPage = totalResult / 30;
+                        if (totalResult % 30 != 0) {
+                            mTotalPage += 1;
+                        }
+                    }
+                }
+                mDelegate.showPage(mCurrentPage, mTotalPage);
+                mDelegate.updateView(mCollection);
+            }
+        });
+        mListOrdersRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                if(isFirstRequest) {
+                    mDelegate.dismissLoading();
+                } else {
+                    mDelegate.dismissDialogLoading();
+                }
+                mDelegate.updateView(mCollection);
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        mListOrdersRequest.setExtendUrl("orders");
+        mListOrdersRequest.addParam("dir", "desc");
+        mListOrdersRequest.addParam("limit", String.valueOf(mLimit));
+        mListOrdersRequest.addParam("offset", String.valueOf(mOffset));
+        mListOrdersRequest.request();
+    }
+
+    protected void initListener() {
+
+        mOnListScroll = new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (dy <= 0) {
+                    mDelegate.showBottom(false);
+                } else {
+                    mDelegate.showBottom(true);
+                }
+            }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        };
+
+        mOnNextPageClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mCurrentPage < mTotalPage) {
+                    mCurrentPage++;
+                    mOffset+=mLimit;
+                    requestListOrders();
+                }
+            }
+        };
+
+        mOnPreviousPageClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mCurrentPage > 1) {
+                    mCurrentPage--;
+                    mOffset-=mLimit;
+                    requestListOrders();
+                }
+            }
+        };
+
+    }
 
     public void setDelegate(ListOrdersDelegate delegate) {
         mDelegate = delegate;
     }
 
-    @Override
-    public void onStart() {
-        requestListOrders();
+    public RecyclerView.OnScrollListener getOnListScroll() {
+        return mOnListScroll;
     }
 
-    @Override
-    public void onResume() {
-
+    public View.OnClickListener getOnNextPageClick() {
+        return mOnNextPageClick;
     }
 
-    protected void requestListOrders() {
-        mDelegate.showLoading();
-        ListOrdersRequest listOrdersRequest = new ListOrdersRequest();
-        listOrdersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
-            @Override
-            public void onSuccess(AppCollection collection) {
-                mDelegate.dismissLoading();
-                mCollection = collection;
-                mDelegate.updateView(mCollection);
-            }
-        });
-        listOrdersRequest.setRequestFailCallback(new RequestFailCallback() {
-            @Override
-            public void onFail(String message) {
-                mDelegate.dismissLoading();
-                mDelegate.updateView(mCollection);
-                AppNotify.getInstance().showError(message);
-            }
-        });
-        listOrdersRequest.setExtendUrl("orders");
-        listOrdersRequest.addParam("dir", "desc");
-        listOrdersRequest.addParam("limit", "30");
-        listOrdersRequest.addParam("offset", "0");
-        listOrdersRequest.request();
+    public View.OnClickListener getOnPreviousPageClick() {
+        return mOnPreviousPageClick;
     }
-
 }

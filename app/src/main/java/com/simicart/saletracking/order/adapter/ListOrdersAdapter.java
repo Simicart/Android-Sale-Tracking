@@ -35,6 +35,10 @@ public class ListOrdersAdapter extends SectioningAdapter {
         mListSections = sections;
     }
 
+    public void setListSections(ArrayList<OrderSection> listSections) {
+        mListSections = listSections;
+    }
+
     @Override
     public int getNumberOfSections() {
         return mListSections.size();
@@ -84,12 +88,13 @@ public class ListOrdersAdapter extends SectioningAdapter {
 
         String incrementID = orderEntity.getIncrementID();
         if(Utils.validateString(incrementID)) {
-            itemViewHolder.tvIncrementID.setText(incrementID);
+            itemViewHolder.tvIncrementID.setText("#" + incrementID);
         }
 
-        String customerName = orderEntity.getCustomerFirstName() + " " + orderEntity.getCustomerLastName();
-        if(Utils.validateString(customerName)) {
-            itemViewHolder.tvCustomerName.setText(customerName);
+        String customerFirstName = orderEntity.getCustomerFirstName();
+        String customerLastName = orderEntity.getCustomerLastName();
+        if(Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
+            itemViewHolder.tvCustomerName.setText(customerFirstName + " " + customerLastName);
         }
 
         String customerEmail = orderEntity.getCustomerEmail();
@@ -100,6 +105,20 @@ public class ListOrdersAdapter extends SectioningAdapter {
         String orderStatus = orderEntity.getStatus();
         if(Utils.validateString(orderStatus)) {
             itemViewHolder.tvOrderStatus.setText(orderStatus);
+            switch (orderStatus) {
+                case "N/A":
+                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getOrderNAColor());
+                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderNAColor());
+                    break;
+                case "pending":
+                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getOrderPendingColor());
+                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderPendingColor());
+                    break;
+                default:
+                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getBlackColor());
+                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getWhiteColor());
+                    break;
+            }
         }
 
         String createdAt = orderEntity.getCreatedAtTime();
@@ -108,8 +127,9 @@ public class ListOrdersAdapter extends SectioningAdapter {
         }
 
         String grandTotal = orderEntity.getGrandTotal();
-        if(Utils.validateString(grandTotal)) {
-            itemViewHolder.tvGrandTotal.setText(grandTotal);
+        String currency = orderEntity.getOrderCurrencySymbol();
+        if(Utils.validateString(grandTotal) && Utils.validateString(currency)) {
+            itemViewHolder.tvGrandTotal.setText(currency + " " + grandTotal);
         }
 
     }
@@ -132,6 +152,7 @@ public class ListOrdersAdapter extends SectioningAdapter {
 
         public TextView tvIncrementID, tvCustomerName, tvCustomerEmail, tvOrderStatus, tvCreatedAt, tvGrandTotal;
         public LinearLayout llOrderItem;
+        public View vStatus;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
@@ -142,11 +163,11 @@ public class ListOrdersAdapter extends SectioningAdapter {
             tvCreatedAt = (TextView) itemView.findViewById(R.id.tv_created_at);
             tvGrandTotal = (TextView) itemView.findViewById(R.id.tv_grand_total);
             llOrderItem = (LinearLayout) itemView.findViewById(R.id.ll_item_order);
+            vStatus = (View) itemView.findViewById(R.id.view_status);
 
             tvIncrementID.setTextColor(AppColor.getInstance().getBlackColor());
             tvCustomerName.setTextColor(AppColor.getInstance().getBlackColor());
             tvCustomerEmail.setTextColor(AppColor.getInstance().getBlackColor());
-            tvOrderStatus.setTextColor(AppColor.getInstance().getBlackColor());
             tvCreatedAt.setTextColor(AppColor.getInstance().getBlackColor());
             tvGrandTotal.setTextColor(AppColor.getInstance().getBlackColor());
         }
