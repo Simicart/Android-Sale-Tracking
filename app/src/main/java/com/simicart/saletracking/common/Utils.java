@@ -1,15 +1,13 @@
 package com.simicart.saletracking.common;
 
 import android.app.Service;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.support.v7.widget.AppCompatButton;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.order.entity.ProductEntity;
+
+import java.text.DecimalFormat;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -95,6 +93,55 @@ public class Utils {
         DisplayMetrics metrics = AppManager.getInstance().getCurrentActivity().getResources().getDisplayMetrics();
         int px = value * ((int) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return px;
+    }
+
+    public static String getPrice(ProductEntity productEntity, String baseCurrency, String orderCurrency) {
+        String price = "";
+        String productBasePrice = productEntity.getBasePrice();
+        String productPrice = productEntity.getPrice();
+        if (validateString(baseCurrency) && validateString(orderCurrency)) {
+            if (baseCurrency.equals(orderCurrency)) {
+                price = getPrice(productPrice, orderCurrency);
+            } else {
+                price = getPrice(productBasePrice, baseCurrency) + " [" + getPrice(productPrice, orderCurrency) + "]";
+            }
+        }
+        return price;
+    }
+
+    public static String getPrice(String price, String symbol) {
+        price = formatNumber(price);
+        if ((null == symbol) || (symbol.equals("null"))) {
+            return "USD " + price;
+        } else {
+            return symbol + " " + price;
+        }
+    }
+
+    public static String formatNumber(String number) {
+        DecimalFormat df = new DecimalFormat("#,##0.00");
+        if (number == null || number.equals("null")) {
+            number = "0";
+        }
+        String formattedNumber = df.format(Float.parseFloat(number));
+        if(formattedNumber.contains(".")) {
+            int i = formattedNumber.length();
+            while(true) {
+                i--;
+                char c = formattedNumber.charAt(i);
+                if(c == '.') {
+                    formattedNumber = formattedNumber.substring(0, formattedNumber.length()-1);
+                    break;
+                } else if(c != '0') {
+                    break;
+                } else {
+                    formattedNumber = formattedNumber.substring(0, formattedNumber.length()-1);
+                }
+            }
+            return formattedNumber;
+        } else {
+            return formattedNumber;
+        }
     }
 
 }

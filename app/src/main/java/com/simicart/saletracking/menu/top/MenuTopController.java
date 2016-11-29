@@ -71,7 +71,7 @@ public class MenuTopController {
         if (is_show) {
             rlStore.setVisibility(View.VISIBLE);
         } else {
-            rlStore.setVisibility(View.GONE);
+            rlStore.setVisibility(View.INVISIBLE);
         }
     }
 

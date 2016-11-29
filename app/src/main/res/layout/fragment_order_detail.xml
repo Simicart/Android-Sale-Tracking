@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_order_summary_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="ORDER SUMMARY"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_increment_id_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Order Increment Id"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_increment_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="#123456789" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_created_at_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Created At"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_created_at"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="2016-11-29" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_updated_at_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Last Updated At"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_updated_at"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="2016-11-29" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_summary_grand_total_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Grand Total"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_summary_grand_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="USD 123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_store_view_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Store View"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_store_view"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Main Website" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_status_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Status"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_status"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="pending" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_customer_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="CUSTOMER"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_customer_id_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Customer Id"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_customer_id"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_customer_name_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Customer Name"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_customer_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Glenn" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_customer_email_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Customer Email"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_customer_email"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="glenn@simicart.com" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_items_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="ITEMS"/>
+
+            <LinearLayout
+                android:id="@+id/ll_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_shipping_address_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="SHIPPING ADDRESS"/>
+
+            <LinearLayout
+                android:id="@+id/ll_shipping_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_billing_address_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="BILLING ADDRESS"/>
+
+            <LinearLayout
+                android:id="@+id/ll_billing_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"></LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_payment_method_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="PAYMENT METHOD"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_payment_method_code_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Method Code"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_payment_method_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="#123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_payment_method_description_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Description"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_payment_method_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="abc" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_shipping_method_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="SHIPPING METHOD"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_shipping_method_code_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Method Code"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_shipping_method_code"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="#123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_shipping_method_description_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Description"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_shipping_method_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="abc" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/tv_total_fee_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:background="@color/colorSection"
+                android:textSize="@dimen/text_16"
+                android:text="TOTAL FEE"/>
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_subtotal_excl_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Subtotal (Excl.Tax)"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_subtotal_excl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_subtotal_incl_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Subtotal (Ixcl.Tax)"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_subtotal_incl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="glenn@simicart.com" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_tax_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Tax"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_tax"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_shipping_excl_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Shipping (Excl.Tax)"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_shipping_excl"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="123" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5" >
+
+                    <TextView
+                        android:id="@+id/tv_fee_grand_total_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:text="Grandtotal"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tv_fee_grand_total"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="123" />
+                </TableRow>
+
+            </TableLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

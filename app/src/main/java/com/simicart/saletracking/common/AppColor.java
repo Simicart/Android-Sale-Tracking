@@ -20,9 +20,13 @@ public class AppColor {
     private final String mWhite = "#FFFFFF";
     private final String mBlack = "#000000";
     private final String mSectionColor = "#CACACA";
+    private final String mPriceColor = "#ff0000";
 
     private final String mOrderPendingColor = "#00b200";
     private final String mOrderNAColor = "#333333";
+    private final String mOrderProcessingColor = "#fc9900";
+    private final String mOrderCompletedColor = "#3399ff";
+    private final String mOrderCanceledColor = "#ff0000";
 
     public static AppColor instance;
 
@@ -75,5 +79,21 @@ public class AppColor {
 
     public int getOrderPendingColor() {
         return Color.parseColor(mOrderPendingColor);
+    }
+
+    public int getOrderCanceledColor() {
+        return Color.parseColor(mOrderCanceledColor);
+    }
+
+    public int getOrderCompletedColor() {
+        return Color.parseColor(mOrderCompletedColor);
+    }
+
+    public int getOrderProcessingColor() {
+        return Color.parseColor(mOrderProcessingColor);
+    }
+
+    public int getPriceColor() {
+        return Color.parseColor(mPriceColor);
     }
 }

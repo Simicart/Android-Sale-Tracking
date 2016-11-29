@@ -17,6 +17,7 @@ import com.simicart.saletracking.order.entity.OrderSection;
 import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 11/28/2016.
@@ -76,7 +77,7 @@ public class ListOrdersAdapter extends SectioningAdapter {
 
         ItemViewHolder itemViewHolder = (ItemViewHolder) viewHolder;
 
-        OrderEntity orderEntity = mListSections.get(sectionIndex).getListOrders().get(itemIndex);
+        final OrderEntity orderEntity = mListSections.get(sectionIndex).getListOrders().get(itemIndex);
 
         if(isEvenItem) {
             itemViewHolder.llOrderItem.setBackgroundColor(AppColor.getInstance().getSectionColor());
@@ -114,6 +115,18 @@ public class ListOrdersAdapter extends SectioningAdapter {
                     itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getOrderPendingColor());
                     itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderPendingColor());
                     break;
+                case "complete":
+                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getOrderCompletedColor());
+                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderCompletedColor());
+                    break;
+                case "canceled":
+                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getOrderCanceledColor());
+                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderCanceledColor());
+                    break;
+                case "processing":
+                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getOrderProcessingColor());
+                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderProcessingColor());
+                    break;
                 default:
                     itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getBlackColor());
                     itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getWhiteColor());
@@ -127,10 +140,19 @@ public class ListOrdersAdapter extends SectioningAdapter {
         }
 
         String grandTotal = orderEntity.getGrandTotal();
-        String currency = orderEntity.getOrderCurrencySymbol();
+        String currency = orderEntity.getOrderCurrencyCode();
         if(Utils.validateString(grandTotal) && Utils.validateString(currency)) {
-            itemViewHolder.tvGrandTotal.setText(currency + " " + grandTotal);
+            itemViewHolder.tvGrandTotal.setText(Utils.getPrice(grandTotal, currency));
         }
+
+        itemViewHolder.llOrderItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                hmData.put("order_id", orderEntity.getID());
+                AppManager.getInstance().openOrderDetail(hmData);
+            }
+        });
 
     }
 

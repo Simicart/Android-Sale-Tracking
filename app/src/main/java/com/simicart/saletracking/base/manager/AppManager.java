@@ -6,11 +6,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
+import com.simicart.saletracking.order.fragment.OrderDetailFragment;
+
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -93,6 +97,12 @@ public class AppManager {
         CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance();
         replaceFragment(customerDetailFragment);
         mMenuTopController.setTitle("Customer Detail");
+    }
+
+    public void openOrderDetail(HashMap<String,Object> hmData) {
+        OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
+        replaceFragment(orderDetailFragment);
+        mMenuTopController.setTitle("Order Detail");
     }
 
 }
