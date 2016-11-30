@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.order.controller.ListOrdersController;
 import com.simicart.saletracking.store.StoreViewAdapter;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 
@@ -33,6 +35,8 @@ public class MenuTopController {
     protected RelativeLayout rlStore;
     protected boolean isOnDetail = false;
     protected ArrayList<StoreViewEntity> mListStoreViews;
+    protected ListOrdersController mListOrdersController;
+    protected boolean isFirstRun = true;
 
     public MenuTopController(Toolbar toolbar) {
         mToolbar = toolbar;
@@ -66,6 +70,22 @@ public class MenuTopController {
         tvTitle.setTextColor(AppColor.getInstance().getWhiteColor());
 
         spStore = (Spinner) rootView.findViewById(R.id.sp_store);
+        spStore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(!isFirstRun) {
+                    AppManager.getInstance().setStoreID(mListStoreViews.get(i).getStoreID());
+                    mListOrdersController.onStart();
+                } else {
+                    isFirstRun = false;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         rlStore = (RelativeLayout) rootView.findViewById(R.id.rl_store);
 
@@ -118,12 +138,18 @@ public class MenuTopController {
 
             // Create Default Store View
             StoreViewEntity defaultStoreView = new StoreViewEntity();
+            defaultStoreView.setStoreID("0");
+            defaultStoreView.setStoreName("All Stores");
+            mListStoreViews.add(defaultStoreView);
 
-
-            mListStoreViews = listStoreViews;
+            mListStoreViews.addAll(listStoreViews);
             rlStore.setVisibility(View.VISIBLE);
             StoreViewAdapter storeViewAdapter = new StoreViewAdapter(mListStoreViews);
             spStore.setAdapter(storeViewAdapter);
         }
+    }
+
+    public void setListOrdersController(ListOrdersController listOrdersController) {
+        mListOrdersController = listOrdersController;
     }
 }

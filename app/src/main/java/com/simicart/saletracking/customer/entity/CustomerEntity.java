@@ -47,7 +47,12 @@ public class CustomerEntity extends AppEntity {
 
         String createdAt = getString(CREATED_AT);
         if (Utils.validateString(createdAt)) {
-            String[] splits = createdAt.split(" ");
+            String[] splits = null;
+            if(createdAt.contains(" ")) {
+                splits = createdAt.split(" ");
+            } else if(createdAt.contains("T")) {
+                splits = createdAt.split("T");
+            }
             mCreatedAtDate = splits[0];
             mCreatedAtTime = splits[1];
         }

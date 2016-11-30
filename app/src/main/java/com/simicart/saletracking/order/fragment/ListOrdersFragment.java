@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.fragment.AppFragment;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.order.block.ListOrdersBlock;
 import com.simicart.saletracking.order.controller.ListOrdersController;
 
@@ -43,6 +44,8 @@ public class ListOrdersFragment extends AppFragment {
         mBlock.setOnListScroll(mController.getOnListScroll());
         mBlock.setOnNextPage(mController.getOnNextPageClick());
         mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
+
+        AppManager.getInstance().getMenuTopController().setListOrdersController(mController);
 
         return rootView;
     }

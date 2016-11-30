@@ -108,7 +108,7 @@ public class ListCustomersAdapter extends SectioningAdapter {
             public void onClick(View view) {
                 HashMap<String,Object> hmData = new HashMap<String, Object>();
                 hmData.put("customer_id", customerEntity.getID());
-                AppManager.getInstance().openOrderDetail(hmData);
+                AppManager.getInstance().openCustomerDetail(hmData);
             }
         });
 

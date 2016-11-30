@@ -112,6 +112,7 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.addParam("dir", "desc");
         mListOrdersRequest.addParam("limit", String.valueOf(mLimit));
         mListOrdersRequest.addParam("offset", String.valueOf(mOffset));
+        mListOrdersRequest.addParam("store_id", AppManager.getInstance().getStoreID());
         mListOrdersRequest.request();
     }
 

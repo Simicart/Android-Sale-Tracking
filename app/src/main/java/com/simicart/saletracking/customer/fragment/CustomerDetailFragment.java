@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.customer.block.CustomerDetailBlock;
 import com.simicart.saletracking.customer.controller.CustomerDetailController;
@@ -20,9 +21,14 @@ public class CustomerDetailFragment extends AppFragment {
 
     protected CustomerDetailBlock mBlock;
     protected CustomerDetailController mController;
+    protected String mCustomerID;
 
-    public static CustomerDetailFragment newInstance() {
-        return new CustomerDetailFragment();
+    public static CustomerDetailFragment newInstance(AppData data) {
+        CustomerDetailFragment fragment = new CustomerDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(KEY_DATA, data);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Nullable
@@ -30,11 +36,16 @@ public class CustomerDetailFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_detail, container, false);
 
+        if(mData != null) {
+            mCustomerID = (String) getValueWithKey("customer_id");
+        }
+
         mBlock = new CustomerDetailBlock(rootView);
         mBlock.initView();
         if(mController == null) {
             mController = new CustomerDetailController();
             mController.setDelegate(mBlock);
+            mController.setCustomerID(mCustomerID);
             mController.onStart();
         } else {
             mController.setDelegate(mBlock);

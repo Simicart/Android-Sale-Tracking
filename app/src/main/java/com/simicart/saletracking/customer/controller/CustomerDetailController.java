@@ -15,10 +15,7 @@ import com.simicart.saletracking.customer.request.CustomerDetailRequest;
 public class CustomerDetailController extends AppController {
 
     protected AppDelegate mDelegate;
-
-    public void setDelegate(AppDelegate delegate) {
-        mDelegate = delegate;
-    }
+    protected String mCustomerID;
 
     @Override
     public void onStart() {
@@ -49,8 +46,16 @@ public class CustomerDetailController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        customerDetailRequest.setExtendUrl("customers/24");
+        customerDetailRequest.setExtendUrl("customers/" + mCustomerID);
         customerDetailRequest.request();
+    }
+
+    public void setDelegate(AppDelegate delegate) {
+        mDelegate = delegate;
+    }
+
+    public void setCustomerID(String customerID) {
+        mCustomerID = customerID;
     }
 
 }

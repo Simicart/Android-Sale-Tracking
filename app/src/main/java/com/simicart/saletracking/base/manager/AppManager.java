@@ -29,6 +29,7 @@ public class AppManager {
     private UserEntity mCurrentUser;
     private MenuTopController mMenuTopController;
     private String mSessionID;
+    private String mStoreID = "0";
 
     public static AppManager instance;
 
@@ -79,6 +80,14 @@ public class AppManager {
         mSessionID = sessionID;
     }
 
+    public String getStoreID() {
+        return mStoreID;
+    }
+
+    public void setStoreID(String storeID) {
+        mStoreID = storeID;
+    }
+
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
@@ -111,8 +120,8 @@ public class AppManager {
         replaceFragment(customersFragment);
     }
 
-    public void openCustomerDetail() {
-        CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance();
+    public void openCustomerDetail(HashMap<String,Object> hmData) {
+        CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance(new AppData(hmData));
         customerDetailFragment.setFragmentName("Customer Detail");
         replaceFragment(customerDetailFragment);
         mMenuTopController.setOnDetail(true);

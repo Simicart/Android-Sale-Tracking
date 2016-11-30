@@ -5,6 +5,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     protected RecyclerView rvCustomers;
     protected RelativeLayout rlMenuBottom;
     protected TextView tvPage;
-    protected ImageView ivNext, ivPrevious;
+    protected LinearLayout llNext, llPrevious;
     protected FloatingActionButton fabSearch;
     protected ListCustomersAdapter mAdapter;
 
@@ -114,8 +115,8 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
         tvPage = (TextView) mView.findViewById(R.id.tv_page);
         tvPage.setTextColor(AppColor.getInstance().getWhiteColor());
 
-        ivNext = (ImageView) mView.findViewById(R.id.iv_next);
-        ivPrevious = (ImageView) mView.findViewById(R.id.iv_previous);
+        llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
+        llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);
 
     }
 
@@ -124,11 +125,11 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     }
 
     public void setOnPreviousPage(View.OnClickListener listener) {
-        ivPrevious.setOnClickListener(listener);
+        llPrevious.setOnClickListener(listener);
     }
 
     public void setOnNextPage(View.OnClickListener listener) {
-        ivNext.setOnClickListener(listener);
+        llNext.setOnClickListener(listener);
     }
 
 }
