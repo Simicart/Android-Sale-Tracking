@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.login.block.LoginBlock;
 import com.simicart.saletracking.login.controller.LoginController;
 
@@ -15,7 +16,7 @@ import com.simicart.saletracking.login.controller.LoginController;
  * Created by Glenn on 11/24/2016.
  */
 
-public class LoginFragment extends Fragment {
+public class LoginFragment extends AppFragment {
 
     protected LoginBlock mBlock;
     protected LoginController mController;

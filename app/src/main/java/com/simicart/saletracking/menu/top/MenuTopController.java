@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.store.StoreViewAdapter;
+import com.simicart.saletracking.store.entity.StoreViewEntity;
+
+import java.util.ArrayList;
 
 /**
  * Created by Glenn on 11/26/2016.
@@ -28,6 +32,7 @@ public class MenuTopController {
     protected Spinner spStore;
     protected RelativeLayout rlStore;
     protected boolean isOnDetail = false;
+    protected ArrayList<StoreViewEntity> mListStoreViews;
 
     public MenuTopController(Toolbar toolbar) {
         mToolbar = toolbar;
@@ -44,6 +49,18 @@ public class MenuTopController {
 
         ivMenu = (ImageView) rootView.findViewById(R.id.iv_menu);
         ivMenu.setImageResource(R.drawable.ic_menu);
+        ivMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(isOnDetail) {
+                    AppManager.getInstance().backToPreviousFragment();
+                    isOnDetail = false;
+                    ivMenu.setImageResource(R.drawable.ic_menu);
+                } else {
+
+                }
+            }
+        });
 
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
         tvTitle.setTextColor(AppColor.getInstance().getWhiteColor());
@@ -75,6 +92,10 @@ public class MenuTopController {
         }
     }
 
+    public boolean isOnDetail() {
+        return isOnDetail;
+    }
+
     public void setOnDetail(boolean isDetail) {
         if(isDetail) {
             ivMenu.setImageResource(R.drawable.ic_back);
@@ -85,4 +106,24 @@ public class MenuTopController {
         }
     }
 
+    public ArrayList<StoreViewEntity> getListStoreViews() {
+        return mListStoreViews;
+    }
+
+    public void setListStoreViews(ArrayList<StoreViewEntity> listStoreViews) {
+        if(listStoreViews == null) {
+            rlStore.setVisibility(View.INVISIBLE);
+        } else {
+            mListStoreViews = new ArrayList<>();
+
+            // Create Default Store View
+            StoreViewEntity defaultStoreView = new StoreViewEntity();
+
+
+            mListStoreViews = listStoreViews;
+            rlStore.setVisibility(View.VISIBLE);
+            StoreViewAdapter storeViewAdapter = new StoreViewAdapter(mListStoreViews);
+            spStore.setAdapter(storeViewAdapter);
+        }
+    }
 }

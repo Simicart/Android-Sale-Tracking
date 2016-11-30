@@ -1,11 +1,16 @@
 package com.simicart.saletracking.base.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.simicart.saletracking.base.entity.AppData;
+import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.Utils;
 
 import java.util.HashMap;
 
@@ -18,6 +23,7 @@ public class AppFragment extends Fragment {
     protected View rootView;
     protected AppData mData;
     protected HashMap<String, Object> mHashMapData;
+    protected String mFragmentName;
 
     protected static final String KEY_DATA = "data";
 
@@ -33,6 +39,7 @@ public class AppFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getDataFromBundle();
+
     }
 
     protected void getDataFromBundle() {
@@ -55,6 +62,15 @@ public class AppFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        if(Utils.validateString(mFragmentName)) {
+            AppManager.getInstance().getMenuTopController().setTitle(mFragmentName);
+            if(mFragmentName.equals("Orders")) {
+                AppManager.getInstance().getMenuTopController().showStorePicker(true);
+            } else {
+                AppManager.getInstance().getMenuTopController().showStorePicker(false);
+            }
+        }
 
         if (savedInstanceState != null) {
             getDataFromBundle();
@@ -87,4 +103,11 @@ public class AppFragment extends Fragment {
         return null;
     }
 
+    public String getFragmentName() {
+        return mFragmentName;
+    }
+
+    public void setFragmentName(String fragmentName) {
+        mFragmentName = fragmentName;
+    }
 }

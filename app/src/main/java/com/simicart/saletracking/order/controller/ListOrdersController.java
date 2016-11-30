@@ -4,12 +4,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.order.delegate.ListOrdersDelegate;
 import com.simicart.saletracking.order.request.ListOrdersRequest;
+import com.simicart.saletracking.store.entity.StoreViewEntity;
+import com.simicart.saletracking.store.request.GetStoreRequest;
+
+import java.util.ArrayList;
 
 /**
  * Created by Glenn on 11/28/2016.
@@ -31,6 +36,9 @@ public class ListOrdersController extends AppController {
 
     @Override
     public void onStart() {
+        if(AppManager.getInstance().getMenuTopController().getListStoreViews() == null) {
+            requestListStoreViews();
+        }
         requestListOrders();
         initListener();
     }
@@ -39,6 +47,23 @@ public class ListOrdersController extends AppController {
     public void onResume() {
         mDelegate.showPage(mCurrentPage, mTotalPage);
         mDelegate.updateView(mCollection);
+    }
+
+    protected void requestListStoreViews() {
+        GetStoreRequest getStoreRequest = new GetStoreRequest();
+        getStoreRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                if(collection != null) {
+                    if(collection.containKey("stores")) {
+                        ArrayList<StoreViewEntity> listStores = (ArrayList<StoreViewEntity>) collection.getDataWithKey("stores");
+                        AppManager.getInstance().getMenuTopController().setListStoreViews(listStores);
+                    }
+                }
+            }
+        });
+        getStoreRequest.setExtendUrl("stores");
+        getStoreRequest.request();
     }
 
     protected void requestListOrders() {

@@ -22,23 +22,26 @@
 
     <RelativeLayout
         android:id="@+id/rl_store"
-        android:layout_width="@dimen/size_70"
-        android:layout_height="@dimen/size_30"
+        android:layout_width="@dimen/size_80"
+        android:layout_height="@dimen/size_32"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="@dimen/size_10">
+
+        <ImageView
+            android:id="@+id/iv_triangle"
+            android:layout_width="@dimen/size_10"
+            android:layout_height="@dimen/size_10"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/triangle_icon"/>
 
         <Spinner
             android:id="@+id/sp_store"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@null"></Spinner>
-
-        <ImageView
-            android:layout_width="@dimen/size_10"
-            android:layout_height="@dimen/size_10"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"/>
+            android:background="@null"
+            android:layout_toStartOf="@+id/iv_triangle"></Spinner>
 
     </RelativeLayout>
 

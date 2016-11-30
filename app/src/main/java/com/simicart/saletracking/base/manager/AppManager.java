@@ -15,6 +15,7 @@ import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -69,16 +70,17 @@ public class AppManager {
     }
 
     public void replaceFragment(Fragment fragment) {
-        if(fragment instanceof ListOrdersFragment) {
-            mMenuTopController.showStorePicker(true);
-        } else {
-            mMenuTopController.showStorePicker(false);
-        }
-
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    public void backToPreviousFragment() {
+        if(mMenuTopController.isOnDetail()) {
+            mMenuTopController.setOnDetail(false);
+        }
+        mManager.popBackStack();
     }
 
     public void openLoginPage() {
@@ -89,20 +91,22 @@ public class AppManager {
 
     public void openListOrders() {
         ListOrdersFragment orderFragment = ListOrdersFragment.newInstance();
+        orderFragment.setFragmentName("Orders");
         replaceFragment(orderFragment);
-        mMenuTopController.setTitle("Orders");
     }
 
     public void openCustomerDetail() {
         CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance();
+        customerDetailFragment.setFragmentName("Customer Detail");
         replaceFragment(customerDetailFragment);
-        mMenuTopController.setTitle("Customer Detail");
+        mMenuTopController.setOnDetail(true);
     }
 
     public void openOrderDetail(HashMap<String,Object> hmData) {
         OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
+        orderDetailFragment.setFragmentName("Order Detail");
         replaceFragment(orderDetailFragment);
-        mMenuTopController.setTitle("Order Detail");
+        mMenuTopController.setOnDetail(true);
     }
 
 }

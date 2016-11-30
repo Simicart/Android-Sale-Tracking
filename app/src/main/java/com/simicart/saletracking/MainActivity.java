@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 2000);
         } else {
-            super.onBackPressed();
+            AppManager.getInstance().backToPreviousFragment();
         }
     }
 

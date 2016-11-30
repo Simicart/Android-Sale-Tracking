@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.customer.block.CustomerDetailBlock;
 import com.simicart.saletracking.customer.controller.CustomerDetailController;
 
@@ -15,7 +16,7 @@ import com.simicart.saletracking.customer.controller.CustomerDetailController;
  * Created by Glenn on 11/27/2016.
  */
 
-public class CustomerDetailFragment extends Fragment {
+public class CustomerDetailFragment extends AppFragment {
 
     protected CustomerDetailBlock mBlock;
     protected CustomerDetailController mController;
