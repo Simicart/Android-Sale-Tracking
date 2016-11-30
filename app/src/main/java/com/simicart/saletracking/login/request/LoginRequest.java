@@ -21,6 +21,14 @@ public class LoginRequest extends AppRequest {
                 UserEntity userEntity = new UserEntity();
                 userEntity.parse(staffObj);
                 AppManager.getInstance().setCurrentUser(userEntity);
+
+                if(staffObj.has("device_data")) {
+                    JSONObject deviceObj = staffObj.getJSONObject("device_data");
+                    if(deviceObj.has("session_id")) {
+                        String sessionID = deviceObj.getString("session_id");
+                        AppManager.getInstance().setSessionID(sessionID);
+                    }
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

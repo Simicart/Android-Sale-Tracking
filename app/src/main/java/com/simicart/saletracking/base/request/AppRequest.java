@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
@@ -43,6 +44,10 @@ public class AppRequest {
             } else {
                 hmParams.put("email", AppPreferences.getCustomerEmail());
                 hmParams.put("password", AppPreferences.getCustomerPassword());
+            }
+            String sessionID = AppManager.getInstance().getSessionID();
+            if(Utils.validateString(sessionID)) {
+                hmParams.put("session_id", sessionID);
             }
         }
     }

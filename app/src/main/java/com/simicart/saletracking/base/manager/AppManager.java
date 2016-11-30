@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
+import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
@@ -27,6 +28,7 @@ public class AppManager {
     private FragmentManager mManager;
     private UserEntity mCurrentUser;
     private MenuTopController mMenuTopController;
+    private String mSessionID;
 
     public static AppManager instance;
 
@@ -69,6 +71,14 @@ public class AppManager {
         mMenuTopController = menuTopController;
     }
 
+    public String getSessionID() {
+        return mSessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        mSessionID = sessionID;
+    }
+
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, fragment);
@@ -93,6 +103,12 @@ public class AppManager {
         ListOrdersFragment orderFragment = ListOrdersFragment.newInstance();
         orderFragment.setFragmentName("Orders");
         replaceFragment(orderFragment);
+    }
+
+    public void openListCustomers() {
+        ListCustomersFragment customersFragment = ListCustomersFragment.newInstance();
+        customersFragment.setFragmentName("Customers");
+        replaceFragment(customersFragment);
     }
 
     public void openCustomerDetail() {

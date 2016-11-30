@@ -49,8 +49,8 @@ public class AppColor {
         return drawable;
     }
 
-    public String getButtonColor() {
-        return mButtonColor;
+    public int getButtonColor() {
+        return Color.parseColor(mButtonColor);
     }
 
     public String getButtonTextColor() {

@@ -13,7 +13,8 @@ public class CustomerEntity extends AppEntity {
 
     protected String mID;
     protected String mEmail;
-    protected String mCreatedAt;
+    protected String mCreatedAtDate;
+    protected String mCreatedAtTime;
     protected String mUpdatedAt;
     protected boolean mIsActive;
     protected String mCreatedIn;
@@ -44,7 +45,12 @@ public class CustomerEntity extends AppEntity {
 
         mEmail = getString(EMAIL);
 
-        mCreatedAt = getString(CREATED_AT);
+        String createdAt = getString(CREATED_AT);
+        if (Utils.validateString(createdAt)) {
+            String[] splits = createdAt.split(" ");
+            mCreatedAtDate = splits[0];
+            mCreatedAtTime = splits[1];
+        }
 
         mUpdatedAt = getString(UPDATED_AT);
 
@@ -75,12 +81,20 @@ public class CustomerEntity extends AppEntity {
 
     }
 
-    public String getCreatedAt() {
-        return mCreatedAt;
+    public String getCreatedAtDate() {
+        return mCreatedAtDate;
     }
 
-    public void setCreatedAt(String createdAt) {
-        mCreatedAt = createdAt;
+    public void setCreatedAtDate(String createdAtDate) {
+        mCreatedAtDate = createdAtDate;
+    }
+
+    public String getCreatedAtTime() {
+        return mCreatedAtTime;
+    }
+
+    public void setCreatedAtTime(String createdAtTime) {
+        mCreatedAtTime = createdAtTime;
     }
 
     public String getCreatedIn() {

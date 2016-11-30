@@ -213,9 +213,10 @@ public class CustomerDetailBlock extends AppBlock {
 
     protected void showInfo(CustomerEntity customerEntity) {
 
-        String createdAt = customerEntity.getCreatedAt();
-        if (Utils.validateString(createdAt)) {
-            tvCreatedAt.setText(createdAt);
+        String createdAtDate = customerEntity.getCreatedAtDate();
+        String createdAtTime = customerEntity.getCreatedAtTime();
+        if (Utils.validateString(createdAtDate) && Utils.validateString(createdAtTime)) {
+            tvCreatedAt.setText(createdAtDate + " " + createdAtTime);
         }
 
         String updatedAt = customerEntity.getUpdatedAt();

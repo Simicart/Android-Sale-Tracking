@@ -21,7 +21,7 @@ public class AppNotify {
     }
 
     public void showToast(String mes) {
-        Toast toast = Toast.makeText(AppManager.getInstance().getCurrentActivity(), mes, Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(AppManager.getInstance().getCurrentActivity(), mes, Toast.LENGTH_SHORT);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
