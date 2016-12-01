@@ -103,7 +103,7 @@ public class SearchFragment extends AppFragment {
 
         plSearch = (PredicateLayout) rootView.findViewById(R.id.pl_search);
 
-        if(mSelectedSearchEntity != null) {
+        if(mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
             enableSearchAction(true);
             edtQuery.setText(mSelectedSearchEntity.getQuery());
         }
@@ -123,9 +123,7 @@ public class SearchFragment extends AppFragment {
             final TextView tvItem = (TextView) itemView.findViewById(R.id.tv_search_tag);
             tvItem.setText(searchEntity.getLabel());
 
-            LinearLayout llItem = (LinearLayout) itemView.findViewById(R.id.ll_search_tag);
-
-            if(mSelectedSearchEntity != null) {
+            if(mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
                 if(searchEntity.getKey().equals(mSelectedSearchEntity.getKey())) {
                     setTagChoose(tvItem, true);
                 } else {

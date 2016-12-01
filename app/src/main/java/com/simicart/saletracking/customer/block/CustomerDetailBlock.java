@@ -275,4 +275,12 @@ public class CustomerDetailBlock extends AppBlock {
 
     }
 
+    public void setOnCustomerOrdersClick(View.OnClickListener listener) {
+        tvOrder.setOnClickListener(listener);
+    }
+
+    public void setOnCustomerAddressesClick(View.OnClickListener listener) {
+        tvAddress.setOnClickListener(listener);
+    }
+
 }

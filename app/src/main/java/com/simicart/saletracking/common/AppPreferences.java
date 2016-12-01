@@ -69,9 +69,9 @@ public class AppPreferences {
         return url;
     }
 
-    public static void setCustomerEmail(String url) {
+    public static void setCustomerEmail(String email) {
         SharedPreferences.Editor editor = mSharedPre.edit();
-        editor.putString(CUSTOMER_EMAIL, url);
+        editor.putString(CUSTOMER_EMAIL, email);
         editor.commit();
     }
 
@@ -83,9 +83,9 @@ public class AppPreferences {
         return url;
     }
 
-    public static void setCustomerPassword(String url) {
+    public static void setCustomerPassword(String pass) {
         SharedPreferences.Editor editor = mSharedPre.edit();
-        editor.putString(CUSTOMER_PASSWORD, url);
+        editor.putString(CUSTOMER_PASSWORD, pass);
         editor.commit();
     }
 
@@ -95,6 +95,14 @@ public class AppPreferences {
             url = mSharedPre.getString(CUSTOMER_PASSWORD, "");
         }
         return url;
+    }
+
+    public static void saveCustomerInfo(String url, String email, String pass) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putString(CUSTOMER_URL, url);
+        editor.putString(CUSTOMER_EMAIL, email);
+        editor.putString(CUSTOMER_PASSWORD, pass);
+        editor.commit();
     }
 
 }

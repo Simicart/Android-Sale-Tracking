@@ -129,6 +129,8 @@ public class AppRequest {
         String mBaseUrl = "";
         if (AppPreferences.isDemo()) {
             mBaseUrl = Constants.demoUrl;
+        } else {
+            mBaseUrl = AppPreferences.getCustomerUrl();
         }
 
         String url = mBaseUrl + mExtendUrl;

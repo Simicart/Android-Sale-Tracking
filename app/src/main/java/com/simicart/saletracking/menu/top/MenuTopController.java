@@ -58,8 +58,6 @@ public class MenuTopController {
             public void onClick(View view) {
                 if(isOnDetail) {
                     AppManager.getInstance().backToPreviousFragment();
-                    isOnDetail = false;
-                    ivMenu.setImageResource(R.drawable.ic_menu);
                 } else {
 
                 }

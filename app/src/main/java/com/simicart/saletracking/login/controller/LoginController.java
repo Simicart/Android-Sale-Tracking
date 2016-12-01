@@ -87,12 +87,13 @@ public class LoginController extends AppController {
         loginDemoRequest.request();
     }
 
-    protected void onLoginUser(LoginEntity loginEntity) {
+    protected void onLoginUser(final LoginEntity loginEntity) {
         mDelegate.showDialogLoading();
         LoginRequest loginUserRequest = new LoginRequest();
         loginUserRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
+                AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
                 goToHome();
             }
         });

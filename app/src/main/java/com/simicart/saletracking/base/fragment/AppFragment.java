@@ -24,6 +24,7 @@ public class AppFragment extends Fragment {
     protected AppData mData;
     protected HashMap<String, Object> mHashMapData;
     protected String mFragmentName;
+    protected boolean mIsDetail;
 
     protected static final String KEY_DATA = "data";
 
@@ -72,6 +73,8 @@ public class AppFragment extends Fragment {
             }
         }
 
+        AppManager.getInstance().getMenuTopController().setOnDetail(mIsDetail);
+
         if (savedInstanceState != null) {
             getDataFromBundle();
             Log.e("AppFragment ","onActivityCreated RESTORE DATA ");
@@ -109,5 +112,13 @@ public class AppFragment extends Fragment {
 
     public void setFragmentName(String fragmentName) {
         mFragmentName = fragmentName;
+    }
+
+    public boolean isDetail() {
+        return mIsDetail;
+    }
+
+    public void setDetail(boolean detail) {
+        mIsDetail = detail;
     }
 }

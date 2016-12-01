@@ -96,9 +96,6 @@ public class AppManager {
     }
 
     public void backToPreviousFragment() {
-        if(mMenuTopController.isOnDetail()) {
-            mMenuTopController.setOnDetail(false);
-        }
         mManager.popBackStack();
     }
 
@@ -111,36 +108,36 @@ public class AppManager {
     public void openListOrders(HashMap<String,Object> hmData) {
         ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
         orderFragment.setFragmentName("Orders");
+        orderFragment.setDetail(false);
         replaceFragment(orderFragment);
-        mMenuTopController.setOnDetail(false);
     }
 
     public void openListCustomers(HashMap<String,Object> hmData) {
         ListCustomersFragment customersFragment = ListCustomersFragment.newInstance(new AppData(hmData));
         customersFragment.setFragmentName("Customers");
+        customersFragment.setDetail(false);
         replaceFragment(customersFragment);
-        mMenuTopController.setOnDetail(false);
     }
 
     public void openCustomerDetail(HashMap<String,Object> hmData) {
         CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance(new AppData(hmData));
         customerDetailFragment.setFragmentName("Customer Detail");
+        customerDetailFragment.setDetail(true);
         replaceFragment(customerDetailFragment);
-        mMenuTopController.setOnDetail(true);
     }
 
     public void openOrderDetail(HashMap<String,Object> hmData) {
         OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
         orderDetailFragment.setFragmentName("Order Detail");
+        orderDetailFragment.setDetail(true);
         replaceFragment(orderDetailFragment);
-        mMenuTopController.setOnDetail(true);
     }
 
     public void openSearch(HashMap<String,Object> hmData) {
         SearchFragment searchFragment = SearchFragment.newInstance(new AppData(hmData));
         searchFragment.setFragmentName("Search");
+        searchFragment.setDetail(true);
         replaceFragment(searchFragment);
-        mMenuTopController.setOnDetail(true);
     }
 
 }
