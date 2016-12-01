@@ -132,4 +132,8 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
         llNext.setOnClickListener(listener);
     }
 
+    public void setOnSearchClick(View.OnClickListener listener) {
+        fabSearch.setOnClickListener(listener);
+    }
+
 }

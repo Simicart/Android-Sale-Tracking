@@ -8,10 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.order.block.ListOrdersBlock;
 import com.simicart.saletracking.order.controller.ListOrdersController;
+import com.simicart.saletracking.search.entity.SearchEntity;
+
+import java.util.ArrayList;
 
 /**
  * Created by Glenn on 11/26/2016.
@@ -22,8 +26,12 @@ public class ListOrdersFragment extends AppFragment {
     protected ListOrdersBlock mBlock;
     protected ListOrdersController mController;
 
-    public static ListOrdersFragment newInstance() {
-        return new ListOrdersFragment();
+    public static ListOrdersFragment newInstance(AppData data) {
+        ListOrdersFragment fragment = new ListOrdersFragment();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(KEY_DATA, data);
+        fragment.setArguments(bundle);
+        return fragment;
     }
 
     @Nullable
@@ -36,6 +44,9 @@ public class ListOrdersFragment extends AppFragment {
         if(mController == null) {
             mController = new ListOrdersController();
             mController.setDelegate(mBlock);
+            if(mData != null) {
+                mController.setData(mData.getData());
+            }
             mController.onStart();
         } else {
             mController.setDelegate(mBlock);
@@ -44,9 +55,11 @@ public class ListOrdersFragment extends AppFragment {
         mBlock.setOnListScroll(mController.getOnListScroll());
         mBlock.setOnNextPage(mController.getOnNextPageClick());
         mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
+        mBlock.setOnSearchClick(mController.getOnSearchClick());
 
         AppManager.getInstance().getMenuTopController().setListOrdersController(mController);
 
         return rootView;
     }
+
 }

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_search_tag"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical"
+              android:paddingEnd="@dimen/size_15"
+              android:paddingTop="@dimen/size_15">
+
+    <TextView
+        android:id="@+id/tv_search_tag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_16"
+        android:background="@drawable/tag_background"
+        android:paddingTop="@dimen/size_20"
+        android:paddingBottom="@dimen/size_20"
+        android:paddingStart="@dimen/size_20"
+        android:paddingEnd="@dimen/size_20"
+        android:text="ABC"/>
+
+</LinearLayout>

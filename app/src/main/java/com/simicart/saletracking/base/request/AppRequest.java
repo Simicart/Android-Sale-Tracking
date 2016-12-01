@@ -179,6 +179,20 @@ public class AppRequest {
         hmParams.put(key, value);
     }
 
+    public void addFilterParam(String key, String value) {
+        if (Utils.validateString(key) && Utils.validateString(value)) {
+            String key_filter = "filter[" + key + "]";
+            addParam(key_filter, value);
+        }
+    }
+
+    public void addSearchParam(String key, String value) {
+        if (Utils.validateString(key) && Utils.validateString(value)) {
+            String key_filter = "filter[" + key + "][like]";
+            addParam(key_filter, value);
+        }
+    }
+
     public void setExtendUrl(String extendUrl) {
         mExtendUrl = extendUrl;
     }

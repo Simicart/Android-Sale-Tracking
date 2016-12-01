@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/rl_search_box"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_40"
+        android:layout_margin="@dimen/size_10"
+        android:background="@drawable/border_line">
+
+        <EditText
+            android:id="@+id/et_query"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/size_30"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="start|center_vertical"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:padding="@dimen/size_1"
+            android:textSize="@dimen/text_16"
+            android:visibility="gone"></EditText>
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/size_5"
+            android:layout_marginStart="@dimen/size_5"
+            android:layout_toStartOf="@id/et_query"
+            android:background="@drawable/ic_search_black"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageView
+            android:id="@+id/iv_delete"
+            android:layout_width="@dimen/size_20"
+            android:layout_height="@dimen/size_20"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/size_15"
+            android:background="@drawable/ic_delete"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+    <com.simicart.saletracking.style.PredicateLayout
+        android:id="@+id/pl_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/size_10"
+        android:paddingEnd="@dimen/size_10"></com.simicart.saletracking.style.PredicateLayout>
+
+</LinearLayout>

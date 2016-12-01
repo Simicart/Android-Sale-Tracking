@@ -138,6 +138,10 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
         llNext.setOnClickListener(listener);
     }
 
+    public void setOnSearchClick(View.OnClickListener listener) {
+        fabSearch.setOnClickListener(listener);
+    }
+
     @Override
     public void showBottom(boolean show) {
         if(show) {

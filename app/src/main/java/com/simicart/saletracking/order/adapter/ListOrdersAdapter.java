@@ -205,7 +205,7 @@ public class ListOrdersAdapter extends SectioningAdapter {
             tvTime = (TextView) itemView.findViewById(R.id.tv_time);
             tvTime.setTextColor(AppColor.getInstance().getWhiteColor());
             llHeader = (LinearLayout) itemView.findViewById(R.id.ll_header);
-            llHeader.setBackgroundColor(AppColor.getInstance().getThemeColor());
+            llHeader.setBackgroundColor(AppColor.getInstance().getButtonColor());
         }
     }
 

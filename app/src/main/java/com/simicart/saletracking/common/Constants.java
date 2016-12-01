@@ -10,4 +10,9 @@ public class Constants {
     public static final String demoEmail = "test@simicart.com";
     public static final String demoPassword = "123456";
 
+    public static class Search {
+        public static final int ORDER = 1;
+        public static final int CUSTOMER = 2;
+    }
+
 }

@@ -4,12 +4,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.customer.delegate.ListCustomersDelegate;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
+import com.simicart.saletracking.search.entity.SearchEntity;
+
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 11/30/2016.
@@ -22,6 +27,9 @@ public class ListCustomersController extends AppController {
     protected RecyclerView.OnScrollListener mOnListScroll;
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
+    protected View.OnClickListener mOnSearchClick;
+    protected SearchEntity mSearchEntity;
+    protected HashMap<String, Object> hmData;
 
     protected int mCurrentPage = 1;
     protected int mTotalPage;
@@ -31,6 +39,7 @@ public class ListCustomersController extends AppController {
 
     @Override
     public void onStart() {
+        parseData();
         requestListCustomers();
         initListener();
     }
@@ -62,7 +71,7 @@ public class ListCustomersController extends AppController {
                     if (collection.containKey("total")) {
                         int totalResult = (int) collection.getDataWithKey("total");
                         mTotalPage = totalResult / 30;
-                        if (totalResult % 30 != 0) {
+                        if (totalResult % 30 != 0 || mTotalPage == 0) {
                             mTotalPage += 1;
                         }
                     }
@@ -87,6 +96,9 @@ public class ListCustomersController extends AppController {
         mListCustomersRequest.addParam("dir", "desc");
         mListCustomersRequest.addParam("limit", String.valueOf(mLimit));
         mListCustomersRequest.addParam("offset", String.valueOf(mOffset));
+        if(mSearchEntity != null) {
+            mListCustomersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+        }
         mListCustomersRequest.request();
     }
 
@@ -131,10 +143,35 @@ public class ListCustomersController extends AppController {
                 }
             }
         };
+
+        mOnSearchClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(hmData == null) {
+                    hmData = new HashMap<>();
+                }
+                hmData.put("search_entity", mSearchEntity);
+                hmData.put("from", Constants.Search.CUSTOMER);
+                AppManager.getInstance().openSearch(hmData);
+            }
+        };
+
+    }
+
+    protected void parseData() {
+
+        if(hmData != null) {
+            mSearchEntity = (SearchEntity) hmData.get("search_entity");
+        }
+
     }
 
     public void setDelegate(ListCustomersDelegate delegate) {
         mDelegate = delegate;
+    }
+
+    public void setData(HashMap<String, Object> hmData) {
+        this.hmData = hmData;
     }
 
     public RecyclerView.OnScrollListener getOnListScroll() {
@@ -147,6 +184,10 @@ public class ListCustomersController extends AppController {
 
     public View.OnClickListener getOnPreviousPageClick() {
         return mOnPreviousPageClick;
+    }
+
+    public View.OnClickListener getOnSearchClick() {
+        return mOnSearchClick;
     }
 
 }

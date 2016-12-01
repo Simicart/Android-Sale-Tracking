@@ -7,16 +7,16 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
+import com.simicart.saletracking.common.user.UserEntity;
+import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
-import com.simicart.saletracking.common.user.UserEntity;
-import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
+import com.simicart.saletracking.search.fragment.SearchFragment;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -108,16 +108,18 @@ public class AppManager {
         mMenuTopController.showMenuTop(false);
     }
 
-    public void openListOrders() {
-        ListOrdersFragment orderFragment = ListOrdersFragment.newInstance();
+    public void openListOrders(HashMap<String,Object> hmData) {
+        ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
         orderFragment.setFragmentName("Orders");
         replaceFragment(orderFragment);
+        mMenuTopController.setOnDetail(false);
     }
 
-    public void openListCustomers() {
-        ListCustomersFragment customersFragment = ListCustomersFragment.newInstance();
+    public void openListCustomers(HashMap<String,Object> hmData) {
+        ListCustomersFragment customersFragment = ListCustomersFragment.newInstance(new AppData(hmData));
         customersFragment.setFragmentName("Customers");
         replaceFragment(customersFragment);
+        mMenuTopController.setOnDetail(false);
     }
 
     public void openCustomerDetail(HashMap<String,Object> hmData) {
@@ -131,6 +133,13 @@ public class AppManager {
         OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
         orderDetailFragment.setFragmentName("Order Detail");
         replaceFragment(orderDetailFragment);
+        mMenuTopController.setOnDetail(true);
+    }
+
+    public void openSearch(HashMap<String,Object> hmData) {
+        SearchFragment searchFragment = SearchFragment.newInstance(new AppData(hmData));
+        searchFragment.setFragmentName("Search");
+        replaceFragment(searchFragment);
         mMenuTopController.setOnDetail(true);
     }
 
