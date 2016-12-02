@@ -15,4 +15,10 @@ public class Constants {
         public static final int CUSTOMER = 2;
     }
 
+    public static class Layer {
+        public static final int FILTER = 1;
+        public static final int SORT = 2;
+        public static final int TIME = 3;
+    }
+
 }

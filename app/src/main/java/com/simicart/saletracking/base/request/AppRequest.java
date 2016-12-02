@@ -195,6 +195,20 @@ public class AppRequest {
         }
     }
 
+    public void addSortParam(String key) {
+        if (Utils.validateString(key)) {
+            addParam("order", key);
+        }
+    }
+
+    public void addSortDirASCParam() {
+        addParam("dir", "asc");
+    }
+
+    public void addSortDirDESCParam() {
+        addParam("dir", "desc");
+    }
+
     public void setExtendUrl(String extendUrl) {
         mExtendUrl = extendUrl;
     }

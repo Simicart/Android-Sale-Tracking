@@ -209,6 +209,10 @@ public class SearchFragment extends AppFragment {
         mSelectedSearchEntity.setQuery(query);
         hm.put("search_entity", mSelectedSearchEntity);
 
+        hm.remove("from");
+
+        AppManager.getInstance().backToPreviousFragment();
+
         if(mFrom == Constants.Search.ORDER) {
             AppManager.getInstance().openListOrders(hm);
         } else {

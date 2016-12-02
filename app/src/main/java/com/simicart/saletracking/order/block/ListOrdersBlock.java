@@ -126,6 +126,20 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
     }
 
+    @Override
+    public void showBottom(boolean show) {
+        if(show) {
+            rlMenuBottom.setVisibility(View.VISIBLE);
+        } else {
+            rlMenuBottom.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showPage(int current, int total) {
+        tvPage.setText(current + "/" + total);
+    }
+
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {
         rvOrders.setOnScrollListener(listener);
     }
@@ -142,17 +156,16 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
         fabSearch.setOnClickListener(listener);
     }
 
-    @Override
-    public void showBottom(boolean show) {
-        if(show) {
-            rlMenuBottom.setVisibility(View.VISIBLE);
-        } else {
-            rlMenuBottom.setVisibility(View.GONE);
-        }
+    public void setOnStatusFilterClick(View.OnClickListener listener) {
+        tvFilter.setOnClickListener(listener);
     }
 
-    @Override
-    public void showPage(int current, int total) {
-        tvPage.setText(current + "/" + total);
+    public void setOnSortCLick(View.OnClickListener listener) {
+        tvSort.setOnClickListener(listener);
     }
+
+    public void setOnTimeFilterClick(View.OnClickListener listener) {
+        tvTime.setOnClickListener(listener);
+    }
+
 }

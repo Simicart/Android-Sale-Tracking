@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
+import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menu.top.MenuTopController;
+import com.simicart.saletracking.layer.fragment.LayerFragment;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
@@ -90,8 +92,11 @@ public class AppManager {
 
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+        String fragmentName = ((AppFragment)fragment).getFragmentName();
+        mManager.popBackStack(fragmentName,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.addToBackStack(fragmentName);
         fragmentTransaction.commit();
     }
 
@@ -138,6 +143,18 @@ public class AppManager {
         searchFragment.setFragmentName("Search");
         searchFragment.setDetail(true);
         replaceFragment(searchFragment);
+    }
+
+    public void openLayer(HashMap<String,Object> hmData) {
+        LayerFragment layerFragment = LayerFragment.newInstance(new AppData(hmData));
+        layerFragment.setFragmentName("Layer");
+        layerFragment.setDetail(true);
+        replaceFragment(layerFragment);
+    }
+
+    public void removeFragment(String tag) {
+        FragmentTransaction fragmentTransaction = mManager.beginTransaction();
+        fragmentTransaction.remove(mManager.findFragmentByTag(tag)).commit();
     }
 
 }

@@ -118,7 +118,7 @@ public class LoginController extends AppController {
     protected void goToHome() {
         AppPreferences.setSignInComplete(true);
         AppManager.getInstance().getManager().popBackStack();
-        AppManager.getInstance().openListCustomers(null);
+        AppManager.getInstance().openListOrders(null);
         AppManager.getInstance().getMenuTopController().showMenuTop(true);
     }
 

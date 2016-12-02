@@ -15,7 +15,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.order.controller.ListOrdersController;
-import com.simicart.saletracking.store.StoreViewAdapter;
+import com.simicart.saletracking.store.apdater.StoreViewAdapter;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 
 import java.util.ArrayList;

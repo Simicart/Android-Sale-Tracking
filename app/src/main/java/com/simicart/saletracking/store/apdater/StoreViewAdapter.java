@@ -1,4 +1,4 @@
-package com.simicart.saletracking.store;
+package com.simicart.saletracking.store.apdater;
 
 import android.view.LayoutInflater;
 import android.view.View;

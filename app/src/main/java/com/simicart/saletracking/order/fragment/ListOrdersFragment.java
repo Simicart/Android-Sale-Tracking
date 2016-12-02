@@ -3,6 +3,7 @@ package com.simicart.saletracking.order.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,10 +57,12 @@ public class ListOrdersFragment extends AppFragment {
         mBlock.setOnNextPage(mController.getOnNextPageClick());
         mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
         mBlock.setOnSearchClick(mController.getOnSearchClick());
+        mBlock.setOnStatusFilterClick(mController.getOnStatusFilterClick());
+        mBlock.setOnSortCLick(mController.getOnSortClick());
+        mBlock.setOnTimeFilterClick(mController.getOnTimeFilterClick());
 
         AppManager.getInstance().getMenuTopController().setListOrdersController(mController);
 
         return rootView;
     }
-
 }
