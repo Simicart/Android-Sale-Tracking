@@ -19,6 +19,7 @@ import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
+import com.simicart.saletracking.customer.fragment.ListAddressesFragment;
 import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
@@ -231,6 +232,13 @@ public class AppManager {
         orderDetailFragment.setFragmentName("Order Detail");
         orderDetailFragment.setDetail(true);
         replaceFragment(orderDetailFragment);
+    }
+
+    public void openListAddresses(HashMap<String,Object> hmData) {
+        ListAddressesFragment listAddressesFragment = ListAddressesFragment.newInstance(new AppData(hmData));
+        listAddressesFragment.setFragmentName("Addresses");
+        listAddressesFragment.setDetail(true);
+        replaceFragment(listAddressesFragment);
     }
 
     public void openSearch(HashMap<String,Object> hmData) {

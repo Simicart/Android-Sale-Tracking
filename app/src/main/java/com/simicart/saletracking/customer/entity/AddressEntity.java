@@ -8,6 +8,7 @@ import com.simicart.saletracking.base.entity.AppEntity;
 
 public class AddressEntity extends AppEntity {
 
+    protected String mID;
     protected String mFirstName;
     protected String mLastName;
     protected String mStreet;
@@ -21,6 +22,7 @@ public class AddressEntity extends AppEntity {
     protected String mPhone;
     protected String mEmail;
 
+    private final String ENTITY_ID = "entity_id";
     private final String FIRST_NAME = "firstname";
     private final String LAST_NAME = "lastname";
     private final String STREET = "street";
@@ -36,6 +38,8 @@ public class AddressEntity extends AppEntity {
 
     @Override
     public void parse() {
+
+        mID = getString(ENTITY_ID);
 
         mFirstName = getString(FIRST_NAME);
 
@@ -61,6 +65,14 @@ public class AddressEntity extends AppEntity {
 
         mEmail = getString(EMAIL);
 
+    }
+
+    public String getID() {
+        return mID;
+    }
+
+    public void setID(String ID) {
+        mID = ID;
     }
 
     public String getCity() {

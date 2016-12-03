@@ -17,17 +17,31 @@ import com.simicart.saletracking.customer.entity.AddressEntity;
 public class AddressComponent extends AppComponent {
 
     protected AddressEntity mAddressEntity;
+    protected TextView tvTitle;
     protected TextView tvFullNameLabel, tvStreetLabel, tvCityLabel, tvStateLabel, tvCountryLabel,
             tvPhoneLabel, tvPostCodeLabel, tvEmailLabel;
     protected TextView tvFullName, tvStreet, tvCity, tvState, tvCountry,
             tvPhone, tvPostCode, tvEmail;
     protected TableRow trEmail;
     protected boolean isShowEmail;
+    protected boolean isShowTitle = false;
 
     @Override
     public View createView() {
 
         rootView = mInflater.inflate(R.layout.component_address, null);
+
+        tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
+        tvTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        if(isShowTitle) {
+            tvTitle.setVisibility(View.VISIBLE);
+        } else {
+            tvTitle.setVisibility(View.GONE);
+        }
+        String id = mAddressEntity.getID();
+        if(Utils.validateString(id)) {
+            tvTitle.setText("#" + id);
+        }
 
         tvFullNameLabel = (TextView) rootView.findViewById(R.id.tv_full_name_label);
         tvFullNameLabel.setTextColor(AppColor.getInstance().getBlackColor());
@@ -130,6 +144,10 @@ public class AddressComponent extends AppComponent {
 
     public void setShowEmail(boolean showEmail) {
         isShowEmail = showEmail;
+    }
+
+    public void setShowTitle(boolean showTitle) {
+        isShowTitle = showTitle;
     }
 
     public void setAddressEntity(AddressEntity addressEntity) {

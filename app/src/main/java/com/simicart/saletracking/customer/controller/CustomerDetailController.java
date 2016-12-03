@@ -85,7 +85,9 @@ public class CustomerDetailController extends AppController {
         mOnCustomerAddressesClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                HashMap<String,Object> hmData = new HashMap<>();
+                hmData.put("customer_id", mCustomerID);
+                AppManager.getInstance().openListAddresses(hmData);
             }
         };
     }
