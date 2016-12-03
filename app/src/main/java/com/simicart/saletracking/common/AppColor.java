@@ -49,6 +49,11 @@ public class AppColor {
         return drawable;
     }
 
+    public Drawable coloringIcon(Drawable drawable, String color) {
+        drawable.setColorFilter(Color.parseColor(color), PorterDuff.Mode.SRC_ATOP);
+        return drawable;
+    }
+
     public int getButtonColor() {
         return Color.parseColor(mButtonColor);
     }

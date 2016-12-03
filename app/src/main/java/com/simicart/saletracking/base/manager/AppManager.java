@@ -1,16 +1,26 @@
 package com.simicart.saletracking.base.manager;
 
 import android.app.Activity;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
+import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
+import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.layer.fragment.LayerFragment;
@@ -19,6 +29,8 @@ import com.simicart.saletracking.order.fragment.OrderDetailFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
 
 import java.util.HashMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -32,6 +44,9 @@ public class AppManager {
     private MenuTopController mMenuTopController;
     private String mSessionID;
     private String mStoreID = "0";
+    private boolean mIsDemo = false;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
 
     public static AppManager instance;
 
@@ -74,6 +89,14 @@ public class AppManager {
         mMenuTopController = menuTopController;
     }
 
+    public boolean isDemo() {
+        return mIsDemo;
+    }
+
+    public void setDemo(boolean demo) {
+        mIsDemo = demo;
+    }
+
     public String getSessionID() {
         return mSessionID;
     }
@@ -90,6 +113,65 @@ public class AppManager {
         mStoreID = storeID;
     }
 
+    public DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
+
+    public void setDrawerLayout(DrawerLayout drawerLayout) {
+        mDrawerLayout = drawerLayout;
+    }
+
+    public NavigationView getNavigationView() {
+        return mNavigationView;
+    }
+
+    public void setNavigationView(NavigationView navigationView) {
+        mNavigationView = navigationView;
+    }
+
+    public void initHeader() {
+        View navHeader = mNavigationView.getHeaderView(0);
+        CircleImageView ivAva = (CircleImageView) navHeader.findViewById(R.id.iv_ava);
+        TextView tvName = (TextView) navHeader.findViewById(R.id.tv_name);
+        tvName.setTextColor(AppColor.getInstance().getWhiteColor());
+        TextView tvEmail = (TextView) navHeader.findViewById(R.id.tv_email);
+        tvEmail.setTextColor(AppColor.getInstance().getWhiteColor());
+        TextView tvRole = (TextView) navHeader.findViewById(R.id.tv_role);
+        tvRole.setTextColor(AppColor.getInstance().getWhiteColor());
+
+        if(mCurrentUser != null) {
+            String image = mCurrentUser.getImage();
+            if(Utils.validateString(image)) {
+                Glide.with(mCurrentActivity).load(image).into(ivAva);
+            }
+            String name = mCurrentUser.getTitle();
+            if(Utils.validateString(name)) {
+                tvName.setText(name);
+            }
+            String email = mCurrentUser.getEmail();
+            if(Utils.validateString(email)) {
+                tvEmail.setText(email);
+            }
+            String role = mCurrentUser.getRoleTitle();
+            if(Utils.validateString(role)) {
+                tvRole.setText(role);
+            }
+        }
+
+    }
+
+    public void disableDrawer() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    public void enableDrawer() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED );
+    }
+
+    public void openDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
+
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         String fragmentName = ((AppFragment)fragment).getFragmentName();
@@ -101,13 +183,26 @@ public class AppManager {
     }
 
     public void backToPreviousFragment() {
-        mManager.popBackStack();
+        mManager.popBackStackImmediate();
+    }
+
+    public void clearFragments() {
+        while (mManager.getBackStackEntryCount() > 0){
+            mManager.popBackStackImmediate();
+        }
     }
 
     public void openLoginPage() {
         LoginFragment loginFragment = LoginFragment.newInstance();
         replaceFragment(loginFragment);
         mMenuTopController.showMenuTop(false);
+    }
+
+    public void openDashboardPage() {
+        DashboardFragment dashboardFragment = DashboardFragment.newInstance();
+        dashboardFragment.setFragmentName("Dashboard");
+        dashboardFragment.setDetail(false);
+        replaceFragment(dashboardFragment);
     }
 
     public void openListOrders(HashMap<String,Object> hmData) {
@@ -152,9 +247,9 @@ public class AppManager {
         replaceFragment(layerFragment);
     }
 
-    public void removeFragment(String tag) {
-        FragmentTransaction fragmentTransaction = mManager.beginTransaction();
-        fragmentTransaction.remove(mManager.findFragmentByTag(tag)).commit();
+    public void navigateFirstFragment() {
+        mNavigationView.getMenu().getItem(0).setChecked(true);
+        openDashboardPage();
     }
 
 }

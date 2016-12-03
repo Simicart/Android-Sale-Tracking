@@ -105,4 +105,12 @@ public class AppPreferences {
         editor.commit();
     }
 
+    public static void clearCustomerInfo() {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putString(CUSTOMER_URL, null);
+        editor.putString(CUSTOMER_EMAIL, null);
+        editor.putString(CUSTOMER_PASSWORD, null);
+        editor.commit();
+    }
+
 }

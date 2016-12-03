@@ -37,7 +37,7 @@ public class LoginController extends AppController {
             @Override
             public void onClick(View view) {
                 Utils.hideKeyboard();
-                AppPreferences.setIsDemo(true);
+                AppManager.getInstance().setDemo(true);
                 onLoginDemo();
             }
         };
@@ -93,6 +93,7 @@ public class LoginController extends AppController {
         loginUserRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
+                AppPreferences.setSignInComplete(true);
                 AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
                 goToHome();
             }
@@ -116,9 +117,10 @@ public class LoginController extends AppController {
     }
 
     protected void goToHome() {
-        AppPreferences.setSignInComplete(true);
-        AppManager.getInstance().getManager().popBackStack();
-        AppManager.getInstance().openListOrders(null);
+        AppManager.getInstance().enableDrawer();
+        AppManager.getInstance().initHeader();
+        AppManager.getInstance().getManager().popBackStackImmediate();
+        AppManager.getInstance().navigateFirstFragment();
         AppManager.getInstance().getMenuTopController().showMenuTop(true);
     }
 

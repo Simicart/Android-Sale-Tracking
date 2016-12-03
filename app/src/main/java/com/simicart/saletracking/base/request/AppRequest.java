@@ -37,18 +37,16 @@ public class AppRequest {
 
     public AppRequest() {
         hmParams = new HashMap<>();
-        if (AppPreferences.isSignInComplete()) {
-            if (AppPreferences.isDemo()) {
-                hmParams.put("email", Constants.demoEmail);
-                hmParams.put("password", Constants.demoPassword);
-            } else {
-                hmParams.put("email", AppPreferences.getCustomerEmail());
-                hmParams.put("password", AppPreferences.getCustomerPassword());
-            }
-            String sessionID = AppManager.getInstance().getSessionID();
-            if(Utils.validateString(sessionID)) {
-                hmParams.put("session_id", sessionID);
-            }
+        if (AppManager.getInstance().isDemo()) {
+            hmParams.put("email", Constants.demoEmail);
+            hmParams.put("password", Constants.demoPassword);
+        } else if (AppPreferences.isSignInComplete()) {
+            hmParams.put("email", AppPreferences.getCustomerEmail());
+            hmParams.put("password", AppPreferences.getCustomerPassword());
+        }
+        String sessionID = AppManager.getInstance().getSessionID();
+        if (Utils.validateString(sessionID)) {
+            hmParams.put("session_id", sessionID);
         }
     }
 
@@ -127,7 +125,7 @@ public class AppRequest {
 
     private String getUrl() {
         String mBaseUrl = "";
-        if (AppPreferences.isDemo()) {
+        if (AppManager.getInstance().isDemo()) {
             mBaseUrl = Constants.demoUrl;
         } else {
             mBaseUrl = AppPreferences.getCustomerUrl();

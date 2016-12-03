@@ -59,7 +59,7 @@ public class MenuTopController {
                 if(isOnDetail) {
                     AppManager.getInstance().backToPreviousFragment();
                 } else {
-
+                    AppManager.getInstance().openDrawer();
                 }
             }
         });
@@ -86,6 +86,7 @@ public class MenuTopController {
         });
 
         rlStore = (RelativeLayout) rootView.findViewById(R.id.rl_store);
+        rlStore.setVisibility(View.INVISIBLE);
 
         mToolbar.addView(rootView);
     }
