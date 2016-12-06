@@ -21,4 +21,10 @@ public class Constants {
         public static final int TIME = 3;
     }
 
+    public static class TimePeriod {
+        public static final int DAY = 1;
+        public static final int MONTH = 2;
+        public static final int YEAR = 3;
+    }
+
 }
