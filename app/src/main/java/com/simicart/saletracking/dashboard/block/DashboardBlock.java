@@ -11,9 +11,15 @@ import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
+import com.simicart.saletracking.customer.entity.CustomerEntity;
+import com.simicart.saletracking.dashboard.adapter.LatestCustomerAdapter;
+import com.simicart.saletracking.dashboard.adapter.LatestOrdersAdapter;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
+import com.simicart.saletracking.order.entity.OrderEntity;
+
+import java.util.ArrayList;
 
 /**
  * Created by Glenn on 12/5/2016.
@@ -41,11 +47,19 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         initTotal();
 
         tvLatestOrdersTitle = (TextView) mView.findViewById(R.id.tv_latest_orders_title);
+        tvLatestOrdersTitle.setText("LATEST ORDERS");
+        tvLatestOrdersTitle.setBackgroundColor(AppColor.getInstance().getThemeColor());
+        tvLatestOrdersTitle.setTextColor(AppColor.getInstance().getWhiteColor());
+
         rvLatestOrders = (RecyclerView) mView.findViewById(R.id.rv_latest_orders);
         rvLatestOrders.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rvLatestOrders.setNestedScrollingEnabled(false);
 
         tvLatestCustomersTitle = (TextView) mView.findViewById(R.id.tv_latest_customers_title);
+        tvLatestCustomersTitle.setText("LATEST CUSTOMERS");
+        tvLatestCustomersTitle.setBackgroundColor(AppColor.getInstance().getThemeColor());
+        tvLatestCustomersTitle.setTextColor(AppColor.getInstance().getWhiteColor());
+
         rvLatestCustomers = (RecyclerView) mView.findViewById(R.id.rv_latest_customers);
         rvLatestCustomers.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rvLatestCustomers.setNestedScrollingEnabled(false);
@@ -78,12 +92,26 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void showLatestOrders(AppCollection collection) {
-
+        if(collection != null) {
+            ArrayList<OrderEntity> listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
+            if(listOrders != null && listOrders.size() > 0) {
+                LatestOrdersAdapter latestOrdersAdapter = new LatestOrdersAdapter(listOrders);
+                rvLatestOrders.setAdapter(latestOrdersAdapter);
+            }
+        }
     }
 
     @Override
     public void showLatestCustomers(AppCollection collection) {
-
+        if(collection != null) {
+            if (collection.containKey("customers")) {
+                ArrayList<CustomerEntity> listCustomers = (ArrayList<CustomerEntity>) collection.getDataWithKey("customers");
+                if (listCustomers != null && listCustomers.size() > 0) {
+                    LatestCustomerAdapter latestCustomerAdapter = new LatestCustomerAdapter(listCustomers);
+                    rvLatestCustomers.setAdapter(latestCustomerAdapter);
+                }
+            }
+        }
     }
 
     protected void initTotal() {
