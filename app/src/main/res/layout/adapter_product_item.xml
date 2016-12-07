@@ -3,7 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
     android:padding="@dimen/size_10"
-    android:background="@drawable/bottom_line_border">
+    android:background="@drawable/bottom_line_border"
+    android:id="@+id/rl_product_item">
 
     <ImageView
         android:id="@+id/iv_product"

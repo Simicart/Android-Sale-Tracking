@@ -13,7 +13,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
-import com.simicart.saletracking.order.entity.ProductEntity;
+import com.simicart.saletracking.products.entity.ProductEntity;
 import com.simicart.saletracking.products.adapter.ListProductsAdapter;
 import com.simicart.saletracking.products.delegate.ListProductsDelegate;
 

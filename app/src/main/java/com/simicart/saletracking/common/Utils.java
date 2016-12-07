@@ -1,11 +1,13 @@
 package com.simicart.saletracking.common;
 
 import android.app.Service;
+import android.text.Html;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.simicart.saletracking.base.manager.AppManager;
-import com.simicart.saletracking.order.entity.ProductEntity;
+import com.simicart.saletracking.products.entity.ProductEntity;
 
 import java.text.DecimalFormat;
 
@@ -141,6 +143,14 @@ public class Utils {
             return formattedNumber;
         } else {
             return formattedNumber;
+        }
+    }
+
+    public static void setTextHtml(TextView textView, String html) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            textView.setText(Html.fromHtml(html));
         }
     }
 

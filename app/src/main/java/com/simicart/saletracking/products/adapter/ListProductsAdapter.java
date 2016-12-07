@@ -7,14 +7,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.order.entity.ProductEntity;
+import com.simicart.saletracking.products.entity.ProductEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 12/7/2016.
@@ -56,7 +59,7 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
             holder.tvProductName.setText(productName);
         }
 
-        String productID = productEntity.getID();
+        final String productID = productEntity.getID();
         if(Utils.validateString(productID)) {
             holder.tvProductID.setText("Id: " + productID);
         }
@@ -81,6 +84,15 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
             holder.tvProductVisibility.setText("Visibility: " + productVisibility);
         }
 
+        holder.rlProductItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, Object> hmData = new HashMap<String, Object>();
+                hmData.put("product_id", productID);
+                AppManager.getInstance().openProductDetail(hmData);
+            }
+        });
+
     }
 
     @Override
@@ -92,6 +104,7 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
 
         private ImageView ivProduct;
         protected TextView tvProductName, tvProductID, tvProductSku, tvProductPrice, tvProductType, tvProductVisibility;
+        protected RelativeLayout rlProductItem;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -108,6 +121,7 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
             tvProductType.setTextColor(Color.BLACK);
             tvProductVisibility = (TextView) itemView.findViewById(R.id.tv_product_visibility);
             tvProductVisibility.setTextColor(Color.BLACK);
+            rlProductItem = (RelativeLayout) itemView.findViewById(R.id.rl_product_item);
         }
 
     }

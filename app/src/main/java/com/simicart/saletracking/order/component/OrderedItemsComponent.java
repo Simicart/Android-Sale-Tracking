@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.simicart.saletracking.base.component.AppComponent;
 import com.simicart.saletracking.order.adapter.OrderedItemsAdapter;
-import com.simicart.saletracking.order.entity.ProductEntity;
+import com.simicart.saletracking.products.entity.ProductEntity;
 
 import java.util.ArrayList;
 

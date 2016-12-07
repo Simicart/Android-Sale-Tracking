@@ -1,4 +1,4 @@
-package com.simicart.saletracking.order.entity;
+package com.simicart.saletracking.products.entity;
 
 import com.simicart.saletracking.base.entity.AppEntity;
 
@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by Glenn on 11/29/2016.
@@ -24,6 +25,9 @@ public class ProductEntity extends AppEntity {
     protected String mID;
     protected String mType;
     protected String mVisibility;
+    protected String mDescription;
+    protected String mShortDescription;
+    protected ArrayList<ProductAttributeEntity> mListAttributes;
 
     private final String NAME = "name";
     private final String SKU = "sku";
@@ -36,6 +40,9 @@ public class ProductEntity extends AppEntity {
     private final String ENTITY_ID = "entity_id";
     private final String TYPE_ID = "type_id";
     private final String VISIBILITY = "visibility";
+    private final String DESCRIPTION = "description";
+    private final String SHORT_DESCRIPTION = "short_description";
+    private final String ADDITIONAL = "additional";
 
     @Override
     public void parse() {
@@ -69,9 +76,27 @@ public class ProductEntity extends AppEntity {
                     }
                 }
             }
+
+            JSONObject additionalObj = getJSONObjectWithKey(mJSON, ADDITIONAL);
+            if (additionalObj != null) {
+                mListAttributes = new ArrayList<>();
+                Iterator<String> iter = additionalObj.keys();
+                while (iter.hasNext()) {
+                    String key = iter.next();
+                    JSONObject attributeObj = additionalObj.getJSONObject(key);
+                    ProductAttributeEntity attributeEntity = new ProductAttributeEntity();
+                    attributeEntity.setJSONObject(attributeObj);
+                    attributeEntity.parse();
+                    mListAttributes.add(attributeEntity);
+                }
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        mDescription = getString(DESCRIPTION);
+
+        mShortDescription = getString(SHORT_DESCRIPTION);
 
     }
 
@@ -153,5 +178,29 @@ public class ProductEntity extends AppEntity {
 
     public void setProductImages(ArrayList<String> productImages) {
         mProductImages = productImages;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public void setDescription(String description) {
+        mDescription = description;
+    }
+
+    public ArrayList<ProductAttributeEntity> getListAttributes() {
+        return mListAttributes;
+    }
+
+    public void setListAttributes(ArrayList<ProductAttributeEntity> listAttributes) {
+        mListAttributes = listAttributes;
+    }
+
+    public String getShortDescription() {
+        return mShortDescription;
+    }
+
+    public void setShortDescription(String shortDescription) {
+        mShortDescription = shortDescription;
     }
 }

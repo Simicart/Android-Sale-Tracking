@@ -3,6 +3,7 @@ package com.simicart.saletracking.order.entity;
 import com.simicart.saletracking.base.entity.AppEntity;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.AddressEntity;
+import com.simicart.saletracking.products.entity.ProductEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

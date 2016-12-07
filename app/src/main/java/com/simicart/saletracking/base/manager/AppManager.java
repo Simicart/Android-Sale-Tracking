@@ -28,6 +28,8 @@ import com.simicart.saletracking.layer.fragment.LayerFragment;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
 import com.simicart.saletracking.products.fragment.ListProductsFragment;
+import com.simicart.saletracking.products.fragment.ProductDescriptionFragment;
+import com.simicart.saletracking.products.fragment.ProductDetailFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
 
 import java.util.HashMap;
@@ -249,6 +251,13 @@ public class AppManager {
         replaceFragment(listProductsFragment);
     }
 
+    public void openProductDetail(HashMap<String,Object> hmData) {
+        ProductDetailFragment productDetailFragment = ProductDetailFragment.newInstance(new AppData(hmData));
+        productDetailFragment.setFragmentName("product Detail");
+        productDetailFragment.setDetail(true);
+        replaceFragment(productDetailFragment);
+    }
+
     public void openSearch(HashMap<String,Object> hmData) {
         SearchFragment searchFragment = SearchFragment.newInstance(new AppData(hmData));
         searchFragment.setFragmentName("Search");
@@ -261,6 +270,21 @@ public class AppManager {
         layerFragment.setFragmentName("Layer");
         layerFragment.setDetail(true);
         replaceFragment(layerFragment);
+    }
+
+    public void openDescription(HashMap<String,Object> hmData) {
+        ProductDescriptionFragment descriptionFragment = ProductDescriptionFragment.newInstance(new AppData(hmData));
+        descriptionFragment.setFragmentName("Description");
+        if(hmData != null) {
+            if(hmData.containsKey("title")) {
+                String title = (String) hmData.get("title");
+                if(Utils.validateString(title)) {
+                    descriptionFragment.setFragmentName(title);
+                }
+            }
+        }
+        descriptionFragment.setDetail(true);
+        replaceFragment(descriptionFragment);
     }
 
     public void navigateFirstFragment() {
