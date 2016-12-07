@@ -66,7 +66,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
             holder.tvQty.setText("Quantity Ordered: " + Utils.formatNumber(qty));
         }
 
-        String image = productEntity.getImage();
+        String image = productEntity.getOrderImage();
         if(Utils.validateString(image)) {
             Glide.with(mContext).load(image).into(holder.ivImage);
         }

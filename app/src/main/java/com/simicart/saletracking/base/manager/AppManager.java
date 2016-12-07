@@ -27,6 +27,7 @@ import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.layer.fragment.LayerFragment;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
+import com.simicart.saletracking.products.fragment.ListProductsFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
 
 import java.util.HashMap;
@@ -239,6 +240,13 @@ public class AppManager {
         listAddressesFragment.setFragmentName("Addresses");
         listAddressesFragment.setDetail(true);
         replaceFragment(listAddressesFragment);
+    }
+
+    public void openListProducts(HashMap<String, Object> hmData) {
+        ListProductsFragment listProductsFragment = ListProductsFragment.newInstance(new AppData(hmData));
+        listProductsFragment.setFragmentName("Products");
+        listProductsFragment.setDetail(false);
+        replaceFragment(listProductsFragment);
     }
 
     public void openSearch(HashMap<String,Object> hmData) {

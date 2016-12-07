@@ -13,6 +13,7 @@ public class Constants {
     public static class Search {
         public static final int ORDER = 1;
         public static final int CUSTOMER = 2;
+        public static final int PRODUCT = 3;
     }
 
     public static class Layer {

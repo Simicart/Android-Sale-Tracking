@@ -68,7 +68,7 @@ public class ListCustomersAdapter extends SectioningAdapter {
 
     @Override
     public ListCustomersAdapter.HeaderViewHolder onCreateHeaderViewHolder(ViewGroup parent, int headerType) {
-        View v = mInflater.inflate(R.layout.adapter_item_header, parent, false);
+        View v = mInflater.inflate(R.layout.adapter_header_item, parent, false);
         return new ListCustomersAdapter.HeaderViewHolder(v);
     }
 

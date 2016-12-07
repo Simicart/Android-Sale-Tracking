@@ -66,8 +66,10 @@ public class SearchFragment extends AppFragment {
         mListSearches = new ArrayList<>();
         if(mFrom == Constants.Search.ORDER) {
             initSearchOrder();
-        } else {
+        } else if(mFrom == Constants.Search.CUSTOMER) {
             initSearchCustomer();
+        } else {
+            initSearchProduct();
         }
 
         edtQuery = (EditText) rootView.findViewById(R.id.et_query);
@@ -215,8 +217,10 @@ public class SearchFragment extends AppFragment {
 
         if(mFrom == Constants.Search.ORDER) {
             AppManager.getInstance().openListOrders(hm);
-        } else {
+        } else if(mFrom == Constants.Search.CUSTOMER) {
             AppManager.getInstance().openListCustomers(hm);
+        } else {
+            AppManager.getInstance().openListProducts(hm);
         }
     }
 
@@ -281,6 +285,36 @@ public class SearchFragment extends AppFragment {
         groupID.setKey("group_id");
         groupID.setLabel("Group (Group Id)");
         mListSearches.add(groupID);
+
+        return mListSearches;
+    }
+
+    protected ArrayList<SearchEntity> initSearchProduct() {
+
+        SearchEntity id = new SearchEntity();
+        id.setKey("entity_id");
+        id.setLabel("Product ID");
+        mListSearches.add(id);
+
+        SearchEntity sku = new SearchEntity();
+        sku.setKey("sku");
+        sku.setLabel("SKU");
+        mListSearches.add(sku);
+
+        SearchEntity name = new SearchEntity();
+        name.setKey("name");
+        name.setLabel("Name");
+        mListSearches.add(name);
+
+        SearchEntity description = new SearchEntity();
+        description.setKey("description");
+        description.setLabel("Description");
+        mListSearches.add(description);
+
+        SearchEntity shortDescription = new SearchEntity();
+        shortDescription.setKey("short_description");
+        shortDescription.setLabel("Short Description");
+        mListSearches.add(shortDescription);
 
         return mListSearches;
     }

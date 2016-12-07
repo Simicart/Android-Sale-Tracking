@@ -76,7 +76,7 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
         return listOrders.size();
     }
 
-    public static class LatestOrderHolder extends RecyclerView.ViewHolder {
+    public class LatestOrderHolder extends RecyclerView.ViewHolder {
 
         private TextView tvOrderID, tvOrderPrice, tvCustomerName, tvCustomerEmail;
 

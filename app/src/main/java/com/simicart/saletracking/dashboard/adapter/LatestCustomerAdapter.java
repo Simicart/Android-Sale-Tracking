@@ -68,7 +68,7 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
         return listCustomers.size();
     }
 
-    public static class LatestCustomerHolder extends RecyclerView.ViewHolder {
+    public class LatestCustomerHolder extends RecyclerView.ViewHolder {
 
         public TextView tvCustomerID, tvCustomerName, tvCustomerEmail;
 
