@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.simicart.saletracking.base.component.AppComponent;
+import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.order.adapter.OrderedItemsAdapter;
 import com.simicart.saletracking.product.entity.ProductEntity;
 
@@ -17,15 +18,23 @@ import java.util.ArrayList;
 public class OrderedItemsComponent extends AppComponent {
 
     protected ArrayList<ProductEntity> mListProducts;
+    protected ArrayList<QuoteItemEntity> mListQuotes;
     protected String mBaseCurrency;
     protected String mOrderCurrency;
+    protected boolean isCart;
 
     @Override
     public View createView() {
         RecyclerView rvProducts = new RecyclerView(mContext);
         rvProducts.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rvProducts.setNestedScrollingEnabled(false);
-        OrderedItemsAdapter adapter = new OrderedItemsAdapter(mListProducts, mBaseCurrency, mOrderCurrency);
+        OrderedItemsAdapter adapter = new OrderedItemsAdapter(mBaseCurrency, mOrderCurrency);
+        adapter.setCart(isCart);
+        if(isCart) {
+            adapter.setListQuotes(mListQuotes);
+        } else {
+            adapter.setListProducts(mListProducts);
+        }
         rvProducts.setAdapter(adapter);
         return rvProducts;
     }
@@ -40,5 +49,13 @@ public class OrderedItemsComponent extends AppComponent {
 
     public void setOrderCurrency(String orderCurrency) {
         mOrderCurrency = orderCurrency;
+    }
+
+    public void setCart(boolean cart) {
+        isCart = cart;
+    }
+
+    public void setListQuotes(ArrayList<QuoteItemEntity> listQuotes) {
+        mListQuotes = listQuotes;
     }
 }

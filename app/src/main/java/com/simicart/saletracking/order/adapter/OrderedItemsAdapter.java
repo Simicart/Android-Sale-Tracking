@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.entity.ProductEntity;
@@ -23,12 +24,13 @@ import java.util.ArrayList;
 public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapter.ProductCheckoutHolder> {
 
     protected ArrayList<ProductEntity> listProducts;
+    protected ArrayList<QuoteItemEntity> listQuotes;
     protected Context mContext;
     protected String mBaseCurrency;
     protected String mOrderCurrency;
+    protected boolean isCart;
 
-    public OrderedItemsAdapter(ArrayList<ProductEntity> listProducts, String baseCurrency, String orderCurrency) {
-        this.listProducts = listProducts;
+    public OrderedItemsAdapter(String baseCurrency, String orderCurrency) {
         this.mBaseCurrency = baseCurrency;
         this.mOrderCurrency = orderCurrency;
     }
@@ -46,6 +48,15 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
     @Override
     public void onBindViewHolder(ProductCheckoutHolder holder, int position) {
 
+        if(isCart) {
+            showQuoteItem(holder, position);
+        } else {
+            showProductItem(holder, position);
+        }
+
+    }
+
+    protected void showProductItem(ProductCheckoutHolder holder, int position) {
         ProductEntity productEntity = listProducts.get(position);
 
         String name = productEntity.getName();
@@ -70,12 +81,42 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         if(Utils.validateString(image)) {
             Glide.with(mContext).load(image).into(holder.ivImage);
         }
+    }
 
+    protected void showQuoteItem(ProductCheckoutHolder holder, int position) {
+        QuoteItemEntity quoteItemEntity = listQuotes.get(position);
+
+        String name = quoteItemEntity.getName();
+        if(Utils.validateString(name)) {
+            holder.tvName.setText(name);
+        }
+
+        String sku = quoteItemEntity.getSku();
+        if(Utils.validateString(sku)) {
+            holder.tvSku.setText("Sku: " + sku);
+        }
+
+        String price = Utils.getPrice(quoteItemEntity, mBaseCurrency, mOrderCurrency);
+        holder.tvPrice.setText(price);
+
+        String qty = quoteItemEntity.getItemsQty();
+        if(Utils.validateString(qty)) {
+            holder.tvQty.setText("Quantity: " + Utils.formatNumber(qty));
+        }
+
+        String image = quoteItemEntity.getOrderImage();
+        if(Utils.validateString(image)) {
+            Glide.with(mContext).load(image).into(holder.ivImage);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return listProducts.size();
+        if(isCart) {
+            return listQuotes.size();
+        } else {
+            return listProducts.size();
+        }
     }
 
     public static class ProductCheckoutHolder extends RecyclerView.ViewHolder {
@@ -95,5 +136,17 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
             tvPrice.setTextColor(AppColor.getInstance().getPriceColor());
             ivImage = (ImageView) itemView.findViewById(R.id.iv_image);
         }
+    }
+
+    public void setListProducts(ArrayList<ProductEntity> listProducts) {
+        this.listProducts = listProducts;
+    }
+
+    public void setListQuotes(ArrayList<QuoteItemEntity> listQuotes) {
+        this.listQuotes = listQuotes;
+    }
+
+    public void setCart(boolean cart) {
+        isCart = cart;
     }
 }

@@ -125,7 +125,7 @@ public class ListAbandonedCartsAdapter extends SectioningAdapter {
             public void onClick(View view) {
                 HashMap<String,Object> hmData = new HashMap<String, Object>();
                 hmData.put("cart_id", cartID);
-                AppManager.getInstance().openListAbandonedCartDetail(hmData);
+                AppManager.getInstance().openAbandonedCartDetail(hmData);
             }
         });
 

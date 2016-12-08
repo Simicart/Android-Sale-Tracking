@@ -9,6 +9,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.cart.entity.AbandonedCartEntity;
+import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.component.OrderedItemsComponent;
 import com.simicart.saletracking.product.entity.ProductEntity;
@@ -141,10 +142,11 @@ public class AbandonedCartDetailBlock extends AppBlock {
     }
 
     protected void showItems() {
-        ArrayList<ProductEntity> listProducts = mAbandonedCart.getListProducts();
-        if(listProducts != null) {
+        ArrayList<QuoteItemEntity> listQuotes = mAbandonedCart.getListQuotes();
+        if(listQuotes != null) {
             OrderedItemsComponent orderedItemsComponent = new OrderedItemsComponent();
-            orderedItemsComponent.setListProducts(listProducts);
+            orderedItemsComponent.setCart(true);
+            orderedItemsComponent.setListQuotes(listQuotes);
             orderedItemsComponent.setBaseCurrency(mAbandonedCart.getBaseCurrencyCode());
             orderedItemsComponent.setOrderCurrency(mAbandonedCart.getQuoteCurrencyCode());
             View view = orderedItemsComponent.createView();

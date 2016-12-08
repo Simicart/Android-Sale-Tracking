@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.text.DecimalFormat;
@@ -101,6 +102,20 @@ public class Utils {
         String price = "";
         String productBasePrice = productEntity.getBasePrice();
         String productPrice = productEntity.getPrice();
+        if (validateString(baseCurrency) && validateString(orderCurrency)) {
+            if (baseCurrency.equals(orderCurrency)) {
+                price = getPrice(productPrice, orderCurrency);
+            } else {
+                price = getPrice(productBasePrice, baseCurrency) + " [" + getPrice(productPrice, orderCurrency) + "]";
+            }
+        }
+        return price;
+    }
+
+    public static String getPrice(QuoteItemEntity quoteItemEntity, String baseCurrency, String orderCurrency) {
+        String price = "";
+        String productBasePrice = quoteItemEntity.getBasePrice();
+        String productPrice = quoteItemEntity.getPrice();
         if (validateString(baseCurrency) && validateString(orderCurrency)) {
             if (baseCurrency.equals(orderCurrency)) {
                 price = getPrice(productPrice, orderCurrency);

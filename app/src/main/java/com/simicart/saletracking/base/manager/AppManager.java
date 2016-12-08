@@ -266,7 +266,7 @@ public class AppManager {
         replaceFragment(listAbandonedCartsFragment);
     }
 
-    public void openListAbandonedCartDetail(HashMap<String, Object> hmData) {
+    public void openAbandonedCartDetail(HashMap<String, Object> hmData) {
         AbandonedCartDetailFragment abandonedCartDetailFragment = AbandonedCartDetailFragment.newInstance(new AppData(hmData));
         abandonedCartDetailFragment.setFragmentName("Cart Detail");
         abandonedCartDetailFragment.setDetail(true);

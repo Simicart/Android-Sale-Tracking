@@ -311,6 +311,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void showItems(OrderEntity orderEntity) {
 
         OrderedItemsComponent orderedItemsComponent = new OrderedItemsComponent();
+        orderedItemsComponent.setCart(false);
         orderedItemsComponent.setListProducts(orderEntity.getListProducts());
         orderedItemsComponent.setBaseCurrency(orderEntity.getBaseCurrencyCode());
         orderedItemsComponent.setOrderCurrency(orderEntity.getOrderCurrencyCode());

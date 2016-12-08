@@ -150,7 +150,7 @@ public class ListAbandonedCartsController extends AppController {
                     hmData = new HashMap<>();
                 }
                 hmData.put("search_entity", mSearchEntity);
-                hmData.put("from", Constants.Search.CUSTOMER);
+                hmData.put("from", Constants.Search.CART);
                 AppManager.getInstance().openSearch(hmData);
             }
         };

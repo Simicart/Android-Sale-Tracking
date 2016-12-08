@@ -68,8 +68,10 @@ public class SearchFragment extends AppFragment {
             initSearchOrder();
         } else if(mFrom == Constants.Search.CUSTOMER) {
             initSearchCustomer();
-        } else {
+        } else if(mFrom == Constants.Search.PRODUCT) {
             initSearchProduct();
+        } else {
+            initSearchCart();
         }
 
         edtQuery = (EditText) rootView.findViewById(R.id.et_query);
@@ -219,8 +221,10 @@ public class SearchFragment extends AppFragment {
             AppManager.getInstance().openListOrders(hm);
         } else if(mFrom == Constants.Search.CUSTOMER) {
             AppManager.getInstance().openListCustomers(hm);
-        } else {
+        } else if(mFrom == Constants.Search.PRODUCT) {
             AppManager.getInstance().openListProducts(hm);
+        } else {
+            AppManager.getInstance().openListAbandonedCarts(hm);
         }
     }
 
@@ -315,6 +319,21 @@ public class SearchFragment extends AppFragment {
         shortDescription.setKey("short_description");
         shortDescription.setLabel("Short Description");
         mListSearches.add(shortDescription);
+
+        return mListSearches;
+    }
+
+    protected ArrayList<SearchEntity> initSearchCart() {
+
+        SearchEntity id = new SearchEntity();
+        id.setKey("entity_id");
+        id.setLabel("Cart ID");
+        mListSearches.add(id);
+
+        SearchEntity searchCustomerEmail = new SearchEntity();
+        searchCustomerEmail.setKey("customer_email");
+        searchCustomerEmail.setLabel("Customer Email");
+        mListSearches.add(searchCustomerEmail);
 
         return mListSearches;
     }

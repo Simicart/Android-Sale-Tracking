@@ -1,4 +1,4 @@
-package com.simicart.saletracking.product.controller;
+package com.simicart.saletracking.cart.controller;
 
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;

@@ -27,7 +27,7 @@ public class AbandonedCartEntity extends AppEntity{
     protected String mQuoteCurrencyCode;
     protected String mBaseCurrencyCode;
     protected String mSubTotal;
-    protected ArrayList<ProductEntity> mListProducts;
+    protected ArrayList<QuoteItemEntity> mListQuotes;
 
     private final String ENTITY_ID = "entity_id";
     private final String CUSTOMER_EMAIL = "customer_email";
@@ -76,12 +76,12 @@ public class AbandonedCartEntity extends AppEntity{
         JSONArray itemsArr = getJSONArrayWithKey(mJSON, PRODUCTS);
         if (itemsArr != null) {
             try {
-                mListProducts = new ArrayList<>();
+                mListQuotes = new ArrayList<>();
                 for (int i = 0; i < itemsArr.length(); i++) {
                     JSONObject itemObj = itemsArr.getJSONObject(i);
-                    ProductEntity productEntity = new ProductEntity();
-                    productEntity.parse(itemObj);
-                    mListProducts.add(productEntity);
+                    QuoteItemEntity quoteEntity = new QuoteItemEntity();
+                    quoteEntity.parse(itemObj);
+                    mListQuotes.add(quoteEntity);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -165,12 +165,12 @@ public class AbandonedCartEntity extends AppEntity{
         return mCreatedAtDate + " " + mCreatedAtTime;
     }
 
-    public ArrayList<ProductEntity> getListProducts() {
-        return mListProducts;
+    public ArrayList<QuoteItemEntity> getListQuotes() {
+        return mListQuotes;
     }
 
-    public void setListProducts(ArrayList<ProductEntity> listProducts) {
-        mListProducts = listProducts;
+    public void setListQuotes(ArrayList<QuoteItemEntity> listQuotes) {
+        mListQuotes = listQuotes;
     }
 
     public String getSubTotal() {

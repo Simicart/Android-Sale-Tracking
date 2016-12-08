@@ -11,7 +11,7 @@ import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.cart.block.AbandonedCartDetailBlock;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.product.controller.AbandonedCartDetailController;
+import com.simicart.saletracking.cart.controller.AbandonedCartDetailController;
 
 /**
  * Created by Glenn on 12/8/2016.
