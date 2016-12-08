@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.fragment;
+package com.simicart.saletracking.cart.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,20 +9,21 @@ import android.view.ViewGroup;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
-import com.simicart.saletracking.products.block.ListProductsBlock;
-import com.simicart.saletracking.products.controller.ListProductsController;
+import com.simicart.saletracking.cart.block.ListAbandonedCartBlock;
+import com.simicart.saletracking.cart.controller.ListAbandonedCartsController;
+import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 
 /**
- * Created by Glenn on 12/7/2016.
+ * Created by Glenn on 12/8/2016.
  */
 
-public class ListProductsFragment extends AppFragment {
+public class ListAbandonedCartsFragment extends AppFragment {
 
-    protected ListProductsBlock mBlock;
-    protected ListProductsController mController;
+    protected ListAbandonedCartBlock mBlock;
+    protected ListAbandonedCartsController mController;
 
-    public static ListProductsFragment newInstance(AppData data) {
-        ListProductsFragment fragment = new ListProductsFragment();
+    public static ListAbandonedCartsFragment newInstance(AppData data) {
+        ListAbandonedCartsFragment fragment = new ListAbandonedCartsFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(KEY_DATA, data);
         fragment.setArguments(bundle);
@@ -32,12 +33,12 @@ public class ListProductsFragment extends AppFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_products, container, false);
+        rootView = inflater.inflate(R.layout.fragment_abandoned_cart, container, false);
 
-        mBlock = new ListProductsBlock(rootView);
+        mBlock = new ListAbandonedCartBlock(rootView);
         mBlock.initView();
         if(mController == null) {
-            mController = new ListProductsController();
+            mController = new ListAbandonedCartsController();
             mController.setDelegate(mBlock);
             if(mData != null) {
                 mController.setData(mData.getData());

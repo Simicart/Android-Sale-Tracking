@@ -1,8 +1,8 @@
-package com.simicart.saletracking.products.request;
+package com.simicart.saletracking.product.request;
 
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.AppRequest;
-import com.simicart.saletracking.products.entity.ProductEntity;
+import com.simicart.saletracking.product.entity.ProductEntity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

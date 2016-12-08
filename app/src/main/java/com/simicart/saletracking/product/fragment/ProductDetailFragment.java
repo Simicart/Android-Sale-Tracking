@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.fragment;
+package com.simicart.saletracking.product.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,8 +10,8 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.products.block.ProductDetailBlock;
-import com.simicart.saletracking.products.controller.ProductDetailController;
+import com.simicart.saletracking.product.block.ProductDetailBlock;
+import com.simicart.saletracking.product.controller.ProductDetailController;
 
 /**
  * Created by Glenn on 12/7/2016.

@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.controller;
+package com.simicart.saletracking.product.controller;
 
 import android.view.View;
 
@@ -10,8 +10,8 @@ import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.products.entity.ProductEntity;
-import com.simicart.saletracking.products.request.ProductDetailRequest;
+import com.simicart.saletracking.product.entity.ProductEntity;
+import com.simicart.saletracking.product.request.ProductDetailRequest;
 
 import java.util.HashMap;
 

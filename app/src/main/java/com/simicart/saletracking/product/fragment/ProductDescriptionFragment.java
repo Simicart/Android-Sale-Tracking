@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.fragment;
+package com.simicart.saletracking.product.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
-import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.Utils;
 
 /**

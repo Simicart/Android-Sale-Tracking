@@ -7,7 +7,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.simicart.saletracking.base.manager.AppManager;
-import com.simicart.saletracking.products.entity.ProductEntity;
+import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.text.DecimalFormat;
 

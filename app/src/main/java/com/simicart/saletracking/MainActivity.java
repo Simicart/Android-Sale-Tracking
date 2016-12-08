@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AppManager.getInstance().openListCustomers(null);
                 break;
             case R.id.nav_abandoned_cart:
+                AppManager.getInstance().openListAbandonedCarts(null);
                 break;
             case R.id.nav_settings:
                 break;

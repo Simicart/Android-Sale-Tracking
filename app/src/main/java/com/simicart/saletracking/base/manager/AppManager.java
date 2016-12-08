@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
+import com.simicart.saletracking.cart.fragment.AbandonedCartDetailFragment;
+import com.simicart.saletracking.cart.fragment.ListAbandonedCartsFragment;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
@@ -27,9 +28,9 @@ import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.layer.fragment.LayerFragment;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
-import com.simicart.saletracking.products.fragment.ListProductsFragment;
-import com.simicart.saletracking.products.fragment.ProductDescriptionFragment;
-import com.simicart.saletracking.products.fragment.ProductDetailFragment;
+import com.simicart.saletracking.product.fragment.ListProductsFragment;
+import com.simicart.saletracking.product.fragment.ProductDescriptionFragment;
+import com.simicart.saletracking.product.fragment.ProductDetailFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
 
 import java.util.HashMap;
@@ -256,6 +257,20 @@ public class AppManager {
         productDetailFragment.setFragmentName("product Detail");
         productDetailFragment.setDetail(true);
         replaceFragment(productDetailFragment);
+    }
+
+    public void openListAbandonedCarts(HashMap<String, Object> hmData) {
+        ListAbandonedCartsFragment listAbandonedCartsFragment = ListAbandonedCartsFragment.newInstance(new AppData(hmData));
+        listAbandonedCartsFragment.setFragmentName("Abandoned Carts");
+        listAbandonedCartsFragment.setDetail(false);
+        replaceFragment(listAbandonedCartsFragment);
+    }
+
+    public void openListAbandonedCartDetail(HashMap<String, Object> hmData) {
+        AbandonedCartDetailFragment abandonedCartDetailFragment = AbandonedCartDetailFragment.newInstance(new AppData(hmData));
+        abandonedCartDetailFragment.setFragmentName("Cart Detail");
+        abandonedCartDetailFragment.setDetail(true);
+        replaceFragment(abandonedCartDetailFragment);
     }
 
     public void openSearch(HashMap<String,Object> hmData) {

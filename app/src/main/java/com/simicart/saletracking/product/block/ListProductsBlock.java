@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.block;
+package com.simicart.saletracking.product.block;
 
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
@@ -13,9 +13,9 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
-import com.simicart.saletracking.products.entity.ProductEntity;
-import com.simicart.saletracking.products.adapter.ListProductsAdapter;
-import com.simicart.saletracking.products.delegate.ListProductsDelegate;
+import com.simicart.saletracking.product.entity.ProductEntity;
+import com.simicart.saletracking.product.adapter.ListProductsAdapter;
+import com.simicart.saletracking.product.delegate.ListProductsDelegate;
 
 import java.util.ArrayList;
 

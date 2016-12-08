@@ -56,7 +56,7 @@
         android:layout_toStartOf="@+id/rl_store"
         android:gravity="center"
         android:textAllCaps="true"
-        android:textSize="@dimen/text_20"
+        android:textSize="@dimen/text_18"
         android:textStyle="bold"/>
 
 </RelativeLayout>

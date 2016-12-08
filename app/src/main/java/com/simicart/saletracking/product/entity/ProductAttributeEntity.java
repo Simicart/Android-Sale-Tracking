@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.entity;
+package com.simicart.saletracking.product.entity;
 
 import com.simicart.saletracking.base.entity.AppEntity;
 

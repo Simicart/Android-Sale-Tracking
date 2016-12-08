@@ -1,30 +1,28 @@
-package com.simicart.saletracking.products.controller;
+package com.simicart.saletracking.cart.controller;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
-import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.cart.delegate.ListAbandonedCartsDelegate;
+import com.simicart.saletracking.cart.request.ListAbandonedCartsRequest;
 import com.simicart.saletracking.common.Constants;
-import com.simicart.saletracking.products.delegate.ListProductsDelegate;
-import com.simicart.saletracking.products.request.ListProductsRequest;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
 import java.util.HashMap;
 
 /**
- * Created by Glenn on 12/7/2016.
+ * Created by Glenn on 12/8/2016.
  */
 
-public class ListProductsController extends AppController {
+public class ListAbandonedCartsController extends AppController {
 
-    protected ListProductsDelegate mDelegate;
-
+    protected ListAbandonedCartsDelegate mDelegate;
     protected RecyclerView.OnScrollListener mOnListScroll;
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
@@ -41,7 +39,7 @@ public class ListProductsController extends AppController {
     @Override
     public void onStart() {
         parseData();
-        requestListProducts();
+        requestListCarts();
         initListener();
     }
 
@@ -51,14 +49,14 @@ public class ListProductsController extends AppController {
         mDelegate.updateView(mCollection);
     }
 
-    protected void requestListProducts() {
+    protected void requestListCarts() {
         if(isFirstRequest) {
             mDelegate.showLoading();
         } else {
             mDelegate.showDialogLoading();
         }
-        ListProductsRequest listProductsRequest = new ListProductsRequest();
-        listProductsRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+        ListAbandonedCartsRequest cartsRequest = new ListAbandonedCartsRequest();
+        cartsRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
                 if(isFirstRequest) {
@@ -81,7 +79,7 @@ public class ListProductsController extends AppController {
                 mDelegate.updateView(mCollection);
             }
         });
-        listProductsRequest.setRequestFailCallback(new RequestFailCallback() {
+        cartsRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
                 if(isFirstRequest) {
@@ -93,15 +91,14 @@ public class ListProductsController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        listProductsRequest.setExtendUrl("products");
-        listProductsRequest.addParam("dir", "desc");
-        listProductsRequest.addParam("limit", String.valueOf(mLimit));
-        listProductsRequest.addParam("offset", String.valueOf(mOffset));
-        listProductsRequest.addParam("store_id", AppManager.getInstance().getStoreID());
+        cartsRequest.setExtendUrl("abandonedcarts");
+        cartsRequest.addParam("dir", "desc");
+        cartsRequest.addParam("limit", String.valueOf(mLimit));
+        cartsRequest.addParam("offset", String.valueOf(mOffset));
         if(mSearchEntity != null) {
-            listProductsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+            cartsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
         }
-        listProductsRequest.request();
+        cartsRequest.request();
     }
 
     protected void initListener() {
@@ -127,10 +124,10 @@ public class ListProductsController extends AppController {
         mOnNextPageClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCurrentPage < mTotalPage) {
+                if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
-                    mOffset+=mLimit;
-                    requestListProducts();
+                    mOffset += mLimit;
+                    requestListCarts();
                 }
             }
         };
@@ -138,10 +135,10 @@ public class ListProductsController extends AppController {
         mOnPreviousPageClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCurrentPage > 1) {
+                if (mCurrentPage > 1) {
                     mCurrentPage--;
-                    mOffset-=mLimit;
-                    requestListProducts();
+                    mOffset -= mLimit;
+                    requestListCarts();
                 }
             }
         };
@@ -153,7 +150,7 @@ public class ListProductsController extends AppController {
                     hmData = new HashMap<>();
                 }
                 hmData.put("search_entity", mSearchEntity);
-                hmData.put("from", Constants.Search.PRODUCT);
+                hmData.put("from", Constants.Search.CUSTOMER);
                 AppManager.getInstance().openSearch(hmData);
             }
         };
@@ -161,25 +158,23 @@ public class ListProductsController extends AppController {
     }
 
     protected void parseData() {
+
         if(hmData != null) {
-            if(hmData.containsKey("search_entity")) {
-                mSearchEntity = (SearchEntity) hmData.get("search_entity");
-            } else {
-                mSearchEntity = null;
-            }
+            mSearchEntity = (SearchEntity) hmData.get("search_entity");
         }
+
     }
 
-    public void setDelegate(ListProductsDelegate delegate) {
+    public void setDelegate(ListAbandonedCartsDelegate delegate) {
         mDelegate = delegate;
-    }
-
-    public RecyclerView.OnScrollListener getOnListScroll() {
-        return mOnListScroll;
     }
 
     public void setData(HashMap<String, Object> hmData) {
         this.hmData = hmData;
+    }
+
+    public RecyclerView.OnScrollListener getOnListScroll() {
+        return mOnListScroll;
     }
 
     public View.OnClickListener getOnNextPageClick() {

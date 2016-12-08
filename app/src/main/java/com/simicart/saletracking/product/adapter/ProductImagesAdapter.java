@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.adapter;
+package com.simicart.saletracking.product.adapter;
 
 import android.content.Context;
 import android.graphics.Color;

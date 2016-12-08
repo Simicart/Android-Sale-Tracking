@@ -1,4 +1,4 @@
-package com.simicart.saletracking.products.adapter;
+package com.simicart.saletracking.product.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.products.entity.ProductEntity;
+import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
