@@ -5,6 +5,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
 import com.simicart.saletracking.dashboard.request.ListSalesRequest;
@@ -17,12 +18,33 @@ import com.simicart.saletracking.order.request.ListOrdersRequest;
 public class DashboardController extends AppController {
 
     protected DashboardDelegate mDelegate;
+    protected int mTotalStep = 0;
+    protected int mCurrentStep = 0;
 
     @Override
     public void onStart() {
-        requestSales();
-        requestLatestOrders();
-        requestLatestCustomers();
+
+        mDelegate.showLoading();
+
+        if(AppPreferences.getShowSaleReport()) {
+            mTotalStep++;
+            requestSales();
+        }
+
+        if(AppPreferences.getShowLatestOrder()) {
+            mTotalStep++;
+            requestLatestOrders();
+        }
+
+        if(AppPreferences.getShowLatestCustomer()) {
+            mTotalStep++;
+            requestLatestCustomers();
+        }
+
+        if(mTotalStep == 0) {
+            mDelegate.dismissLoading();
+        }
+
     }
 
     @Override
@@ -31,19 +53,18 @@ public class DashboardController extends AppController {
     }
 
     protected void requestSales() {
-        mDelegate.showLoading();
         ListSalesRequest listSalesRequest = new ListSalesRequest();
         listSalesRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                mDelegate.dismissLoading();
                 mDelegate.showChart(collection);
+                checkStep();
             }
         });
         listSalesRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                mDelegate.dismissLoading();
+                checkStep();
                 AppNotify.getInstance().showError(message);
             }
         });
@@ -61,12 +82,14 @@ public class DashboardController extends AppController {
             @Override
             public void onSuccess(AppCollection collection) {
                 mDelegate.showLatestOrders(collection);
+                checkStep();
             }
         });
         listOrdersRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-
+                checkStep();
+                AppNotify.getInstance().showError(message);
             }
         });
         listOrdersRequest.setExtendUrl("orders");
@@ -82,12 +105,14 @@ public class DashboardController extends AppController {
             @Override
             public void onSuccess(AppCollection collection) {
                 mDelegate.showLatestCustomers(collection);
+                checkStep();
             }
         });
         listCustomersRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-
+                checkStep();
+                AppNotify.getInstance().showError(message);
             }
         });
         listCustomersRequest.setExtendUrl("customers");
@@ -95,6 +120,13 @@ public class DashboardController extends AppController {
         listCustomersRequest.addParam("limit", "5");
         listCustomersRequest.addParam("offset", "0");
         listCustomersRequest.request();
+    }
+
+    protected void checkStep() {
+        mCurrentStep++;
+        if(mCurrentStep == mTotalStep) {
+            mDelegate.dismissLoading();
+        }
     }
 
     public void setDelegate(DashboardDelegate delegate) {

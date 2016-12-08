@@ -32,6 +32,7 @@ import com.simicart.saletracking.product.fragment.ListProductsFragment;
 import com.simicart.saletracking.product.fragment.ProductDescriptionFragment;
 import com.simicart.saletracking.product.fragment.ProductDetailFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
+import com.simicart.saletracking.setting.SettingFragment;
 
 import java.util.HashMap;
 
@@ -271,6 +272,13 @@ public class AppManager {
         abandonedCartDetailFragment.setFragmentName("Cart Detail");
         abandonedCartDetailFragment.setDetail(true);
         replaceFragment(abandonedCartDetailFragment);
+    }
+
+    public void openSetting() {
+        SettingFragment settingFragment = SettingFragment.newInstance();
+        settingFragment.setFragmentName("Setting");
+        settingFragment.setDetail(false);
+        replaceFragment(settingFragment);
     }
 
     public void openSearch(HashMap<String,Object> hmData) {

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_paging_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_10"
+        android:background="@color/colorSection"
+        android:textSize="@dimen/text_16"
+        android:text="PAGING"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_10">
+
+        <TextView
+            android:id="@+id/tv_paging"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_item_shown_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_10"
+        android:background="@color/colorSection"
+        android:textSize="@dimen/text_16"
+        android:text="ITEMS SHOWN ON DASHBOARD"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_item_sale_report"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/size_10"
+            android:paddingBottom="@dimen/size_10"
+            android:paddingEnd="@dimen/size_10"
+            android:layout_marginStart="@dimen/size_10"
+            android:background="@drawable/bottom_line_border">
+
+            <TextView
+                android:id="@+id/tv_item_sale_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/sw_item_sale_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                app:theme="@style/SwitchStyle"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_item_latest_customer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/size_10"
+            android:paddingBottom="@dimen/size_10"
+            android:paddingEnd="@dimen/size_10"
+            android:layout_marginStart="@dimen/size_10"
+            android:background="@drawable/bottom_line_border">
+
+            <TextView
+                android:id="@+id/tv_item_latest_customer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/sw_item_latest_customer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                app:theme="@style/SwitchStyle"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_item_latest_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/size_10"
+            android:paddingBottom="@dimen/size_10"
+            android:paddingEnd="@dimen/size_10"
+            android:layout_marginStart="@dimen/size_10"
+            android:background="@drawable/bottom_line_border">
+
+            <TextView
+                android:id="@+id/tv_item_latest_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"/>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/sw_item_latest_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                app:theme="@style/SwitchStyle"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

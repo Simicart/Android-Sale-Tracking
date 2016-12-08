@@ -2,6 +2,7 @@ package com.simicart.saletracking.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.simicart.saletracking.base.manager.AppManager;
 
@@ -20,6 +21,10 @@ public class AppPreferences {
     private static final String CUSTOMER_URL = "customerUrl";
     private static final String CUSTOMER_EMAIL = "customerEmail";
     private static final String CUSTOMER_PASSWORD = "customerPassword";
+    private static final String PAGING = "paging";
+    private static final String DASHBOARD_SHOW_SALE_REPORT = "dashboardShowSaleReport";
+    private static final String DASHBOARD_SHOW_LATEST_CUSTOMERS = "dashboardShowLatestCustomers";
+    private static final String DASHBOARD_SHOW_LATEST_ORDERS = "dashboardShowLatestOrders";
 
     public static void init() {
         mContext = AppManager.getInstance().getCurrentActivity();
@@ -111,6 +116,62 @@ public class AppPreferences {
         editor.putString(CUSTOMER_EMAIL, null);
         editor.putString(CUSTOMER_PASSWORD, null);
         editor.commit();
+    }
+
+    public static void setShowSaleReport(boolean show) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putBoolean(DASHBOARD_SHOW_SALE_REPORT, show);
+        editor.commit();
+    }
+
+    public static boolean getShowSaleReport() {
+        boolean show = true;
+        if(mSharedPre != null) {
+            show = mSharedPre.getBoolean(DASHBOARD_SHOW_SALE_REPORT, true);
+        }
+        return show;
+    }
+
+    public static void setShowLatestCustomer(boolean show) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putBoolean(DASHBOARD_SHOW_LATEST_CUSTOMERS, show);
+        editor.commit();
+    }
+
+    public static boolean getShowLatestCustomer() {
+        boolean show = true;
+        if(mSharedPre != null) {
+            show = mSharedPre.getBoolean(DASHBOARD_SHOW_LATEST_CUSTOMERS, true);
+        }
+        return show;
+    }
+
+    public static void setShowLatestOrder(boolean show) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putBoolean(DASHBOARD_SHOW_LATEST_ORDERS, show);
+        editor.commit();
+    }
+
+    public static boolean getShowLatestOrder() {
+        boolean show = true;
+        if(mSharedPre != null) {
+            show = mSharedPre.getBoolean(DASHBOARD_SHOW_LATEST_ORDERS, true);
+        }
+        return show;
+    }
+
+    public static void setPaging(int paging) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putInt(PAGING, paging);
+        editor.commit();
+    }
+
+    public static int getPaging() {
+        int paging = 30;
+        if(mSharedPre != null) {
+            paging = mSharedPre.getInt(PAGING, 30);
+        }
+        return paging;
     }
 
 }
