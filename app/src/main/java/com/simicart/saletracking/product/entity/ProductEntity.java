@@ -71,7 +71,7 @@ public class ProductEntity extends AppEntity {
                 mProductImages = new ArrayList<>();
                 for (int i = 0; i < imagesArr.length(); i++) {
                     JSONObject imageObj = imagesArr.getJSONObject(i);
-                    if(imageObj.has(URL)) {
+                    if (imageObj.has(URL)) {
                         mProductImages.add(imageObj.getString(URL));
                     }
                 }

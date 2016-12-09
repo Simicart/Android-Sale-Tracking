@@ -1,4 +1,4 @@
-package com.simicart.saletracking.menu.top;
+package com.simicart.saletracking.menutop;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.order.controller.ListOrdersController;
 import com.simicart.saletracking.store.apdater.StoreViewAdapter;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
@@ -56,7 +55,7 @@ public class MenuTopController {
         ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isOnDetail) {
+                if (isOnDetail) {
                     AppManager.getInstance().backToPreviousFragment();
                 } else {
                     AppManager.getInstance().openDrawer();
@@ -65,13 +64,13 @@ public class MenuTopController {
         });
 
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        tvTitle.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvTitle.setTextColor(Color.WHITE);
 
         spStore = (Spinner) rootView.findViewById(R.id.sp_store);
         spStore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(!isFirstRun) {
+                if (!isFirstRun) {
                     AppManager.getInstance().setStoreID(mListStoreViews.get(i).getStoreID());
                     mListOrdersController.onStart();
                 } else {
@@ -116,7 +115,7 @@ public class MenuTopController {
     }
 
     public void setOnDetail(boolean isDetail) {
-        if(isDetail) {
+        if (isDetail) {
             ivMenu.setImageResource(R.drawable.ic_back);
             isOnDetail = true;
         } else {
@@ -130,7 +129,7 @@ public class MenuTopController {
     }
 
     public void setListStoreViews(ArrayList<StoreViewEntity> listStoreViews) {
-        if(listStoreViews == null) {
+        if (listStoreViews == null) {
             rlStore.setVisibility(View.INVISIBLE);
         } else {
             mListStoreViews = new ArrayList<>();

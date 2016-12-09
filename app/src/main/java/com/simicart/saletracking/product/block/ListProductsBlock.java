@@ -1,5 +1,6 @@
 package com.simicart.saletracking.product.block;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +14,9 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
-import com.simicart.saletracking.product.entity.ProductEntity;
 import com.simicart.saletracking.product.adapter.ListProductsAdapter;
 import com.simicart.saletracking.product.delegate.ListProductsDelegate;
+import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.util.ArrayList;
 
@@ -44,7 +45,7 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
 
         tvPage = (TextView) mView.findViewById(R.id.tv_page);
-        tvPage.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvPage.setTextColor(Color.WHITE);
 
         llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);
@@ -56,10 +57,10 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
 
     @Override
     public void updateView(AppCollection collection) {
-        if(collection != null) {
+        if (collection != null) {
             ArrayList<ProductEntity> listProducts = (ArrayList<ProductEntity>) collection.getDataWithKey("products");
-            if(listProducts != null && listProducts.size() > 0) {
-                if(mAdapter == null) {
+            if (listProducts != null && listProducts.size() > 0) {
+                if (mAdapter == null) {
                     mAdapter = new ListProductsAdapter(listProducts);
                     rvProducts.setAdapter(mAdapter);
                 } else {
@@ -72,7 +73,7 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
 
     @Override
     public void showBottom(boolean show) {
-        if(show) {
+        if (show) {
             rlMenuBottom.setVisibility(View.VISIBLE);
         } else {
             rlMenuBottom.setVisibility(View.GONE);

@@ -1,5 +1,6 @@
 package com.simicart.saletracking.dashboard.block;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -58,7 +59,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         tvLatestOrdersTitle = (TextView) mView.findViewById(R.id.tv_latest_orders_title);
         tvLatestOrdersTitle.setText("LATEST ORDERS");
         tvLatestOrdersTitle.setBackgroundColor(AppColor.getInstance().getThemeColor());
-        tvLatestOrdersTitle.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvLatestOrdersTitle.setTextColor(Color.WHITE);
 
         rvLatestOrders = (RecyclerView) mView.findViewById(R.id.rv_latest_orders);
         rvLatestOrders.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -67,33 +68,33 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         tvLatestCustomersTitle = (TextView) mView.findViewById(R.id.tv_latest_customers_title);
         tvLatestCustomersTitle.setText("LATEST CUSTOMERS");
         tvLatestCustomersTitle.setBackgroundColor(AppColor.getInstance().getThemeColor());
-        tvLatestCustomersTitle.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvLatestCustomersTitle.setTextColor(Color.WHITE);
 
         rvLatestCustomers = (RecyclerView) mView.findViewById(R.id.rv_latest_customers);
         rvLatestCustomers.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         rvLatestCustomers.setNestedScrollingEnabled(false);
 
         int gone = 0;
-        if(!AppPreferences.getShowSaleReport()) {
+        if (!AppPreferences.getShowSaleReport()) {
             llTime.setVisibility(View.GONE);
             llChart.setVisibility(View.GONE);
             tlSummary.setVisibility(View.GONE);
             gone++;
         }
 
-        if(!AppPreferences.getShowLatestCustomer()) {
+        if (!AppPreferences.getShowLatestCustomer()) {
             tvLatestCustomersTitle.setVisibility(View.GONE);
             rvLatestCustomers.setVisibility(View.GONE);
             gone++;
         }
 
-        if(!AppPreferences.getShowLatestOrder()) {
+        if (!AppPreferences.getShowLatestOrder()) {
             tvLatestOrdersTitle.setVisibility(View.GONE);
             rvLatestOrders.setVisibility(View.GONE);
             gone++;
         }
 
-        if(gone == 3) {
+        if (gone == 3) {
             showEmptyMessage();
         }
 
@@ -105,14 +106,14 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void showChart(AppCollection collection) {
-        if(collection != null) {
-            if(collection.containKey("sale")) {
+        if (collection != null) {
+            if (collection.containKey("sale")) {
                 SaleEntity saleEntity = (SaleEntity) collection.getDataWithKey("sale");
-                if(saleEntity != null) {
+                if (saleEntity != null) {
                     ChartComponent chartComponent = new ChartComponent();
                     chartComponent.setSaleEntity(saleEntity);
                     View chartView = chartComponent.createView();
-                    if(chartView != null) {
+                    if (chartView != null) {
                         llChart.removeAllViewsInLayout();
                         llChart.addView(chartView);
                     }
@@ -125,9 +126,9 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void showLatestOrders(AppCollection collection) {
-        if(collection != null) {
+        if (collection != null) {
             ArrayList<OrderEntity> listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
-            if(listOrders != null && listOrders.size() > 0) {
+            if (listOrders != null && listOrders.size() > 0) {
                 LatestOrdersAdapter latestOrdersAdapter = new LatestOrdersAdapter(listOrders);
                 rvLatestOrders.setAdapter(latestOrdersAdapter);
             }
@@ -136,7 +137,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void showLatestCustomers(AppCollection collection) {
-        if(collection != null) {
+        if (collection != null) {
             if (collection.containKey("customers")) {
                 ArrayList<CustomerEntity> listCustomers = (ArrayList<CustomerEntity>) collection.getDataWithKey("customers");
                 if (listCustomers != null && listCustomers.size() > 0) {
@@ -151,46 +152,46 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         tlSummary = (TableLayout) mView.findViewById(R.id.tl_summary);
 
         tvRevenueLabel = (TextView) mView.findViewById(R.id.tv_revenue_label);
-        tvRevenueLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvRevenueLabel.setTextColor(Color.BLACK);
         tvRevenueLabel.setText("Revenue");
 
         tvRevenue = (TextView) mView.findViewById(R.id.tv_revenue);
-        tvRevenue.setTextColor(AppColor.getInstance().getBlackColor());
+        tvRevenue.setTextColor(Color.BLACK);
 
         tvTaxLabel = (TextView) mView.findViewById(R.id.tv_tax_label);
-        tvTaxLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvTaxLabel.setTextColor(Color.BLACK);
         tvTaxLabel.setText("Tax");
 
         tvTax = (TextView) mView.findViewById(R.id.tv_tax);
-        tvTax.setTextColor(AppColor.getInstance().getBlackColor());
+        tvTax.setTextColor(Color.BLACK);
 
         tvShippingLabel = (TextView) mView.findViewById(R.id.tv_shipping_label);
-        tvShippingLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvShippingLabel.setTextColor(Color.BLACK);
         tvShippingLabel.setText("Shipping");
 
         tvShipping = (TextView) mView.findViewById(R.id.tv_shipping);
-        tvShipping.setTextColor(AppColor.getInstance().getBlackColor());
+        tvShipping.setTextColor(Color.BLACK);
 
         tvQuantityLabel = (TextView) mView.findViewById(R.id.tv_quantity_label);
-        tvQuantityLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvQuantityLabel.setTextColor(Color.BLACK);
         tvQuantityLabel.setText("Quantity");
 
         tvQuantity = (TextView) mView.findViewById(R.id.tv_quantity);
-        tvQuantity.setTextColor(AppColor.getInstance().getBlackColor());
+        tvQuantity.setTextColor(Color.BLACK);
 
         tvLifeTimeSaleLabel = (TextView) mView.findViewById(R.id.tv_lifetime_sale_label);
-        tvLifeTimeSaleLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvLifeTimeSaleLabel.setTextColor(Color.BLACK);
         tvLifeTimeSaleLabel.setText("Lifetime Sale");
 
         tvLifeTimeSale = (TextView) mView.findViewById(R.id.tv_lifetime_sale);
-        tvLifeTimeSale.setTextColor(AppColor.getInstance().getBlackColor());
+        tvLifeTimeSale.setTextColor(Color.BLACK);
 
         tvAverageLabel = (TextView) mView.findViewById(R.id.tv_average_label);
-        tvAverageLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvAverageLabel.setTextColor(Color.BLACK);
         tvAverageLabel.setText("Average");
 
         tvAverage = (TextView) mView.findViewById(R.id.tv_average);
-        tvAverage.setTextColor(AppColor.getInstance().getBlackColor());
+        tvAverage.setTextColor(Color.BLACK);
     }
 
     protected void showTotal(SaleEntity saleEntity) {
@@ -218,7 +219,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     public void showEmptyMessage() {
         ((ViewGroup) mView).removeAllViewsInLayout();
         TextView tvEmpty = new TextView(mContext);
-        tvEmpty.setTextColor(AppColor.getInstance().getBlackColor());
+        tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("Nothing to show");
         tvEmpty.setTypeface(null, Typeface.BOLD);
         tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);

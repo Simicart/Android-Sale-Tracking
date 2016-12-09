@@ -2,7 +2,6 @@ package com.simicart.saletracking.login.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +31,7 @@ public class LoginFragment extends AppFragment {
 
         mBlock = new LoginBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new LoginController();
             mController.setDelegate(mBlock);
             mController.onStart();

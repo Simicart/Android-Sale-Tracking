@@ -36,10 +36,10 @@ public class ListProductsFragment extends AppFragment {
 
         mBlock = new ListProductsBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new ListProductsController();
             mController.setDelegate(mBlock);
-            if(mData != null) {
+            if (mData != null) {
                 mController.setData(mData.getData());
             }
             mController.onStart();

@@ -1,12 +1,9 @@
 package com.simicart.saletracking.base.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -57,16 +54,16 @@ public class AppFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("data",mData);
+        outState.putParcelable("data", mData);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if(Utils.validateString(mFragmentName)) {
+        if (Utils.validateString(mFragmentName)) {
             AppManager.getInstance().getMenuTopController().setTitle(mFragmentName);
-            if(mFragmentName.equals("Orders")) {
+            if (mFragmentName.equals("Orders")) {
                 AppManager.getInstance().getMenuTopController().showStorePicker(true);
             } else {
                 AppManager.getInstance().getMenuTopController().showStorePicker(false);
@@ -77,14 +74,14 @@ public class AppFragment extends Fragment {
 
         if (savedInstanceState != null) {
             getDataFromBundle();
-            Log.e("AppFragment ","onActivityCreated RESTORE DATA ");
+            Log.e("AppFragment ", "onActivityCreated RESTORE DATA ");
         } else {
             if (mData != null) {
                 //returning from backstack, data is fine, do nothing
-                Log.e("AppFragment ","onActivityCreated DATA NOOT NULL");
+                Log.e("AppFragment ", "onActivityCreated DATA NOOT NULL");
             } else {
                 //newly created, compute data
-                Log.e("AppFragment ","onActivityCreated DATA NULL");
+                Log.e("AppFragment ", "onActivityCreated DATA NULL");
             }
         }
     }

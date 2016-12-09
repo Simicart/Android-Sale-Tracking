@@ -14,7 +14,7 @@ public class AppNotify {
     public static AppNotify instance;
 
     public static AppNotify getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AppNotify();
         }
         return instance;

@@ -9,10 +9,11 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
-import com.simicart.saletracking.order.delegate.ListOrdersDelegate;
 import com.simicart.saletracking.layer.entity.LayerEntity;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
+import com.simicart.saletracking.order.delegate.ListOrdersDelegate;
 import com.simicart.saletracking.order.request.ListOrdersRequest;
 import com.simicart.saletracking.search.entity.SearchEntity;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
@@ -45,12 +46,12 @@ public class ListOrdersController extends AppController {
     protected int mCurrentPage = 1;
     protected int mTotalPage;
     protected int mOffset = 0;
-    protected int mLimit = 30;
+    protected int mLimit = AppPreferences.getPaging();
     protected boolean isFirstRequest = true;
 
     @Override
     public void onStart() {
-        if(AppManager.getInstance().getMenuTopController().getListStoreViews() == null) {
+        if (AppManager.getInstance().getMenuTopController().getListStoreViews() == null) {
             requestListStoreViews();
         }
         parseData();
@@ -69,8 +70,8 @@ public class ListOrdersController extends AppController {
         getStoreRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if(collection != null) {
-                    if(collection.containKey("stores")) {
+                if (collection != null) {
+                    if (collection.containKey("stores")) {
                         ArrayList<StoreViewEntity> listStores = (ArrayList<StoreViewEntity>) collection.getDataWithKey("stores");
                         AppManager.getInstance().getMenuTopController().setListStoreViews(listStores);
                     }
@@ -82,7 +83,7 @@ public class ListOrdersController extends AppController {
     }
 
     protected void requestListOrders() {
-        if(mListOrdersRequest == null) {
+        if (mListOrdersRequest == null) {
             mListOrdersRequest = new ListOrdersRequest();
             mDelegate.showLoading();
         } else {
@@ -91,14 +92,14 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                     isFirstRequest = false;
                 } else {
                     mDelegate.dismissDialogLoading();
                 }
                 mCollection = collection;
-                if(collection != null) {
+                if (collection != null) {
                     if (collection.containKey("total")) {
                         int totalResult = (int) collection.getDataWithKey("total");
                         mTotalPage = totalResult / 30;
@@ -114,7 +115,7 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                 } else {
                     mDelegate.dismissDialogLoading();
@@ -127,19 +128,19 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.addParam("limit", String.valueOf(mLimit));
         mListOrdersRequest.addParam("offset", String.valueOf(mOffset));
         mListOrdersRequest.addParam("store_id", AppManager.getInstance().getStoreID());
-        if(mSearchEntity != null) {
+        if (mSearchEntity != null) {
             mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
         }
-        if(mStatusFilter != null) {
+        if (mStatusFilter != null) {
             mListOrdersRequest.addFilterParam(mStatusFilter.getKey(), mStatusFilter.getValue());
         }
-        if(mSortEntity != null) {
+        if (mSortEntity != null) {
             mListOrdersRequest.addSortParam(mSortEntity.getKey());
             mListOrdersRequest.addParam("dir", mSortEntity.getValue());
         } else {
             mListOrdersRequest.addSortDirDESCParam();
         }
-        if(mTimeEntity != null) {
+        if (mTimeEntity != null) {
             TimeLayerEntity timeLayerEntity = (TimeLayerEntity) mTimeEntity;
             mListOrdersRequest.addParam(timeLayerEntity.getFromDateKey(), timeLayerEntity.getFromDate());
             mListOrdersRequest.addParam(timeLayerEntity.getToDateKey(), timeLayerEntity.getToDate());
@@ -170,9 +171,9 @@ public class ListOrdersController extends AppController {
         mOnNextPageClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCurrentPage < mTotalPage) {
+                if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
-                    mOffset+=mLimit;
+                    mOffset += mLimit;
                     requestListOrders();
                 }
             }
@@ -181,9 +182,9 @@ public class ListOrdersController extends AppController {
         mOnPreviousPageClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCurrentPage > 1) {
+                if (mCurrentPage > 1) {
                     mCurrentPage--;
-                    mOffset-=mLimit;
+                    mOffset -= mLimit;
                     requestListOrders();
                 }
             }
@@ -192,7 +193,7 @@ public class ListOrdersController extends AppController {
         mOnSearchClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("search_entity", mSearchEntity);
@@ -204,11 +205,11 @@ public class ListOrdersController extends AppController {
         mOnStatusFilterClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("status_layer", mStatusFilter);
-                if(mCollection.containKey("layer_status")) {
+                if (mCollection.containKey("layer_status")) {
                     hmData.put("list_status_layer", (ArrayList<LayerEntity>) mCollection.getDataWithKey("layer_status"));
                 }
                 hmData.put("from", Constants.Layer.FILTER);
@@ -220,7 +221,7 @@ public class ListOrdersController extends AppController {
         mOnSortClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("sort_layer", mSortEntity);
@@ -233,7 +234,7 @@ public class ListOrdersController extends AppController {
         mOnTimeFilterClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("time_layer", mTimeEntity);
@@ -246,23 +247,23 @@ public class ListOrdersController extends AppController {
     }
 
     protected void parseData() {
-        if(hmData != null) {
-            if(hmData.containsKey("search_entity")) {
+        if (hmData != null) {
+            if (hmData.containsKey("search_entity")) {
                 mSearchEntity = (SearchEntity) hmData.get("search_entity");
             } else {
                 mSearchEntity = null;
             }
-            if(hmData.containsKey("status_layer")) {
+            if (hmData.containsKey("status_layer")) {
                 mStatusFilter = (LayerEntity) hmData.get("status_layer");
             } else {
                 mStatusFilter = null;
             }
-            if(hmData.containsKey("sort_layer")) {
+            if (hmData.containsKey("sort_layer")) {
                 mSortEntity = (LayerEntity) hmData.get("sort_layer");
             } else {
                 mSortEntity = null;
             }
-            if(hmData.containsKey("time_layer")) {
+            if (hmData.containsKey("time_layer")) {
                 mTimeEntity = (LayerEntity) hmData.get("time_layer");
             } else {
                 mTimeEntity = null;

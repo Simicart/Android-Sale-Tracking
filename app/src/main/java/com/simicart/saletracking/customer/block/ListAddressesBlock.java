@@ -1,5 +1,6 @@
 package com.simicart.saletracking.customer.block;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -12,7 +13,6 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.customer.component.AddressComponent;
 import com.simicart.saletracking.customer.entity.AddressEntity;
 
@@ -37,9 +37,9 @@ public class ListAddressesBlock extends AppBlock {
 
     @Override
     public void updateView(AppCollection collection) {
-        if(collection != null && collection.containKey("addresses")) {
+        if (collection != null && collection.containKey("addresses")) {
             ArrayList<AddressEntity> listAddresses = (ArrayList<AddressEntity>) collection.getDataWithKey("addresses");
-            if(listAddresses.size() > 0) {
+            if (listAddresses.size() > 0) {
                 llAddresses.removeAllViewsInLayout();
                 for (AddressEntity addressEntity : listAddresses) {
                     AddressComponent addressComponent = new AddressComponent();
@@ -62,7 +62,7 @@ public class ListAddressesBlock extends AppBlock {
     public void showEmptyMessage() {
         ((ViewGroup) mView).removeAllViewsInLayout();
         TextView tvEmpty = new TextView(mContext);
-        tvEmpty.setTextColor(AppColor.getInstance().getBlackColor());
+        tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("Customer's addresses is empty");
         tvEmpty.setTypeface(null, Typeface.BOLD);
         tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);

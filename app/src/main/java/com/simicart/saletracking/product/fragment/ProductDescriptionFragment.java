@@ -34,13 +34,13 @@ public class ProductDescriptionFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_description, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mDescription = (String) getValueWithKey("description");
         }
 
         TextView tvDescription = (TextView) rootView.findViewById(R.id.tv_description);
         tvDescription.setTextColor(Color.BLACK);
-        if(Utils.validateString(mDescription)) {
+        if (Utils.validateString(mDescription)) {
             Utils.setTextHtml(tvDescription, mDescription);
         }
 

@@ -18,7 +18,7 @@ public class AppRequestController {
     private static AppRequestController instance;
 
     public static AppRequestController getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AppRequestController();
         }
         return instance;

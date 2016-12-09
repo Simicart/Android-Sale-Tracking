@@ -9,6 +9,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.customer.delegate.ListCustomersDelegate;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
@@ -34,7 +35,7 @@ public class ListCustomersController extends AppController {
     protected int mCurrentPage = 1;
     protected int mTotalPage;
     protected int mOffset = 0;
-    protected int mLimit = 30;
+    protected int mLimit = AppPreferences.getPaging();
     protected boolean isFirstRequest = true;
 
     @Override
@@ -51,7 +52,7 @@ public class ListCustomersController extends AppController {
     }
 
     protected void requestListCustomers() {
-        if(mListCustomersRequest == null) {
+        if (mListCustomersRequest == null) {
             mListCustomersRequest = new ListCustomersRequest();
             mDelegate.showLoading();
         } else {
@@ -60,14 +61,14 @@ public class ListCustomersController extends AppController {
         mListCustomersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                     isFirstRequest = false;
                 } else {
                     mDelegate.dismissDialogLoading();
                 }
                 mCollection = collection;
-                if(collection != null) {
+                if (collection != null) {
                     if (collection.containKey("total")) {
                         int totalResult = (int) collection.getDataWithKey("total");
                         mTotalPage = totalResult / 30;
@@ -83,7 +84,7 @@ public class ListCustomersController extends AppController {
         mListCustomersRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                 } else {
                     mDelegate.dismissDialogLoading();
@@ -96,7 +97,7 @@ public class ListCustomersController extends AppController {
         mListCustomersRequest.addParam("dir", "desc");
         mListCustomersRequest.addParam("limit", String.valueOf(mLimit));
         mListCustomersRequest.addParam("offset", String.valueOf(mOffset));
-        if(mSearchEntity != null) {
+        if (mSearchEntity != null) {
             mListCustomersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
         }
         mListCustomersRequest.request();
@@ -147,7 +148,7 @@ public class ListCustomersController extends AppController {
         mOnSearchClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("search_entity", mSearchEntity);
@@ -160,7 +161,7 @@ public class ListCustomersController extends AppController {
 
     protected void parseData() {
 
-        if(hmData != null) {
+        if (hmData != null) {
             mSearchEntity = (SearchEntity) hmData.get("search_entity");
         }
 

@@ -2,7 +2,6 @@ package com.simicart.saletracking.cart.entity;
 
 import com.simicart.saletracking.base.entity.AppEntity;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.product.entity.ProductEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  * Created by Glenn on 12/8/2016.
  */
 
-public class AbandonedCartEntity extends AppEntity{
+public class AbandonedCartEntity extends AppEntity {
 
     protected String mID;
     protected String mCustomerEmail;
@@ -54,9 +53,9 @@ public class AbandonedCartEntity extends AppEntity{
         String createdAt = getString(CREATED_AT);
         if (Utils.validateString(createdAt)) {
             String[] splits = null;
-            if(createdAt.contains(" ")) {
+            if (createdAt.contains(" ")) {
                 splits = createdAt.split(" ");
-            } else if(createdAt.contains("T")) {
+            } else if (createdAt.contains("T")) {
                 splits = createdAt.split("T");
             }
             mCreatedAtDate = splits[0];

@@ -17,7 +17,7 @@ public class ProductDetailRequest extends AppRequest {
     protected void parseData() {
         mCollection = new AppCollection();
         try {
-            if(mJSONResult.has("product")) {
+            if (mJSONResult.has("product")) {
                 JSONObject productObj = mJSONResult.getJSONObject("product");
                 ProductEntity productEntity = new ProductEntity();
                 productEntity.parse(productObj);

@@ -1,17 +1,16 @@
 package com.simicart.saletracking.dashboard.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.CustomerEntity;
 
@@ -46,18 +45,18 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
         CustomerEntity customerEntity = listCustomers.get(position);
 
         String customerID = customerEntity.getID();
-        if(Utils.validateString(customerID)) {
+        if (Utils.validateString(customerID)) {
             holder.tvCustomerID.setText(customerID);
         }
 
         String customerFirstName = customerEntity.getFirstName();
         String customerLastName = customerEntity.getLastName();
-        if(Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
+        if (Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
             holder.tvCustomerName.setText(customerFirstName + " " + customerLastName);
         }
 
         String customerEmail = customerEntity.getEmail();
-        if(Utils.validateString(customerEmail)) {
+        if (Utils.validateString(customerEmail)) {
             holder.tvCustomerEmail.setText(customerEmail);
         }
 
@@ -78,9 +77,9 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
             tvCustomerName = (TextView) itemView.findViewById(R.id.tv_customer_name);
             tvCustomerEmail = (TextView) itemView.findViewById(R.id.tv_customer_email);
 
-            tvCustomerID.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCustomerName.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCustomerEmail.setTextColor(AppColor.getInstance().getBlackColor());
+            tvCustomerID.setTextColor(Color.BLACK);
+            tvCustomerName.setTextColor(Color.BLACK);
+            tvCustomerEmail.setTextColor(Color.BLACK);
             tvCustomerEmail.setGravity(Gravity.END);
             tvCustomerEmail.setTypeface(null, Typeface.ITALIC);
         }

@@ -32,7 +32,7 @@ public class AppEntity {
     }
 
     protected float parseFloat(String s) {
-        if(Utils.validateString(s)) {
+        if (Utils.validateString(s)) {
             if (Utils.isFloat(s)) {
                 return Float.parseFloat(s);
             }
@@ -41,7 +41,7 @@ public class AppEntity {
     }
 
     protected int parseInt(String s) {
-        if(Utils.isInteger(s)) {
+        if (Utils.isInteger(s)) {
             return Integer.parseInt(s);
         }
         return 0;

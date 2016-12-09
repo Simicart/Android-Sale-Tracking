@@ -41,7 +41,7 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
     public void onBindViewHolder(ImageHolder holder, int position) {
         String imageUrl = mListImages.get(position);
 
-        if(Utils.validateString(imageUrl)) {
+        if (Utils.validateString(imageUrl)) {
             Glide.with(mContext).load(imageUrl).into(holder.ivProduct);
             holder.tvUrl.setText(imageUrl);
         }

@@ -1,6 +1,7 @@
 package com.simicart.saletracking.order.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,32 +80,32 @@ public class ListOrdersAdapter extends SectioningAdapter {
 
         final OrderEntity orderEntity = mListSections.get(sectionIndex).getListOrders().get(itemIndex);
 
-        if(isEvenItem) {
+        if (isEvenItem) {
             itemViewHolder.llOrderItem.setBackgroundColor(AppColor.getInstance().getSectionColor());
             isEvenItem = false;
         } else {
-            itemViewHolder.llOrderItem.setBackgroundColor(AppColor.getInstance().getWhiteColor());
+            itemViewHolder.llOrderItem.setBackgroundColor(Color.WHITE);
             isEvenItem = true;
         }
 
         String incrementID = orderEntity.getIncrementID();
-        if(Utils.validateString(incrementID)) {
+        if (Utils.validateString(incrementID)) {
             itemViewHolder.tvIncrementID.setText("#" + incrementID);
         }
 
         String customerFirstName = orderEntity.getCustomerFirstName();
         String customerLastName = orderEntity.getCustomerLastName();
-        if(Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
+        if (Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
             itemViewHolder.tvCustomerName.setText(customerFirstName + " " + customerLastName);
         }
 
         String customerEmail = orderEntity.getCustomerEmail();
-        if(Utils.validateString(customerEmail)) {
+        if (Utils.validateString(customerEmail)) {
             itemViewHolder.tvCustomerEmail.setText(customerEmail);
         }
 
         String orderStatus = orderEntity.getStatus();
-        if(Utils.validateString(orderStatus)) {
+        if (Utils.validateString(orderStatus)) {
             itemViewHolder.tvOrderStatus.setText(orderStatus);
             switch (orderStatus) {
                 case "N/A":
@@ -128,27 +129,27 @@ public class ListOrdersAdapter extends SectioningAdapter {
                     itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getOrderProcessingColor());
                     break;
                 default:
-                    itemViewHolder.tvOrderStatus.setTextColor(AppColor.getInstance().getBlackColor());
-                    itemViewHolder.vStatus.setBackgroundColor(AppColor.getInstance().getWhiteColor());
+                    itemViewHolder.tvOrderStatus.setTextColor(Color.BLACK);
+                    itemViewHolder.vStatus.setBackgroundColor(Color.WHITE);
                     break;
             }
         }
 
         String createdAt = orderEntity.getCreatedAtTime();
-        if(Utils.validateString(createdAt)) {
+        if (Utils.validateString(createdAt)) {
             itemViewHolder.tvCreatedAt.setText(createdAt);
         }
 
         String grandTotal = orderEntity.getGrandTotal();
         String currency = orderEntity.getOrderCurrencyCode();
-        if(Utils.validateString(grandTotal) && Utils.validateString(currency)) {
+        if (Utils.validateString(grandTotal) && Utils.validateString(currency)) {
             itemViewHolder.tvGrandTotal.setText(Utils.getPrice(grandTotal, currency));
         }
 
         itemViewHolder.llOrderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("order_id", orderEntity.getID());
                 AppManager.getInstance().openOrderDetail(hmData);
             }
@@ -164,7 +165,7 @@ public class ListOrdersAdapter extends SectioningAdapter {
         OrderSection orderSection = mListSections.get(sectionIndex);
 
         String date = orderSection.getDate();
-        if(Utils.validateString(date)) {
+        if (Utils.validateString(date)) {
             headerViewHolder.tvTime.setText(date);
         }
 
@@ -187,11 +188,11 @@ public class ListOrdersAdapter extends SectioningAdapter {
             llOrderItem = (LinearLayout) itemView.findViewById(R.id.ll_item_order);
             vStatus = (View) itemView.findViewById(R.id.view_status);
 
-            tvIncrementID.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCustomerName.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCustomerEmail.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCreatedAt.setTextColor(AppColor.getInstance().getBlackColor());
-            tvGrandTotal.setTextColor(AppColor.getInstance().getBlackColor());
+            tvIncrementID.setTextColor(Color.BLACK);
+            tvCustomerName.setTextColor(Color.BLACK);
+            tvCustomerEmail.setTextColor(Color.BLACK);
+            tvCreatedAt.setTextColor(Color.BLACK);
+            tvGrandTotal.setTextColor(Color.BLACK);
         }
     }
 
@@ -203,7 +204,7 @@ public class ListOrdersAdapter extends SectioningAdapter {
         public HeaderViewHolder(View itemView) {
             super(itemView);
             tvTime = (TextView) itemView.findViewById(R.id.tv_time);
-            tvTime.setTextColor(AppColor.getInstance().getWhiteColor());
+            tvTime.setTextColor(Color.WHITE);
             llHeader = (LinearLayout) itemView.findViewById(R.id.ll_header);
             llHeader.setBackgroundColor(AppColor.getInstance().getButtonColor());
         }

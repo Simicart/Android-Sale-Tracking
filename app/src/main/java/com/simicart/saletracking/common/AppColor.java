@@ -17,8 +17,6 @@ public class AppColor {
     private final String mThemeColor = "#fc9900";
     private final String mButtonColor = "#F08002";
     private final String mButtonTextColor = "#FFFFFF";
-    private final String mWhite = "#FFFFFF";
-    private final String mBlack = "#000000";
     private final String mSectionColor = "#CACACA";
     private final String mPriceColor = "#ff0000";
 
@@ -31,7 +29,7 @@ public class AppColor {
     public static AppColor instance;
 
     public static AppColor getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AppColor();
         }
         return instance;
@@ -64,14 +62,6 @@ public class AppColor {
 
     public int getThemeColor() {
         return Color.parseColor(mThemeColor);
-    }
-
-    public int getWhiteColor() {
-        return Color.parseColor(mWhite);
-    }
-
-    public int getBlackColor() {
-        return Color.parseColor(mBlack);
     }
 
     public int getSectionColor() {

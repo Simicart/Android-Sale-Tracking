@@ -66,9 +66,9 @@ public class ProductDetailController extends AppController {
                 if (mCollection != null) {
                     if (mCollection.containKey("product")) {
                         ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
-                        if(productEntity != null) {
+                        if (productEntity != null) {
                             String description = productEntity.getDescription();
-                            if(Utils.validateString(description)) {
+                            if (Utils.validateString(description)) {
                                 HashMap<String, Object> hmData = new HashMap<>();
                                 hmData.put("description", description);
                                 hmData.put("title", "Description");
@@ -85,9 +85,9 @@ public class ProductDetailController extends AppController {
             public void onClick(View view) {
                 if (mCollection.containKey("product")) {
                     ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
-                    if(productEntity != null) {
+                    if (productEntity != null) {
                         String shortDescription = productEntity.getShortDescription();
-                        if(Utils.validateString(shortDescription)) {
+                        if (Utils.validateString(shortDescription)) {
                             HashMap<String, Object> hmData = new HashMap<>();
                             hmData.put("description", shortDescription);
                             hmData.put("title", "Short Description");

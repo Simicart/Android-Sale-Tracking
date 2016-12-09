@@ -13,13 +13,13 @@ public class PredicateLayout extends ViewGroup {
         super(context);
     }
 
-    public PredicateLayout(Context context, AttributeSet attrs){
+    public PredicateLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        assert(MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.UNSPECIFIED);
+        assert (MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.UNSPECIFIED);
 
         final int width = MeasureSpec.getSize(widthMeasureSpec);
 
@@ -52,11 +52,11 @@ public class PredicateLayout extends ViewGroup {
         }
         this.line_height = line_height;
 
-        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED){
+        if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.UNSPECIFIED) {
             height = ypos + line_height;
 
-        } else if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST){
-            if (ypos + line_height < height){
+        } else if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
+            if (ypos + line_height < height) {
                 height = ypos + line_height;
             }
         }

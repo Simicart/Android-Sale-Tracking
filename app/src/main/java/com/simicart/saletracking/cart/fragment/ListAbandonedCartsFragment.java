@@ -11,7 +11,6 @@ import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.cart.block.ListAbandonedCartBlock;
 import com.simicart.saletracking.cart.controller.ListAbandonedCartsController;
-import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 
 /**
  * Created by Glenn on 12/8/2016.
@@ -37,10 +36,10 @@ public class ListAbandonedCartsFragment extends AppFragment {
 
         mBlock = new ListAbandonedCartBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new ListAbandonedCartsController();
             mController.setDelegate(mBlock);
-            if(mData != null) {
+            if (mData != null) {
                 mController.setData(mData.getData());
             }
             mController.onStart();

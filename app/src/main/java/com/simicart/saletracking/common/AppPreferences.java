@@ -2,7 +2,6 @@ package com.simicart.saletracking.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.simicart.saletracking.base.manager.AppManager;
 
@@ -68,7 +67,7 @@ public class AppPreferences {
 
     public static String getCustomerUrl() {
         String url = null;
-        if(mSharedPre != null) {
+        if (mSharedPre != null) {
             url = mSharedPre.getString(CUSTOMER_URL, "");
         }
         return url;
@@ -82,7 +81,7 @@ public class AppPreferences {
 
     public static String getCustomerEmail() {
         String url = null;
-        if(mSharedPre != null) {
+        if (mSharedPre != null) {
             url = mSharedPre.getString(CUSTOMER_EMAIL, "");
         }
         return url;
@@ -96,7 +95,7 @@ public class AppPreferences {
 
     public static String getCustomerPassword() {
         String url = null;
-        if(mSharedPre != null) {
+        if (mSharedPre != null) {
             url = mSharedPre.getString(CUSTOMER_PASSWORD, "");
         }
         return url;
@@ -126,7 +125,7 @@ public class AppPreferences {
 
     public static boolean getShowSaleReport() {
         boolean show = true;
-        if(mSharedPre != null) {
+        if (mSharedPre != null) {
             show = mSharedPre.getBoolean(DASHBOARD_SHOW_SALE_REPORT, true);
         }
         return show;
@@ -140,7 +139,7 @@ public class AppPreferences {
 
     public static boolean getShowLatestCustomer() {
         boolean show = true;
-        if(mSharedPre != null) {
+        if (mSharedPre != null) {
             show = mSharedPre.getBoolean(DASHBOARD_SHOW_LATEST_CUSTOMERS, true);
         }
         return show;
@@ -154,7 +153,7 @@ public class AppPreferences {
 
     public static boolean getShowLatestOrder() {
         boolean show = true;
-        if(mSharedPre != null) {
+        if (mSharedPre != null) {
             show = mSharedPre.getBoolean(DASHBOARD_SHOW_LATEST_ORDERS, true);
         }
         return show;
@@ -167,9 +166,9 @@ public class AppPreferences {
     }
 
     public static int getPaging() {
-        int paging = 30;
-        if(mSharedPre != null) {
-            paging = mSharedPre.getInt(PAGING, 30);
+        int paging = 40;
+        if (mSharedPre != null) {
+            paging = mSharedPre.getInt(PAGING, 40);
         }
         return paging;
     }

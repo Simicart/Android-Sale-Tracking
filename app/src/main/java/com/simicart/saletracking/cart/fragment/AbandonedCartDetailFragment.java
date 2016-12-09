@@ -10,8 +10,8 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.cart.block.AbandonedCartDetailBlock;
-import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.cart.controller.AbandonedCartDetailController;
+import com.simicart.saletracking.common.Utils;
 
 /**
  * Created by Glenn on 12/8/2016.
@@ -36,16 +36,16 @@ public class AbandonedCartDetailFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_abandoned_cart_detail, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mAbandonedCartID = (String) getValueWithKey("cart_id");
         }
 
         mBlock = new AbandonedCartDetailBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new AbandonedCartDetailController();
             mController.setDelegate(mBlock);
-            if(Utils.validateString(mAbandonedCartID)) {
+            if (Utils.validateString(mAbandonedCartID)) {
                 mController.setAbandonedCartID(mAbandonedCartID);
             }
             mController.onStart();

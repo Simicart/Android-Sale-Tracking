@@ -3,7 +3,6 @@ package com.simicart.saletracking.cart.request;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.AppRequest;
 import com.simicart.saletracking.cart.entity.AbandonedCartEntity;
-import com.simicart.saletracking.customer.entity.CustomerEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +23,7 @@ public class ListAbandonedCartsRequest extends AppRequest {
             if (mJSONResult.has("abandonedcarts")) {
                 JSONArray cartsArr = mJSONResult.getJSONArray("abandonedcarts");
                 ArrayList<AbandonedCartEntity> listCarts = new ArrayList<>();
-                for(int i=0;i<cartsArr.length();i++) {
+                for (int i = 0; i < cartsArr.length(); i++) {
                     JSONObject cartObj = cartsArr.getJSONObject(i);
                     AbandonedCartEntity cartEntity = new AbandonedCartEntity();
                     cartEntity.parse(cartObj);
@@ -32,7 +31,7 @@ public class ListAbandonedCartsRequest extends AppRequest {
                 }
                 mCollection.putDataWithKey("abandonedcarts", listCarts);
             }
-            if(mJSONResult.has("total")) {
+            if (mJSONResult.has("total")) {
                 int total = mJSONResult.getInt("total");
                 mCollection.putDataWithKey("total", total);
             }

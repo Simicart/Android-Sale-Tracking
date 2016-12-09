@@ -51,7 +51,7 @@ public class SaleEntity extends AppEntity {
         }
 
         JSONObject totalSaleObj = getJSONObjectWithKey(mJSON, TOTAL_SALE);
-        if(totalSaleObj != null) {
+        if (totalSaleObj != null) {
             String revenue = getStringWithKey(totalSaleObj, REVENUE);
             mTotalSaleRevenue = parseFloat(revenue);
 
@@ -66,7 +66,7 @@ public class SaleEntity extends AppEntity {
         }
 
         JSONObject lifetimeSaleObj = getJSONObjectWithKey(mJSON, LIFETIME_SALE);
-        if(lifetimeSaleObj != null) {
+        if (lifetimeSaleObj != null) {
             String lifetime = getStringWithKey(lifetimeSaleObj, LIFETIME);
             mLifeTimeSaleTotal = parseFloat(lifetime);
 

@@ -1,12 +1,12 @@
 package com.simicart.saletracking.customer.component;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.component.AppComponent;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.AddressEntity;
 
@@ -32,107 +32,107 @@ public class AddressComponent extends AppComponent {
         rootView = mInflater.inflate(R.layout.component_address, null);
 
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        tvTitle.setTextColor(AppColor.getInstance().getBlackColor());
-        if(isShowTitle) {
+        tvTitle.setTextColor(Color.BLACK);
+        if (isShowTitle) {
             tvTitle.setVisibility(View.VISIBLE);
         } else {
             tvTitle.setVisibility(View.GONE);
         }
         String id = mAddressEntity.getID();
-        if(Utils.validateString(id)) {
+        if (Utils.validateString(id)) {
             tvTitle.setText("#" + id);
         }
 
         tvFullNameLabel = (TextView) rootView.findViewById(R.id.tv_full_name_label);
-        tvFullNameLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvFullNameLabel.setTextColor(Color.BLACK);
         tvFullNameLabel.setText("Full Name");
 
         tvStreetLabel = (TextView) rootView.findViewById(R.id.tv_street_label);
-        tvStreetLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvStreetLabel.setTextColor(Color.BLACK);
         tvStreetLabel.setText("Street");
 
         tvCityLabel = (TextView) rootView.findViewById(R.id.tv_city_label);
-        tvCityLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCityLabel.setTextColor(Color.BLACK);
         tvCityLabel.setText("City");
 
         tvStateLabel = (TextView) rootView.findViewById(R.id.tv_state_label);
-        tvStateLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvStateLabel.setTextColor(Color.BLACK);
         tvStateLabel.setText("State/Region");
 
         tvCountryLabel = (TextView) rootView.findViewById(R.id.tv_country_label);
-        tvCountryLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCountryLabel.setTextColor(Color.BLACK);
         tvCountryLabel.setText("Country");
 
         tvPhoneLabel = (TextView) rootView.findViewById(R.id.tv_phone_label);
-        tvPhoneLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvPhoneLabel.setTextColor(Color.BLACK);
         tvPhoneLabel.setText("Telephone");
 
         tvPostCodeLabel = (TextView) rootView.findViewById(R.id.tv_post_code_label);
-        tvPostCodeLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvPostCodeLabel.setTextColor(Color.BLACK);
         tvPostCodeLabel.setText("Postcode");
 
         tvEmailLabel = (TextView) rootView.findViewById(R.id.tv_email_label);
-        tvEmailLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvEmailLabel.setTextColor(Color.BLACK);
         tvEmailLabel.setText("Email");
 
         tvFullName = (TextView) rootView.findViewById(R.id.tv_full_name);
-        tvFullName.setTextColor(AppColor.getInstance().getBlackColor());
+        tvFullName.setTextColor(Color.BLACK);
         String fullName = mAddressEntity.getFirstName() + " " + mAddressEntity.getLastName();
-        if(Utils.validateString(fullName)) {
+        if (Utils.validateString(fullName)) {
             tvFullName.setText(fullName);
         }
 
         tvStreet = (TextView) rootView.findViewById(R.id.tv_street);
-        tvStreet.setTextColor(AppColor.getInstance().getBlackColor());
+        tvStreet.setTextColor(Color.BLACK);
         String street = mAddressEntity.getStreet();
-        if(Utils.validateString(street)) {
+        if (Utils.validateString(street)) {
             tvStreet.setText(street);
         }
 
         tvCity = (TextView) rootView.findViewById(R.id.tv_city);
-        tvCity.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCity.setTextColor(Color.BLACK);
         String city = mAddressEntity.getCity();
-        if(Utils.validateString(city)) {
+        if (Utils.validateString(city)) {
             tvCity.setText(city);
         }
 
         tvState = (TextView) rootView.findViewById(R.id.tv_state);
-        tvState.setTextColor(AppColor.getInstance().getBlackColor());
+        tvState.setTextColor(Color.BLACK);
         String state = mAddressEntity.getRegion();
-        if(Utils.validateString(state)) {
+        if (Utils.validateString(state)) {
             tvState.setText(state);
         }
 
         tvCountry = (TextView) rootView.findViewById(R.id.tv_country);
-        tvCountry.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCountry.setTextColor(Color.BLACK);
         String country = mAddressEntity.getCountryName();
-        if(Utils.validateString(country)) {
+        if (Utils.validateString(country)) {
             tvCountry.setText(country);
         }
 
         tvPhone = (TextView) rootView.findViewById(R.id.tv_phone);
-        tvPhone.setTextColor(AppColor.getInstance().getBlackColor());
+        tvPhone.setTextColor(Color.BLACK);
         String phone = mAddressEntity.getPhone();
-        if(Utils.validateString(phone)) {
+        if (Utils.validateString(phone)) {
             tvPhone.setText(phone);
         }
 
         tvPostCode = (TextView) rootView.findViewById(R.id.tv_post_code);
-        tvPostCode.setTextColor(AppColor.getInstance().getBlackColor());
+        tvPostCode.setTextColor(Color.BLACK);
         String postCode = mAddressEntity.getPostCode();
-        if(Utils.validateString(postCode)) {
+        if (Utils.validateString(postCode)) {
             tvPostCode.setText(postCode);
         }
 
         tvEmail = (TextView) rootView.findViewById(R.id.tv_email);
-        tvEmail.setTextColor(AppColor.getInstance().getBlackColor());
+        tvEmail.setTextColor(Color.BLACK);
         String email = mAddressEntity.getEmail();
-        if(Utils.validateString(email)) {
+        if (Utils.validateString(email)) {
             tvEmail.setText(email);
         }
 
         trEmail = (TableRow) rootView.findViewById(R.id.tr_email);
-        if(!isShowEmail) {
+        if (!isShowEmail) {
             trEmail.setVisibility(View.GONE);
         } else {
             trEmail.setVisibility(View.VISIBLE);

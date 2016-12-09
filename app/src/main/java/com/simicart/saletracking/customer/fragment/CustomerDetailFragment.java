@@ -2,7 +2,6 @@ package com.simicart.saletracking.customer.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,13 +35,13 @@ public class CustomerDetailFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_customer_detail, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mCustomerID = (String) getValueWithKey("customer_id");
         }
 
         mBlock = new CustomerDetailBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new CustomerDetailController();
             mController.setDelegate(mBlock);
             mController.setCustomerID(mCustomerID);

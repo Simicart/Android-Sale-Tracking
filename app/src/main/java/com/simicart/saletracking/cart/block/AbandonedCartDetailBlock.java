@@ -12,7 +12,6 @@ import com.simicart.saletracking.cart.entity.AbandonedCartEntity;
 import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.component.OrderedItemsComponent;
-import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.util.ArrayList;
 
@@ -41,10 +40,10 @@ public class AbandonedCartDetailBlock extends AppBlock {
 
     @Override
     public void updateView(AppCollection collection) {
-        if(collection != null) {
-            if(collection.containKey("abandonedcart")) {
+        if (collection != null) {
+            if (collection.containKey("abandonedcart")) {
                 mAbandonedCart = (AbandonedCartEntity) collection.getDataWithKey("abandonedcart");
-                if(mAbandonedCart != null) {
+                if (mAbandonedCart != null) {
                     showSummary();
                     showItems();
                 }
@@ -111,39 +110,39 @@ public class AbandonedCartDetailBlock extends AppBlock {
     protected void showSummary() {
         String grandTotal = mAbandonedCart.getGrandTotal();
         String currency = mAbandonedCart.getQuoteCurrencyCode();
-        if(Utils.validateString(grandTotal)) {
+        if (Utils.validateString(grandTotal)) {
             tvGrandTotal.setText(Utils.getPrice(grandTotal, currency));
         }
 
         String customerEmail = mAbandonedCart.getCustomerEmail();
-        if(Utils.validateString(customerEmail)) {
+        if (Utils.validateString(customerEmail)) {
             tvCustomerEmail.setText(customerEmail);
         }
 
         String ip = mAbandonedCart.getRemoteIP();
-        if(Utils.validateString(ip)) {
+        if (Utils.validateString(ip)) {
             tvCustomerIp.setText(ip);
         }
 
         String updatedAt = mAbandonedCart.getUpdatedAt();
-        if(Utils.validateString(updatedAt)) {
+        if (Utils.validateString(updatedAt)) {
             tvUpdatedAt.setText(updatedAt);
         }
 
         String subTotal = mAbandonedCart.getSubTotal();
-        if(Utils.validateString(subTotal)) {
+        if (Utils.validateString(subTotal)) {
             tvSubTotal.setText(Utils.getPrice(subTotal, currency));
         }
 
         String createdAt = mAbandonedCart.getCreatedAt();
-        if(Utils.validateString(createdAt)) {
+        if (Utils.validateString(createdAt)) {
             tvCreatedAt.setText(createdAt);
         }
     }
 
     protected void showItems() {
         ArrayList<QuoteItemEntity> listQuotes = mAbandonedCart.getListQuotes();
-        if(listQuotes != null) {
+        if (listQuotes != null) {
             OrderedItemsComponent orderedItemsComponent = new OrderedItemsComponent();
             orderedItemsComponent.setCart(true);
             orderedItemsComponent.setListQuotes(listQuotes);

@@ -16,8 +16,6 @@ import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.request.AppCollection;
 
-import org.json.JSONObject;
-
 /**
  * Created by Glenn on 11/24/2016.
  */
@@ -92,7 +90,7 @@ public class AppBlock implements AppDelegate {
                 viewGroup.removeView(progressDialogView);
                 for (int i = 0; i < viewGroup.getChildCount(); i++) {
                     View view = viewGroup.getChildAt(i);
-                    if(!(view instanceof ProgressBar)) {
+                    if (!(view instanceof ProgressBar)) {
                         view.setVisibility(View.VISIBLE);
                     }
                 }

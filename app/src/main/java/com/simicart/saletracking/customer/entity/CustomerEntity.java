@@ -48,9 +48,9 @@ public class CustomerEntity extends AppEntity {
         String createdAt = getString(CREATED_AT);
         if (Utils.validateString(createdAt)) {
             String[] splits = null;
-            if(createdAt.contains(" ")) {
+            if (createdAt.contains(" ")) {
                 splits = createdAt.split(" ");
-            } else if(createdAt.contains("T")) {
+            } else if (createdAt.contains("T")) {
                 splits = createdAt.split("T");
             }
             mCreatedAtDate = splits[0];
@@ -73,13 +73,13 @@ public class CustomerEntity extends AppEntity {
         mDob = getString(DOB);
 
         JSONObject billingObj = getJSONObjectWithKey(mJSON, BILLING_ADDRESS_DATA);
-        if(billingObj != null) {
+        if (billingObj != null) {
             mBillingAddress = new AddressEntity();
             mBillingAddress.parse(billingObj);
         }
 
         JSONObject shippingObj = getJSONObjectWithKey(mJSON, SHIPPING_ADDRESS_DATA);
-        if(shippingObj != null) {
+        if (shippingObj != null) {
             mShippingAddress = new AddressEntity();
             mShippingAddress.parse(shippingObj);
         }

@@ -1,6 +1,7 @@
 package com.simicart.saletracking.customer.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,34 +80,34 @@ public class ListCustomersAdapter extends SectioningAdapter {
 
         final CustomerEntity customerEntity = mListSections.get(sectionIndex).getListCustomers().get(itemIndex);
 
-        if(isEvenItem) {
+        if (isEvenItem) {
             itemViewHolder.llCustomerItem.setBackgroundColor(AppColor.getInstance().getSectionColor());
             isEvenItem = false;
         } else {
-            itemViewHolder.llCustomerItem.setBackgroundColor(AppColor.getInstance().getWhiteColor());
+            itemViewHolder.llCustomerItem.setBackgroundColor(Color.WHITE);
             isEvenItem = true;
         }
 
         String customerID = customerEntity.getID();
-        if(Utils.validateString(customerID)) {
+        if (Utils.validateString(customerID)) {
             itemViewHolder.tvCustomerID.setText(customerID);
         }
 
         String customerFirstName = customerEntity.getFirstName();
         String customerLastName = customerEntity.getLastName();
-        if(Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
+        if (Utils.validateString(customerFirstName) && Utils.validateString(customerLastName)) {
             itemViewHolder.tvCustomerName.setText(customerFirstName + " " + customerLastName);
         }
 
         String customerEmail = customerEntity.getEmail();
-        if(Utils.validateString(customerEmail)) {
+        if (Utils.validateString(customerEmail)) {
             itemViewHolder.tvCustomerEmail.setText(customerEmail);
         }
 
         itemViewHolder.llCustomerItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("customer_id", customerEntity.getID());
                 AppManager.getInstance().openCustomerDetail(hmData);
             }
@@ -122,7 +123,7 @@ public class ListCustomersAdapter extends SectioningAdapter {
         CustomerSection customerSection = mListSections.get(sectionIndex);
 
         String date = customerSection.getDate();
-        if(Utils.validateString(date)) {
+        if (Utils.validateString(date)) {
             headerViewHolder.tvTime.setText(date);
         }
 
@@ -140,9 +141,9 @@ public class ListCustomersAdapter extends SectioningAdapter {
             tvCustomerEmail = (TextView) itemView.findViewById(R.id.tv_customer_email);
             llCustomerItem = (LinearLayout) itemView.findViewById(R.id.ll_item_customer);
 
-            tvCustomerID.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCustomerName.setTextColor(AppColor.getInstance().getBlackColor());
-            tvCustomerEmail.setTextColor(AppColor.getInstance().getBlackColor());
+            tvCustomerID.setTextColor(Color.BLACK);
+            tvCustomerName.setTextColor(Color.BLACK);
+            tvCustomerEmail.setTextColor(Color.BLACK);
         }
     }
 
@@ -154,7 +155,7 @@ public class ListCustomersAdapter extends SectioningAdapter {
         public HeaderViewHolder(View itemView) {
             super(itemView);
             tvTime = (TextView) itemView.findViewById(R.id.tv_time);
-            tvTime.setTextColor(AppColor.getInstance().getWhiteColor());
+            tvTime.setTextColor(Color.WHITE);
             llHeader = (LinearLayout) itemView.findViewById(R.id.ll_header);
             llHeader.setBackgroundColor(AppColor.getInstance().getButtonColor());
         }

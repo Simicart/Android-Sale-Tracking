@@ -66,7 +66,7 @@ public class CustomerDetailController extends AppController {
         mOnCustomerOrderClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<>();
+                HashMap<String, Object> hmData = new HashMap<>();
                 if (mCollection != null) {
                     CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
                     SearchEntity searchEntity = new SearchEntity();
@@ -85,7 +85,7 @@ public class CustomerDetailController extends AppController {
         mOnCustomerAddressesClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<>();
+                HashMap<String, Object> hmData = new HashMap<>();
                 hmData.put("customer_id", mCustomerID);
                 AppManager.getInstance().openListAddresses(hmData);
             }

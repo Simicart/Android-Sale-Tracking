@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,20 +13,14 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
-import com.simicart.saletracking.menu.top.MenuTopController;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import com.simicart.saletracking.menutop.MenuTopController;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -59,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppManager.getInstance().setDrawerLayout(mDrawer);
         AppManager.getInstance().setNavigationView(mNavigationView);
 
-        if(AppPreferences.isSignInComplete()) {
+        if (AppPreferences.isSignInComplete()) {
             AppManager.getInstance().enableDrawer();
         } else {
             AppManager.getInstance().disableDrawer();
@@ -70,8 +65,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
-        if(count == 1) {
-            if(doubleBackToExitPressedOnce) {
+        if (count == 1) {
+            if (doubleBackToExitPressedOnce) {
                 finish();
             }
             this.doubleBackToExitPressedOnce = true;
@@ -81,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         } else {
@@ -130,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     protected void processLogout() {
-        if(AppManager.getInstance().isDemo()) {
+        if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);
         } else {
             AppPreferences.setSignInComplete(false);

@@ -36,10 +36,10 @@ public class ListCustomersFragment extends AppFragment {
 
         mBlock = new ListCustomersBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new ListCustomersController();
             mController.setDelegate(mBlock);
-            if(mData != null) {
+            if (mData != null) {
                 mController.setData(mData.getData());
             }
             mController.onStart();

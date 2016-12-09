@@ -19,7 +19,7 @@ public class DateInMonthValueFormatter implements IAxisValueFormatter {
     public String getFormattedValue(float value, AxisBase axis) {
         int date = (int) value;
         date++;
-        if(date > 0 && date < 10) {
+        if (date > 0 && date < 10) {
             return "0" + date + "/" + month;
         } else {
             return date + "/" + month;

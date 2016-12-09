@@ -1,6 +1,7 @@
 package com.simicart.saletracking.base.manager;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,16 +17,15 @@ import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.cart.fragment.AbandonedCartDetailFragment;
 import com.simicart.saletracking.cart.fragment.ListAbandonedCartsFragment;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.customer.fragment.ListAddressesFragment;
 import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
-import com.simicart.saletracking.login.fragment.LoginFragment;
-import com.simicart.saletracking.menu.top.MenuTopController;
 import com.simicart.saletracking.layer.fragment.LayerFragment;
+import com.simicart.saletracking.login.fragment.LoginFragment;
+import com.simicart.saletracking.menutop.MenuTopController;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
 import com.simicart.saletracking.product.fragment.ListProductsFragment;
@@ -57,7 +57,7 @@ public class AppManager {
     public static AppManager instance;
 
     public static AppManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new AppManager();
         }
         return instance;
@@ -139,27 +139,27 @@ public class AppManager {
         View navHeader = mNavigationView.getHeaderView(0);
         CircleImageView ivAva = (CircleImageView) navHeader.findViewById(R.id.iv_ava);
         TextView tvName = (TextView) navHeader.findViewById(R.id.tv_name);
-        tvName.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvName.setTextColor(Color.WHITE);
         TextView tvEmail = (TextView) navHeader.findViewById(R.id.tv_email);
-        tvEmail.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvEmail.setTextColor(Color.WHITE);
         TextView tvRole = (TextView) navHeader.findViewById(R.id.tv_role);
-        tvRole.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvRole.setTextColor(Color.WHITE);
 
-        if(mCurrentUser != null) {
+        if (mCurrentUser != null) {
             String image = mCurrentUser.getImage();
-            if(Utils.validateString(image)) {
+            if (Utils.validateString(image)) {
                 Glide.with(mCurrentActivity).load(image).into(ivAva);
             }
             String name = mCurrentUser.getTitle();
-            if(Utils.validateString(name)) {
+            if (Utils.validateString(name)) {
                 tvName.setText(name);
             }
             String email = mCurrentUser.getEmail();
-            if(Utils.validateString(email)) {
+            if (Utils.validateString(email)) {
                 tvEmail.setText(email);
             }
             String role = mCurrentUser.getRoleTitle();
-            if(Utils.validateString(role)) {
+            if (Utils.validateString(role)) {
                 tvRole.setText(role);
             }
         }
@@ -171,7 +171,7 @@ public class AppManager {
     }
 
     public void enableDrawer() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED );
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     public void openDrawer() {
@@ -180,7 +180,7 @@ public class AppManager {
 
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
-        String fragmentName = ((AppFragment)fragment).getFragmentName();
+        String fragmentName = ((AppFragment) fragment).getFragmentName();
         mManager.popBackStack(fragmentName,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction.replace(R.id.container, fragment);
@@ -193,7 +193,7 @@ public class AppManager {
     }
 
     public void clearFragments() {
-        while (mManager.getBackStackEntryCount() > 0){
+        while (mManager.getBackStackEntryCount() > 0) {
             mManager.popBackStackImmediate();
         }
     }
@@ -211,35 +211,35 @@ public class AppManager {
         replaceFragment(dashboardFragment);
     }
 
-    public void openListOrders(HashMap<String,Object> hmData) {
+    public void openListOrders(HashMap<String, Object> hmData) {
         ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
         orderFragment.setFragmentName("Orders");
         orderFragment.setDetail(false);
         replaceFragment(orderFragment);
     }
 
-    public void openListCustomers(HashMap<String,Object> hmData) {
+    public void openListCustomers(HashMap<String, Object> hmData) {
         ListCustomersFragment customersFragment = ListCustomersFragment.newInstance(new AppData(hmData));
         customersFragment.setFragmentName("Customers");
         customersFragment.setDetail(false);
         replaceFragment(customersFragment);
     }
 
-    public void openCustomerDetail(HashMap<String,Object> hmData) {
+    public void openCustomerDetail(HashMap<String, Object> hmData) {
         CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance(new AppData(hmData));
         customerDetailFragment.setFragmentName("Customer Detail");
         customerDetailFragment.setDetail(true);
         replaceFragment(customerDetailFragment);
     }
 
-    public void openOrderDetail(HashMap<String,Object> hmData) {
+    public void openOrderDetail(HashMap<String, Object> hmData) {
         OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
         orderDetailFragment.setFragmentName("Order Detail");
         orderDetailFragment.setDetail(true);
         replaceFragment(orderDetailFragment);
     }
 
-    public void openListAddresses(HashMap<String,Object> hmData) {
+    public void openListAddresses(HashMap<String, Object> hmData) {
         ListAddressesFragment listAddressesFragment = ListAddressesFragment.newInstance(new AppData(hmData));
         listAddressesFragment.setFragmentName("Addresses");
         listAddressesFragment.setDetail(true);
@@ -253,7 +253,7 @@ public class AppManager {
         replaceFragment(listProductsFragment);
     }
 
-    public void openProductDetail(HashMap<String,Object> hmData) {
+    public void openProductDetail(HashMap<String, Object> hmData) {
         ProductDetailFragment productDetailFragment = ProductDetailFragment.newInstance(new AppData(hmData));
         productDetailFragment.setFragmentName("product Detail");
         productDetailFragment.setDetail(true);
@@ -281,27 +281,27 @@ public class AppManager {
         replaceFragment(settingFragment);
     }
 
-    public void openSearch(HashMap<String,Object> hmData) {
+    public void openSearch(HashMap<String, Object> hmData) {
         SearchFragment searchFragment = SearchFragment.newInstance(new AppData(hmData));
         searchFragment.setFragmentName("Search");
         searchFragment.setDetail(true);
         replaceFragment(searchFragment);
     }
 
-    public void openLayer(HashMap<String,Object> hmData) {
+    public void openLayer(HashMap<String, Object> hmData) {
         LayerFragment layerFragment = LayerFragment.newInstance(new AppData(hmData));
         layerFragment.setFragmentName("Layer");
         layerFragment.setDetail(true);
         replaceFragment(layerFragment);
     }
 
-    public void openDescription(HashMap<String,Object> hmData) {
+    public void openDescription(HashMap<String, Object> hmData) {
         ProductDescriptionFragment descriptionFragment = ProductDescriptionFragment.newInstance(new AppData(hmData));
         descriptionFragment.setFragmentName("Description");
-        if(hmData != null) {
-            if(hmData.containsKey("title")) {
+        if (hmData != null) {
+            if (hmData.containsKey("title")) {
                 String title = (String) hmData.get("title");
-                if(Utils.validateString(title)) {
+                if (Utils.validateString(title)) {
                     descriptionFragment.setFragmentName(title);
                 }
             }

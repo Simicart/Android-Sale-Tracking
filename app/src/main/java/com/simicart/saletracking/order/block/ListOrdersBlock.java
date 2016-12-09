@@ -1,11 +1,10 @@
 package com.simicart.saletracking.order.block;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,21 +58,21 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
     @Override
     public void updateView(AppCollection collection) {
 
-        if(collection != null) {
-            if(collection.containKey("orders")) {
+        if (collection != null) {
+            if (collection.containKey("orders")) {
                 ArrayList<OrderEntity> listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
-                if(listOrders != null && listOrders.size() > 0) {
+                if (listOrders != null && listOrders.size() > 0) {
                     ArrayList<OrderSection> listSections = new ArrayList<>();
                     int i = 0;
-                    while(i < listOrders.size()) {
+                    while (i < listOrders.size()) {
                         OrderSection orderSection = new OrderSection();
                         orderSection.setDate("");
                         ArrayList<OrderEntity> listOrdersSection = new ArrayList<>();
-                        for(int j=i;j<listOrders.size();j++) {
+                        for (int j = i; j < listOrders.size(); j++) {
                             i++;
                             OrderEntity entity = listOrders.get(j);
                             String date = entity.getCreatedAtDate();
-                            if(orderSection.getDate().equals("")) {
+                            if (orderSection.getDate().equals("")) {
                                 orderSection.setDate(date);
                                 listOrdersSection.add(entity);
                             } else {
@@ -88,7 +87,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
                         orderSection.setListOrders(listOrdersSection);
                         listSections.add(orderSection);
                     }
-                    if(mAdapter == null) {
+                    if (mAdapter == null) {
                         mAdapter = new ListOrdersAdapter(listSections);
                         rvOrders.setAdapter(mAdapter);
                     } else {
@@ -119,7 +118,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
 
         tvPage = (TextView) mView.findViewById(R.id.tv_page);
-        tvPage.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvPage.setTextColor(Color.WHITE);
 
         llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);
@@ -128,7 +127,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
     @Override
     public void showBottom(boolean show) {
-        if(show) {
+        if (show) {
             rlMenuBottom.setVisibility(View.VISIBLE);
         } else {
             rlMenuBottom.setVisibility(View.GONE);

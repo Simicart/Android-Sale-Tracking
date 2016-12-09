@@ -1,5 +1,6 @@
 package com.simicart.saletracking.customer.block;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -7,7 +8,6 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.component.AddressComponent;
 import com.simicart.saletracking.customer.entity.AddressEntity;
@@ -60,97 +60,97 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initSummary() {
 
         tvSummaryTitle = (TextView) mView.findViewById(R.id.tv_summary_title);
-        tvSummaryTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        tvSummaryTitle.setTextColor(Color.BLACK);
         tvSummaryTitle.setText("CUSTOMER SUMMARY");
 
         tvCustomerIDLabel = (TextView) mView.findViewById(R.id.tv_customer_id_label);
-        tvCustomerIDLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerIDLabel.setTextColor(Color.BLACK);
         tvCustomerIDLabel.setText("Customer ID");
 
         tvCustomerEmailLabel = (TextView) mView.findViewById(R.id.tv_customer_email_label);
-        tvCustomerEmailLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerEmailLabel.setTextColor(Color.BLACK);
         tvCustomerEmailLabel.setText("Customer Email");
 
         tvCustomerFirstNameLabel = (TextView) mView.findViewById(R.id.tv_first_name_label);
-        tvCustomerFirstNameLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerFirstNameLabel.setTextColor(Color.BLACK);
         tvCustomerFirstNameLabel.setText("First Name");
 
         tvCustomerLastNameLabel = (TextView) mView.findViewById(R.id.tv_last_name_label);
-        tvCustomerLastNameLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerLastNameLabel.setTextColor(Color.BLACK);
         tvCustomerLastNameLabel.setText("Last Name");
 
         tvCustomerID = (TextView) mView.findViewById(R.id.tv_customer_id);
-        tvCustomerID.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerID.setTextColor(Color.BLACK);
 
         tvCustomerEmail = (TextView) mView.findViewById(R.id.tv_customer_email);
-        tvCustomerEmail.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerEmail.setTextColor(Color.BLACK);
 
         tvCustomerFirstName = (TextView) mView.findViewById(R.id.tv_first_name);
-        tvCustomerFirstName.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerFirstName.setTextColor(Color.BLACK);
 
         tvCustomerLastName = (TextView) mView.findViewById(R.id.tv_last_name);
-        tvCustomerLastName.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCustomerLastName.setTextColor(Color.BLACK);
 
     }
 
     protected void initInfo() {
 
         tvInfoTitle = (TextView) mView.findViewById(R.id.tv_info_title);
-        tvInfoTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        tvInfoTitle.setTextColor(Color.BLACK);
         tvInfoTitle.setText("CUSTOMER INFORMATION");
 
         tvCreatedAtLabel = (TextView) mView.findViewById(R.id.tv_created_at_label);
-        tvCreatedAtLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCreatedAtLabel.setTextColor(Color.BLACK);
         tvCreatedAtLabel.setText("Created At");
 
         tvUpdatedAtLabel = (TextView) mView.findViewById(R.id.tv_updated_at_label);
-        tvUpdatedAtLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvUpdatedAtLabel.setTextColor(Color.BLACK);
         tvUpdatedAtLabel.setText("Last Updated At");
 
         tvActiveLabel = (TextView) mView.findViewById(R.id.tv_active_label);
-        tvActiveLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvActiveLabel.setTextColor(Color.BLACK);
         tvActiveLabel.setText("Is Active");
 
         tvDobLabel = (TextView) mView.findViewById(R.id.tv_dob_label);
-        tvDobLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvDobLabel.setTextColor(Color.BLACK);
         tvDobLabel.setText("Date Of Birth");
 
         tvCreatedInLabel = (TextView) mView.findViewById(R.id.tv_created_in_label);
-        tvCreatedInLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCreatedInLabel.setTextColor(Color.BLACK);
         tvCreatedInLabel.setText("Created In");
 
         tvGenderLabel = (TextView) mView.findViewById(R.id.tv_gender_label);
-        tvGenderLabel.setTextColor(AppColor.getInstance().getBlackColor());
+        tvGenderLabel.setTextColor(Color.BLACK);
         tvGenderLabel.setText("Gender");
 
         tvCreatedAt = (TextView) mView.findViewById(R.id.tv_created_at);
-        tvCreatedAt.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCreatedAt.setTextColor(Color.BLACK);
 
         tvUpdatedAt = (TextView) mView.findViewById(R.id.tv_updated_at);
-        tvUpdatedAt.setTextColor(AppColor.getInstance().getBlackColor());
+        tvUpdatedAt.setTextColor(Color.BLACK);
 
         tvActive = (TextView) mView.findViewById(R.id.tv_active);
-        tvActive.setTextColor(AppColor.getInstance().getBlackColor());
+        tvActive.setTextColor(Color.BLACK);
 
         tvDob = (TextView) mView.findViewById(R.id.tv_dob);
-        tvDob.setTextColor(AppColor.getInstance().getBlackColor());
+        tvDob.setTextColor(Color.BLACK);
 
         tvCreatedIn = (TextView) mView.findViewById(R.id.tv_created_in);
-        tvCreatedIn.setTextColor(AppColor.getInstance().getBlackColor());
+        tvCreatedIn.setTextColor(Color.BLACK);
 
         tvGender = (TextView) mView.findViewById(R.id.tv_gender);
-        tvGender.setTextColor(AppColor.getInstance().getBlackColor());
+        tvGender.setTextColor(Color.BLACK);
 
     }
 
     protected void initOrder() {
 
         tvOrderTitle = (TextView) mView.findViewById(R.id.tv_order_title);
-        tvOrderTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        tvOrderTitle.setTextColor(Color.BLACK);
         tvOrderTitle.setText("CUSTOMER ORDERS");
 
         tvOrder = (TextView) mView.findViewById(R.id.tv_order);
-        tvOrder.setTextColor(AppColor.getInstance().getBlackColor());
+        tvOrder.setTextColor(Color.BLACK);
         tvOrder.setText("VIEW CUSTOMER ORDERS");
 
     }
@@ -158,11 +158,11 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initAddress() {
 
         tvAddressTitle = (TextView) mView.findViewById(R.id.tv_address_title);
-        tvAddressTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        tvAddressTitle.setTextColor(Color.BLACK);
         tvAddressTitle.setText("CUSTOMER ADDRESSES");
 
         tvAddress = (TextView) mView.findViewById(R.id.tv_address);
-        tvAddress.setTextColor(AppColor.getInstance().getBlackColor());
+        tvAddress.setTextColor(Color.BLACK);
         tvAddress.setText("VIEW CUSTOMER ADDRESSES");
 
     }
@@ -170,7 +170,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initBillingAddress() {
 
         tvBillingTitle = (TextView) mView.findViewById(R.id.tv_billing_title);
-        tvBillingTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        tvBillingTitle.setTextColor(Color.BLACK);
         tvBillingTitle.setText("DEFAULT BILLING ADDRESS");
 
         llBillingAddress = (LinearLayout) mView.findViewById(R.id.ll_billing_address);
@@ -180,7 +180,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initShippingAddress() {
 
         tvShippingTitle = (TextView) mView.findViewById(R.id.tv_shipping_title);
-        tvShippingTitle.setTextColor(AppColor.getInstance().getBlackColor());
+        tvShippingTitle.setTextColor(Color.BLACK);
         tvShippingTitle.setText("DEFAULT SHIPPING ADDRESS");
 
         llShippingAddress = (LinearLayout) mView.findViewById(R.id.ll_shipping_address);
@@ -250,7 +250,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void showBilling(CustomerEntity customerEntity) {
 
         AddressEntity billingAddress = customerEntity.getBillingAddress();
-        if(billingAddress != null) {
+        if (billingAddress != null) {
             AddressComponent billingAddressComponent = new AddressComponent();
             billingAddressComponent.setAddressEntity(billingAddress);
             billingAddressComponent.setShowEmail(false);
@@ -264,7 +264,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void showShipping(CustomerEntity customerEntity) {
 
         AddressEntity shippingAddress = customerEntity.getShippingAddress();
-        if(shippingAddress != null) {
+        if (shippingAddress != null) {
             AddressComponent shippingAddressComponent = new AddressComponent();
             shippingAddressComponent.setAddressEntity(shippingAddress);
             shippingAddressComponent.setShowEmail(false);

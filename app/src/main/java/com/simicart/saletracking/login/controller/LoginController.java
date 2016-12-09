@@ -1,7 +1,6 @@
 package com.simicart.saletracking.login.controller;
 
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
@@ -47,7 +46,7 @@ public class LoginController extends AppController {
             public void onClick(View view) {
                 Utils.hideKeyboard();
                 LoginEntity loginEntity = mDelegate.getLoginInfo();
-                if(loginEntity != null) {
+                if (loginEntity != null) {
                     onLoginUser(loginEntity);
                 }
             }
@@ -81,7 +80,7 @@ public class LoginController extends AppController {
         loginDemoRequest.addParam("email", "test@simicart.com");
         loginDemoRequest.addParam("password", "123456");
         loginDemoRequest.addParam("platform", "3");
-        if(Utils.validateString(mDeviceID)) {
+        if (Utils.validateString(mDeviceID)) {
             loginDemoRequest.addParam("device_token", "nontoken_" + mDeviceID);
         }
         loginDemoRequest.request();
@@ -110,7 +109,7 @@ public class LoginController extends AppController {
         loginUserRequest.addParam("email", loginEntity.getEmail());
         loginUserRequest.addParam("password", loginEntity.getPassword());
         loginUserRequest.addParam("platform", "3");
-        if(Utils.validateString(mDeviceID)) {
+        if (Utils.validateString(mDeviceID)) {
             loginUserRequest.addParam("device_token", "nontoken_" + mDeviceID);
         }
         loginUserRequest.request();

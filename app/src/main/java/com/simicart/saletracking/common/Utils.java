@@ -141,18 +141,18 @@ public class Utils {
             number = "0";
         }
         String formattedNumber = df.format(Float.parseFloat(number));
-        if(formattedNumber.contains(".")) {
+        if (formattedNumber.contains(".")) {
             int i = formattedNumber.length();
-            while(true) {
+            while (true) {
                 i--;
                 char c = formattedNumber.charAt(i);
-                if(c == '.') {
-                    formattedNumber = formattedNumber.substring(0, formattedNumber.length()-1);
+                if (c == '.') {
+                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
                     break;
-                } else if(c != '0') {
+                } else if (c != '0') {
                     break;
                 } else {
-                    formattedNumber = formattedNumber.substring(0, formattedNumber.length()-1);
+                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
                 }
             }
             return formattedNumber;

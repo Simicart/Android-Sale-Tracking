@@ -200,7 +200,7 @@ public class ProductDetailBlock extends AppBlock {
 
     protected void showImages() {
         ArrayList<String> images = mProduct.getProductImages();
-        if(images != null) {
+        if (images != null) {
             ProductImagesAdapter adapter = new ProductImagesAdapter(images);
             rvImages.setAdapter(adapter);
         }

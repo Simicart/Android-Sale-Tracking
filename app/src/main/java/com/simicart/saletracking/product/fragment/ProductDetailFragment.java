@@ -36,16 +36,16 @@ public class ProductDetailFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_product_detail, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mProductID = (String) getValueWithKey("product_id");
         }
 
         mBlock = new ProductDetailBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new ProductDetailController();
             mController.setDelegate(mBlock);
-            if(Utils.validateString(mProductID)) {
+            if (Utils.validateString(mProductID)) {
                 mController.setProductID(mProductID);
             }
             mController.onStart();

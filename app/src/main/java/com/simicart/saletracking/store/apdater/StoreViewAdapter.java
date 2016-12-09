@@ -1,5 +1,6 @@
 package com.simicart.saletracking.store.apdater;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,6 @@ import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 
@@ -47,11 +47,11 @@ public class StoreViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         convertView = inflater.inflate(R.layout.adapter_store_view_item, parent, false);
         TextView tvStore = (TextView) convertView.findViewById(R.id.tv_store);
-        tvStore.setTextColor(AppColor.getInstance().getBlackColor());
+        tvStore.setTextColor(Color.BLACK);
 
         StoreViewEntity storeViewEntity = mListStoreViews.get(position);
         String storeViewName = storeViewEntity.getStoreName();
-        if(Utils.validateString(storeViewName)) {
+        if (Utils.validateString(storeViewName)) {
             tvStore.setText(storeViewName);
         }
 

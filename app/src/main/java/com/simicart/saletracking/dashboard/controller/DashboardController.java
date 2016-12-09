@@ -26,22 +26,22 @@ public class DashboardController extends AppController {
 
         mDelegate.showLoading();
 
-        if(AppPreferences.getShowSaleReport()) {
+        if (AppPreferences.getShowSaleReport()) {
             mTotalStep++;
             requestSales();
         }
 
-        if(AppPreferences.getShowLatestOrder()) {
+        if (AppPreferences.getShowLatestOrder()) {
             mTotalStep++;
             requestLatestOrders();
         }
 
-        if(AppPreferences.getShowLatestCustomer()) {
+        if (AppPreferences.getShowLatestCustomer()) {
             mTotalStep++;
             requestLatestCustomers();
         }
 
-        if(mTotalStep == 0) {
+        if (mTotalStep == 0) {
             mDelegate.dismissLoading();
         }
 
@@ -124,7 +124,7 @@ public class DashboardController extends AppController {
 
     protected void checkStep() {
         mCurrentStep++;
-        if(mCurrentStep == mTotalStep) {
+        if (mCurrentStep == mTotalStep) {
             mDelegate.dismissLoading();
         }
     }

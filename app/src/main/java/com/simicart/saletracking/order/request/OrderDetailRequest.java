@@ -17,7 +17,7 @@ public class OrderDetailRequest extends AppRequest {
     protected void parseData() {
         mCollection = new AppCollection();
         try {
-            if(mJSONResult.has("order")) {
+            if (mJSONResult.has("order")) {
                 JSONObject orderObj = mJSONResult.getJSONObject("order");
                 OrderEntity orderEntity = new OrderEntity();
                 orderEntity.parse(orderObj);

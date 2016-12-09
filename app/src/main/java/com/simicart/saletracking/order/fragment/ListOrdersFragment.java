@@ -2,8 +2,6 @@ package com.simicart.saletracking.order.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +12,6 @@ import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.order.block.ListOrdersBlock;
 import com.simicart.saletracking.order.controller.ListOrdersController;
-import com.simicart.saletracking.search.entity.SearchEntity;
-
-import java.util.ArrayList;
 
 /**
  * Created by Glenn on 11/26/2016.
@@ -42,10 +37,10 @@ public class ListOrdersFragment extends AppFragment {
 
         mBlock = new ListOrdersBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new ListOrdersController();
             mController.setDelegate(mBlock);
-            if(mData != null) {
+            if (mData != null) {
                 mController.setData(mData.getData());
             }
             mController.onStart();

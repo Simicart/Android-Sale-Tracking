@@ -31,7 +31,7 @@ public class StoreViewEntity extends AppEntity {
         mStoreName = getString(NAME);
 
         String active = getString(IS_ACTIVE);
-        if(Utils.validateString(active)) {
+        if (Utils.validateString(active)) {
             mIsActive = Utils.getBoolean(active);
         }
 

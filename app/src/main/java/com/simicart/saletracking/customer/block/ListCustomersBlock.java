@@ -1,10 +1,10 @@
 package com.simicart.saletracking.customer.block;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,21 +53,21 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
 
     @Override
     public void updateView(AppCollection collection) {
-        if(collection != null) {
-            if(collection.containKey("customers")) {
+        if (collection != null) {
+            if (collection.containKey("customers")) {
                 ArrayList<CustomerEntity> listCustomers = (ArrayList<CustomerEntity>) collection.getDataWithKey("customers");
-                if(listCustomers != null && listCustomers.size() > 0) {
+                if (listCustomers != null && listCustomers.size() > 0) {
                     ArrayList<CustomerSection> listSections = new ArrayList<>();
                     int i = 0;
-                    while(i < listCustomers.size()) {
+                    while (i < listCustomers.size()) {
                         CustomerSection customerSection = new CustomerSection();
                         customerSection.setDate("");
                         ArrayList<CustomerEntity> listCustomersSection = new ArrayList<>();
-                        for(int j=i;j<listCustomers.size();j++) {
+                        for (int j = i; j < listCustomers.size(); j++) {
                             i++;
                             CustomerEntity entity = listCustomers.get(j);
                             String date = entity.getCreatedAtDate();
-                            if(customerSection.getDate().equals("")) {
+                            if (customerSection.getDate().equals("")) {
                                 customerSection.setDate(date);
                                 listCustomersSection.add(entity);
                             } else {
@@ -82,7 +82,7 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
                         customerSection.setListCustomers(listCustomersSection);
                         listSections.add(customerSection);
                     }
-                    if(mAdapter == null) {
+                    if (mAdapter == null) {
                         mAdapter = new ListCustomersAdapter(listSections);
                         rvCustomers.setAdapter(mAdapter);
                     } else {
@@ -96,7 +96,7 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
 
     @Override
     public void showBottom(boolean show) {
-        if(show) {
+        if (show) {
             rlMenuBottom.setVisibility(View.VISIBLE);
         } else {
             rlMenuBottom.setVisibility(View.GONE);
@@ -113,7 +113,7 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
 
         tvPage = (TextView) mView.findViewById(R.id.tv_page);
-        tvPage.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvPage.setTextColor(Color.WHITE);
 
         llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);

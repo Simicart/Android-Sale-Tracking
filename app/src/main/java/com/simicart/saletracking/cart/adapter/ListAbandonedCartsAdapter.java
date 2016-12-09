@@ -81,49 +81,49 @@ public class ListAbandonedCartsAdapter extends SectioningAdapter {
 
         final AbandonedCartEntity cartEntity = mListSections.get(sectionIndex).getListCarts().get(itemIndex);
 
-        if(isEvenItem) {
+        if (isEvenItem) {
             itemViewHolder.rlCartItem.setBackgroundColor(AppColor.getInstance().getSectionColor());
             isEvenItem = false;
         } else {
-            itemViewHolder.rlCartItem.setBackgroundColor(AppColor.getInstance().getWhiteColor());
+            itemViewHolder.rlCartItem.setBackgroundColor(Color.WHITE);
             isEvenItem = true;
         }
 
         final String cartID = cartEntity.getID();
-        if(Utils.validateString(cartID)) {
+        if (Utils.validateString(cartID)) {
             itemViewHolder.tvCartID.setText(cartID);
         }
 
         String grandTotal = cartEntity.getGrandTotal();
         String currency = cartEntity.getQuoteCurrencyCode();
-        if(Utils.validateString(grandTotal)) {
+        if (Utils.validateString(grandTotal)) {
             itemViewHolder.tvTotalPrice.setText(Utils.getPrice(grandTotal, currency));
         }
 
         String customerEmail = cartEntity.getCustomerEmail();
-        if(Utils.validateString(customerEmail)) {
+        if (Utils.validateString(customerEmail)) {
             itemViewHolder.tvCustomerEmail.setText(customerEmail);
         }
 
         String qty = cartEntity.getItemQty();
-        if(Utils.validateString(qty)) {
+        if (Utils.validateString(qty)) {
             itemViewHolder.tvTotalItem.setText(Utils.formatNumber(qty));
         }
 
         String ip = cartEntity.getRemoteIP();
-        if(Utils.validateString(ip)) {
+        if (Utils.validateString(ip)) {
             itemViewHolder.tvRemoteIP.setText(ip);
         }
 
         String updatedAt = cartEntity.getUpdatedAt();
-        if(Utils.validateString(updatedAt)) {
+        if (Utils.validateString(updatedAt)) {
             itemViewHolder.tvLastUpdated.setText(updatedAt);
         }
 
         itemViewHolder.rlCartItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("cart_id", cartID);
                 AppManager.getInstance().openAbandonedCartDetail(hmData);
             }
@@ -139,7 +139,7 @@ public class ListAbandonedCartsAdapter extends SectioningAdapter {
         AbandonedCartSection customerSection = mListSections.get(sectionIndex);
 
         String date = customerSection.getDate();
-        if(Utils.validateString(date)) {
+        if (Utils.validateString(date)) {
             headerViewHolder.tvTime.setText(date);
         }
 

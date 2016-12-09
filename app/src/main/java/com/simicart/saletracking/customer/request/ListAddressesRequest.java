@@ -23,7 +23,7 @@ public class ListAddressesRequest extends AppRequest {
             if (mJSONResult.has("addresses")) {
                 JSONArray addressesArr = mJSONResult.getJSONArray("addresses");
                 ArrayList<AddressEntity> listAddresses = new ArrayList<>();
-                for(int i=0;i<addressesArr.length();i++) {
+                for (int i = 0; i < addressesArr.length(); i++) {
                     JSONObject addressObj = addressesArr.getJSONObject(i);
                     AddressEntity addressEntity = new AddressEntity();
                     addressEntity.parse(addressObj);

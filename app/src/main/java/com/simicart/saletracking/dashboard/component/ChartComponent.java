@@ -1,7 +1,6 @@
 package com.simicart.saletracking.dashboard.component;
 
 import android.graphics.Color;
-import android.util.Log;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.CombinedChart;
@@ -97,8 +96,8 @@ public class ChartComponent extends AppComponent {
 
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
         ArrayList<ChartEntity> listCharts = saleEntity.getListTotalCharts();
-        if(listCharts != null) {
-            for(ChartEntity chartEntity : listCharts) {
+        if (listCharts != null) {
+            for (ChartEntity chartEntity : listCharts) {
                 entries.add(new BarEntry(listCharts.indexOf(chartEntity), (float) chartEntity.getOrdersCount()));
             }
         }
@@ -122,13 +121,13 @@ public class ChartComponent extends AppComponent {
         ArrayList<ChartEntity> listCharts = saleEntity.getListTotalCharts();
         float maxIncome = 0;
         float minIncome = 0;
-        if(listCharts != null) {
-            for(ChartEntity chartEntity : listCharts) {
+        if (listCharts != null) {
+            for (ChartEntity chartEntity : listCharts) {
                 float income = chartEntity.getTotalIncomeAmount();
-                if(income < minIncome) {
+                if (income < minIncome) {
                     minIncome = income;
                 }
-                if(income > maxIncome) {
+                if (income > maxIncome) {
                     maxIncome = income;
                 }
                 entries.add(new Entry(listCharts.indexOf(chartEntity), income));

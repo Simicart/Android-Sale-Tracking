@@ -1,5 +1,6 @@
 package com.simicart.saletracking.layer.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatButton;
@@ -45,14 +46,14 @@ public class LayerFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_layer, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mTitle = (String) getValueWithKey("title");
             mFrom = (int) getValueWithKey("from");
         }
 
         tvTitle = (TextView) rootView.findViewById(R.id.tv_title);
-        tvTitle.setTextColor(AppColor.getInstance().getBlackColor());
-        if(Utils.validateString(mTitle)) {
+        tvTitle.setTextColor(Color.BLACK);
+        if (Utils.validateString(mTitle)) {
             tvTitle.setText(mTitle);
         }
 
@@ -85,7 +86,7 @@ public class LayerFragment extends AppFragment {
 
         rvLayers = (RecyclerView) rootView.findViewById(R.id.rv_layers);
         rvLayers.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        if(mData != null) {
+        if (mData != null) {
             mAdapter = new LayerAdapter(mHashMapData);
             rvLayers.setAdapter(mAdapter);
         }

@@ -11,6 +11,7 @@ import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.cart.delegate.ListAbandonedCartsDelegate;
 import com.simicart.saletracking.cart.request.ListAbandonedCartsRequest;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
@@ -33,7 +34,7 @@ public class ListAbandonedCartsController extends AppController {
     protected int mCurrentPage = 1;
     protected int mTotalPage;
     protected int mOffset = 0;
-    protected int mLimit = 30;
+    protected int mLimit = AppPreferences.getPaging();
     protected boolean isFirstRequest = true;
 
     @Override
@@ -50,7 +51,7 @@ public class ListAbandonedCartsController extends AppController {
     }
 
     protected void requestListCarts() {
-        if(isFirstRequest) {
+        if (isFirstRequest) {
             mDelegate.showLoading();
         } else {
             mDelegate.showDialogLoading();
@@ -59,14 +60,14 @@ public class ListAbandonedCartsController extends AppController {
         cartsRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                     isFirstRequest = false;
                 } else {
                     mDelegate.dismissDialogLoading();
                 }
                 mCollection = collection;
-                if(collection != null) {
+                if (collection != null) {
                     if (collection.containKey("total")) {
                         int totalResult = (int) collection.getDataWithKey("total");
                         mTotalPage = totalResult / 30;
@@ -82,7 +83,7 @@ public class ListAbandonedCartsController extends AppController {
         cartsRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                 } else {
                     mDelegate.dismissDialogLoading();
@@ -95,7 +96,7 @@ public class ListAbandonedCartsController extends AppController {
         cartsRequest.addParam("dir", "desc");
         cartsRequest.addParam("limit", String.valueOf(mLimit));
         cartsRequest.addParam("offset", String.valueOf(mOffset));
-        if(mSearchEntity != null) {
+        if (mSearchEntity != null) {
             cartsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
         }
         cartsRequest.request();
@@ -146,7 +147,7 @@ public class ListAbandonedCartsController extends AppController {
         mOnSearchClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("search_entity", mSearchEntity);
@@ -159,7 +160,7 @@ public class ListAbandonedCartsController extends AppController {
 
     protected void parseData() {
 
-        if(hmData != null) {
+        if (hmData != null) {
             mSearchEntity = (SearchEntity) hmData.get("search_entity");
         }
 

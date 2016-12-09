@@ -1,5 +1,6 @@
 package com.simicart.saletracking.cart.block;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
@@ -16,9 +17,6 @@ import com.simicart.saletracking.cart.delegate.ListAbandonedCartsDelegate;
 import com.simicart.saletracking.cart.entity.AbandonedCartEntity;
 import com.simicart.saletracking.cart.entity.AbandonedCartSection;
 import com.simicart.saletracking.common.AppColor;
-import com.simicart.saletracking.customer.adapter.ListCustomersAdapter;
-import com.simicart.saletracking.customer.entity.CustomerEntity;
-import com.simicart.saletracking.customer.entity.CustomerSection;
 
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
@@ -55,22 +53,22 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
 
     @Override
     public void updateView(AppCollection collection) {
-        if(collection != null) {
-            if(collection.containKey("abandonedcarts")) {
+        if (collection != null) {
+            if (collection.containKey("abandonedcarts")) {
                 ArrayList<AbandonedCartEntity> listCarts =
                         (ArrayList<AbandonedCartEntity>) collection.getDataWithKey("abandonedcarts");
-                if(listCarts != null && listCarts.size() > 0) {
+                if (listCarts != null && listCarts.size() > 0) {
                     ArrayList<AbandonedCartSection> listSections = new ArrayList<>();
                     int i = 0;
-                    while(i < listCarts.size()) {
+                    while (i < listCarts.size()) {
                         AbandonedCartSection cartSection = new AbandonedCartSection();
                         cartSection.setDate("");
                         ArrayList<AbandonedCartEntity> listCartsSection = new ArrayList<>();
-                        for(int j=i;j<listCarts.size();j++) {
+                        for (int j = i; j < listCarts.size(); j++) {
                             i++;
                             AbandonedCartEntity entity = listCarts.get(j);
                             String date = entity.getCreatedAtDate();
-                            if(cartSection.getDate().equals("")) {
+                            if (cartSection.getDate().equals("")) {
                                 cartSection.setDate(date);
                                 listCartsSection.add(entity);
                             } else {
@@ -85,7 +83,7 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
                         cartSection.setListCarts(listCartsSection);
                         listSections.add(cartSection);
                     }
-                    if(mAdapter == null) {
+                    if (mAdapter == null) {
                         mAdapter = new ListAbandonedCartsAdapter(listSections);
                         rvCarts.setAdapter(mAdapter);
                     } else {
@@ -99,7 +97,7 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
 
     @Override
     public void showBottom(boolean show) {
-        if(show) {
+        if (show) {
             rlMenuBottom.setVisibility(View.VISIBLE);
         } else {
             rlMenuBottom.setVisibility(View.GONE);
@@ -116,7 +114,7 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
 
         tvPage = (TextView) mView.findViewById(R.id.tv_page);
-        tvPage.setTextColor(AppColor.getInstance().getWhiteColor());
+        tvPage.setTextColor(Color.WHITE);
 
         llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);

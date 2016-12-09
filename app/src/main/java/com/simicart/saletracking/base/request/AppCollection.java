@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class AppCollection {
 
     protected JSONObject mJSONObject;
-    protected HashMap<String,Object> hmData;
+    protected HashMap<String, Object> hmData;
 
     public AppCollection() {
         hmData = new HashMap<>();
@@ -38,7 +38,7 @@ public class AppCollection {
     }
 
     public Object getDataWithKey(String key) {
-        if(hmData.containsKey(key)) {
+        if (hmData.containsKey(key)) {
             return hmData.get(key);
         }
         return null;

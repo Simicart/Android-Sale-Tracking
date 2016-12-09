@@ -1,6 +1,7 @@
 package com.simicart.saletracking.order.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
     @Override
     public void onBindViewHolder(ProductCheckoutHolder holder, int position) {
 
-        if(isCart) {
+        if (isCart) {
             showQuoteItem(holder, position);
         } else {
             showProductItem(holder, position);
@@ -60,12 +61,12 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         ProductEntity productEntity = listProducts.get(position);
 
         String name = productEntity.getName();
-        if(Utils.validateString(name)) {
+        if (Utils.validateString(name)) {
             holder.tvName.setText(name);
         }
 
         String sku = productEntity.getSku();
-        if(Utils.validateString(sku)) {
+        if (Utils.validateString(sku)) {
             holder.tvSku.setText("Sku: " + sku);
         }
 
@@ -73,12 +74,12 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         holder.tvPrice.setText(price);
 
         String qty = productEntity.getQuantityOrdered();
-        if(Utils.validateString(qty)) {
+        if (Utils.validateString(qty)) {
             holder.tvQty.setText("Quantity Ordered: " + Utils.formatNumber(qty));
         }
 
         String image = productEntity.getOrderImage();
-        if(Utils.validateString(image)) {
+        if (Utils.validateString(image)) {
             Glide.with(mContext).load(image).into(holder.ivImage);
         }
     }
@@ -87,12 +88,12 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         QuoteItemEntity quoteItemEntity = listQuotes.get(position);
 
         String name = quoteItemEntity.getName();
-        if(Utils.validateString(name)) {
+        if (Utils.validateString(name)) {
             holder.tvName.setText(name);
         }
 
         String sku = quoteItemEntity.getSku();
-        if(Utils.validateString(sku)) {
+        if (Utils.validateString(sku)) {
             holder.tvSku.setText("Sku: " + sku);
         }
 
@@ -100,19 +101,19 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         holder.tvPrice.setText(price);
 
         String qty = quoteItemEntity.getItemsQty();
-        if(Utils.validateString(qty)) {
+        if (Utils.validateString(qty)) {
             holder.tvQty.setText("Quantity: " + Utils.formatNumber(qty));
         }
 
         String image = quoteItemEntity.getOrderImage();
-        if(Utils.validateString(image)) {
+        if (Utils.validateString(image)) {
             Glide.with(mContext).load(image).into(holder.ivImage);
         }
     }
 
     @Override
     public int getItemCount() {
-        if(isCart) {
+        if (isCart) {
             return listQuotes.size();
         } else {
             return listProducts.size();
@@ -127,11 +128,11 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         public ProductCheckoutHolder(View itemView) {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
-            tvName.setTextColor(AppColor.getInstance().getBlackColor());
+            tvName.setTextColor(Color.BLACK);
             tvSku = (TextView) itemView.findViewById(R.id.tv_sku);
-            tvSku.setTextColor(AppColor.getInstance().getBlackColor());
+            tvSku.setTextColor(Color.BLACK);
             tvQty = (TextView) itemView.findViewById(R.id.tv_qty);
-            tvQty.setTextColor(AppColor.getInstance().getBlackColor());
+            tvQty.setTextColor(Color.BLACK);
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
             tvPrice.setTextColor(AppColor.getInstance().getPriceColor());
             ivImage = (ImageView) itemView.findViewById(R.id.iv_image);

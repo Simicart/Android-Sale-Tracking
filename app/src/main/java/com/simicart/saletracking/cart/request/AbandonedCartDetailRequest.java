@@ -17,7 +17,7 @@ public class AbandonedCartDetailRequest extends AppRequest {
     protected void parseData() {
         mCollection = new AppCollection();
         try {
-            if(mJSONResult.has("abandonedcart")) {
+            if (mJSONResult.has("abandonedcart")) {
                 JSONObject cartObj = mJSONResult.getJSONObject("abandonedcart");
                 AbandonedCartEntity cartEntity = new AbandonedCartEntity();
                 cartEntity.parse(cartObj);

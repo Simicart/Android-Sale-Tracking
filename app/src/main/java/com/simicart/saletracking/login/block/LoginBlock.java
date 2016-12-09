@@ -1,8 +1,6 @@
 package com.simicart.saletracking.login.block;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatButton;
 import android.util.Patterns;
 import android.view.View;
@@ -19,10 +17,6 @@ import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
-
-import org.json.JSONObject;
-
-import java.util.regex.Pattern;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -100,12 +94,12 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
         String email = etUser.getText().toString();
         String password = etPass.getText().toString();
 
-        if(!Utils.validateString(url) || !Patterns.WEB_URL.matcher(url).matches()) {
+        if (!Utils.validateString(url) || !Patterns.WEB_URL.matcher(url).matches()) {
             AppNotify.getInstance().showToast("URL is invalid!");
             return null;
         }
 
-        if(!Utils.validateString(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+        if (!Utils.validateString(email) || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             AppNotify.getInstance().showToast("Email is invalid!");
             return null;
         }

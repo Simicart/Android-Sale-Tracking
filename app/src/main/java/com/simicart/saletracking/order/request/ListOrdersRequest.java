@@ -25,7 +25,7 @@ public class ListOrdersRequest extends AppRequest {
             if (mJSONResult.has("orders")) {
                 JSONArray ordersArr = mJSONResult.getJSONArray("orders");
                 ArrayList<OrderEntity> listOrders = new ArrayList<>();
-                for(int i=0;i<ordersArr.length();i++) {
+                for (int i = 0; i < ordersArr.length(); i++) {
                     JSONObject orderObj = ordersArr.getJSONObject(i);
                     OrderEntity orderEntity = new OrderEntity();
                     orderEntity.parse(orderObj);
@@ -33,27 +33,27 @@ public class ListOrdersRequest extends AppRequest {
                 }
                 mCollection.putDataWithKey("orders", listOrders);
             }
-            if(mJSONResult.has("total")) {
+            if (mJSONResult.has("total")) {
                 int total = mJSONResult.getInt("total");
                 mCollection.putDataWithKey("total", total);
             }
-            if(mJSONResult.has("layers")) {
+            if (mJSONResult.has("layers")) {
                 JSONObject layerObj = mJSONResult.getJSONObject("layers");
-                if(layerObj.has("layer_filter")) {
+                if (layerObj.has("layer_filter")) {
                     JSONArray layerFilterArr = layerObj.getJSONArray("layer_filter");
-                    if(layerFilterArr.length() > 0) {
+                    if (layerFilterArr.length() > 0) {
                         JSONObject filterStatusObj = layerFilterArr.getJSONObject(0);
                         String statusAttribute = null;
-                        if(filterStatusObj.has("attribute")) {
+                        if (filterStatusObj.has("attribute")) {
                             statusAttribute = filterStatusObj.getString("attribute");
                         }
-                        if(filterStatusObj.has("filter")) {
+                        if (filterStatusObj.has("filter")) {
                             JSONArray filterStatusArr = filterStatusObj.getJSONArray("filter");
                             ArrayList<LayerEntity> listLayers = new ArrayList<>();
-                            for(int i=0;i<filterStatusArr.length();i++) {
+                            for (int i = 0; i < filterStatusArr.length(); i++) {
                                 JSONObject object = filterStatusArr.getJSONObject(i);
                                 LayerEntity layerEntity = new LayerEntity();
-                                if(Utils.validateString(statusAttribute)) {
+                                if (Utils.validateString(statusAttribute)) {
                                     layerEntity.setKey(statusAttribute);
                                 }
                                 layerEntity.parse(object);

@@ -1,6 +1,7 @@
 package com.simicart.saletracking.search.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
@@ -11,7 +12,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,7 +19,6 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.search.entity.SearchEntity;
@@ -58,24 +57,24 @@ public class SearchFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mSelectedSearchEntity = (SearchEntity) getValueWithKey("search_entity");
             mFrom = (int) getValueWithKey("from");
         }
 
         mListSearches = new ArrayList<>();
-        if(mFrom == Constants.Search.ORDER) {
+        if (mFrom == Constants.Search.ORDER) {
             initSearchOrder();
-        } else if(mFrom == Constants.Search.CUSTOMER) {
+        } else if (mFrom == Constants.Search.CUSTOMER) {
             initSearchCustomer();
-        } else if(mFrom == Constants.Search.PRODUCT) {
+        } else if (mFrom == Constants.Search.PRODUCT) {
             initSearchProduct();
         } else {
             initSearchCart();
         }
 
         edtQuery = (EditText) rootView.findViewById(R.id.et_query);
-        edtQuery.setTextColor(AppColor.getInstance().getBlackColor());
+        edtQuery.setTextColor(Color.BLACK);
         edtQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -107,12 +106,12 @@ public class SearchFragment extends AppFragment {
 
         plSearch = (PredicateLayout) rootView.findViewById(R.id.pl_search);
 
-        if(mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
+        if (mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
             enableSearchAction(true);
             edtQuery.setText(mSelectedSearchEntity.getQuery());
         }
 
-        if(mListSearches != null) {
+        if (mListSearches != null) {
             initSearchTags();
         }
 
@@ -122,19 +121,19 @@ public class SearchFragment extends AppFragment {
     protected void initSearchTags() {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         mListSearchTags = new ArrayList<>();
-        for(final SearchEntity searchEntity : mListSearches) {
+        for (final SearchEntity searchEntity : mListSearches) {
             View itemView = inflater.inflate(R.layout.view_search_tag, null);
             final TextView tvItem = (TextView) itemView.findViewById(R.id.tv_search_tag);
             tvItem.setText(searchEntity.getLabel());
 
-            if(mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
-                if(searchEntity.getKey().equals(mSelectedSearchEntity.getKey())) {
+            if (mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
+                if (searchEntity.getKey().equals(mSelectedSearchEntity.getKey())) {
                     setTagChoose(tvItem, true);
                 } else {
                     setTagChoose(tvItem, false);
                 }
             } else {
-                if(mListSearches.indexOf(searchEntity) == 0) {
+                if (mListSearches.indexOf(searchEntity) == 0) {
                     mSelectedSearchEntity = searchEntity;
                     setTagChoose(tvItem, true);
                 } else {
@@ -148,7 +147,7 @@ public class SearchFragment extends AppFragment {
             tvItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    for(TextView textView : mListSearchTags) {
+                    for (TextView textView : mListSearchTags) {
                         setTagChoose(textView, false);
                         setTagChoose(tvItem, true);
                         mSelectedSearchEntity = searchEntity;
@@ -161,12 +160,12 @@ public class SearchFragment extends AppFragment {
     }
 
     protected void setTagChoose(TextView textView, boolean choose) {
-        if(choose) {
+        if (choose) {
             textView.setBackgroundResource(R.drawable.tag_background_choosed);
-            textView.setTextColor(AppColor.getInstance().getWhiteColor());
+            textView.setTextColor(Color.WHITE);
         } else {
             textView.setBackgroundResource(R.drawable.tag_background);
-            textView.setTextColor(AppColor.getInstance().getBlackColor());
+            textView.setTextColor(Color.BLACK);
         }
     }
 
@@ -217,11 +216,11 @@ public class SearchFragment extends AppFragment {
 
         AppManager.getInstance().backToPreviousFragment();
 
-        if(mFrom == Constants.Search.ORDER) {
+        if (mFrom == Constants.Search.ORDER) {
             AppManager.getInstance().openListOrders(hm);
-        } else if(mFrom == Constants.Search.CUSTOMER) {
+        } else if (mFrom == Constants.Search.CUSTOMER) {
             AppManager.getInstance().openListCustomers(hm);
-        } else if(mFrom == Constants.Search.PRODUCT) {
+        } else if (mFrom == Constants.Search.PRODUCT) {
             AppManager.getInstance().openListProducts(hm);
         } else {
             AppManager.getInstance().openListAbandonedCarts(hm);
@@ -231,7 +230,7 @@ public class SearchFragment extends AppFragment {
     protected void hiddenKeyboard(View v, boolean show) {
         InputMethodManager imm = (InputMethodManager) v.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(!show) {
+        if (!show) {
             imm.showSoftInput(v, InputMethodManager.SHOW_IMPLICIT);
         } else {
             imm.hideSoftInputFromWindow(v.getRootView().getWindowToken(), 0);

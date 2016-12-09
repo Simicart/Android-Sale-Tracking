@@ -35,13 +35,13 @@ public class ListAddressesFragment extends AppFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_addresses, container, false);
 
-        if(mData != null) {
+        if (mData != null) {
             mCustomerID = (String) getValueWithKey("customer_id");
         }
 
         mBlock = new ListAddressesBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new ListAddressesController();
             mController.setDelegate(mBlock);
             mController.setCustomerID(mCustomerID);

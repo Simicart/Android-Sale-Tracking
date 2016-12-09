@@ -47,7 +47,7 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
         ProductEntity productEntity = listProducts.get(position);
 
         ArrayList<String> images = productEntity.getProductImages();
-        if(images != null && images.size() > 0) {
+        if (images != null && images.size() > 0) {
             String image = images.get(0);
             if (Utils.validateString(image)) {
                 Glide.with(mContext).load(image).into(holder.ivProduct);
@@ -55,32 +55,32 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
         }
 
         String productName = productEntity.getName();
-        if(Utils.validateString(productName)) {
+        if (Utils.validateString(productName)) {
             holder.tvProductName.setText(productName);
         }
 
         final String productID = productEntity.getID();
-        if(Utils.validateString(productID)) {
+        if (Utils.validateString(productID)) {
             holder.tvProductID.setText("Id: " + productID);
         }
 
         String productSku = productEntity.getSku();
-        if(Utils.validateString(productSku)) {
+        if (Utils.validateString(productSku)) {
             holder.tvProductSku.setText("Sku: " + productSku);
         }
 
         String price = productEntity.getPrice();
-        if(Utils.validateString(price)) {
+        if (Utils.validateString(price)) {
             holder.tvProductPrice.setText(Utils.getPrice(price, "USD"));
         }
 
         String productType = productEntity.getType();
-        if(Utils.validateString(productType)) {
+        if (Utils.validateString(productType)) {
             holder.tvProductType.setText("Type: " + productType);
         }
 
         String productVisibility = productEntity.getVisibility();
-        if(Utils.validateString(productVisibility)) {
+        if (Utils.validateString(productVisibility)) {
             holder.tvProductVisibility.setText("Visibility: " + productVisibility);
         }
 

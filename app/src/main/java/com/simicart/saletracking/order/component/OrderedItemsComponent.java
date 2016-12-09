@@ -30,7 +30,7 @@ public class OrderedItemsComponent extends AppComponent {
         rvProducts.setNestedScrollingEnabled(false);
         OrderedItemsAdapter adapter = new OrderedItemsAdapter(mBaseCurrency, mOrderCurrency);
         adapter.setCart(isCart);
-        if(isCart) {
+        if (isCart) {
             adapter.setListQuotes(mListQuotes);
         } else {
             adapter.setListProducts(mListProducts);

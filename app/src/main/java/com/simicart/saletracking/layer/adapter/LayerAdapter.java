@@ -1,6 +1,7 @@
 package com.simicart.saletracking.layer.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.layer.entity.LayerEntity;
@@ -30,11 +30,11 @@ import java.util.HashMap;
 public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder> {
 
     protected ArrayList<LayerEntity> mListLayers;
-    protected HashMap<String,Object> hmData;
+    protected HashMap<String, Object> hmData;
     protected LayerEntity mSelectedLayer;
     protected int mFrom;
 
-    public LayerAdapter(HashMap<String,Object> hmData) {
+    public LayerAdapter(HashMap<String, Object> hmData) {
         this.hmData = hmData;
         parseData();
     }
@@ -55,25 +55,25 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         final LayerEntity layerEntity = mListLayers.get(position);
 
         String label = layerEntity.getLabel();
-        if(Utils.validateString(label)) {
+        if (Utils.validateString(label)) {
             holder.tvLayer.setText(label);
         }
 
-        if(mSelectedLayer != null) {
+        if (mSelectedLayer != null) {
             holder.ivCheck.setVisibility(View.GONE);
             switch (mFrom) {
                 case Constants.Layer.FILTER:
-                    if(mSelectedLayer.getValue().equals(layerEntity.getValue())) {
+                    if (mSelectedLayer.getValue().equals(layerEntity.getValue())) {
                         holder.ivCheck.setVisibility(View.VISIBLE);
                     }
                     break;
                 case Constants.Layer.SORT:
-                    if(mSelectedLayer.getKey().equals(layerEntity.getKey())) {
+                    if (mSelectedLayer.getKey().equals(layerEntity.getKey())) {
                         holder.ivCheck.setVisibility(View.VISIBLE);
                     }
                     break;
                 case Constants.Layer.TIME:
-                    if(mSelectedLayer.getKey().equals(layerEntity.getKey())) {
+                    if (mSelectedLayer.getKey().equals(layerEntity.getKey())) {
                         holder.ivCheck.setVisibility(View.VISIBLE);
                     }
                     break;
@@ -126,31 +126,31 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
             super(itemView);
             rlItem = (RelativeLayout) itemView.findViewById(R.id.rl_layer_item);
             tvLayer = (TextView) itemView.findViewById(R.id.tv_layer);
-            tvLayer.setTextColor(AppColor.getInstance().getBlackColor());
+            tvLayer.setTextColor(Color.BLACK);
             ivCheck = (ImageView) itemView.findViewById(R.id.iv_check);
         }
     }
 
     protected void parseData() {
-        if(hmData != null) {
+        if (hmData != null) {
             mFrom = (int) hmData.get("from");
             switch (mFrom) {
                 case Constants.Layer.FILTER:
-                    if(hmData.containsKey("status_layer")) {
+                    if (hmData.containsKey("status_layer")) {
                         mSelectedLayer = (LayerEntity) hmData.get("status_layer");
                     }
-                    if(hmData.containsKey("list_status_layer")) {
+                    if (hmData.containsKey("list_status_layer")) {
                         mListLayers = (ArrayList<LayerEntity>) hmData.get("list_status_layer");
                     }
                     break;
                 case Constants.Layer.SORT:
-                    if(hmData.containsKey("sort_layer")) {
+                    if (hmData.containsKey("sort_layer")) {
                         mSelectedLayer = (LayerEntity) hmData.get("sort_layer");
                     }
                     initListSortLayers();
                     break;
                 case Constants.Layer.TIME:
-                    if(hmData.containsKey("time_layer")) {
+                    if (hmData.containsKey("time_layer")) {
                         mSelectedLayer = (LayerEntity) hmData.get("time_layer");
                     }
                     initListTimeFilters();
@@ -293,7 +293,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
     protected String getDate(int a, int b, boolean add) {
         Calendar cal = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        if(add) {
+        if (add) {
             cal.add(a, b);
         } else {
             cal.set(a, b);

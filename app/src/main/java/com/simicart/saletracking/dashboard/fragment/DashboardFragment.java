@@ -31,7 +31,7 @@ public class DashboardFragment extends AppFragment {
 
         mBlock = new DashboardBlock(rootView);
         mBlock.initView();
-        if(mController == null) {
+        if (mController == null) {
             mController = new DashboardController();
             mController.setDelegate(mBlock);
             mController.onStart();

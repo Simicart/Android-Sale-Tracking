@@ -9,6 +9,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.product.delegate.ListProductsDelegate;
 import com.simicart.saletracking.product.request.ListProductsRequest;
@@ -34,7 +35,7 @@ public class ListProductsController extends AppController {
     protected int mCurrentPage = 1;
     protected int mTotalPage;
     protected int mOffset = 0;
-    protected int mLimit = 30;
+    protected int mLimit = AppPreferences.getPaging();
     protected boolean isFirstRequest = true;
 
     @Override
@@ -51,7 +52,7 @@ public class ListProductsController extends AppController {
     }
 
     protected void requestListProducts() {
-        if(isFirstRequest) {
+        if (isFirstRequest) {
             mDelegate.showLoading();
         } else {
             mDelegate.showDialogLoading();
@@ -60,14 +61,14 @@ public class ListProductsController extends AppController {
         listProductsRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                     isFirstRequest = false;
                 } else {
                     mDelegate.dismissDialogLoading();
                 }
                 mCollection = collection;
-                if(collection != null) {
+                if (collection != null) {
                     if (collection.containKey("total")) {
                         int totalResult = (int) collection.getDataWithKey("total");
                         mTotalPage = totalResult / 30;
@@ -83,7 +84,7 @@ public class ListProductsController extends AppController {
         listProductsRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if(isFirstRequest) {
+                if (isFirstRequest) {
                     mDelegate.dismissLoading();
                 } else {
                     mDelegate.dismissDialogLoading();
@@ -97,7 +98,7 @@ public class ListProductsController extends AppController {
         listProductsRequest.addParam("limit", String.valueOf(mLimit));
         listProductsRequest.addParam("offset", String.valueOf(mOffset));
         listProductsRequest.addParam("store_id", AppManager.getInstance().getStoreID());
-        if(mSearchEntity != null) {
+        if (mSearchEntity != null) {
             listProductsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
         }
         listProductsRequest.request();
@@ -126,9 +127,9 @@ public class ListProductsController extends AppController {
         mOnNextPageClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCurrentPage < mTotalPage) {
+                if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
-                    mOffset+=mLimit;
+                    mOffset += mLimit;
                     requestListProducts();
                 }
             }
@@ -137,9 +138,9 @@ public class ListProductsController extends AppController {
         mOnPreviousPageClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mCurrentPage > 1) {
+                if (mCurrentPage > 1) {
                     mCurrentPage--;
-                    mOffset-=mLimit;
+                    mOffset -= mLimit;
                     requestListProducts();
                 }
             }
@@ -148,7 +149,7 @@ public class ListProductsController extends AppController {
         mOnSearchClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(hmData == null) {
+                if (hmData == null) {
                     hmData = new HashMap<>();
                 }
                 hmData.put("search_entity", mSearchEntity);
@@ -160,8 +161,8 @@ public class ListProductsController extends AppController {
     }
 
     protected void parseData() {
-        if(hmData != null) {
-            if(hmData.containsKey("search_entity")) {
+        if (hmData != null) {
+            if (hmData.containsKey("search_entity")) {
                 mSearchEntity = (SearchEntity) hmData.get("search_entity");
             } else {
                 mSearchEntity = null;
