@@ -1,5 +1,6 @@
 package com.simicart.saletracking.customer.controller;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -13,6 +14,7 @@ import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.customer.delegate.ListCustomersDelegate;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
+import com.simicart.saletracking.order.request.ListOrdersRequest;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
 import java.util.HashMap;
@@ -24,7 +26,6 @@ import java.util.HashMap;
 public class ListCustomersController extends AppController {
 
     protected ListCustomersDelegate mDelegate;
-    protected ListCustomersRequest mListCustomersRequest;
     protected RecyclerView.OnScrollListener mOnListScroll;
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
@@ -52,12 +53,12 @@ public class ListCustomersController extends AppController {
     }
 
     protected void requestListCustomers() {
-        if (mListCustomersRequest == null) {
-            mListCustomersRequest = new ListCustomersRequest();
+        if (isFirstRequest) {
             mDelegate.showLoading();
         } else {
             mDelegate.showDialogLoading();
         }
+        ListCustomersRequest mListCustomersRequest = new ListCustomersRequest();
         mListCustomersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {

@@ -34,6 +34,7 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
     protected LinearLayout llNext, llPrevious;
     protected FloatingActionButton fabSearch;
     protected ListAbandonedCartsAdapter mAdapter;
+    protected ArrayList<AbandonedCartEntity> listCarts;
 
     public ListAbandonedCartBlock(View view) {
         super(view);
@@ -55,8 +56,7 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
     public void updateView(AppCollection collection) {
         if (collection != null) {
             if (collection.containKey("abandonedcarts")) {
-                ArrayList<AbandonedCartEntity> listCarts =
-                        (ArrayList<AbandonedCartEntity>) collection.getDataWithKey("abandonedcarts");
+                listCarts = (ArrayList<AbandonedCartEntity>) collection.getDataWithKey("abandonedcarts");
                 if (listCarts != null && listCarts.size() > 0) {
                     ArrayList<AbandonedCartSection> listSections = new ArrayList<>();
                     int i = 0;
@@ -107,6 +107,11 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
     @Override
     public void showPage(int current, int total) {
         tvPage.setText(current + "/" + total);
+    }
+
+    @Override
+    public int getPageSize() {
+        return listCarts.size();
     }
 
     protected void initMenuBottom() {

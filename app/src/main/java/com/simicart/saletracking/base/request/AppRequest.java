@@ -48,6 +48,7 @@ public class AppRequest {
         if (Utils.validateString(sessionID)) {
             hmParams.put("session_id", sessionID);
         }
+        hmParams.put("store_id", AppManager.getInstance().getStoreID());
     }
 
     public void request() {

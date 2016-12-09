@@ -3,6 +3,7 @@ package com.simicart.saletracking.menutop;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.order.controller.ListOrdersController;
 import com.simicart.saletracking.store.apdater.StoreViewAdapter;
@@ -34,7 +36,7 @@ public class MenuTopController {
     protected RelativeLayout rlStore;
     protected boolean isOnDetail = false;
     protected ArrayList<StoreViewEntity> mListStoreViews;
-    protected ListOrdersController mListOrdersController;
+    protected AppController mController;
     protected boolean isFirstRun = true;
 
     public MenuTopController(Toolbar toolbar) {
@@ -72,7 +74,7 @@ public class MenuTopController {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!isFirstRun) {
                     AppManager.getInstance().setStoreID(mListStoreViews.get(i).getStoreID());
-                    mListOrdersController.onStart();
+                    mController.onStart();
                 } else {
                     isFirstRun = false;
                 }
@@ -147,7 +149,7 @@ public class MenuTopController {
         }
     }
 
-    public void setListOrdersController(ListOrdersController listOrdersController) {
-        mListOrdersController = listOrdersController;
+    public void setController(AppController controller) {
+        mController = controller;
     }
 }

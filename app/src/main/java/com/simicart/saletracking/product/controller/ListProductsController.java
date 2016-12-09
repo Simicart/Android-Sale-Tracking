@@ -1,5 +1,6 @@
 package com.simicart.saletracking.product.controller;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -121,6 +122,11 @@ public class ListProductsController extends AppController {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+
+                int lastPosition = ((LinearLayoutManager)recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
+                if(lastPosition == mDelegate.getPageSize() - 1) {
+                    mDelegate.showBottom(false);
+                }
             }
         };
 

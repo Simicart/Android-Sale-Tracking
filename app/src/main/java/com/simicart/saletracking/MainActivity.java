@@ -126,14 +126,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     protected void processLogout() {
+        mDrawer.closeDrawer(GravityCompat.START);
         if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);
         } else {
             AppPreferences.setSignInComplete(false);
             AppPreferences.clearCustomerInfo();
         }
-        AppManager.getInstance().openLoginPage();
-        AppManager.getInstance().disableDrawer();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                AppManager.getInstance().openLoginPage();
+                AppManager.getInstance().disableDrawer();
+            }
+        }, 300);
     }
 
     protected void checkInternetConnection() {

@@ -12,4 +12,6 @@ public interface BestSellersDelegate extends AppDelegate {
 
     public void showPage(int current, int total);
 
+    public int getPageSize();
+
 }

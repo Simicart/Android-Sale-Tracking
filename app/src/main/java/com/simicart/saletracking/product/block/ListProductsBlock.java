@@ -32,6 +32,7 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
     protected TextView tvPage;
     protected LinearLayout llNext, llPrevious;
     protected ListProductsAdapter mAdapter;
+    protected ArrayList<ProductEntity> listProducts;
 
     public ListProductsBlock(View view) {
         super(view);
@@ -58,7 +59,7 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
     @Override
     public void updateView(AppCollection collection) {
         if (collection != null) {
-            ArrayList<ProductEntity> listProducts = (ArrayList<ProductEntity>) collection.getDataWithKey("products");
+            listProducts = (ArrayList<ProductEntity>) collection.getDataWithKey("products");
             if (listProducts != null && listProducts.size() > 0) {
                 if (mAdapter == null) {
                     mAdapter = new ListProductsAdapter(listProducts);
@@ -83,6 +84,11 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
     @Override
     public void showPage(int current, int total) {
         tvPage.setText(current + "/" + total);
+    }
+
+    @Override
+    public int getPageSize() {
+        return listProducts.size();
     }
 
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {

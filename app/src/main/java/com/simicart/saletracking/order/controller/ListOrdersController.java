@@ -1,5 +1,6 @@
 package com.simicart.saletracking.order.controller;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -19,6 +20,8 @@ import com.simicart.saletracking.search.entity.SearchEntity;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 import com.simicart.saletracking.store.request.GetStoreRequest;
 
+import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -29,7 +32,6 @@ import java.util.HashMap;
 public class ListOrdersController extends AppController {
 
     protected ListOrdersDelegate mDelegate;
-    protected ListOrdersRequest mListOrdersRequest;
     protected RecyclerView.OnScrollListener mOnListScroll;
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
@@ -51,9 +53,6 @@ public class ListOrdersController extends AppController {
 
     @Override
     public void onStart() {
-        if (AppManager.getInstance().getMenuTopController().getListStoreViews() == null) {
-            requestListStoreViews();
-        }
         parseData();
         requestListOrders();
         initListener();
@@ -65,30 +64,13 @@ public class ListOrdersController extends AppController {
         mDelegate.updateView(mCollection);
     }
 
-    protected void requestListStoreViews() {
-        GetStoreRequest getStoreRequest = new GetStoreRequest();
-        getStoreRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
-            @Override
-            public void onSuccess(AppCollection collection) {
-                if (collection != null) {
-                    if (collection.containKey("stores")) {
-                        ArrayList<StoreViewEntity> listStores = (ArrayList<StoreViewEntity>) collection.getDataWithKey("stores");
-                        AppManager.getInstance().getMenuTopController().setListStoreViews(listStores);
-                    }
-                }
-            }
-        });
-        getStoreRequest.setExtendUrl("stores");
-        getStoreRequest.request();
-    }
-
     protected void requestListOrders() {
-        if (mListOrdersRequest == null) {
-            mListOrdersRequest = new ListOrdersRequest();
+        if (isFirstRequest) {
             mDelegate.showLoading();
         } else {
             mDelegate.showDialogLoading();
         }
+        ListOrdersRequest mListOrdersRequest = new ListOrdersRequest();
         mListOrdersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
@@ -127,7 +109,6 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.setExtendUrl("orders");
         mListOrdersRequest.addParam("limit", String.valueOf(mLimit));
         mListOrdersRequest.addParam("offset", String.valueOf(mOffset));
-        mListOrdersRequest.addParam("store_id", AppManager.getInstance().getStoreID());
         if (mSearchEntity != null) {
             mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
         }

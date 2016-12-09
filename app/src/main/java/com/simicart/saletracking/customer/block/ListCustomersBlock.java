@@ -34,6 +34,7 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     protected LinearLayout llNext, llPrevious;
     protected FloatingActionButton fabSearch;
     protected ListCustomersAdapter mAdapter;
+    protected ArrayList<CustomerEntity> listCustomers;
 
     public ListCustomersBlock(View view) {
         super(view);
@@ -55,7 +56,7 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     public void updateView(AppCollection collection) {
         if (collection != null) {
             if (collection.containKey("customers")) {
-                ArrayList<CustomerEntity> listCustomers = (ArrayList<CustomerEntity>) collection.getDataWithKey("customers");
+                listCustomers = (ArrayList<CustomerEntity>) collection.getDataWithKey("customers");
                 if (listCustomers != null && listCustomers.size() > 0) {
                     ArrayList<CustomerSection> listSections = new ArrayList<>();
                     int i = 0;
@@ -106,6 +107,11 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     @Override
     public void showPage(int current, int total) {
         tvPage.setText(current + "/" + total);
+    }
+
+    @Override
+    public int getPageSize() {
+        return listCustomers.size();
     }
 
     protected void initMenuBottom() {

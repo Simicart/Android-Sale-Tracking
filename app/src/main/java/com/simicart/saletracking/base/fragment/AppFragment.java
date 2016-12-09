@@ -22,6 +22,7 @@ public class AppFragment extends Fragment {
     protected HashMap<String, Object> mHashMapData;
     protected String mFragmentName;
     protected boolean mIsDetail;
+    protected boolean mShowStore;
 
     protected static final String KEY_DATA = "data";
 
@@ -63,11 +64,12 @@ public class AppFragment extends Fragment {
 
         if (Utils.validateString(mFragmentName)) {
             AppManager.getInstance().getMenuTopController().setTitle(mFragmentName);
-            if (mFragmentName.equals("Orders")) {
-                AppManager.getInstance().getMenuTopController().showStorePicker(true);
-            } else {
-                AppManager.getInstance().getMenuTopController().showStorePicker(false);
-            }
+        }
+
+        if (mShowStore) {
+            AppManager.getInstance().getMenuTopController().showStorePicker(true);
+        } else {
+            AppManager.getInstance().getMenuTopController().showStorePicker(false);
         }
 
         AppManager.getInstance().getMenuTopController().setOnDetail(mIsDetail);
@@ -117,5 +119,13 @@ public class AppFragment extends Fragment {
 
     public void setDetail(boolean detail) {
         mIsDetail = detail;
+    }
+
+    public boolean isShowStore() {
+        return mShowStore;
+    }
+
+    public void setShowStore(boolean showStore) {
+        mShowStore = showStore;
     }
 }

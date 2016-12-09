@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.fragment.AppFragment;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.dashboard.block.DashboardBlock;
 import com.simicart.saletracking.dashboard.controller.DashboardController;
 
@@ -39,6 +40,8 @@ public class DashboardFragment extends AppFragment {
             mController.setDelegate(mBlock);
             mController.onResume();
         }
+
+        AppManager.getInstance().getMenuTopController().setController(mController);
 
         return rootView;
     }

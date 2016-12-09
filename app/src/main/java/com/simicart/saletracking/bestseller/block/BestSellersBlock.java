@@ -30,6 +30,7 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
     protected TextView tvPage;
     protected LinearLayout llNext, llPrevious;
     protected BestSellersAdapter mAdapter;
+    protected ArrayList<BestSellerEntity> listBestSellers;
 
     public BestSellersBlock(View view) {
         super(view);
@@ -47,7 +48,7 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
     public void updateView(AppCollection collection) {
         if(collection != null) {
             if(collection.containKey("bestsellers")) {
-                ArrayList<BestSellerEntity> listBestSellers = (ArrayList<BestSellerEntity>) collection.getDataWithKey("bestsellers");
+                listBestSellers = (ArrayList<BestSellerEntity>) collection.getDataWithKey("bestsellers");
                 if(listBestSellers != null) {
                     if(mAdapter == null) {
                         mAdapter = new BestSellersAdapter(listBestSellers);
@@ -73,6 +74,11 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
     @Override
     public void showPage(int current, int total) {
         tvPage.setText(current + "/" + total);
+    }
+
+    @Override
+    public int getPageSize() {
+        return listBestSellers.size();
     }
 
     protected void initMenuBottom() {

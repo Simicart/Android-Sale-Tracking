@@ -56,7 +56,7 @@ public class ListOrdersFragment extends AppFragment {
         mBlock.setOnSortCLick(mController.getOnSortClick());
         mBlock.setOnTimeFilterClick(mController.getOnTimeFilterClick());
 
-        AppManager.getInstance().getMenuTopController().setListOrdersController(mController);
+        AppManager.getInstance().getMenuTopController().setController(mController);
 
         return rootView;
     }

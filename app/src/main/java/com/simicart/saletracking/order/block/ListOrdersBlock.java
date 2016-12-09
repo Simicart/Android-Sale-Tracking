@@ -35,6 +35,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
     protected LinearLayout llNext, llPrevious;
     protected FloatingActionButton fabSearch;
     protected ListOrdersAdapter mAdapter;
+    protected ArrayList<OrderEntity> listOrders;
 
     public ListOrdersBlock(View view) {
         super(view);
@@ -60,7 +61,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
         if (collection != null) {
             if (collection.containKey("orders")) {
-                ArrayList<OrderEntity> listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
+                listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
                 if (listOrders != null && listOrders.size() > 0) {
                     ArrayList<OrderSection> listSections = new ArrayList<>();
                     int i = 0;
@@ -137,6 +138,11 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
     @Override
     public void showPage(int current, int total) {
         tvPage.setText(current + "/" + total);
+    }
+
+    @Override
+    public int getPageSize() {
+        return listOrders.size();
     }
 
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {

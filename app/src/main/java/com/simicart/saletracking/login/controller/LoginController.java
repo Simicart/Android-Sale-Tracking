@@ -14,6 +14,10 @@ import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
 import com.simicart.saletracking.login.request.LoginRequest;
+import com.simicart.saletracking.store.entity.StoreViewEntity;
+import com.simicart.saletracking.store.request.GetStoreRequest;
+
+import java.util.ArrayList;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -116,11 +120,29 @@ public class LoginController extends AppController {
     }
 
     protected void goToHome() {
+        requestListStoreViews();
         AppManager.getInstance().enableDrawer();
         AppManager.getInstance().initHeader();
         AppManager.getInstance().getManager().popBackStackImmediate();
         AppManager.getInstance().navigateFirstFragment();
         AppManager.getInstance().getMenuTopController().showMenuTop(true);
+    }
+
+    protected void requestListStoreViews() {
+        GetStoreRequest getStoreRequest = new GetStoreRequest();
+        getStoreRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                if (collection != null) {
+                    if (collection.containKey("stores")) {
+                        ArrayList<StoreViewEntity> listStores = (ArrayList<StoreViewEntity>) collection.getDataWithKey("stores");
+                        AppManager.getInstance().getMenuTopController().setListStoreViews(listStores);
+                    }
+                }
+            }
+        });
+        getStoreRequest.setExtendUrl("stores");
+        getStoreRequest.request();
     }
 
     public void setDelegate(LoginDelegate delegate) {

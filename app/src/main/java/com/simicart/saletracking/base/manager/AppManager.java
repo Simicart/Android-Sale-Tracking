@@ -209,6 +209,7 @@ public class AppManager {
         DashboardFragment dashboardFragment = DashboardFragment.newInstance();
         dashboardFragment.setFragmentName("Dashboard");
         dashboardFragment.setDetail(false);
+        dashboardFragment.setShowStore(true);
         replaceFragment(dashboardFragment);
     }
 
@@ -216,6 +217,7 @@ public class AppManager {
         ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
         orderFragment.setFragmentName("Orders");
         orderFragment.setDetail(false);
+        orderFragment.setShowStore(true);
         replaceFragment(orderFragment);
     }
 
@@ -223,6 +225,7 @@ public class AppManager {
         ListCustomersFragment customersFragment = ListCustomersFragment.newInstance(new AppData(hmData));
         customersFragment.setFragmentName("Customers");
         customersFragment.setDetail(false);
+        customersFragment.setShowStore(false);
         replaceFragment(customersFragment);
     }
 
@@ -230,6 +233,7 @@ public class AppManager {
         CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance(new AppData(hmData));
         customerDetailFragment.setFragmentName("Customer Detail");
         customerDetailFragment.setDetail(true);
+        customerDetailFragment.setShowStore(false);
         replaceFragment(customerDetailFragment);
     }
 
@@ -237,6 +241,7 @@ public class AppManager {
         OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
         orderDetailFragment.setFragmentName("Order Detail");
         orderDetailFragment.setDetail(true);
+        orderDetailFragment.setShowStore(false);
         replaceFragment(orderDetailFragment);
     }
 
@@ -244,6 +249,7 @@ public class AppManager {
         ListAddressesFragment listAddressesFragment = ListAddressesFragment.newInstance(new AppData(hmData));
         listAddressesFragment.setFragmentName("Addresses");
         listAddressesFragment.setDetail(true);
+        listAddressesFragment.setShowStore(false);
         replaceFragment(listAddressesFragment);
     }
 
@@ -251,6 +257,7 @@ public class AppManager {
         ListProductsFragment listProductsFragment = ListProductsFragment.newInstance(new AppData(hmData));
         listProductsFragment.setFragmentName("Products");
         listProductsFragment.setDetail(false);
+        listProductsFragment.setShowStore(true);
         replaceFragment(listProductsFragment);
     }
 
@@ -258,6 +265,7 @@ public class AppManager {
         ProductDetailFragment productDetailFragment = ProductDetailFragment.newInstance(new AppData(hmData));
         productDetailFragment.setFragmentName("product Detail");
         productDetailFragment.setDetail(true);
+        productDetailFragment.setShowStore(false);
         replaceFragment(productDetailFragment);
     }
 
@@ -265,6 +273,7 @@ public class AppManager {
         ListAbandonedCartsFragment listAbandonedCartsFragment = ListAbandonedCartsFragment.newInstance(new AppData(hmData));
         listAbandonedCartsFragment.setFragmentName("Abandoned Carts");
         listAbandonedCartsFragment.setDetail(false);
+        listAbandonedCartsFragment.setShowStore(false);
         replaceFragment(listAbandonedCartsFragment);
     }
 
@@ -272,6 +281,7 @@ public class AppManager {
         AbandonedCartDetailFragment abandonedCartDetailFragment = AbandonedCartDetailFragment.newInstance(new AppData(hmData));
         abandonedCartDetailFragment.setFragmentName("Cart Detail");
         abandonedCartDetailFragment.setDetail(true);
+        abandonedCartDetailFragment.setShowStore(false);
         replaceFragment(abandonedCartDetailFragment);
     }
 
@@ -279,6 +289,7 @@ public class AppManager {
         BestSellersFragment bestSellersFragment = BestSellersFragment.newInstance();
         bestSellersFragment.setFragmentName("Best Sellers");
         bestSellersFragment.setDetail(false);
+        bestSellersFragment.setShowStore(true);
         replaceFragment(bestSellersFragment);
     }
 
