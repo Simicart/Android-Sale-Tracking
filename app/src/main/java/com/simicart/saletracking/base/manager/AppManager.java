@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
+import com.simicart.saletracking.bestseller.fragment.BestSellersFragment;
 import com.simicart.saletracking.cart.fragment.AbandonedCartDetailFragment;
 import com.simicart.saletracking.cart.fragment.ListAbandonedCartsFragment;
 import com.simicart.saletracking.common.Utils;
@@ -272,6 +273,13 @@ public class AppManager {
         abandonedCartDetailFragment.setFragmentName("Cart Detail");
         abandonedCartDetailFragment.setDetail(true);
         replaceFragment(abandonedCartDetailFragment);
+    }
+
+    public void openBestSellers() {
+        BestSellersFragment bestSellersFragment = BestSellersFragment.newInstance();
+        bestSellersFragment.setFragmentName("Best Sellers");
+        bestSellersFragment.setDetail(false);
+        replaceFragment(bestSellersFragment);
     }
 
     public void openSetting() {

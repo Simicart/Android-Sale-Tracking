@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AppManager.getInstance().openDashboardPage();
                 break;
             case R.id.nav_bestseller:
+                AppManager.getInstance().openBestSellers();
                 break;
             case R.id.nav_orders:
                 AppManager.getInstance().openListOrders(null);
