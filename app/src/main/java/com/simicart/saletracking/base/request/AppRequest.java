@@ -28,6 +28,7 @@ import java.util.Map;
 
 public class AppRequest {
 
+    protected String mCustomUrl;
     protected HashMap<String, String> hmParams;
     protected String mExtendUrl;
     protected RequestSuccessCallback mRequestSuccessCallback;
@@ -136,7 +137,12 @@ public class AppRequest {
             mBaseUrl += "/";
         }
 
-        String url = mBaseUrl + mExtendUrl;
+        String url = null;
+        if(mCustomUrl == null) {
+            url = mBaseUrl + mExtendUrl;
+        } else {
+            url = mCustomUrl;
+        }
 
         String dataParameter = processDataParameter();
         if (Utils.validateString(dataParameter)) {
@@ -226,5 +232,13 @@ public class AppRequest {
 
     public AppCollection getCollection() {
         return mCollection;
+    }
+
+    public String getCustomUrl() {
+        return mCustomUrl;
+    }
+
+    public void setCustomUrl(String customUrl) {
+        mCustomUrl = customUrl;
     }
 }

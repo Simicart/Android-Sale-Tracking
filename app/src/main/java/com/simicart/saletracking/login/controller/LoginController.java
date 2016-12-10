@@ -24,6 +24,7 @@ import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
+import com.simicart.saletracking.login.request.CheckLicenseActiveRequest;
 import com.simicart.saletracking.login.request.LoginRequest;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 import com.simicart.saletracking.store.request.GetStoreRequest;
@@ -68,7 +69,7 @@ public class LoginController extends AppController {
                 LoginEntity loginEntity = mDelegate.getLoginInfo();
                 if (loginEntity != null) {
                     AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
-                    onLoginUser(loginEntity);
+                    checkLicenseActive(loginEntity, true);
                 }
             }
         };
@@ -81,9 +82,9 @@ public class LoginController extends AppController {
         };
 
         if(AppPreferences.isSignInNormal()) {
-            onLoginUser(null);
+            checkLicenseActive(null, true);
         } else if(AppPreferences.isSignInQr()) {
-            onLoginQr(null);
+            checkLicenseActive(null, false);
         }
 
     }
@@ -91,6 +92,50 @@ public class LoginController extends AppController {
     @Override
     public void onResume() {
 
+    }
+
+    protected void checkLicenseActive(final LoginEntity loginEntity, final boolean isLoginNormal) {
+        mDelegate.showDialogLoading();
+        CheckLicenseActiveRequest licenseActiveRequest = new CheckLicenseActiveRequest();
+        licenseActiveRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                if(collection != null) {
+                    if(collection.containKey("is_active")) {
+                        boolean isActive = (boolean) collection.getDataWithKey("is_active");
+                        if(isActive) {
+                            if(isLoginNormal) {
+                                onLoginUser(loginEntity);
+                            } else {
+                                onLoginQr(loginEntity);
+                            }
+                        } else {
+                            mDelegate.dismissDialogLoading();
+                            if(collection.containKey("message")) {
+                                String message = (String) collection.getDataWithKey("message");
+                                if(Utils.validateString(message)) {
+                                    AppNotify.getInstance().showError(message);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        licenseActiveRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                mDelegate.dismissDialogLoading();
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        licenseActiveRequest.setCustomUrl("https://www.simicart.com/usermanagement/api/authorize");
+        if(loginEntity != null) {
+            licenseActiveRequest.addParam("url", loginEntity.getUrl());
+        } else {
+            licenseActiveRequest.addParam("url", AppPreferences.getCustomerUrl());
+        }
+        licenseActiveRequest.request();
     }
 
     protected void onLoginDemo() {
@@ -121,7 +166,6 @@ public class LoginController extends AppController {
     }
 
     protected void onLoginUser(final LoginEntity loginEntity) {
-        mDelegate.showDialogLoading();
         LoginRequest loginUserRequest = new LoginRequest();
         loginUserRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
@@ -204,14 +248,13 @@ public class LoginController extends AppController {
                 loginEntity.setSessionID(qrObj.getString("session_id"));
             }
             AppPreferences.saveCustomerInfoForQr(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getSessionID());
-            onLoginQr(loginEntity);
+            checkLicenseActive(loginEntity, false);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
     protected void onLoginQr(LoginEntity loginEntity) {
-        mDelegate.showDialogLoading();
         LoginRequest loginQrRequest = new LoginRequest();
         loginQrRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
@@ -242,7 +285,9 @@ public class LoginController extends AppController {
     }
 
     protected void goToHome() {
-        requestListStoreViews();
+        if(AppManager.getInstance().getMenuTopController().getListStoreViews() == null) {
+            requestListStoreViews();
+        }
         AppManager.getInstance().enableDrawer();
         AppManager.getInstance().initHeader();
         AppManager.getInstance().getManager().popBackStackImmediate();
