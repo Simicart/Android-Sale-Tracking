@@ -41,6 +41,7 @@ public class LoginFragment extends AppFragment {
         }
         mBlock.onTryDemoClick(mController.getOnTryDemoClick());
         mBlock.onLoginClick(mController.getOnLoginClick());
+        mBlock.onLoginQrClick(mController.getOnLoginQrClick());
 
         return rootView;
     }

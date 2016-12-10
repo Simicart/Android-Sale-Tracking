@@ -2,6 +2,7 @@ package com.simicart.saletracking;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -16,11 +18,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.menutop.MenuTopController;
+
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -54,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AppManager.getInstance().setDrawerLayout(mDrawer);
         AppManager.getInstance().setNavigationView(mNavigationView);
 
-        if (AppPreferences.isSignInComplete()) {
+        if (AppPreferences.isSignInNormal()) {
             AppManager.getInstance().enableDrawer();
         } else {
             AppManager.getInstance().disableDrawer();
@@ -81,6 +86,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }, 2000);
         } else {
             AppManager.getInstance().backToPreviousFragment();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == 49374) {
+            HashMap<String, Object> hmQRData = new HashMap<>();
+            hmQRData.put("intent", data);
+            hmQRData.put("request_code", requestCode);
+            hmQRData.put("result_code", resultCode);
+
+            Intent intent = new Intent("login.qrcode");
+            Bundle bundle = new Bundle();
+            AppData mData = new AppData(hmQRData);
+            bundle.putParcelable("entity", mData);
+            intent.putExtra("data", bundle);
+
+            LocalBroadcastManager.getInstance(this).sendBroadcastSync(intent);
         }
     }
 
@@ -129,9 +154,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer.closeDrawer(GravityCompat.START);
         if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);
-        } else {
-            AppPreferences.setSignInComplete(false);
+        } else if(AppPreferences.isSignInNormal()) {
+            AppPreferences.setSignInNormal(false);
             AppPreferences.clearCustomerInfo();
+        } else {
+            AppPreferences.setSignInQr(false);
+            AppPreferences.clearCustomerInfoForQr();
         }
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -27,8 +27,8 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
 
     protected ImageView ivUrl, ivUser, ivPass, ivLogo;
     protected EditText etUrl, etUser, etPass;
-    protected AppCompatButton btLogin, btDemo;
-    protected TextView tvOr, tvHelp;
+    protected AppCompatButton btLogin, btLoginQr, btDemo;
+    protected TextView tvHelp;
     protected RelativeLayout rlLogin;
 
     public LoginBlock(View view) {
@@ -68,18 +68,17 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
         btLogin = (AppCompatButton) mView.findViewById(R.id.bt_login);
         AppColor.getInstance().initButton(btLogin, "LOGIN");
 
+        btLoginQr = (AppCompatButton) mView.findViewById(R.id.bt_login_qr);
+        AppColor.getInstance().initButton(btLoginQr, "QRCODE LOGIN");
+
         btDemo = (AppCompatButton) mView.findViewById(R.id.bt_demo);
         AppColor.getInstance().initButton(btDemo, "TRY DEMO");
-
-        tvOr = (TextView) mView.findViewById(R.id.tv_or);
-        tvOr.setText("or");
-        tvOr.setTextColor(Color.parseColor("#FFFFFF"));
 
         tvHelp = (TextView) mView.findViewById(R.id.tv_help);
         tvHelp.setText("Need Help?");
         tvHelp.setTextColor(Color.parseColor("#FFFFFF"));
 
-        if(AppPreferences.isSignInComplete()) {
+        if(AppPreferences.isSignInNormal()) {
             String url = AppPreferences.getCustomerUrl();
             String email = AppPreferences.getCustomerEmail();
             String pass = AppPreferences.getCustomerPassword();
@@ -142,5 +141,9 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
 
     public void onLoginClick(View.OnClickListener listener) {
         btLogin.setOnClickListener(listener);
+    }
+
+    public void onLoginQrClick(View.OnClickListener listener) {
+        btLoginQr.setOnClickListener(listener);
     }
 }

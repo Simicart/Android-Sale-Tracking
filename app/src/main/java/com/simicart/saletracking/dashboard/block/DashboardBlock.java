@@ -213,7 +213,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         threeMonths.setToDate(getToDay());
         threeMonths.setLabel("Last 3 Months (90 Days)");
         threeMonths.setKey("three_months");
-        threeMonths.setPeriod("month");
+        threeMonths.setPeriod("day");
         mListTimeLayers.add(threeMonths);
 
         TimeLayerEntity thisYear = new TimeLayerEntity();

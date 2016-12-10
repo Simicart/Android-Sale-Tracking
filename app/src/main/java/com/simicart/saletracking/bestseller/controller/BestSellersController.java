@@ -63,8 +63,8 @@ public class BestSellersController extends AppController {
                 if (collection != null) {
                     if (collection.containKey("total")) {
                         int totalResult = (int) collection.getDataWithKey("total");
-                        mTotalPage = totalResult / 30;
-                        if (totalResult % 30 != 0 || mTotalPage == 0) {
+                        mTotalPage = totalResult / mLimit;
+                        if (totalResult % mLimit != 0 || mTotalPage == 0) {
                             mTotalPage += 1;
                         }
                     }

@@ -15,11 +15,13 @@ public class AppPreferences {
     public static SharedPreferences mSharedPre;
 
     public static final String NAME_REFERENCE = "saleTracking";
-    private static final String SIGN_IN_COMPLETE = "signInComplete";
+    private static final String SIGN_IN_NORMAL = "signInNormal";
+    private static final String SIGN_IN_QR = "signInQr";
     private static final String IS_DEMO = "isDemo";
     private static final String CUSTOMER_URL = "customerUrl";
     private static final String CUSTOMER_EMAIL = "customerEmail";
     private static final String CUSTOMER_PASSWORD = "customerPassword";
+    private static final String CUSTOMER_QR_SESSION = "customerQrSession";
     private static final String PAGING = "paging";
     private static final String DASHBOARD_SHOW_SALE_REPORT = "dashboardShowSaleReport";
     private static final String DASHBOARD_SHOW_LATEST_CUSTOMERS = "dashboardShowLatestCustomers";
@@ -31,16 +33,30 @@ public class AppPreferences {
                 Context.MODE_PRIVATE);
     }
 
-    public static void setSignInComplete(boolean signIn) {
+    public static void setSignInNormal(boolean signIn) {
         SharedPreferences.Editor editor = mSharedPre.edit();
-        editor.putBoolean(SIGN_IN_COMPLETE, signIn);
+        editor.putBoolean(SIGN_IN_NORMAL, signIn);
         editor.commit();
     }
 
-    public static boolean isSignInComplete() {
+    public static boolean isSignInNormal() {
         boolean isSignInComplete = false;
         if (mSharedPre != null) {
-            isSignInComplete = mSharedPre.getBoolean(SIGN_IN_COMPLETE, false);
+            isSignInComplete = mSharedPre.getBoolean(SIGN_IN_NORMAL, false);
+        }
+        return isSignInComplete;
+    }
+
+    public static void setSignInQr(boolean signIn) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putBoolean(SIGN_IN_QR, signIn);
+        editor.commit();
+    }
+
+    public static boolean isSignInQr() {
+        boolean isSignInComplete = false;
+        if (mSharedPre != null) {
+            isSignInComplete = mSharedPre.getBoolean(SIGN_IN_QR, false);
         }
         return isSignInComplete;
     }
@@ -101,6 +117,20 @@ public class AppPreferences {
         return url;
     }
 
+    public static void setCustomerQrSession(String session) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putString(CUSTOMER_QR_SESSION, session);
+        editor.commit();
+    }
+
+    public static String getCustomerQrSession() {
+        String url = null;
+        if (mSharedPre != null) {
+            url = mSharedPre.getString(CUSTOMER_QR_SESSION, "");
+        }
+        return url;
+    }
+
     public static void saveCustomerInfo(String url, String email, String pass) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putString(CUSTOMER_URL, url);
@@ -114,6 +144,22 @@ public class AppPreferences {
         editor.putString(CUSTOMER_URL, null);
         editor.putString(CUSTOMER_EMAIL, null);
         editor.putString(CUSTOMER_PASSWORD, null);
+        editor.commit();
+    }
+
+    public static void saveCustomerInfoForQr(String url, String email, String session) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putString(CUSTOMER_URL, url);
+        editor.putString(CUSTOMER_EMAIL, email);
+        editor.putString(CUSTOMER_QR_SESSION, session);
+        editor.commit();
+    }
+
+    public static void clearCustomerInfoForQr() {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putString(CUSTOMER_URL, null);
+        editor.putString(CUSTOMER_EMAIL, null);
+        editor.putString(CUSTOMER_QR_SESSION, null);
         editor.commit();
     }
 

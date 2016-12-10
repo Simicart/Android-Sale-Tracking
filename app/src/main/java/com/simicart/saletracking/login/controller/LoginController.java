@@ -1,9 +1,20 @@
 package com.simicart.saletracking.login.controller;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
@@ -17,6 +28,10 @@ import com.simicart.saletracking.login.request.LoginRequest;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 import com.simicart.saletracking.store.request.GetStoreRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 /**
@@ -28,6 +43,7 @@ public class LoginController extends AppController {
     protected LoginDelegate mDelegate;
     protected View.OnClickListener onTryDemoClick;
     protected View.OnClickListener onLoginClick;
+    protected View.OnClickListener onLoginQrClick;
     protected String mDeviceID;
 
     @Override
@@ -51,13 +67,23 @@ public class LoginController extends AppController {
                 Utils.hideKeyboard();
                 LoginEntity loginEntity = mDelegate.getLoginInfo();
                 if (loginEntity != null) {
+                    AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
                     onLoginUser(loginEntity);
                 }
             }
         };
 
-        if(AppPreferences.isSignInComplete()) {
+        onLoginQrClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onQrCodeClick();
+            }
+        };
+
+        if(AppPreferences.isSignInNormal()) {
             onLoginUser(null);
+        } else if(AppPreferences.isSignInQr()) {
+            onLoginQr(null);
         }
 
     }
@@ -101,10 +127,7 @@ public class LoginController extends AppController {
             @Override
             public void onSuccess(AppCollection collection) {
                 mDelegate.dismissDialogLoading();
-                AppPreferences.setSignInComplete(true);
-                if (loginEntity != null) {
-                    AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
-                }
+                AppPreferences.setSignInNormal(true);
                 goToHome();
             }
         });
@@ -113,6 +136,7 @@ public class LoginController extends AppController {
             public void onFail(String message) {
                 mDelegate.dismissDialogLoading();
                 AppNotify.getInstance().showError(message);
+                AppPreferences.clearCustomerInfo();
             }
         });
         loginUserRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
@@ -130,6 +154,91 @@ public class LoginController extends AppController {
             loginUserRequest.addParam("device_token", "nontoken_" + mDeviceID);
         }
         loginUserRequest.request();
+    }
+
+    protected void onQrCodeClick() {
+        new IntentIntegrator(AppManager.getInstance().getCurrentActivity()).initiateScan();
+
+        BroadcastReceiver onScanResultReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                Bundle bundle = intent.getBundleExtra("data");
+                AppData mData =  bundle.getParcelable("entity");
+                int requestCode = (int) mData.getData().get("request_code");
+                int resultCode = (int) mData.getData().get("result_code");
+                Intent data = (Intent) mData.getData().get("intent");
+
+                IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+                if (intentResult != null) {
+                    if (intentResult.getContents() != null) {
+                        String result = intentResult.getContents();
+                        if(Utils.validateString(result)) {
+                            try {
+                                byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
+                                final String decodedResult = new String(decodedBytes, "UTF-8");
+                                parseDecodedQrCode(decodedResult);
+                            } catch (UnsupportedEncodingException e) {
+                                Log.e("Decode QR Result", e.getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+        };
+        LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity())
+                .registerReceiver(onScanResultReceiver, new IntentFilter("login.qrcode"));
+    }
+
+    protected void parseDecodedQrCode(String qrCode) {
+        try {
+            JSONObject qrObj = new JSONObject(qrCode);
+            LoginEntity loginEntity = new LoginEntity();
+            if(qrObj.has("user_email")) {
+                loginEntity.setEmail(qrObj.getString("user_email"));
+            }
+            if(qrObj.has("url")) {
+                loginEntity.setUrl(qrObj.getString("url"));
+            }
+            if(qrObj.has("session_id")) {
+                loginEntity.setSessionID(qrObj.getString("session_id"));
+            }
+            AppPreferences.saveCustomerInfoForQr(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getSessionID());
+            onLoginQr(loginEntity);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void onLoginQr(LoginEntity loginEntity) {
+        mDelegate.showDialogLoading();
+        LoginRequest loginQrRequest = new LoginRequest();
+        loginQrRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                mDelegate.dismissDialogLoading();
+                AppPreferences.setSignInQr(true);
+                goToHome();
+            }
+        });
+        loginQrRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                mDelegate.dismissDialogLoading();
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        loginQrRequest.setExtendUrl("simitracking/rest/v2/staffs/loginWithKeySession");
+        if(loginEntity != null) {
+            loginQrRequest.addParam("qr_session_id", loginEntity.getSessionID());
+        } else {
+            loginQrRequest.addParam("qr_session_id", AppPreferences.getCustomerQrSession());
+        }
+        loginQrRequest.addParam("platform", "3");
+        if (Utils.validateString(mDeviceID)) {
+            loginQrRequest.addParam("new_token_id", "nontoken_" + mDeviceID);
+        }
+        loginQrRequest.request();
     }
 
     protected void goToHome() {
@@ -154,7 +263,7 @@ public class LoginController extends AppController {
                 }
             }
         });
-        getStoreRequest.setExtendUrl("simiconnector/rest/v2/stores");
+        getStoreRequest.setExtendUrl("simitracking/rest/v2/stores");
         getStoreRequest.request();
     }
 
@@ -168,6 +277,10 @@ public class LoginController extends AppController {
 
     public View.OnClickListener getOnLoginClick() {
         return onLoginClick;
+    }
+
+    public View.OnClickListener getOnLoginQrClick() {
+        return onLoginQrClick;
     }
 
 }

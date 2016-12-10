@@ -40,7 +40,7 @@ public class AppRequest {
         if (AppManager.getInstance().isDemo()) {
             hmParams.put("email", Constants.demoEmail);
             hmParams.put("password", Constants.demoPassword);
-        } else if (AppPreferences.isSignInComplete()) {
+        } else if (AppPreferences.isSignInNormal()) {
             hmParams.put("email", AppPreferences.getCustomerEmail());
             hmParams.put("password", AppPreferences.getCustomerPassword());
         }

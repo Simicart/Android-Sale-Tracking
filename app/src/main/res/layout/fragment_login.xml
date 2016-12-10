@@ -7,10 +7,10 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="@dimen/size_200"
-        android:layout_height="@dimen/size_200"
+        android:layout_width="@dimen/size_180"
+        android:layout_height="@dimen/size_180"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/size_30"/>
+        android:layout_marginTop="@dimen/size_25"/>
 
     <LinearLayout
         android:id="@+id/ll_user"
@@ -95,21 +95,20 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/size_20"/>
 
-    <TextView
-        android:id="@+id/tv_or"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/bt_login_qr"
+        android:layout_width="@dimen/size_250"
+        android:layout_height="@dimen/height_button"
         android:layout_below="@+id/bt_login"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/size_5"
-        android:textSize="@dimen/text_16"
-        android:text="or"/>
+        android:drawableStart="@drawable/ic_qrcode"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/bt_demo"
         android:layout_width="@dimen/size_250"
         android:layout_height="@dimen/height_button"
-        android:layout_below="@+id/tv_or"
+        android:layout_below="@+id/bt_login_qr"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/size_5"/>
 

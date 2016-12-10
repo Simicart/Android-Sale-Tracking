@@ -11,6 +11,7 @@ public class LoginEntity extends AppEntity {
     protected String mUrl;
     protected String mEmail;
     protected String mPassword;
+    protected String mSessionID;
 
     public String getEmail() {
         return mEmail;
@@ -34,5 +35,13 @@ public class LoginEntity extends AppEntity {
 
     public void setUrl(String url) {
         mUrl = url;
+    }
+
+    public String getSessionID() {
+        return mSessionID;
+    }
+
+    public void setSessionID(String sessionID) {
+        mSessionID = sessionID;
     }
 }
