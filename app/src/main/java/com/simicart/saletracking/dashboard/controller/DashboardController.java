@@ -25,6 +25,7 @@ public class DashboardController extends AppController {
 
     protected DashboardDelegate mDelegate;
     protected AdapterView.OnItemSelectedListener mOnTimeSelected;
+    protected View.OnClickListener mOnRefreshStatsClick;
     protected TimeLayerEntity mTimeLayerEntity;
     protected int mTotalStep = 0;
     protected int mCurrentStep = 0;
@@ -40,7 +41,7 @@ public class DashboardController extends AppController {
 
         if (AppPreferences.getShowSaleReport()) {
             mTotalStep++;
-            requestSales();
+            requestSales("saleinfo");
         }
 
         if (AppPreferences.getShowLatestOrder()) {
@@ -66,7 +67,7 @@ public class DashboardController extends AppController {
 
     }
 
-    protected void requestSales() {
+    protected void requestSales(String extend) {
         ListSalesRequest listSalesRequest = new ListSalesRequest();
         listSalesRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
@@ -86,7 +87,7 @@ public class DashboardController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        listSalesRequest.setExtendUrl("simitracking/rest/v2/sales/saleinfo");
+        listSalesRequest.setExtendUrl("simitracking/rest/v2/sales/" + extend);
         listSalesRequest.addParam("dir", "desc");
         if (mTimeLayerEntity != null) {
             listSalesRequest.addParam(mTimeLayerEntity.getFromDateKey(), mTimeLayerEntity.getFromDate());
@@ -157,7 +158,7 @@ public class DashboardController extends AppController {
                     isReloadChart = true;
                     mDelegate.showDialogLoading();
                     mTimeLayerEntity = mDelegate.getListTimeLayers().get(i);
-                    requestSales();
+                    requestSales("saleinfo");
                 } else {
                     isFirstRun = false;
                 }
@@ -166,6 +167,15 @@ public class DashboardController extends AppController {
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
+            }
+        };
+
+        mOnRefreshStatsClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isReloadChart = true;
+                mDelegate.showDialogLoading();
+                requestSales("refresh");
             }
         };
     }
@@ -192,5 +202,9 @@ public class DashboardController extends AppController {
 
     public AdapterView.OnItemSelectedListener getOnTimeSelected() {
         return mOnTimeSelected;
+    }
+
+    public View.OnClickListener getOnRefreshStatsClick() {
+        return mOnRefreshStatsClick;
     }
 }

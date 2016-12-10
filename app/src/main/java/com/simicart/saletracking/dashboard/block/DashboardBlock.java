@@ -42,7 +42,9 @@ import java.util.Calendar;
 
 public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
-    protected LinearLayout llTime, llChart;
+    protected LinearLayout llRefresh, llChart;
+    protected RelativeLayout rlTopChart;
+    protected TextView tvRefresh;
     protected Spinner spTime;
     protected TableLayout tlSummary;
     protected TextView tvRevenueLabel, tvTaxLabel, tvShippingLabel, tvQuantityLabel, tvLifeTimeSaleLabel, tvAverageLabel;
@@ -58,7 +60,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     @Override
     public void initView() {
 
-        initTime();
+        initTopChart();
 
         llChart = (LinearLayout) mView.findViewById(R.id.ll_chart);
 
@@ -84,7 +86,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
         int gone = 0;
         if (!AppPreferences.getShowSaleReport()) {
-            llTime.setVisibility(View.GONE);
+            rlTopChart.setVisibility(View.GONE);
             llChart.setVisibility(View.GONE);
             tlSummary.setVisibility(View.GONE);
             gone++;
@@ -173,12 +175,18 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         return mListTimeLayers;
     }
 
-    protected void initTime() {
-        llTime = (LinearLayout) mView.findViewById(R.id.ll_time);
+    protected void initTopChart() {
+        rlTopChart = (RelativeLayout) mView.findViewById(R.id.rl_top_chart);
         spTime = (Spinner) mView.findViewById(R.id.sp_time);
         initTimeLayer();
         TimeAdapter adapter = new TimeAdapter(mListTimeLayers);
         spTime.setAdapter(adapter);
+
+        llRefresh = (LinearLayout) mView.findViewById(R.id.ll_refresh);
+
+        tvRefresh = (TextView) mView.findViewById(R.id.tv_refresh);
+        tvRefresh.setTextColor(Color.BLACK);
+        tvRefresh.setText("Refresh Site Stats");
     }
 
     protected void initTimeLayer() {
@@ -338,6 +346,10 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     public void setOnTimeSelected(AdapterView.OnItemSelectedListener listener) {
         spTime.setOnItemSelectedListener(listener);
+    }
+
+    public void setOnRefreshStats(View.OnClickListener listener) {
+        llRefresh.setOnClickListener(listener);
     }
 
 }
