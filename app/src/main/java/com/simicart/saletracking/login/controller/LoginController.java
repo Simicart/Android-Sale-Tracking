@@ -56,6 +56,10 @@ public class LoginController extends AppController {
             }
         };
 
+        if(AppPreferences.isSignInComplete()) {
+            onLoginUser(null);
+        }
+
     }
 
     @Override
@@ -80,7 +84,7 @@ public class LoginController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        loginDemoRequest.setExtendUrl("staffs/login");
+        loginDemoRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
         loginDemoRequest.addParam("email", "test@simicart.com");
         loginDemoRequest.addParam("password", "123456");
         loginDemoRequest.addParam("platform", "3");
@@ -96,8 +100,11 @@ public class LoginController extends AppController {
         loginUserRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
+                mDelegate.dismissDialogLoading();
                 AppPreferences.setSignInComplete(true);
-                AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
+                if (loginEntity != null) {
+                    AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
+                }
                 goToHome();
             }
         });
@@ -108,10 +115,16 @@ public class LoginController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        loginUserRequest.setExtendUrl("staffs/login");
-        loginUserRequest.addParam("url", loginEntity.getUrl());
-        loginUserRequest.addParam("email", loginEntity.getEmail());
-        loginUserRequest.addParam("password", loginEntity.getPassword());
+        loginUserRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
+        if (loginEntity != null) {
+            loginUserRequest.addParam("url", loginEntity.getUrl());
+            loginUserRequest.addParam("email", loginEntity.getEmail());
+            loginUserRequest.addParam("password", loginEntity.getPassword());
+        } else {
+            loginUserRequest.addParam("url", AppPreferences.getCustomerUrl());
+            loginUserRequest.addParam("email", AppPreferences.getCustomerEmail());
+            loginUserRequest.addParam("password", AppPreferences.getCustomerPassword());
+        }
         loginUserRequest.addParam("platform", "3");
         if (Utils.validateString(mDeviceID)) {
             loginUserRequest.addParam("device_token", "nontoken_" + mDeviceID);
@@ -141,7 +154,7 @@ public class LoginController extends AppController {
                 }
             }
         });
-        getStoreRequest.setExtendUrl("stores");
+        getStoreRequest.setExtendUrl("simiconnector/rest/v2/stores");
         getStoreRequest.request();
     }
 

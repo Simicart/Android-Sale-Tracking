@@ -45,7 +45,7 @@ public class AbandonedCartDetailController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        abandonedCartDetailRequest.setExtendUrl("abandonedcarts/" + mAbandonedCartID);
+        abandonedCartDetailRequest.setExtendUrl("simitracking/rest/v2/abandonedcarts/" + mAbandonedCartID);
         abandonedCartDetailRequest.request();
     }
 

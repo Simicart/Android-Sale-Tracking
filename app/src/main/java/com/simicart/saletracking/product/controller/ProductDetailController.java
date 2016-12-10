@@ -55,7 +55,7 @@ public class ProductDetailController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        productDetailRequest.setExtendUrl("products/" + mProductID);
+        productDetailRequest.setExtendUrl("simitracking/rest/v2/products/" + mProductID);
         productDetailRequest.request();
     }
 

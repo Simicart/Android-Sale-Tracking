@@ -93,7 +93,7 @@ public class ListAbandonedCartsController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        cartsRequest.setExtendUrl("abandonedcarts");
+        cartsRequest.setExtendUrl("simitracking/rest/v2/abandonedcarts");
         cartsRequest.addParam("dir", "desc");
         cartsRequest.addParam("limit", String.valueOf(mLimit));
         cartsRequest.addParam("offset", String.valueOf(mOffset));

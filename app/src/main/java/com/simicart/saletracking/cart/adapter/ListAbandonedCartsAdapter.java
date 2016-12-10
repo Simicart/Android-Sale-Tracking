@@ -103,6 +103,8 @@ public class ListAbandonedCartsAdapter extends SectioningAdapter {
         String customerEmail = cartEntity.getCustomerEmail();
         if (Utils.validateString(customerEmail)) {
             itemViewHolder.tvCustomerEmail.setText(customerEmail);
+        } else {
+            itemViewHolder.tvCustomerEmail.setText("Not Logged In");
         }
 
         String qty = cartEntity.getItemQty();

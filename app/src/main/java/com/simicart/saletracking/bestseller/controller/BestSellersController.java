@@ -85,7 +85,7 @@ public class BestSellersController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        bestSellersRequest.setExtendUrl("bestsellers");
+        bestSellersRequest.setExtendUrl("simitracking/rest/v2/bestsellers");
         bestSellersRequest.addParam("dir", "desc");
         bestSellersRequest.addParam("limit", String.valueOf(mLimit));
         bestSellersRequest.addParam("offset", String.valueOf(mOffset));

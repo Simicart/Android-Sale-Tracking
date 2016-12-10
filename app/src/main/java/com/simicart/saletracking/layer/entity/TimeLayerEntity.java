@@ -10,6 +10,7 @@ public class TimeLayerEntity extends LayerEntity {
     protected String mFromDate;
     protected String mToDateKey = "to_date";
     protected String mToDate;
+    protected String mPeriod;
 
     public String getFromDate() {
         return mFromDate;
@@ -41,5 +42,13 @@ public class TimeLayerEntity extends LayerEntity {
 
     public void setToDateKey(String toDateKey) {
         mToDateKey = toDateKey;
+    }
+
+    public String getPeriod() {
+        return mPeriod;
+    }
+
+    public void setPeriod(String period) {
+        mPeriod = period;
     }
 }

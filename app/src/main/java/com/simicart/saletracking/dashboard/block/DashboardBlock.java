@@ -8,8 +8,10 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -22,12 +24,17 @@ import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.CustomerEntity;
 import com.simicart.saletracking.dashboard.adapter.LatestCustomerAdapter;
 import com.simicart.saletracking.dashboard.adapter.LatestOrdersAdapter;
+import com.simicart.saletracking.dashboard.adapter.TimeAdapter;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
+import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import com.simicart.saletracking.order.entity.OrderEntity;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Glenn on 12/5/2016.
@@ -36,12 +43,13 @@ import java.util.ArrayList;
 public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     protected LinearLayout llTime, llChart;
-    protected TextView tvTime;
+    protected Spinner spTime;
     protected TableLayout tlSummary;
     protected TextView tvRevenueLabel, tvTaxLabel, tvShippingLabel, tvQuantityLabel, tvLifeTimeSaleLabel, tvAverageLabel;
     protected TextView tvRevenue, tvTax, tvShipping, tvQuantity, tvLifeTimeSale, tvAverage;
     protected TextView tvLatestOrdersTitle, tvLatestCustomersTitle;
     protected RecyclerView rvLatestOrders, rvLatestCustomers;
+    protected ArrayList<TimeLayerEntity> mListTimeLayers;
 
     public DashboardBlock(View view) {
         super(view);
@@ -50,9 +58,9 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     @Override
     public void initView() {
 
-        tvTime = (TextView) mView.findViewById(R.id.tv_time);
+        initTime();
+
         llChart = (LinearLayout) mView.findViewById(R.id.ll_chart);
-        llTime = (LinearLayout) mView.findViewById(R.id.ll_time);
 
         initTotal();
 
@@ -102,26 +110,38 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void updateView(AppCollection collection) {
+
     }
 
     @Override
-    public void showChart(AppCollection collection) {
-        if (collection != null) {
-            if (collection.containKey("sale")) {
-                SaleEntity saleEntity = (SaleEntity) collection.getDataWithKey("sale");
-                if (saleEntity != null) {
-                    ChartComponent chartComponent = new ChartComponent();
-                    chartComponent.setSaleEntity(saleEntity);
-                    View chartView = chartComponent.createView();
-                    if (chartView != null) {
-                        llChart.removeAllViewsInLayout();
-                        llChart.addView(chartView);
-                    }
-
-                    showTotal(saleEntity);
-                }
-            }
+    public void showChart(View view) {
+        if (view != null) {
+            llChart.removeAllViewsInLayout();
+            llChart.addView(view);
         }
+    }
+
+    @Override
+    public void showTotal(SaleEntity saleEntity) {
+
+        float revenue = saleEntity.getTotalSaleRevenue();
+        tvRevenue.setText(Utils.getPrice(String.valueOf(revenue), "USD"));
+
+        float tax = saleEntity.getTotalSaleTax();
+        tvTax.setText(Utils.getPrice(String.valueOf(tax), "USD"));
+
+        float shipping = saleEntity.getTotalSaleShipping();
+        tvShipping.setText(Utils.getPrice(String.valueOf(shipping), "USD"));
+
+        int quantity = saleEntity.getTotalSaleQuantity();
+        tvQuantity.setText(String.valueOf(quantity));
+
+        float lifetimeTotal = saleEntity.getLifeTimeSaleTotal();
+        tvLifeTimeSale.setText(Utils.getPrice(String.valueOf(lifetimeTotal), "USD"));
+
+        float average = saleEntity.getLifeTimeSaleAverage();
+        tvAverage.setText(Utils.getPrice(String.valueOf(average), "USD"));
+
     }
 
     @Override
@@ -146,6 +166,71 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
                 }
             }
         }
+    }
+
+    @Override
+    public ArrayList<TimeLayerEntity> getListTimeLayers() {
+        return mListTimeLayers;
+    }
+
+    protected void initTime() {
+        llTime = (LinearLayout) mView.findViewById(R.id.ll_time);
+        spTime = (Spinner) mView.findViewById(R.id.sp_time);
+        initTimeLayer();
+        TimeAdapter adapter = new TimeAdapter(mListTimeLayers);
+        spTime.setAdapter(adapter);
+    }
+
+    protected void initTimeLayer() {
+        mListTimeLayers = new ArrayList<>();
+
+        TimeLayerEntity last7Days = new TimeLayerEntity();
+        last7Days.setFromDate(getDate(Calendar.DATE, -7, true));
+        last7Days.setToDate(getToDay());
+        last7Days.setLabel("Last 7 Days");
+        last7Days.setKey("7_days");
+        last7Days.setPeriod("day");
+        mListTimeLayers.add(last7Days);
+
+        TimeLayerEntity currentMonth = new TimeLayerEntity();
+        currentMonth.setFromDate(getDate(Calendar.DAY_OF_MONTH, 1, false));
+        currentMonth.setToDate(getToDay());
+        currentMonth.setLabel("Current Month");
+        currentMonth.setKey("current_month");
+        currentMonth.setPeriod("day");
+        mListTimeLayers.add(currentMonth);
+
+        TimeLayerEntity lastMonth = new TimeLayerEntity();
+        lastMonth.setFromDate(getFirstDayOfLastMonth());
+        lastMonth.setToDate(getLastDayOfLastMonth());
+        lastMonth.setLabel("Last Month");
+        lastMonth.setKey("last_month");
+        lastMonth.setPeriod("day");
+        mListTimeLayers.add(lastMonth);
+
+        TimeLayerEntity threeMonths = new TimeLayerEntity();
+        threeMonths.setFromDate(getDate(Calendar.DAY_OF_MONTH, -90, true));
+        threeMonths.setToDate(getToDay());
+        threeMonths.setLabel("Last 3 Months (90 Days)");
+        threeMonths.setKey("three_months");
+        threeMonths.setPeriod("month");
+        mListTimeLayers.add(threeMonths);
+
+        TimeLayerEntity thisYear = new TimeLayerEntity();
+        thisYear.setFromDate(getDate(Calendar.DAY_OF_YEAR, 1, false));
+        thisYear.setToDate(getToDay());
+        thisYear.setLabel("Year To Day");
+        thisYear.setKey("this_year");
+        thisYear.setPeriod("month");
+        mListTimeLayers.add(thisYear);
+
+        TimeLayerEntity twoYears = new TimeLayerEntity();
+        twoYears.setFromDate(getFirstDayOfLast2Year());
+        twoYears.setToDate(getToDay());
+        twoYears.setLabel("2 Years To Day");
+        twoYears.setKey("two_years");
+        twoYears.setPeriod("month");
+        mListTimeLayers.add(twoYears);
     }
 
     protected void initTotal() {
@@ -194,28 +279,6 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         tvAverage.setTextColor(Color.BLACK);
     }
 
-    protected void showTotal(SaleEntity saleEntity) {
-
-        float revenue = saleEntity.getTotalSaleRevenue();
-        tvRevenue.setText(Utils.getPrice(String.valueOf(revenue), "USD"));
-
-        float tax = saleEntity.getTotalSaleTax();
-        tvTax.setText(Utils.getPrice(String.valueOf(tax), "USD"));
-
-        float shipping = saleEntity.getTotalSaleShipping();
-        tvShipping.setText(Utils.getPrice(String.valueOf(shipping), "USD"));
-
-        int quantity = saleEntity.getTotalSaleQuantity();
-        tvQuantity.setText(String.valueOf(quantity));
-
-        float lifetimeTotal = saleEntity.getLifeTimeSaleTotal();
-        tvLifeTimeSale.setText(Utils.getPrice(String.valueOf(lifetimeTotal), "USD"));
-
-        float average = saleEntity.getLifeTimeSaleAverage();
-        tvAverage.setText(Utils.getPrice(String.valueOf(average), "USD"));
-
-    }
-
     public void showEmptyMessage() {
         ((ViewGroup) mView).removeAllViewsInLayout();
         TextView tvEmpty = new TextView(mContext);
@@ -230,6 +293,51 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         tvEmpty.setGravity(Gravity.CENTER);
         tvEmpty.setLayoutParams(params);
         ((ViewGroup) mView).addView(tvEmpty);
+    }
+
+    protected String getDate(int a, int b, boolean add) {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (add) {
+            cal.add(a, b);
+        } else {
+            cal.set(a, b);
+        }
+        return dateFormat.format(cal.getTime());
+    }
+
+    protected String getFirstDayOfLastMonth() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.MONTH, -1);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    protected String getLastDayOfLastMonth() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.add(Calendar.DATE, -1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    protected String getFirstDayOfLast2Year() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.YEAR, -2);
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    protected String getToDay() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(cal.getTime());
+    }
+
+    public void setOnTimeSelected(AdapterView.OnItemSelectedListener listener) {
+        spTime.setOnItemSelectedListener(listener);
     }
 
 }

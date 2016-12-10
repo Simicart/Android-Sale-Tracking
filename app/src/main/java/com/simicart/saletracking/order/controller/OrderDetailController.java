@@ -53,7 +53,7 @@ public class OrderDetailController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        orderDetailRequest.setExtendUrl("orders/" + mOrderID);
+        orderDetailRequest.setExtendUrl("simitracking/rest/v2/orders/" + mOrderID);
         orderDetailRequest.request();
     }
 

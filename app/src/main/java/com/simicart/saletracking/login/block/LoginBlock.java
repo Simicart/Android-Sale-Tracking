@@ -14,6 +14,7 @@ import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
@@ -77,6 +78,24 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
         tvHelp = (TextView) mView.findViewById(R.id.tv_help);
         tvHelp.setText("Need Help?");
         tvHelp.setTextColor(Color.parseColor("#FFFFFF"));
+
+        if(AppPreferences.isSignInComplete()) {
+            String url = AppPreferences.getCustomerUrl();
+            String email = AppPreferences.getCustomerEmail();
+            String pass = AppPreferences.getCustomerPassword();
+
+            if(Utils.validateString(url)) {
+                etUrl.setText(url);
+            }
+
+            if(Utils.validateString(email)) {
+                etUser.setText(email);
+            }
+
+            if(Utils.validateString(pass)) {
+                etPass.setText(pass);
+            }
+        }
 
     }
 

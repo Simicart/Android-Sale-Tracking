@@ -3,6 +3,7 @@ package com.simicart.saletracking.common;
 import android.app.Service;
 import android.text.Html;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -10,7 +11,14 @@ import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.product.entity.ProductEntity;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -167,6 +175,57 @@ public class Utils {
         } else {
             textView.setText(Html.fromHtml(html));
         }
+    }
+
+    public static ArrayList<String> getDatesFromPeriod(String fromDate, String toDate) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat newDateFormat = new SimpleDateFormat("dd/MM");
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = dateFormat.parse(fromDate);
+            endDate = dateFormat.parse(toDate);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        ArrayList<String> dates = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startDate);
+
+        while (calendar.getTime().before(endDate)) {
+            Date result = calendar.getTime();
+            dates.add(newDateFormat.format(result));
+            calendar.add(Calendar.DATE, 1);
+        }
+        return dates;
+    }
+
+    public static ArrayList<String> getMonthFromPeriod(String fromDate, String toDate) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat newDateFormat = new SimpleDateFormat("MM/yyyy");
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = dateFormat.parse(fromDate);
+            endDate = dateFormat.parse(toDate);
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        ArrayList<String> dates = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(startDate);
+
+        while (calendar.getTime().before(endDate)) {
+            Date result = calendar.getTime();
+            Log.e("abc", newDateFormat.format(result));
+            dates.add(newDateFormat.format(result));
+            calendar.add(Calendar.MONTH, 1);
+        }
+        return dates;
     }
 
 }

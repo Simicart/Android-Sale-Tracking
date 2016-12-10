@@ -132,6 +132,10 @@ public class AppRequest {
             mBaseUrl = AppPreferences.getCustomerUrl();
         }
 
+        if(mBaseUrl.charAt(mBaseUrl.length() - 1) != '/') {
+            mBaseUrl += "/";
+        }
+
         String url = mBaseUrl + mExtendUrl;
 
         String dataParameter = processDataParameter();

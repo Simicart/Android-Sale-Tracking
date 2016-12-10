@@ -58,7 +58,7 @@ public class CustomerDetailController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        customerDetailRequest.setExtendUrl("customers/" + mCustomerID);
+        customerDetailRequest.setExtendUrl("simitracking/rest/v2/customers/" + mCustomerID);
         customerDetailRequest.request();
     }
 

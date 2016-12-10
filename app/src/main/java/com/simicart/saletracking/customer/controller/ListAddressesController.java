@@ -45,7 +45,7 @@ public class ListAddressesController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        listAddressesRequest.setExtendUrl("addresses");
+        listAddressesRequest.setExtendUrl("simiconnector/rest/v2/addresses");
         listAddressesRequest.addParam("customer_id", mCustomerID);
         listAddressesRequest.request();
     }

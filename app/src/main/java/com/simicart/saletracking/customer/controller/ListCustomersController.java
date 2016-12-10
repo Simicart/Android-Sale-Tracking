@@ -94,7 +94,7 @@ public class ListCustomersController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        mListCustomersRequest.setExtendUrl("customers");
+        mListCustomersRequest.setExtendUrl("simitracking/rest/v2/customers");
         mListCustomersRequest.addParam("dir", "desc");
         mListCustomersRequest.addParam("limit", String.valueOf(mLimit));
         mListCustomersRequest.addParam("offset", String.valueOf(mOffset));

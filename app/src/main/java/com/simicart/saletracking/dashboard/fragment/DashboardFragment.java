@@ -40,6 +40,7 @@ public class DashboardFragment extends AppFragment {
             mController.setDelegate(mBlock);
             mController.onResume();
         }
+        mBlock.setOnTimeSelected(mController.getOnTimeSelected());
 
         AppManager.getInstance().getMenuTopController().setController(mController);
 

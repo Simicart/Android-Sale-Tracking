@@ -8,17 +8,17 @@ import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import java.util.ArrayList;
 
 /**
- * Created by Glenn on 12/6/2016.
+ * Created by Glenn on 12/10/2016.
  */
 
-public class DateInMonthValueFormatter implements IAxisValueFormatter {
+public class MonthInYearValueFormatter implements IAxisValueFormatter {
 
     protected TimeLayerEntity mTimeLayerEntity;
     protected ArrayList<String> mTimes;
 
-    public DateInMonthValueFormatter(TimeLayerEntity timeLayerEntity) {
+    public MonthInYearValueFormatter(TimeLayerEntity timeLayerEntity) {
         mTimeLayerEntity = timeLayerEntity;
-        mTimes = Utils.getDatesFromPeriod(mTimeLayerEntity.getFromDate(), mTimeLayerEntity.getToDate());
+        mTimes = Utils.getMonthFromPeriod(mTimeLayerEntity.getFromDate(), mTimeLayerEntity.getToDate());
     }
 
     @Override

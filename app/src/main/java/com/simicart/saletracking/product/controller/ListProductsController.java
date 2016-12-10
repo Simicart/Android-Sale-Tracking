@@ -94,7 +94,7 @@ public class ListProductsController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        listProductsRequest.setExtendUrl("products");
+        listProductsRequest.setExtendUrl("simitracking/rest/v2/products");
         listProductsRequest.addParam("dir", "desc");
         listProductsRequest.addParam("limit", String.valueOf(mLimit));
         listProductsRequest.addParam("offset", String.valueOf(mOffset));

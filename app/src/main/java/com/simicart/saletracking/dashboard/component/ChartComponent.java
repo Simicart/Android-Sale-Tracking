@@ -17,10 +17,13 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.component.AppComponent;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.dashboard.chart.DateInMonthValueFormatter;
 import com.simicart.saletracking.dashboard.chart.IntegerValueFormatter;
+import com.simicart.saletracking.dashboard.chart.MonthInYearValueFormatter;
 import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
+import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 
 import java.util.ArrayList;
 
@@ -32,7 +35,7 @@ public class ChartComponent extends AppComponent {
 
     protected CombinedChart mCombinedChart;
     protected SaleEntity saleEntity;
-    protected int mPeriod;
+    protected TimeLayerEntity mTimeLayerEntity;
     protected CombinedData mCombinedData;
     protected YAxis mAxisRight, mAxisLeft;
     protected XAxis mAxisTop;
@@ -41,8 +44,8 @@ public class ChartComponent extends AppComponent {
         this.saleEntity = saleEntity;
     }
 
-    public void setPeriod(int period) {
-        mPeriod = period;
+    public void setTimeLayerEntity(TimeLayerEntity timeLayerEntity) {
+        mTimeLayerEntity = timeLayerEntity;
     }
 
     @Override
@@ -89,7 +92,11 @@ public class ChartComponent extends AppComponent {
         mAxisTop = mCombinedChart.getXAxis();
         mAxisTop.setPosition(XAxis.XAxisPosition.BOTTOM);
         mAxisTop.setDrawGridLines(true);
-        mAxisTop.setValueFormatter(new DateInMonthValueFormatter("11"));
+        if(mTimeLayerEntity.getPeriod().equals("day")) {
+            mAxisTop.setValueFormatter(new DateInMonthValueFormatter(mTimeLayerEntity));
+        } else {
+            mAxisTop.setValueFormatter(new MonthInYearValueFormatter(mTimeLayerEntity));
+        }
     }
 
     protected void showBar() {

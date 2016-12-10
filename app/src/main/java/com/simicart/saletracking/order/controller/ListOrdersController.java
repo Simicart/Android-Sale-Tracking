@@ -106,7 +106,7 @@ public class ListOrdersController extends AppController {
                 AppNotify.getInstance().showError(message);
             }
         });
-        mListOrdersRequest.setExtendUrl("orders");
+        mListOrdersRequest.setExtendUrl("simitracking/rest/v2/orders");
         mListOrdersRequest.addParam("limit", String.valueOf(mLimit));
         mListOrdersRequest.addParam("offset", String.valueOf(mOffset));
         if (mSearchEntity != null) {
