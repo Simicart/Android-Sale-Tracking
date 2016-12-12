@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 public class ProductEntity extends AppEntity {
 
+    protected String mItemID;
     protected String mName;
     protected String mSku;
     protected String mBasePrice;
@@ -29,6 +30,7 @@ public class ProductEntity extends AppEntity {
     protected String mShortDescription;
     protected ArrayList<ProductAttributeEntity> mListAttributes;
 
+    private final String ITEM_ID = "item_id";
     private final String NAME = "name";
     private final String SKU = "sku";
     private final String BASE_PRICE = "base_price";
@@ -46,6 +48,8 @@ public class ProductEntity extends AppEntity {
 
     @Override
     public void parse() {
+
+        mItemID = getString(ITEM_ID);
 
         mName = getString(NAME);
 
@@ -98,6 +102,14 @@ public class ProductEntity extends AppEntity {
 
         mShortDescription = getString(SHORT_DESCRIPTION);
 
+    }
+
+    public String getItemID() {
+        return mItemID;
+    }
+
+    public void setItemID(String itemID) {
+        mItemID = itemID;
     }
 
     public String getBasePrice() {

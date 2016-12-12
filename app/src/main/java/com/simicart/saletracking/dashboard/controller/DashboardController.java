@@ -32,6 +32,10 @@ public class DashboardController extends AppController {
     protected boolean isFirstRun = true;
     protected boolean isReloadChart = false;
 
+    protected ListSalesRequest listSalesRequest;
+    protected ListOrdersRequest listOrdersRequest;
+    protected ListCustomersRequest listCustomersRequest;
+
     @Override
     public void onStart() {
 
@@ -64,11 +68,14 @@ public class DashboardController extends AppController {
 
     @Override
     public void onResume() {
+        showChart(listSalesRequest.getCollection());
+        mDelegate.showLatestOrders(listOrdersRequest.getCollection());
+        mDelegate.showLatestCustomers(listCustomersRequest.getCollection());
 
     }
 
     protected void requestSales(String extend) {
-        ListSalesRequest listSalesRequest = new ListSalesRequest();
+        listSalesRequest = new ListSalesRequest();
         listSalesRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
@@ -98,7 +105,7 @@ public class DashboardController extends AppController {
     }
 
     protected void requestLatestOrders() {
-        ListOrdersRequest listOrdersRequest = new ListOrdersRequest();
+        listOrdersRequest = new ListOrdersRequest();
         listOrdersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
@@ -121,7 +128,7 @@ public class DashboardController extends AppController {
     }
 
     protected void requestLatestCustomers() {
-        ListCustomersRequest listCustomersRequest = new ListCustomersRequest();
+        listCustomersRequest = new ListCustomersRequest();
         listCustomersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {

@@ -122,11 +122,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_dashboard:
                 AppManager.getInstance().openDashboardPage();
                 break;
-            case R.id.nav_bestseller:
-                AppManager.getInstance().openBestSellers();
-                break;
             case R.id.nav_orders:
                 AppManager.getInstance().openListOrders(null);
+                break;
+            case R.id.nav_bestseller:
+                AppManager.getInstance().openBestSellers();
                 break;
             case R.id.nav_products:
                 AppManager.getInstance().openListProducts(null);

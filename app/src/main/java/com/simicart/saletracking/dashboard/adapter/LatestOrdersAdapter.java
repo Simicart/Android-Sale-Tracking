@@ -6,14 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.entity.OrderEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 12/6/2016.
@@ -41,7 +44,13 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
     @Override
     public void onBindViewHolder(LatestOrderHolder holder, int position) {
 
-        OrderEntity orderEntity = listOrders.get(position);
+        final OrderEntity orderEntity = listOrders.get(position);
+
+        if(position % 2 == 0) {
+            holder.llItem.setBackgroundColor(Color.WHITE);
+        } else {
+            holder.llItem.setBackgroundColor(AppColor.getInstance().getSectionColor());
+        }
 
         String orderID = orderEntity.getIncrementID();
         if (Utils.validateString(orderID)) {
@@ -70,6 +79,15 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
             holder.tvCustomerEmail.setText(customerEmail);
         }
 
+        holder.llItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                hmData.put("order_id", orderEntity.getID());
+                AppManager.getInstance().openOrderDetail(hmData);
+            }
+        });
+
     }
 
     @Override
@@ -80,6 +98,7 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
     public class LatestOrderHolder extends RecyclerView.ViewHolder {
 
         private TextView tvOrderID, tvOrderPrice, tvCustomerName, tvCustomerEmail;
+        protected LinearLayout llItem;
 
         public LatestOrderHolder(View itemView) {
             super(itemView);
@@ -91,6 +110,7 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
             tvCustomerName.setTextColor(Color.BLACK);
             tvCustomerEmail = (TextView) itemView.findViewById(R.id.tv_customer_email);
             tvCustomerEmail.setTextColor(Color.BLACK);
+            llItem = (LinearLayout) itemView.findViewById(R.id.ll_item_order);
         }
     }
 }

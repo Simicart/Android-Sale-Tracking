@@ -3,6 +3,7 @@ package com.simicart.saletracking.order.block;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
@@ -34,6 +35,7 @@ public class OrderDetailBlock extends AppBlock {
             tvShippingMethodDescription, tvSubTotalExcl, tvSubTotalIncl, tvTax, tvShippingExcl,
             tvFeeGrandTotal;
     protected LinearLayout llItems, llShippingAddress, llBillingAddress;
+    protected RelativeLayout rlCustomer;
 
     public OrderDetailBlock(View view) {
         super(view);
@@ -119,6 +121,8 @@ public class OrderDetailBlock extends AppBlock {
     }
 
     protected void initCustomer() {
+
+        rlCustomer = (RelativeLayout) mView.findViewById(R.id.rl_customer);
 
         tvCustomerTitle = (TextView) mView.findViewById(R.id.tv_customer_title);
         tvCustomerTitle.setTextColor(Color.BLACK);
@@ -414,6 +418,10 @@ public class OrderDetailBlock extends AppBlock {
             }
         }
 
+    }
+
+    public void setOnCustomerClick(View.OnClickListener listener) {
+        rlCustomer.setOnClickListener(listener);
     }
 
 }

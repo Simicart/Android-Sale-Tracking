@@ -285,9 +285,7 @@ public class LoginController extends AppController {
     }
 
     protected void goToHome() {
-        if(AppManager.getInstance().getMenuTopController().getListStoreViews() == null) {
-            requestListStoreViews();
-        }
+        requestListStoreViews();
         AppManager.getInstance().enableDrawer();
         AppManager.getInstance().initHeader();
         AppManager.getInstance().getManager().popBackStackImmediate();

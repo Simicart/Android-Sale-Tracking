@@ -8,13 +8,17 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.CustomerEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 12/6/2016.
@@ -42,7 +46,13 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
     @Override
     public void onBindViewHolder(LatestCustomerHolder holder, int position) {
 
-        CustomerEntity customerEntity = listCustomers.get(position);
+        final CustomerEntity customerEntity = listCustomers.get(position);
+
+        if(position % 2 == 0) {
+            holder.llItem.setBackgroundColor(Color.WHITE);
+        } else {
+            holder.llItem.setBackgroundColor(AppColor.getInstance().getSectionColor());
+        }
 
         String customerID = customerEntity.getID();
         if (Utils.validateString(customerID)) {
@@ -60,6 +70,15 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
             holder.tvCustomerEmail.setText(customerEmail);
         }
 
+        holder.llItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                hmData.put("customer_id", customerEntity.getID());
+                AppManager.getInstance().openCustomerDetail(hmData);
+            }
+        });
+
     }
 
     @Override
@@ -70,12 +89,14 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
     public class LatestCustomerHolder extends RecyclerView.ViewHolder {
 
         public TextView tvCustomerID, tvCustomerName, tvCustomerEmail;
+        protected LinearLayout llItem;
 
         public LatestCustomerHolder(View itemView) {
             super(itemView);
             tvCustomerID = (TextView) itemView.findViewById(R.id.tv_customer_id);
             tvCustomerName = (TextView) itemView.findViewById(R.id.tv_customer_name);
             tvCustomerEmail = (TextView) itemView.findViewById(R.id.tv_customer_email);
+            llItem = (LinearLayout) itemView.findViewById(R.id.ll_item_customer);
 
             tvCustomerID.setTextColor(Color.BLACK);
             tvCustomerName.setTextColor(Color.BLACK);

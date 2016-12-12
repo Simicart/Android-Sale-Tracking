@@ -7,16 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.cart.entity.QuoteItemEntity;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 11/29/2016.
@@ -58,7 +61,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
     }
 
     protected void showProductItem(ProductCheckoutHolder holder, int position) {
-        ProductEntity productEntity = listProducts.get(position);
+        final ProductEntity productEntity = listProducts.get(position);
 
         String name = productEntity.getName();
         if (Utils.validateString(name)) {
@@ -82,10 +85,20 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         if (Utils.validateString(image)) {
             Glide.with(mContext).load(image).into(holder.ivImage);
         }
+
+        holder.rlItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                hmData.put("product_id", productEntity.getItemID());
+                AppManager.getInstance().openProductDetail(hmData);
+            }
+        });
+
     }
 
     protected void showQuoteItem(ProductCheckoutHolder holder, int position) {
-        QuoteItemEntity quoteItemEntity = listQuotes.get(position);
+        final QuoteItemEntity quoteItemEntity = listQuotes.get(position);
 
         String name = quoteItemEntity.getName();
         if (Utils.validateString(name)) {
@@ -109,6 +122,15 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         if (Utils.validateString(image)) {
             Glide.with(mContext).load(image).into(holder.ivImage);
         }
+
+        holder.rlItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                hmData.put("product_id", quoteItemEntity.getProductID());
+                AppManager.getInstance().openProductDetail(hmData);
+            }
+        });
     }
 
     @Override
@@ -124,6 +146,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
 
         private TextView tvName, tvSku, tvQty, tvPrice;
         private ImageView ivImage;
+        private RelativeLayout rlItem;
 
         public ProductCheckoutHolder(View itemView) {
             super(itemView);
@@ -136,6 +159,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
             tvPrice = (TextView) itemView.findViewById(R.id.tv_price);
             tvPrice.setTextColor(AppColor.getInstance().getPriceColor());
             ivImage = (ImageView) itemView.findViewById(R.id.iv_image);
+            rlItem = (RelativeLayout) itemView.findViewById(R.id.rl_item);
         }
     }
 

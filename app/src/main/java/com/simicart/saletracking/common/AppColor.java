@@ -17,7 +17,7 @@ public class AppColor {
     private final String mThemeColor = "#fc9900";
     private final String mButtonColor = "#F08002";
     private final String mButtonTextColor = "#FFFFFF";
-    private final String mSectionColor = "#CACACA";
+    private final String mSectionColor = "#f1f1f1";
     private final String mPriceColor = "#ff0000";
 
     private final String mOrderPendingColor = "#00b200";

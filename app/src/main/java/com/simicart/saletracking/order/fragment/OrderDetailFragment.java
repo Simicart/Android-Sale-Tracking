@@ -50,6 +50,7 @@ public class OrderDetailFragment extends AppFragment {
             mController.setDelegate(mBlock);
             mController.onResume();
         }
+        mBlock.setOnCustomerClick(mController.getOnCustomerClick());
 
         return rootView;
     }

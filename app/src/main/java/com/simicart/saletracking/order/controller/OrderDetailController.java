@@ -1,12 +1,18 @@
 package com.simicart.saletracking.order.controller;
 
+import android.view.View;
+
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.order.entity.OrderEntity;
 import com.simicart.saletracking.order.request.OrderDetailRequest;
+
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 11/29/2016.
@@ -15,6 +21,7 @@ import com.simicart.saletracking.order.request.OrderDetailRequest;
 public class OrderDetailController extends AppController {
 
     protected AppDelegate mDelegate;
+    protected View.OnClickListener mOnCustomerClick;
     protected String mOrderID;
 
     public void setDelegate(AppDelegate delegate) {
@@ -28,11 +35,26 @@ public class OrderDetailController extends AppController {
     @Override
     public void onStart() {
         requestOrderDetail();
+
+        mOnCustomerClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCollection != null) {
+                    if (mCollection.containKey("order")) {
+                        OrderEntity orderEntity = (OrderEntity) mCollection.getDataWithKey("order");
+                        String customerID = orderEntity.getCustomerID();
+                        HashMap<String,Object> hmData = new HashMap<>();
+                        hmData.put("customer_id", customerID);
+                        AppManager.getInstance().openCustomerDetail(hmData);
+                    }
+                }
+            }
+        };
     }
 
     @Override
     public void onResume() {
-
+        mDelegate.updateView(mCollection);
     }
 
     protected void requestOrderDetail() {
@@ -57,4 +79,7 @@ public class OrderDetailController extends AppController {
         orderDetailRequest.request();
     }
 
+    public View.OnClickListener getOnCustomerClick() {
+        return mOnCustomerClick;
+    }
 }

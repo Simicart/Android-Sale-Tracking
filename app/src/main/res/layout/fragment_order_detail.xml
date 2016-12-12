@@ -169,77 +169,95 @@
                 android:textSize="@dimen/text_16"
                 android:text="CUSTOMER"/>
 
-            <TableLayout
+            <RelativeLayout
+                android:id="@+id/rl_customer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/size_10">
 
-                <TableRow
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:weightSum="5" >
+                    android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/tv_customer_id_label"
-                        android:layout_width="0dp"
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="Customer Id"
-                        android:textStyle="bold" />
+                        android:weightSum="5" >
 
-                    <TextView
-                        android:id="@+id/tv_customer_id"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/tv_customer_id_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="Customer Id"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_customer_id"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="123"
+                            android:paddingEnd="@dimen/size_20"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="123" />
-                </TableRow>
+                        android:paddingTop="@dimen/size_5"
+                        android:weightSum="5" >
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                        <TextView
+                            android:id="@+id/tv_customer_name_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="Customer Name"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/tv_customer_name_label"
-                        android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/tv_customer_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="Glenn"
+                            android:paddingEnd="@dimen/size_20"/>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="Customer Name"
-                        android:textStyle="bold" />
+                        android:paddingTop="@dimen/size_5"
+                        android:weightSum="5" >
 
-                    <TextView
-                        android:id="@+id/tv_customer_name"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Glenn" />
-                </TableRow>
+                        <TextView
+                            android:id="@+id/tv_customer_email_label"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="Customer Email"
+                            android:textStyle="bold" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                        <TextView
+                            android:id="@+id/tv_customer_email"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:text="glenn@simicart.com"
+                            android:paddingEnd="@dimen/size_20"/>
+                    </TableRow>
 
-                    <TextView
-                        android:id="@+id/tv_customer_email_label"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:text="Customer Email"
-                        android:textStyle="bold" />
+                </TableLayout>
 
-                    <TextView
-                        android:id="@+id/tv_customer_email"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="glenn@simicart.com" />
-                </TableRow>
+                <ImageView
+                    android:id="@+id/iv_extend"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:src="@drawable/ic_arrow_right"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"/>
 
-            </TableLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_items_title"

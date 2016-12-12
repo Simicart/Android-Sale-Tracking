@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-    android:padding="@dimen/size_10">
-    
+    android:padding="@dimen/size_10"
+    android:id="@+id/rl_item">
+
     <ImageView
-        android:id="@+id/iv_image"
-        android:layout_width="@dimen/size_120"
-        android:layout_height="@dimen/size_120"
-        android:contentDescription="@null"
-        android:scaleType="centerInside"/>
+        android:id="@+id/iv_extend"
+        android:layout_width="@dimen/size_20"
+        android:layout_height="@dimen/size_20"
+        android:src="@drawable/ic_arrow_right"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="@dimen/size_10">
+        android:orientation="horizontal"
+        android:layout_toStartOf="@+id/iv_extend">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="@dimen/text_16"
-            android:maxLines="2"/>
+        <ImageView
+            android:id="@+id/iv_image"
+            android:layout_width="@dimen/size_120"
+            android:layout_height="@dimen/size_120"
+            android:contentDescription="@null"
+            android:scaleType="centerInside"/>
 
-        <TextView
-            android:id="@+id/tv_sku"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_3"
-            android:maxLines="1"/>
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/size_10">
 
-        <TextView
-            android:id="@+id/tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_3"
-            android:maxLines="1"/>
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/text_16"
+                android:maxLines="2"/>
 
-        <TextView
-            android:id="@+id/tv_qty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_3"
-            android:maxLines="1"/>
+            <TextView
+                android:id="@+id/tv_sku"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_3"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_3"
+                android:maxLines="1"/>
+
+            <TextView
+                android:id="@+id/tv_qty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_3"
+                android:maxLines="1"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

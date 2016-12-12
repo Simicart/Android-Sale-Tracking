@@ -109,7 +109,17 @@ public class ListAbandonedCartsAdapter extends SectioningAdapter {
 
         String qty = cartEntity.getItemQty();
         if (Utils.validateString(qty)) {
-            itemViewHolder.tvTotalItem.setText(Utils.formatNumber(qty));
+            String formattedNumber = Utils.formatNumber(qty);
+            try {
+                int quantity = Integer.parseInt(formattedNumber);
+                if(quantity > 1) {
+                    itemViewHolder.tvTotalItem.setText(formattedNumber + " items");
+                } else {
+                    itemViewHolder.tvTotalItem.setText(formattedNumber + " item");
+                }
+            } catch (NumberFormatException e) {
+                itemViewHolder.tvTotalItem.setText(formattedNumber + " item");
+            }
         }
 
         String ip = cartEntity.getRemoteIP();
