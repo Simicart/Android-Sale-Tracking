@@ -179,6 +179,8 @@
         android:src="@drawable/ic_search"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        app:backgroundTint="@color/colorWhite"/>
+        app:backgroundTint="@color/colorWhite"
+        android:layout_marginBottom="@dimen/size_15"
+        android:layout_marginEnd="@dimen/size_15"/>
 
 </RelativeLayout>

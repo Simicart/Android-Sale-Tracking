@@ -112,9 +112,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        Drawable icon = item.getIcon();
-        item.setIcon(AppColor.getInstance().coloringIcon(icon, "#FFFFFF"));
-
         AppManager.getInstance().clearFragments();
 
         int id = item.getItemId();

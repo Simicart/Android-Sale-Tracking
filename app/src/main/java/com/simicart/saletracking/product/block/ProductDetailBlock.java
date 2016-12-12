@@ -246,7 +246,6 @@ public class ProductDetailBlock extends AppBlock {
                 if (Utils.validateString(value)) {
                     WebView webView = new WebView(mContext);
                     webView.setLayoutParams(params);
-                    webView.setBackgroundColor(Color.WHITE);
                     webView.getSettings().setJavaScriptEnabled(true);
                     webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
                     webView.getSettings().setLoadWithOverviewMode(true);
