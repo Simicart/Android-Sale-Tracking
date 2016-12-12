@@ -51,7 +51,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
         rvOrders.setLayoutManager(new StickyHeaderLayoutManager());
 
         fabSearch = (FloatingActionButton) mView.findViewById(R.id.fab_search);
-        Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#CACACA");
+        Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#000000");
         fabSearch.setImageDrawable(searchDrawable);
 
     }

@@ -52,7 +52,7 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);
 
         fabSearch = (FloatingActionButton) mView.findViewById(R.id.fab_search);
-        Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#CACACA");
+        Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#000000");
         fabSearch.setImageDrawable(searchDrawable);
     }
 

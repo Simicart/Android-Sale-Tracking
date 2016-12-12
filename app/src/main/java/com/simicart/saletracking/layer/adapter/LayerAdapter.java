@@ -165,61 +165,61 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         mListLayers = new ArrayList<>();
 
         LayerEntity entityIdAsc = new LayerEntity();
-        entityIdAsc.setKey("entity_id");
+        entityIdAsc.setKey("entity_id_asc");
         entityIdAsc.setValue("asc");
         entityIdAsc.setLabel("Id (Low To High)");
         mListLayers.add(entityIdAsc);
 
         LayerEntity entityIdDesc = new LayerEntity();
-        entityIdDesc.setKey("entity_id");
+        entityIdDesc.setKey("entity_id_desc");
         entityIdDesc.setValue("desc");
         entityIdDesc.setLabel("Id (High To Low)");
         mListLayers.add(entityIdDesc);
 
         LayerEntity incrementIdAsc = new LayerEntity();
-        incrementIdAsc.setKey("increment_id");
+        incrementIdAsc.setKey("increment_id_asc");
         incrementIdAsc.setValue("asc");
         incrementIdAsc.setLabel("Increment Id (Low To High)");
         mListLayers.add(incrementIdAsc);
 
         LayerEntity incrementIdDesc = new LayerEntity();
-        incrementIdDesc.setKey("increment_id");
+        incrementIdDesc.setKey("increment_id_desc");
         incrementIdDesc.setValue("desc");
         incrementIdDesc.setLabel("Increment Id (High To Low)");
         mListLayers.add(incrementIdDesc);
 
         LayerEntity customerFirstNameAsc = new LayerEntity();
-        customerFirstNameAsc.setKey("customer_firstname");
+        customerFirstNameAsc.setKey("customer_firstname_asc");
         customerFirstNameAsc.setValue("asc");
         customerFirstNameAsc.setLabel("Firstname (A To Z)");
         mListLayers.add(customerFirstNameAsc);
 
         LayerEntity customerFirstNameDesc = new LayerEntity();
-        customerFirstNameDesc.setKey("customer_firstname");
+        customerFirstNameDesc.setKey("customer_firstname_desc");
         customerFirstNameDesc.setValue("desc");
         customerFirstNameDesc.setLabel("Firstname (Z To A)");
         mListLayers.add(customerFirstNameDesc);
 
         LayerEntity customerLastNameAsc = new LayerEntity();
-        customerLastNameAsc.setKey("customer_lastname");
+        customerLastNameAsc.setKey("customer_lastname_asc");
         customerLastNameAsc.setValue("asc");
         customerLastNameAsc.setLabel("Lastname (A To Z)");
         mListLayers.add(customerLastNameAsc);
 
         LayerEntity customerLastNameDesc = new LayerEntity();
-        customerLastNameDesc.setKey("customer_lastname");
+        customerLastNameDesc.setKey("customer_lastname_desc");
         customerLastNameDesc.setValue("desc");
         customerLastNameDesc.setLabel("Lastname (Z To A)");
         mListLayers.add(customerLastNameDesc);
 
         LayerEntity baseGrandTotalAsc = new LayerEntity();
-        baseGrandTotalAsc.setKey("base_grand_total");
+        baseGrandTotalAsc.setKey("base_grand_total_asc");
         baseGrandTotalAsc.setValue("asc");
         baseGrandTotalAsc.setLabel("Grandtotal (Low To High)");
         mListLayers.add(baseGrandTotalAsc);
 
         LayerEntity baseGrandTotalDesc = new LayerEntity();
-        baseGrandTotalDesc.setKey("base_grand_total");
+        baseGrandTotalDesc.setKey("base_grand_total_desc");
         baseGrandTotalDesc.setValue("desc");
         baseGrandTotalDesc.setLabel("Grandtotal (High To Low)");
         mListLayers.add(baseGrandTotalDesc);

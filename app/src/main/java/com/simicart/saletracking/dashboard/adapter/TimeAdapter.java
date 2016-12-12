@@ -53,7 +53,7 @@ public class TimeAdapter extends BaseAdapter {
         TextView tvTime = new TextView(mContext);
         tvTime.setPaddingRelative(Utils.toPixel(5), Utils.toPixel(5), Utils.toPixel(5), Utils.toPixel(5));
         tvTime.setTextColor(Color.BLACK);
-        tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        tvTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
 
         TimeLayerEntity timeLayerEntity = mListTimes.get(position);
         String label = timeLayerEntity.getLabel();

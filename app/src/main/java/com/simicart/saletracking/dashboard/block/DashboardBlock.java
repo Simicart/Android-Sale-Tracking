@@ -42,8 +42,7 @@ import java.util.Calendar;
 
 public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
-    protected LinearLayout llRefresh, llChart;
-    protected RelativeLayout rlTopChart;
+    protected LinearLayout llRefresh, llChart, llTopChart;
     protected TextView tvRefresh;
     protected Spinner spTime;
     protected TableLayout tlSummary;
@@ -86,7 +85,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
         int gone = 0;
         if (!AppPreferences.getShowSaleReport()) {
-            rlTopChart.setVisibility(View.GONE);
+            llTopChart.setVisibility(View.GONE);
             llChart.setVisibility(View.GONE);
             tlSummary.setVisibility(View.GONE);
             gone++;
@@ -176,7 +175,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     }
 
     protected void initTopChart() {
-        rlTopChart = (RelativeLayout) mView.findViewById(R.id.rl_top_chart);
+        llTopChart = (LinearLayout) mView.findViewById(R.id.ll_top_chart);
         spTime = (Spinner) mView.findViewById(R.id.sp_time);
         initTimeLayer();
         TimeAdapter adapter = new TimeAdapter(mListTimeLayers);
