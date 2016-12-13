@@ -100,9 +100,12 @@ public class LatestCustomerAdapter extends RecyclerView.Adapter<LatestCustomerAd
 
             tvCustomerID.setTextColor(Color.BLACK);
             tvCustomerName.setTextColor(Color.BLACK);
+            tvCustomerName.setGravity(Gravity.CENTER);
+            tvCustomerName.setTypeface(null, Typeface.NORMAL);
             tvCustomerEmail.setTextColor(Color.BLACK);
             tvCustomerEmail.setGravity(Gravity.END);
             tvCustomerEmail.setTypeface(null, Typeface.ITALIC);
+            llItem.setPaddingRelative(Utils.toPixel(10), Utils.toPixel(10), Utils.toPixel(10), Utils.toPixel(10));
         }
     }
 }

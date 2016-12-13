@@ -19,6 +19,8 @@ public interface DashboardDelegate extends AppDelegate {
 
     public void showTotal(SaleEntity saleEntity);
 
+    public void showBestSellers(AppCollection collection);
+
     public void showLatestOrders(AppCollection collection);
 
     public void showLatestCustomers(AppCollection collection);

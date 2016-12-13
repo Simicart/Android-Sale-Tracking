@@ -217,6 +217,23 @@
                 android:background="@color/colorSection"></View>
 
             <TextView
+                android:id="@+id/tv_best_seller_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/size_10"
+                android:gravity="center"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_best_sellers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
+            <TextView
                 android:id="@+id/tv_latest_orders_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

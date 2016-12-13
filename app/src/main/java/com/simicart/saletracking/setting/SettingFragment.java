@@ -25,9 +25,9 @@ import com.simicart.saletracking.common.Utils;
 public class SettingFragment extends AppFragment {
 
     protected TextView tvPagingTitle, tvItemShownTitle;
-    protected TextView tvPaging, tvPagingValue, tvItemSaleReport, tvItemLatestCustomers, tvLatestOrders;
-    protected SwitchCompat swItemSaleReport, swItemLatestCustomers, swItemLatestOrders;
-    protected RelativeLayout rlItemSaleReport, rlItemLatestCustomers, rlItemLatestOrders;
+    protected TextView tvPaging, tvPagingValue, tvItemSaleReport, tvItemLatestCustomers, tvItemLatestOrders, tvItemBestSellers;
+    protected SwitchCompat swItemSaleReport, swItemLatestCustomers, swItemLatestOrders, swItemBestSellers;
+    protected RelativeLayout rlItemSaleReport, rlItemLatestCustomers, rlItemLatestOrders, rlItemBestSellers;
 
     protected int pagingPosition = 0;
     protected CharSequence[] pagingArr = {"20", "40", "60", "80", "100"};
@@ -80,16 +80,23 @@ public class SettingFragment extends AppFragment {
         tvItemSaleReport.setTextColor(Color.BLACK);
         tvItemSaleReport.setText("Sales Reports");
 
+        tvItemBestSellers = (TextView) rootView.findViewById(R.id.tv_item_best_seller);
+        tvItemBestSellers.setTextColor(Color.BLACK);
+        tvItemBestSellers.setText("Best Sellers");
+
         tvItemLatestCustomers = (TextView) rootView.findViewById(R.id.tv_item_latest_customer);
         tvItemLatestCustomers.setTextColor(Color.BLACK);
         tvItemLatestCustomers.setText("Latest Customers");
 
-        tvLatestOrders = (TextView) rootView.findViewById(R.id.tv_item_latest_order);
-        tvLatestOrders.setTextColor(Color.BLACK);
-        tvLatestOrders.setText("Latest Orders");
+        tvItemLatestOrders = (TextView) rootView.findViewById(R.id.tv_item_latest_order);
+        tvItemLatestOrders.setTextColor(Color.BLACK);
+        tvItemLatestOrders.setText("Latest Orders");
 
         swItemSaleReport = (SwitchCompat) rootView.findViewById(R.id.sw_item_sale_report);
         swItemSaleReport.setChecked(AppPreferences.getShowSaleReport());
+
+        swItemBestSellers = (SwitchCompat) rootView.findViewById(R.id.sw_item_best_seller);
+        swItemBestSellers.setChecked(AppPreferences.getShowBestSellers());
 
         swItemLatestCustomers = (SwitchCompat) rootView.findViewById(R.id.sw_item_latest_customer);
         swItemLatestCustomers.setChecked(AppPreferences.getShowLatestCustomer());
@@ -109,6 +116,22 @@ public class SettingFragment extends AppFragment {
                 } else {
                     swItemSaleReport.setChecked(true);
                     AppPreferences.setShowSaleReport(true);
+                }
+            }
+        });
+
+        rlItemBestSellers = (RelativeLayout) rootView.findViewById(R.id.rl_item_best_seller);
+        rlItemBestSellers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean isChecked = swItemBestSellers.isChecked();
+
+                if (isChecked) {
+                    swItemBestSellers.setChecked(false);
+                    AppPreferences.setShowBestSellers(false);
+                } else {
+                    swItemBestSellers.setChecked(true);
+                    AppPreferences.setShowBestSellers(true);
                 }
             }
         });

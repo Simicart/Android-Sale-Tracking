@@ -214,7 +214,7 @@ public class SearchFragment extends AppFragment {
 
         hm.remove("from");
 
-        AppManager.getInstance().backToPreviousFragment();
+        AppManager.getInstance().clearCurrentFragment();
 
         if (mFrom == Constants.Search.ORDER) {
             AppManager.getInstance().openListOrders(hm);

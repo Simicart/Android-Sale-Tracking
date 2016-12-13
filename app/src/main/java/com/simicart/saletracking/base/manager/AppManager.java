@@ -189,7 +189,7 @@ public class AppManager {
         fragmentTransaction.commit();
     }
 
-    public void backToPreviousFragment() {
+    public void clearCurrentFragment() {
         mManager.popBackStackImmediate();
     }
 

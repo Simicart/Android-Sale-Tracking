@@ -24,6 +24,7 @@ public class AppPreferences {
     private static final String CUSTOMER_QR_SESSION = "customerQrSession";
     private static final String PAGING = "paging";
     private static final String DASHBOARD_SHOW_SALE_REPORT = "dashboardShowSaleReport";
+    private static final String DASHBOARD_SHOW_BEST_SELLERS = "dashboardShowBestSellers";
     private static final String DASHBOARD_SHOW_LATEST_CUSTOMERS = "dashboardShowLatestCustomers";
     private static final String DASHBOARD_SHOW_LATEST_ORDERS = "dashboardShowLatestOrders";
 
@@ -173,6 +174,20 @@ public class AppPreferences {
         boolean show = true;
         if (mSharedPre != null) {
             show = mSharedPre.getBoolean(DASHBOARD_SHOW_SALE_REPORT, true);
+        }
+        return show;
+    }
+
+    public static void setShowBestSellers(boolean show) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putBoolean(DASHBOARD_SHOW_BEST_SELLERS, show);
+        editor.commit();
+    }
+
+    public static boolean getShowBestSellers() {
+        boolean show = true;
+        if (mSharedPre != null) {
+            show = mSharedPre.getBoolean(DASHBOARD_SHOW_BEST_SELLERS, true);
         }
         return show;
     }

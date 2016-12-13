@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
+import com.simicart.saletracking.bestseller.entity.BestSellerEntity;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Utils;
@@ -25,6 +26,7 @@ import com.simicart.saletracking.customer.entity.CustomerEntity;
 import com.simicart.saletracking.dashboard.adapter.LatestCustomerAdapter;
 import com.simicart.saletracking.dashboard.adapter.LatestOrdersAdapter;
 import com.simicart.saletracking.dashboard.adapter.TimeAdapter;
+import com.simicart.saletracking.dashboard.adapter.TopBestSellerAdapter;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
@@ -48,8 +50,8 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     protected TableLayout tlSummary;
     protected TextView tvRevenueLabel, tvTaxLabel, tvShippingLabel, tvQuantityLabel, tvLifeTimeSaleLabel, tvAverageLabel;
     protected TextView tvRevenue, tvTax, tvShipping, tvQuantity, tvLifeTimeSale, tvAverage;
-    protected TextView tvLatestOrdersTitle, tvLatestCustomersTitle;
-    protected RecyclerView rvLatestOrders, rvLatestCustomers;
+    protected TextView tvTopBestSellersTitle, tvLatestOrdersTitle, tvLatestCustomersTitle;
+    protected RecyclerView rvTopBestSellers, rvLatestOrders, rvLatestCustomers;
     protected ArrayList<TimeLayerEntity> mListTimeLayers;
 
     public DashboardBlock(View view) {
@@ -64,6 +66,15 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         llChart = (LinearLayout) mView.findViewById(R.id.ll_chart);
 
         initTotal();
+
+        tvTopBestSellersTitle = (TextView) mView.findViewById(R.id.tv_best_seller_title);
+        tvTopBestSellersTitle.setText("BEST SELLERS");
+        tvTopBestSellersTitle.setBackgroundColor(AppColor.getInstance().getThemeColor());
+        tvTopBestSellersTitle.setTextColor(Color.WHITE);
+
+        rvTopBestSellers = (RecyclerView) mView.findViewById(R.id.rv_best_sellers);
+        rvTopBestSellers.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        rvTopBestSellers.setNestedScrollingEnabled(false);
 
         tvLatestOrdersTitle = (TextView) mView.findViewById(R.id.tv_latest_orders_title);
         tvLatestOrdersTitle.setText("LATEST ORDERS");
@@ -91,6 +102,12 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
             gone++;
         }
 
+        if (!AppPreferences.getShowBestSellers()) {
+            tvTopBestSellersTitle.setVisibility(View.GONE);
+            rvTopBestSellers.setVisibility(View.GONE);
+            gone++;
+        }
+
         if (!AppPreferences.getShowLatestCustomer()) {
             tvLatestCustomersTitle.setVisibility(View.GONE);
             rvLatestCustomers.setVisibility(View.GONE);
@@ -103,7 +120,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
             gone++;
         }
 
-        if (gone == 3) {
+        if (gone == 4) {
             showEmptyMessage();
         }
 
@@ -146,8 +163,19 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     }
 
     @Override
+    public void showBestSellers(AppCollection collection) {
+        if(collection != null && collection.containKey("bestsellers")) {
+            ArrayList<BestSellerEntity> listBestSellers = (ArrayList<BestSellerEntity>) collection.getDataWithKey("bestsellers");
+            if (listBestSellers != null && listBestSellers.size() > 0) {
+                TopBestSellerAdapter topBestSellerAdapter = new TopBestSellerAdapter(listBestSellers);
+                rvTopBestSellers.setAdapter(topBestSellerAdapter);
+            }
+        }
+    }
+
+    @Override
     public void showLatestOrders(AppCollection collection) {
-        if (collection != null) {
+        if (collection != null && collection.containKey("orders")) {
             ArrayList<OrderEntity> listOrders = (ArrayList<OrderEntity>) collection.getDataWithKey("orders");
             if (listOrders != null && listOrders.size() > 0) {
                 LatestOrdersAdapter latestOrdersAdapter = new LatestOrdersAdapter(listOrders);
@@ -158,7 +186,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void showLatestCustomers(AppCollection collection) {
-        if (collection != null) {
+        if (collection != null && collection.containKey("customers")) {
             if (collection.containKey("customers")) {
                 ArrayList<CustomerEntity> listCustomers = (ArrayList<CustomerEntity>) collection.getDataWithKey("customers");
                 if (listCustomers != null && listCustomers.size() > 0) {

@@ -3,7 +3,6 @@ package com.simicart.saletracking;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -19,10 +18,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.simicart.saletracking.base.entity.AppData;
+import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
-import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
 import com.simicart.saletracking.menutop.MenuTopController;
 
 import java.util.HashMap;
@@ -71,21 +71,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 1) {
-            if (doubleBackToExitPressedOnce) {
-                finish();
-            }
-            this.doubleBackToExitPressedOnce = true;
-            AppNotify.getInstance().showToast("Press BACK again to exit");
-
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce = false;
+            AppFragment backFragment = (AppFragment) getSupportFragmentManager().getFragments().get(0);
+            if(backFragment instanceof DashboardFragment) {
+                if (doubleBackToExitPressedOnce) {
+                    finish();
                 }
-            }, 2000);
+                this.doubleBackToExitPressedOnce = true;
+                AppNotify.getInstance().showToast("Press BACK again to exit");
+
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleBackToExitPressedOnce = false;
+                    }
+                }, 2000);
+            } else {
+                AppManager.getInstance().clearCurrentFragment();
+                AppManager.getInstance().navigateFirstFragment();
+            }
         } else {
-            AppManager.getInstance().backToPreviousFragment();
+            AppManager.getInstance().clearCurrentFragment();
         }
     }
 

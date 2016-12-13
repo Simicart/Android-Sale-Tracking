@@ -8,6 +8,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.bestseller.request.BestSellersRequest;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
@@ -33,6 +34,7 @@ public class DashboardController extends AppController {
     protected boolean isReloadChart = false;
 
     protected ListSalesRequest listSalesRequest;
+    protected BestSellersRequest bestSellersRequest;
     protected ListOrdersRequest listOrdersRequest;
     protected ListCustomersRequest listCustomersRequest;
 
@@ -46,6 +48,11 @@ public class DashboardController extends AppController {
         if (AppPreferences.getShowSaleReport()) {
             mTotalStep++;
             requestSales("saleinfo");
+        }
+
+        if (AppPreferences.getShowBestSellers()) {
+            mTotalStep++;
+            requestBestSellers();
         }
 
         if (AppPreferences.getShowLatestOrder()) {
@@ -69,6 +76,7 @@ public class DashboardController extends AppController {
     @Override
     public void onResume() {
         showChart(listSalesRequest.getCollection());
+        mDelegate.showBestSellers(bestSellersRequest.getCollection());
         mDelegate.showLatestOrders(listOrdersRequest.getCollection());
         mDelegate.showLatestCustomers(listCustomersRequest.getCollection());
 
@@ -102,6 +110,29 @@ public class DashboardController extends AppController {
             listSalesRequest.addParam("period", mTimeLayerEntity.getPeriod());
         }
         listSalesRequest.request();
+    }
+
+    protected void requestBestSellers() {
+        bestSellersRequest = new BestSellersRequest();
+        bestSellersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                mDelegate.showBestSellers(collection);
+                checkStep();
+            }
+        });
+        bestSellersRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                checkStep();
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        bestSellersRequest.setExtendUrl("simitracking/rest/v2/bestsellers");
+        bestSellersRequest.addParam("dir", "desc");
+        bestSellersRequest.addParam("limit", "5");
+        bestSellersRequest.addParam("offset", "0");
+        bestSellersRequest.request();
     }
 
     protected void requestLatestOrders() {

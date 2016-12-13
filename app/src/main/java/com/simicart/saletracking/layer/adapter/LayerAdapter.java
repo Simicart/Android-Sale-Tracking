@@ -87,7 +87,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppManager.getInstance().backToPreviousFragment();
+                AppManager.getInstance().clearCurrentFragment();
                 mSelectedLayer = layerEntity;
                 hmData.remove("from");
                 switch (mFrom) {
