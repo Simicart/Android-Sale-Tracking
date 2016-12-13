@@ -45,12 +45,16 @@ public class CustomerDetailBlock extends AppBlock {
     @Override
     public void updateView(AppCollection collection) {
         if (collection != null) {
-            CustomerEntity customerEntity = (CustomerEntity) collection.getDataWithKey("customer");
-            if (customerEntity != null) {
-                showSummary(customerEntity);
-                showInfo(customerEntity);
-                showBilling(customerEntity);
-                showShipping(customerEntity);
+            if(collection.containKey("customer")) {
+                CustomerEntity customerEntity = (CustomerEntity) collection.getDataWithKey("customer");
+                if (customerEntity != null) {
+                    showSummary(customerEntity);
+                    showInfo(customerEntity);
+                    showBilling(customerEntity);
+                    showShipping(customerEntity);
+                }
+            } else {
+                mView.setVisibility(View.INVISIBLE);
             }
         } else {
             mView.setVisibility(View.INVISIBLE);

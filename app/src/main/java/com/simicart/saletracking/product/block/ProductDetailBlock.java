@@ -63,7 +63,11 @@ public class ProductDetailBlock extends AppBlock {
                     showDescription();
                     showAdditional();
                 }
+            } else {
+                mView.setVisibility(View.INVISIBLE);
             }
+        } else {
+            mView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -226,9 +230,6 @@ public class ProductDetailBlock extends AppBlock {
             for (ProductAttributeEntity attribute : listAttributes) {
                 String label = attribute.getLabel();
                 String value = attribute.getValue();
-
-                Log.e("label", label);
-                Log.e("value", value);
 
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);

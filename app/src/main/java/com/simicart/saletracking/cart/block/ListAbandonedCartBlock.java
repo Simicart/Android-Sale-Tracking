@@ -1,10 +1,15 @@
 package com.simicart.saletracking.cart.block;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -17,6 +22,7 @@ import com.simicart.saletracking.cart.delegate.ListAbandonedCartsDelegate;
 import com.simicart.saletracking.cart.entity.AbandonedCartEntity;
 import com.simicart.saletracking.cart.entity.AbandonedCartSection;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.Utils;
 
 import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
 
@@ -50,48 +56,54 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
         fabSearch = (FloatingActionButton) mView.findViewById(R.id.fab_search);
         Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#000000");
         fabSearch.setImageDrawable(searchDrawable);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RelativeLayout.LayoutParams fabParams = (RelativeLayout.LayoutParams) fabSearch.getLayoutParams();
+            fabParams.setMargins(0, 0, Utils.toPixel(15), Utils.toPixel(15));
+        }
     }
 
     @Override
     public void updateView(AppCollection collection) {
-        if (collection != null) {
-            if (collection.containKey("abandonedcarts")) {
-                listCarts = (ArrayList<AbandonedCartEntity>) collection.getDataWithKey("abandonedcarts");
-                if (listCarts != null && listCarts.size() > 0) {
-                    ArrayList<AbandonedCartSection> listSections = new ArrayList<>();
-                    int i = 0;
-                    while (i < listCarts.size()) {
-                        AbandonedCartSection cartSection = new AbandonedCartSection();
-                        cartSection.setDate("");
-                        ArrayList<AbandonedCartEntity> listCartsSection = new ArrayList<>();
-                        for (int j = i; j < listCarts.size(); j++) {
-                            i++;
-                            AbandonedCartEntity entity = listCarts.get(j);
-                            String date = entity.getCreatedAtDate();
-                            if (cartSection.getDate().equals("")) {
-                                cartSection.setDate(date);
+        if (collection != null && collection.containKey("abandonedcarts")) {
+            listCarts = (ArrayList<AbandonedCartEntity>) collection.getDataWithKey("abandonedcarts");
+            if (listCarts != null && listCarts.size() > 0) {
+                ArrayList<AbandonedCartSection> listSections = new ArrayList<>();
+                int i = 0;
+                while (i < listCarts.size()) {
+                    AbandonedCartSection cartSection = new AbandonedCartSection();
+                    cartSection.setDate("");
+                    ArrayList<AbandonedCartEntity> listCartsSection = new ArrayList<>();
+                    for (int j = i; j < listCarts.size(); j++) {
+                        i++;
+                        AbandonedCartEntity entity = listCarts.get(j);
+                        String date = entity.getCreatedAtDate();
+                        if (cartSection.getDate().equals("")) {
+                            cartSection.setDate(date);
+                            listCartsSection.add(entity);
+                        } else {
+                            if (date.equals(cartSection.getDate())) {
                                 listCartsSection.add(entity);
                             } else {
-                                if (date.equals(cartSection.getDate())) {
-                                    listCartsSection.add(entity);
-                                } else {
-                                    i--;
-                                    break;
-                                }
+                                i--;
+                                break;
                             }
                         }
-                        cartSection.setListCarts(listCartsSection);
-                        listSections.add(cartSection);
                     }
-                    if (mAdapter == null) {
-                        mAdapter = new ListAbandonedCartsAdapter(listSections);
-                        rvCarts.setAdapter(mAdapter);
-                    } else {
-                        mAdapter.setListSections(listSections);
-                        mAdapter.notifyAllSectionsDataSetChanged();
-                    }
+                    cartSection.setListCarts(listCartsSection);
+                    listSections.add(cartSection);
                 }
+                if (mAdapter == null) {
+                    mAdapter = new ListAbandonedCartsAdapter(listSections);
+                    rvCarts.setAdapter(mAdapter);
+                } else {
+                    mAdapter.setListSections(listSections);
+                    mAdapter.notifyAllSectionsDataSetChanged();
+                }
+            } else {
+                showEmptyMessage();
             }
+        } else {
+            showEmptyMessage();
         }
     }
 
@@ -124,6 +136,22 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
         llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);
 
+    }
+
+    public void showEmptyMessage() {
+        ((ViewGroup) mView).removeAllViewsInLayout();
+        TextView tvEmpty = new TextView(mContext);
+        tvEmpty.setTextColor(Color.BLACK);
+        tvEmpty.setText("No abandoned carts found");
+        tvEmpty.setTypeface(null, Typeface.BOLD);
+        tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        tvEmpty.setGravity(Gravity.CENTER);
+        tvEmpty.setLayoutParams(params);
+        ((ViewGroup) mView).addView(tvEmpty);
     }
 
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {

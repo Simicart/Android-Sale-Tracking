@@ -1,11 +1,16 @@
 package com.simicart.saletracking.product.block;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +19,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.adapter.ListProductsAdapter;
 import com.simicart.saletracking.product.delegate.ListProductsDelegate;
 import com.simicart.saletracking.product.entity.ProductEntity;
@@ -54,11 +60,15 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
         fabSearch = (FloatingActionButton) mView.findViewById(R.id.fab_search);
         Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#000000");
         fabSearch.setImageDrawable(searchDrawable);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RelativeLayout.LayoutParams fabParams = (RelativeLayout.LayoutParams) fabSearch.getLayoutParams();
+            fabParams.setMargins(0, 0, Utils.toPixel(15), Utils.toPixel(15));
+        }
     }
 
     @Override
     public void updateView(AppCollection collection) {
-        if (collection != null) {
+        if (collection != null && collection.containKey("products")) {
             listProducts = (ArrayList<ProductEntity>) collection.getDataWithKey("products");
             if (listProducts != null && listProducts.size() > 0) {
                 if (mAdapter == null) {
@@ -68,7 +78,11 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
                     mAdapter.setListProducts(listProducts);
                     mAdapter.notifyDataSetChanged();
                 }
+            } else {
+                showEmptyMessage();
             }
+        } else {
+            showEmptyMessage();
         }
     }
 
@@ -89,6 +103,22 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
     @Override
     public int getPageSize() {
         return listProducts.size();
+    }
+
+    public void showEmptyMessage() {
+        ((ViewGroup) mView).removeAllViewsInLayout();
+        TextView tvEmpty = new TextView(mContext);
+        tvEmpty.setTextColor(Color.BLACK);
+        tvEmpty.setText("No products found");
+        tvEmpty.setTypeface(null, Typeface.BOLD);
+        tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        tvEmpty.setGravity(Gravity.CENTER);
+        tvEmpty.setLayoutParams(params);
+        ((ViewGroup) mView).addView(tvEmpty);
     }
 
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {

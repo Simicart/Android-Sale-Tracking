@@ -72,8 +72,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:src="@drawable/ic_search"
-        app:backgroundTint="@color/colorWhite"
-        android:layout_marginBottom="@dimen/size_15"
-        android:layout_marginEnd="@dimen/size_15"/>
+        app:backgroundTint="@color/colorWhite"/>
 
 </RelativeLayout>

@@ -52,6 +52,7 @@ public class ProductDetailController extends AppController {
             @Override
             public void onFail(String message) {
                 mDelegate.dismissLoading();
+                mDelegate.updateView(mCollection);
                 AppNotify.getInstance().showError(message);
             }
         });

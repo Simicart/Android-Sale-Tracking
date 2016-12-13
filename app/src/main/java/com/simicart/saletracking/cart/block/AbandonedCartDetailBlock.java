@@ -40,14 +40,14 @@ public class AbandonedCartDetailBlock extends AppBlock {
 
     @Override
     public void updateView(AppCollection collection) {
-        if (collection != null) {
-            if (collection.containKey("abandonedcart")) {
-                mAbandonedCart = (AbandonedCartEntity) collection.getDataWithKey("abandonedcart");
-                if (mAbandonedCart != null) {
-                    showSummary();
-                    showItems();
-                }
+        if (collection != null && collection.containKey("abandonedcart")) {
+            mAbandonedCart = (AbandonedCartEntity) collection.getDataWithKey("abandonedcart");
+            if (mAbandonedCart != null) {
+                showSummary();
+                showItems();
             }
+        } else {
+            mView.setVisibility(View.INVISIBLE);
         }
     }
 

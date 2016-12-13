@@ -63,7 +63,7 @@ public class ListAddressesBlock extends AppBlock {
         ((ViewGroup) mView).removeAllViewsInLayout();
         TextView tvEmpty = new TextView(mContext);
         tvEmpty.setTextColor(Color.BLACK);
-        tvEmpty.setText("Customer's addresses is empty");
+        tvEmpty.setText("No addresses found");
         tvEmpty.setTypeface(null, Typeface.BOLD);
         tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(

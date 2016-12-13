@@ -1,10 +1,15 @@
 package com.simicart.saletracking.customer.block;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -13,6 +18,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.adapter.ListCustomersAdapter;
 import com.simicart.saletracking.customer.delegate.ListCustomersDelegate;
 import com.simicart.saletracking.customer.entity.CustomerEntity;
@@ -50,6 +56,10 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
         fabSearch = (FloatingActionButton) mView.findViewById(R.id.fab_search);
         Drawable searchDrawable = AppColor.getInstance().coloringIcon(R.drawable.ic_search, "#000000");
         fabSearch.setImageDrawable(searchDrawable);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RelativeLayout.LayoutParams fabParams = (RelativeLayout.LayoutParams) fabSearch.getLayoutParams();
+            fabParams.setMargins(0, 0, Utils.toPixel(15), Utils.toPixel(15));
+        }
     }
 
     @Override
@@ -90,8 +100,14 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
                         mAdapter.setListSections(listSections);
                         mAdapter.notifyAllSectionsDataSetChanged();
                     }
+                } else {
+                    showEmptyMessage();
                 }
+            } else {
+                showEmptyMessage();
             }
+        } else {
+            showEmptyMessage();
         }
     }
 
@@ -124,6 +140,22 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
         llNext = (LinearLayout) mView.findViewById(R.id.ll_next);
         llPrevious = (LinearLayout) mView.findViewById(R.id.ll_previous);
 
+    }
+
+    public void showEmptyMessage() {
+        ((ViewGroup) mView).removeAllViewsInLayout();
+        TextView tvEmpty = new TextView(mContext);
+        tvEmpty.setTextColor(Color.BLACK);
+        tvEmpty.setText("No customers found");
+        tvEmpty.setTypeface(null, Typeface.BOLD);
+        tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
+        params.addRule(RelativeLayout.CENTER_IN_PARENT);
+        tvEmpty.setGravity(Gravity.CENTER);
+        tvEmpty.setLayoutParams(params);
+        ((ViewGroup) mView).addView(tvEmpty);
     }
 
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {
