@@ -18,6 +18,7 @@ import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.bestseller.fragment.BestSellersFragment;
 import com.simicart.saletracking.cart.fragment.AbandonedCartDetailFragment;
 import com.simicart.saletracking.cart.fragment.ListAbandonedCartsFragment;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
 import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
@@ -214,75 +215,111 @@ public class AppManager {
     }
 
     public void openListOrders(HashMap<String, Object> hmData) {
-        ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
-        orderFragment.setFragmentName("Orders");
-        orderFragment.setDetail(false);
-        orderFragment.setShowStore(true);
-        replaceFragment(orderFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.ORDER_LIST)) {
+            ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
+            orderFragment.setFragmentName("Orders");
+            orderFragment.setDetail(false);
+            orderFragment.setShowStore(true);
+            replaceFragment(orderFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openListCustomers(HashMap<String, Object> hmData) {
-        ListCustomersFragment customersFragment = ListCustomersFragment.newInstance(new AppData(hmData));
-        customersFragment.setFragmentName("Customers");
-        customersFragment.setDetail(false);
-        customersFragment.setShowStore(false);
-        replaceFragment(customersFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.CUSTOMER_LISTS)) {
+            ListCustomersFragment customersFragment = ListCustomersFragment.newInstance(new AppData(hmData));
+            customersFragment.setFragmentName("Customers");
+            customersFragment.setDetail(false);
+            customersFragment.setShowStore(false);
+            replaceFragment(customersFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openCustomerDetail(HashMap<String, Object> hmData) {
-        CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance(new AppData(hmData));
-        customerDetailFragment.setFragmentName("Customer Detail");
-        customerDetailFragment.setDetail(true);
-        customerDetailFragment.setShowStore(false);
-        replaceFragment(customerDetailFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.CUSTOMER_DETAILS)) {
+            CustomerDetailFragment customerDetailFragment = CustomerDetailFragment.newInstance(new AppData(hmData));
+            customerDetailFragment.setFragmentName("Customer Detail");
+            customerDetailFragment.setDetail(true);
+            customerDetailFragment.setShowStore(false);
+            replaceFragment(customerDetailFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openOrderDetail(HashMap<String, Object> hmData) {
-        OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
-        orderDetailFragment.setFragmentName("Order Detail");
-        orderDetailFragment.setDetail(true);
-        orderDetailFragment.setShowStore(false);
-        replaceFragment(orderDetailFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.ORDER_DETAIL)) {
+            OrderDetailFragment orderDetailFragment = OrderDetailFragment.newInstance(new AppData(hmData));
+            orderDetailFragment.setFragmentName("Order Detail");
+            orderDetailFragment.setDetail(true);
+            orderDetailFragment.setShowStore(false);
+            replaceFragment(orderDetailFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openListAddresses(HashMap<String, Object> hmData) {
-        ListAddressesFragment listAddressesFragment = ListAddressesFragment.newInstance(new AppData(hmData));
-        listAddressesFragment.setFragmentName("Addresses");
-        listAddressesFragment.setDetail(true);
-        listAddressesFragment.setShowStore(false);
-        replaceFragment(listAddressesFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.CUSTOMER_ADDRESS_LIST)) {
+            ListAddressesFragment listAddressesFragment = ListAddressesFragment.newInstance(new AppData(hmData));
+            listAddressesFragment.setFragmentName("Addresses");
+            listAddressesFragment.setDetail(true);
+            listAddressesFragment.setShowStore(false);
+            replaceFragment(listAddressesFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openListProducts(HashMap<String, Object> hmData) {
-        ListProductsFragment listProductsFragment = ListProductsFragment.newInstance(new AppData(hmData));
-        listProductsFragment.setFragmentName("Products");
-        listProductsFragment.setDetail(false);
-        listProductsFragment.setShowStore(true);
-        replaceFragment(listProductsFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.PRODUCT_LIST)) {
+            ListProductsFragment listProductsFragment = ListProductsFragment.newInstance(new AppData(hmData));
+            listProductsFragment.setFragmentName("Products");
+            listProductsFragment.setDetail(false);
+            listProductsFragment.setShowStore(true);
+            replaceFragment(listProductsFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openProductDetail(HashMap<String, Object> hmData) {
-        ProductDetailFragment productDetailFragment = ProductDetailFragment.newInstance(new AppData(hmData));
-        productDetailFragment.setFragmentName("product Detail");
-        productDetailFragment.setDetail(true);
-        productDetailFragment.setShowStore(false);
-        replaceFragment(productDetailFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.PRODUCT_DETAILS)) {
+            ProductDetailFragment productDetailFragment = ProductDetailFragment.newInstance(new AppData(hmData));
+            productDetailFragment.setFragmentName("product Detail");
+            productDetailFragment.setDetail(true);
+            productDetailFragment.setShowStore(false);
+            replaceFragment(productDetailFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openListAbandonedCarts(HashMap<String, Object> hmData) {
-        ListAbandonedCartsFragment listAbandonedCartsFragment = ListAbandonedCartsFragment.newInstance(new AppData(hmData));
-        listAbandonedCartsFragment.setFragmentName("Abandoned Carts");
-        listAbandonedCartsFragment.setDetail(false);
-        listAbandonedCartsFragment.setShowStore(false);
-        replaceFragment(listAbandonedCartsFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.ABANDONED_CART_LIST)) {
+            ListAbandonedCartsFragment listAbandonedCartsFragment = ListAbandonedCartsFragment.newInstance(new AppData(hmData));
+            listAbandonedCartsFragment.setFragmentName("Abandoned Carts");
+            listAbandonedCartsFragment.setDetail(false);
+            listAbandonedCartsFragment.setShowStore(false);
+            replaceFragment(listAbandonedCartsFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openAbandonedCartDetail(HashMap<String, Object> hmData) {
-        AbandonedCartDetailFragment abandonedCartDetailFragment = AbandonedCartDetailFragment.newInstance(new AppData(hmData));
-        abandonedCartDetailFragment.setFragmentName("Cart Detail");
-        abandonedCartDetailFragment.setDetail(true);
-        abandonedCartDetailFragment.setShowStore(false);
-        replaceFragment(abandonedCartDetailFragment);
+        if (mCurrentUser.hasPermission(Constants.Permission.ABANDONED_CART_DETAIL)) {
+            AbandonedCartDetailFragment abandonedCartDetailFragment = AbandonedCartDetailFragment.newInstance(new AppData(hmData));
+            abandonedCartDetailFragment.setFragmentName("Cart Detail");
+            abandonedCartDetailFragment.setDetail(true);
+            abandonedCartDetailFragment.setShowStore(false);
+            replaceFragment(abandonedCartDetailFragment);
+        } else {
+            AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+        }
     }
 
     public void openBestSellers() {

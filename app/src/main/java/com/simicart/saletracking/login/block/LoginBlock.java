@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.manager.AppNotify;
@@ -42,7 +43,7 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
         rlLogin.setBackgroundColor(AppColor.getInstance().getThemeColor());
 
         ivLogo = (ImageView) mView.findViewById(R.id.iv_logo);
-        ivLogo.setBackgroundResource(R.drawable.login_logo);
+        ivLogo.setImageResource(R.drawable.login_logo);
 
         ivUrl = (ImageView) mView.findViewById(R.id.iv_url);
         ivUrl.setImageDrawable(AppColor.getInstance().coloringIcon(R.drawable.ic_url, "#fc9900"));

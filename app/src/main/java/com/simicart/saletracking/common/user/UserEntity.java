@@ -70,6 +70,15 @@ public class UserEntity extends AppEntity {
 
     }
 
+    public boolean hasPermission(String permissionID) {
+        for(UserPermissionEntity userPermissionEntity : mListPermissions) {
+            if(userPermissionEntity.getPermissionID().equals(permissionID)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getBaseCurrency() {
         return mBaseCurrency;
     }

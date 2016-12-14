@@ -13,14 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.bestseller.entity.BestSellerEntity;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.CustomerEntity;
 import com.simicart.saletracking.dashboard.adapter.LatestCustomerAdapter;
@@ -48,6 +51,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     protected TextView tvRefresh;
     protected Spinner spTime;
     protected TableLayout tlSummary;
+    protected TableRow trLifeTime;
     protected TextView tvRevenueLabel, tvTaxLabel, tvShippingLabel, tvQuantityLabel, tvLifeTimeSaleLabel, tvAverageLabel;
     protected TextView tvRevenue, tvTax, tvShipping, tvQuantity, tvLifeTimeSale, tvAverage;
     protected TextView tvTopBestSellersTitle, tvLatestOrdersTitle, tvLatestCustomersTitle;
@@ -270,6 +274,9 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     protected void initTotal() {
         tlSummary = (TableLayout) mView.findViewById(R.id.tl_summary);
+        if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.TOTALS_DETAILS)) {
+            tlSummary.setVisibility(View.GONE);
+        }
 
         tvRevenueLabel = (TextView) mView.findViewById(R.id.tv_revenue_label);
         tvRevenueLabel.setTextColor(Color.BLACK);
@@ -298,6 +305,11 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
         tvQuantity = (TextView) mView.findViewById(R.id.tv_quantity);
         tvQuantity.setTextColor(Color.BLACK);
+
+        trLifeTime = (TableRow) mView.findViewById(R.id.tr_life_time);
+        if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.LIFETIME_SALES)) {
+            trLifeTime.setVisibility(View.GONE);
+        }
 
         tvLifeTimeSaleLabel = (TextView) mView.findViewById(R.id.tv_lifetime_sale_label);
         tvLifeTimeSaleLabel.setTextColor(Color.BLACK);

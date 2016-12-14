@@ -22,7 +22,9 @@ import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
+import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menutop.MenuTopController;
 
 import java.util.HashMap;
@@ -72,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 1) {
             AppFragment backFragment = (AppFragment) getSupportFragmentManager().getFragments().get(0);
-            if(backFragment instanceof DashboardFragment) {
+            if (backFragment instanceof DashboardFragment || backFragment instanceof LoginFragment) {
                 if (doubleBackToExitPressedOnce) {
                     finish();
                 }
@@ -99,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 49374) {
+        if (requestCode == 49374) {
             HashMap<String, Object> hmQRData = new HashMap<>();
             hmQRData.put("intent", data);
             hmQRData.put("request_code", requestCode);
@@ -118,32 +120,50 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        AppManager.getInstance().clearFragments();
-
         int id = item.getItemId();
         switch (id) {
             case R.id.nav_dashboard:
+                AppManager.getInstance().clearFragments();
                 AppManager.getInstance().openDashboardPage();
                 break;
             case R.id.nav_orders:
-                AppManager.getInstance().openListOrders(null);
+                if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.ORDER_LIST)) {
+                    AppManager.getInstance().openListOrders(null);
+                } else {
+                    AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+                }
                 break;
             case R.id.nav_bestseller:
+                AppManager.getInstance().clearFragments();
                 AppManager.getInstance().openBestSellers();
                 break;
             case R.id.nav_products:
-                AppManager.getInstance().openListProducts(null);
+                if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_LIST)) {
+                    AppManager.getInstance().openListProducts(null);
+                } else {
+                    AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+                }
                 break;
             case R.id.nav_customers:
-                AppManager.getInstance().openListCustomers(null);
+                if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.CUSTOMER_LISTS)) {
+                    AppManager.getInstance().openListCustomers(null);
+                } else {
+                    AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+                }
                 break;
             case R.id.nav_abandoned_cart:
-                AppManager.getInstance().openListAbandonedCarts(null);
+                if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.ABANDONED_CART_LIST)) {
+                    AppManager.getInstance().openListAbandonedCarts(null);
+                } else {
+                    AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
+                }
                 break;
             case R.id.nav_settings:
+                AppManager.getInstance().clearFragments();
                 AppManager.getInstance().openSetting();
                 break;
             case R.id.nav_logout:
+                AppManager.getInstance().clearFragments();
                 processLogout();
                 break;
         }
@@ -157,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawer.closeDrawer(GravityCompat.START);
         if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);
-        } else if(AppPreferences.isSignInNormal()) {
+        } else if (AppPreferences.isSignInNormal()) {
             AppPreferences.setSignInNormal(false);
             AppPreferences.clearCustomerInfo();
         } else {
