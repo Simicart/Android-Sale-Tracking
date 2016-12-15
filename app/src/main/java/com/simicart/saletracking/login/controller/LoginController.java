@@ -2,15 +2,20 @@ package com.simicart.saletracking.login.controller;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.android.gms.iid.InstanceID;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.simicart.saletracking.base.controller.AppController;
@@ -27,6 +32,7 @@ import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
 import com.simicart.saletracking.login.request.CheckLicenseActiveRequest;
 import com.simicart.saletracking.login.request.LoginRequest;
+import com.simicart.saletracking.notification.entity.NotificationEntity;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 import com.simicart.saletracking.store.request.GetStoreRequest;
 
@@ -46,13 +52,14 @@ public class LoginController extends AppController {
     protected View.OnClickListener onTryDemoClick;
     protected View.OnClickListener onLoginClick;
     protected View.OnClickListener onLoginQrClick;
-    protected String mDeviceID;
+    protected String mDeviceToken;
 
     @Override
     public void onStart() {
 
-        mDeviceID = Settings.Secure.getString(AppManager.getInstance().getCurrentActivity().getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        mDelegate.showDialogLoading();
+
+        new DeviceTokenAsync().execute();
 
         onTryDemoClick = new View.OnClickListener() {
             @Override
@@ -69,7 +76,6 @@ public class LoginController extends AppController {
                 Utils.hideKeyboard();
                 LoginEntity loginEntity = mDelegate.getLoginInfo();
                 if (loginEntity != null) {
-                    AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
                     checkLicenseActive(loginEntity, true);
                 }
             }
@@ -82,12 +88,6 @@ public class LoginController extends AppController {
             }
         };
 
-        if(AppPreferences.isSignInNormal()) {
-            checkLicenseActive(null, true);
-        } else if(AppPreferences.isSignInQr()) {
-            checkLicenseActive(null, false);
-        }
-
     }
 
     @Override
@@ -95,26 +95,69 @@ public class LoginController extends AppController {
 
     }
 
+    public class DeviceTokenAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            try {
+                InstanceID instanceID = InstanceID.getInstance(AppManager.getInstance().getCurrentActivity());
+
+                mDeviceToken = instanceID.getToken("1045130557303",
+                        GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
+
+                Log.e("LoginController", "GCM Registration Token: " + mDeviceToken);
+
+            } catch (Exception e) {
+                Log.e("LoginController", "Failed to complete token refresh", e);
+            } finally {
+                if (mDeviceToken == null) {
+                    mDeviceToken = Settings.Secure.getString(AppManager.getInstance().getCurrentActivity().getContentResolver(),
+                            Settings.Secure.ANDROID_ID);
+                    mDeviceToken = "nontoken_" + mDeviceToken;
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            autoSignIn();
+        }
+    }
+
+    protected void autoSignIn() {
+        if (AppPreferences.isSignInNormal()) {
+            checkLicenseActive(null, true);
+        } else if (AppPreferences.isSignInQr()) {
+            checkLicenseActive(null, false);
+        } else {
+            mDelegate.dismissDialogLoading();
+        }
+    }
+
     protected void checkLicenseActive(final LoginEntity loginEntity, final boolean isLoginNormal) {
-        mDelegate.showDialogLoading();
+        if (loginEntity != null) {
+            mDelegate.showDialogLoading();
+        }
         CheckLicenseActiveRequest licenseActiveRequest = new CheckLicenseActiveRequest();
         licenseActiveRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if(collection != null) {
-                    if(collection.containKey("is_active")) {
+                if (collection != null) {
+                    if (collection.containKey("is_active")) {
                         boolean isActive = (boolean) collection.getDataWithKey("is_active");
-                        if(isActive) {
-                            if(isLoginNormal) {
+                        if (isActive) {
+                            if (isLoginNormal) {
                                 onLoginUser(loginEntity);
                             } else {
                                 onLoginQr(loginEntity);
                             }
                         } else {
                             mDelegate.dismissDialogLoading();
-                            if(collection.containKey("message")) {
+                            if (collection.containKey("message")) {
                                 String message = (String) collection.getDataWithKey("message");
-                                if(Utils.validateString(message)) {
+                                if (Utils.validateString(message)) {
                                     AppNotify.getInstance().showError(message);
                                 }
                             }
@@ -131,7 +174,7 @@ public class LoginController extends AppController {
             }
         });
         licenseActiveRequest.setCustomUrl("https://www.simicart.com/usermanagement/api/authorize");
-        if(loginEntity != null) {
+        if (loginEntity != null) {
             licenseActiveRequest.addParam("url", loginEntity.getUrl());
         } else {
             licenseActiveRequest.addParam("url", AppPreferences.getCustomerUrl());
@@ -159,9 +202,9 @@ public class LoginController extends AppController {
         loginDemoRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
         loginDemoRequest.addParam("email", Constants.demoEmail);
         loginDemoRequest.addParam("password", Constants.demoPassword);
-        loginDemoRequest.addParam("platform", "3");
-        if (Utils.validateString(mDeviceID)) {
-            loginDemoRequest.addParam("device_token", "nontoken_" + mDeviceID);
+        loginDemoRequest.addParam("plaform_id", "3");
+        if (Utils.validateString(mDeviceToken)) {
+            loginDemoRequest.addParam("device_token", mDeviceToken);
         }
         loginDemoRequest.request();
     }
@@ -173,6 +216,9 @@ public class LoginController extends AppController {
             public void onSuccess(AppCollection collection) {
                 mDelegate.dismissDialogLoading();
                 AppPreferences.setSignInNormal(true);
+                if (loginEntity != null) {
+                    AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
+                }
                 goToHome();
             }
         });
@@ -181,7 +227,6 @@ public class LoginController extends AppController {
             public void onFail(String message) {
                 mDelegate.dismissDialogLoading();
                 AppNotify.getInstance().showError(message);
-                AppPreferences.clearCustomerInfo();
             }
         });
         loginUserRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
@@ -193,9 +238,9 @@ public class LoginController extends AppController {
             loginUserRequest.addParam("email", AppPreferences.getCustomerEmail());
             loginUserRequest.addParam("password", AppPreferences.getCustomerPassword());
         }
-        loginUserRequest.addParam("platform", "3");
-        if (Utils.validateString(mDeviceID)) {
-            loginUserRequest.addParam("device_token", "nontoken_" + mDeviceID);
+        loginUserRequest.addParam("plaform_id", "3");
+        if (Utils.validateString(mDeviceToken)) {
+            loginUserRequest.addParam("device_token", mDeviceToken);
         }
         loginUserRequest.request();
     }
@@ -208,7 +253,7 @@ public class LoginController extends AppController {
             public void onReceive(Context context, Intent intent) {
 
                 Bundle bundle = intent.getBundleExtra("data");
-                AppData mData =  bundle.getParcelable("entity");
+                AppData mData = bundle.getParcelable("entity");
                 int requestCode = (int) mData.getData().get("request_code");
                 int resultCode = (int) mData.getData().get("result_code");
                 Intent data = (Intent) mData.getData().get("intent");
@@ -217,7 +262,7 @@ public class LoginController extends AppController {
                 if (intentResult != null) {
                     if (intentResult.getContents() != null) {
                         String result = intentResult.getContents();
-                        if(Utils.validateString(result)) {
+                        if (Utils.validateString(result)) {
                             try {
                                 byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
                                 final String decodedResult = new String(decodedBytes, "UTF-8");
@@ -238,29 +283,31 @@ public class LoginController extends AppController {
         try {
             JSONObject qrObj = new JSONObject(qrCode);
             LoginEntity loginEntity = new LoginEntity();
-            if(qrObj.has("user_email")) {
+            if (qrObj.has("user_email")) {
                 loginEntity.setEmail(qrObj.getString("user_email"));
             }
-            if(qrObj.has("url")) {
+            if (qrObj.has("url")) {
                 loginEntity.setUrl(qrObj.getString("url"));
             }
-            if(qrObj.has("session_id")) {
+            if (qrObj.has("session_id")) {
                 loginEntity.setSessionID(qrObj.getString("session_id"));
             }
-            AppPreferences.saveCustomerInfoForQr(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getSessionID());
             checkLicenseActive(loginEntity, false);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    protected void onLoginQr(LoginEntity loginEntity) {
+    protected void onLoginQr(final LoginEntity loginEntity) {
         LoginRequest loginQrRequest = new LoginRequest();
         loginQrRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
                 mDelegate.dismissDialogLoading();
                 AppPreferences.setSignInQr(true);
+                if (loginEntity != null) {
+                    AppPreferences.saveCustomerInfoForQr(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getSessionID());
+                }
                 goToHome();
             }
         });
@@ -272,19 +319,21 @@ public class LoginController extends AppController {
             }
         });
         loginQrRequest.setExtendUrl("simitracking/rest/v2/staffs/loginWithKeySession");
-        if(loginEntity != null) {
+        if (loginEntity != null) {
+            loginQrRequest.setCustomUrl(loginEntity.getUrl());
             loginQrRequest.addParam("qr_session_id", loginEntity.getSessionID());
         } else {
             loginQrRequest.addParam("qr_session_id", AppPreferences.getCustomerQrSession());
         }
-        loginQrRequest.addParam("platform", "3");
-        if (Utils.validateString(mDeviceID)) {
-            loginQrRequest.addParam("new_token_id", "nontoken_" + mDeviceID);
+        loginQrRequest.addParam("plaform_id", "3");
+        if (Utils.validateString(mDeviceToken)) {
+            loginQrRequest.addParam("new_token_id", mDeviceToken);
         }
         loginQrRequest.request();
     }
 
     protected void goToHome() {
+        registerNotificationReceiver();
         requestListStoreViews();
         AppManager.getInstance().enableDrawer();
         AppManager.getInstance().initHeader();
@@ -308,6 +357,55 @@ public class LoginController extends AppController {
         });
         getStoreRequest.setExtendUrl("simitracking/rest/v2/stores");
         getStoreRequest.request();
+    }
+
+    protected void registerNotificationReceiver() {
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                AppData appData = intent.getParcelableExtra("data");
+                NotificationEntity notificationEntity = (NotificationEntity) appData.getData().get("notification_entity");
+                showPopupNotification(notificationEntity);
+            }
+        };
+
+        IntentFilter notificationFilter = new IntentFilter("com.simitracking.notification");
+        LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity()).registerReceiver(receiver, notificationFilter);
+    }
+
+    protected void showPopupNotification(final NotificationEntity entity) {
+        AppManager.getInstance().getCurrentActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AppManager.getInstance().getCurrentActivity());
+                String title = entity.getTitle();
+                if(Utils.validateString(title)) {
+                    alertDialogBuilder.setTitle(title);
+                }
+                String content = entity.getContent();
+                if(Utils.validateString(content)) {
+                    alertDialogBuilder.setMessage(entity.getContent());
+                }
+                alertDialogBuilder.setPositiveButton("VIEW DETAIL",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface arg0, int arg1) {
+
+                            }
+                        });
+
+                alertDialogBuilder.setNegativeButton("CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
     }
 
     public void setDelegate(LoginDelegate delegate) {

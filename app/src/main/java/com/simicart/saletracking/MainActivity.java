@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected boolean doubleBackToExitPressedOnce = false;
     protected DrawerLayout mDrawer;
     protected NavigationView mNavigationView;
+    public static boolean isRunning;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } else {
             AppManager.getInstance().disableDrawer();
         }
+
+        isRunning = true;
 
     }
 
@@ -174,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     protected void processLogout() {
+        AppManager.getInstance().getMenuTopController().setFirstRun(true);
         mDrawer.closeDrawer(GravityCompat.START);
         if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);
@@ -214,6 +218,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     });
             alertboxDowload.show();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        isRunning = true;
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        isRunning = false;
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        isRunning = false;
+        super.onDestroy();
     }
 
 }

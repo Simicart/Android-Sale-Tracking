@@ -1,9 +1,11 @@
 package com.simicart.saletracking.common;
 
 import android.app.Service;
+import android.os.Build;
 import android.text.Html;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -19,12 +21,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Glenn on 11/24/2016.
  */
 
 public class Utils {
+
+    private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
 
     public static boolean validateString(String content) {
         if (null == content) {
@@ -221,11 +226,28 @@ public class Utils {
 
         while (calendar.getTime().before(endDate)) {
             Date result = calendar.getTime();
-            Log.e("abc", newDateFormat.format(result));
             dates.add(newDateFormat.format(result));
             calendar.add(Calendar.MONTH, 1);
         }
         return dates;
+    }
+
+    public static int generateViewId() {
+
+        if (Build.VERSION.SDK_INT < 17) {
+            for (; ; ) {
+                final int result = sNextGeneratedId.get();
+                int newValue = result + 1;
+                if (newValue > 0x00FFFFFF)
+                    newValue = 1;
+                if (sNextGeneratedId.compareAndSet(result, newValue)) {
+                    return result;
+                }
+            }
+        } else {
+            return View.generateViewId();
+        }
+
     }
 
 }

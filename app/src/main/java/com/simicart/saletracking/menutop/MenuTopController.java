@@ -161,4 +161,8 @@ public class MenuTopController {
     public void setController(AppController controller) {
         mController = controller;
     }
+
+    public void setFirstRun(boolean firstRun) {
+        isFirstRun = firstRun;
+    }
 }
