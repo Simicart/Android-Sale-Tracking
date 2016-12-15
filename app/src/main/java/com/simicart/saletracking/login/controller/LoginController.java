@@ -21,6 +21,7 @@ import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
@@ -156,8 +157,8 @@ public class LoginController extends AppController {
             }
         });
         loginDemoRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
-        loginDemoRequest.addParam("email", "test@simicart.com");
-        loginDemoRequest.addParam("password", "123456");
+        loginDemoRequest.addParam("email", Constants.demoEmail);
+        loginDemoRequest.addParam("password", Constants.demoPassword);
         loginDemoRequest.addParam("platform", "3");
         if (Utils.validateString(mDeviceID)) {
             loginDemoRequest.addParam("device_token", "nontoken_" + mDeviceID);
@@ -185,11 +186,10 @@ public class LoginController extends AppController {
         });
         loginUserRequest.setExtendUrl("simitracking/rest/v2/staffs/login");
         if (loginEntity != null) {
-            loginUserRequest.addParam("url", loginEntity.getUrl());
+            loginUserRequest.setCustomUrl(loginEntity.getUrl());
             loginUserRequest.addParam("email", loginEntity.getEmail());
             loginUserRequest.addParam("password", loginEntity.getPassword());
         } else {
-            loginUserRequest.addParam("url", AppPreferences.getCustomerUrl());
             loginUserRequest.addParam("email", AppPreferences.getCustomerEmail());
             loginUserRequest.addParam("password", AppPreferences.getCustomerPassword());
         }

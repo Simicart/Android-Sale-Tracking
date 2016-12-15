@@ -19,16 +19,13 @@ public class CheckLicenseActiveRequest extends AppRequest {
         try {
             if (mJSONResult.has("license")) {
                 JSONObject licenseObj = mJSONResult.getJSONObject("license");
-                if(licenseObj.has("status")) {
+                if (licenseObj.has("status")) {
                     String status = licenseObj.getString("status");
                     boolean isActive = Utils.getBoolean(status);
-                    if(isActive) {
-                        mCollection.putDataWithKey("is_active", isActive);
-                    } else {
-                        if(licenseObj.has("message")) {
-                            String message = licenseObj.getString("message");
-                            mCollection.putDataWithKey("message", message);
-                        }
+                    mCollection.putDataWithKey("is_active", isActive);
+                    if (licenseObj.has("message")) {
+                        String message = licenseObj.getString("message");
+                        mCollection.putDataWithKey("message", message);
                     }
                 }
             }

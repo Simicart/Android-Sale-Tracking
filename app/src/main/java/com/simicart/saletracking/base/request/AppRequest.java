@@ -87,11 +87,16 @@ public class AppRequest {
             public void onErrorResponse(VolleyError error) {
                 String errorMessage = error.getMessage();
                 if (Utils.validateString(errorMessage)) {
+                    if (errorMessage.contains("Exception")) {
+                        errorMessage = "Some error occur. Please try again later!";
+                    }
                     if (mRequestFailCallback != null) {
                         mRequestFailCallback.onFail(errorMessage);
                     } else {
                         AppNotify.getInstance().showError(errorMessage);
                     }
+                } else {
+                    AppNotify.getInstance().showError("Some error occur. Please try again later!");
                 }
             }
         }) {
@@ -133,15 +138,23 @@ public class AppRequest {
             mBaseUrl = AppPreferences.getCustomerUrl();
         }
 
-        if(mBaseUrl.charAt(mBaseUrl.length() - 1) != '/') {
-            mBaseUrl += "/";
-        }
-
         String url = null;
-        if(mCustomUrl == null) {
-            url = mBaseUrl + mExtendUrl;
+        if (mCustomUrl == null) {
+            url = mBaseUrl;
         } else {
             url = mCustomUrl;
+        }
+
+        if (url.charAt(url.length() - 1) != '/') {
+            url += "/";
+        }
+
+        if(mExtendUrl != null) {
+            url = url + mExtendUrl;
+        }
+
+        if (!url.contains("http")) {
+            url = "https://" + url;
         }
 
         String dataParameter = processDataParameter();

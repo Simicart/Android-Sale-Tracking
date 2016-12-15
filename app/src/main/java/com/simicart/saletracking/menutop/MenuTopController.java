@@ -70,9 +70,16 @@ public class MenuTopController {
         spStore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                RelativeLayout rlItem = (RelativeLayout) adapterView.getChildAt(0);
-                TextView tvStore = (TextView) rlItem.findViewById(R.id.tv_store);
-                tvStore.setTextColor(Color.WHITE);
+                TextView tvStore = (TextView) view.findViewById(R.id.tv_store);
+                if(tvStore == null) {
+                    RelativeLayout rlItem = (RelativeLayout) adapterView.getChildAt(0);
+                    if (rlItem != null) {
+                        tvStore = (TextView) rlItem.findViewById(R.id.tv_store);
+                    }
+                }
+                if(tvStore != null) {
+                    tvStore.setTextColor(Color.WHITE);
+                }
 
                 if (!isFirstRun) {
                     AppManager.getInstance().setStoreID(mListStoreViews.get(i).getStoreID());
