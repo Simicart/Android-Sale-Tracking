@@ -1,7 +1,10 @@
 package com.simicart.saletracking.base.manager;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

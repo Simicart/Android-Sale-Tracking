@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.simicart.saletracking.base.entity.AppData;
@@ -104,11 +105,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 49374) {
+        if(requestCode == 123 && data != null) {
+            Bundle extra = data.getExtras();
+            String result = extra.getString("result");
+
             HashMap<String, Object> hmQRData = new HashMap<>();
-            hmQRData.put("intent", data);
-            hmQRData.put("request_code", requestCode);
-            hmQRData.put("result_code", resultCode);
+            hmQRData.put("result", result);
 
             Intent intent = new Intent("login.qrcode");
             Bundle bundle = new Bundle();
@@ -178,6 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     protected void processLogout() {
         AppManager.getInstance().getMenuTopController().setFirstRun(true);
+        AppManager.getInstance().setSessionID(null);
         mDrawer.closeDrawer(GravityCompat.START);
         if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);

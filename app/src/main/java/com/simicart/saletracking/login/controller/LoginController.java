@@ -16,8 +16,6 @@ import android.view.View;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -28,6 +26,7 @@ import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
+import com.simicart.saletracking.login.activity.QrCodeActivity;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
 import com.simicart.saletracking.login.request.CheckLicenseActiveRequest;
@@ -53,6 +52,7 @@ public class LoginController extends AppController {
     protected View.OnClickListener onLoginClick;
     protected View.OnClickListener onLoginQrClick;
     protected String mDeviceToken;
+    protected BroadcastReceiver onScanResultReceiver;
 
     @Override
     public void onStart() {
@@ -246,37 +246,33 @@ public class LoginController extends AppController {
     }
 
     protected void onQrCodeClick() {
-        new IntentIntegrator(AppManager.getInstance().getCurrentActivity()).initiateScan();
 
-        BroadcastReceiver onScanResultReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
+        Intent intent = new Intent(AppManager.getInstance().getCurrentActivity(), QrCodeActivity.class);
+        AppManager.getInstance().getCurrentActivity().startActivityForResult(intent, 123);
 
-                Bundle bundle = intent.getBundleExtra("data");
-                AppData mData = bundle.getParcelable("entity");
-                int requestCode = (int) mData.getData().get("request_code");
-                int resultCode = (int) mData.getData().get("result_code");
-                Intent data = (Intent) mData.getData().get("intent");
+        if(onScanResultReceiver == null) {
+            onScanResultReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
 
-                IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-                if (intentResult != null) {
-                    if (intentResult.getContents() != null) {
-                        String result = intentResult.getContents();
-                        if (Utils.validateString(result)) {
-                            try {
-                                byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
-                                final String decodedResult = new String(decodedBytes, "UTF-8");
-                                parseDecodedQrCode(decodedResult);
-                            } catch (UnsupportedEncodingException e) {
-                                Log.e("Decode QR Result", e.getMessage());
-                            }
+                    Bundle bundle = intent.getBundleExtra("data");
+                    AppData mData = bundle.getParcelable("entity");
+                    String result = (String) mData.getData().get("result");
+                    if (Utils.validateString(result)) {
+                        try {
+                            byte[] decodedBytes = Base64.decode(result, Base64.DEFAULT);
+                            final String decodedResult = new String(decodedBytes, "UTF-8");
+                            parseDecodedQrCode(decodedResult);
+                        } catch (UnsupportedEncodingException e) {
+                            Log.e("Decode QR Result", e.getMessage());
                         }
                     }
+                    LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity()).unregisterReceiver(onScanResultReceiver);
                 }
-            }
-        };
-        LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity())
-                .registerReceiver(onScanResultReceiver, new IntentFilter("login.qrcode"));
+            };
+            LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity())
+                    .registerReceiver(onScanResultReceiver, new IntentFilter("login.qrcode"));
+        }
     }
 
     protected void parseDecodedQrCode(String qrCode) {
@@ -379,11 +375,11 @@ public class LoginController extends AppController {
             public void run() {
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(AppManager.getInstance().getCurrentActivity());
                 String title = entity.getTitle();
-                if(Utils.validateString(title)) {
+                if (Utils.validateString(title)) {
                     alertDialogBuilder.setTitle(title);
                 }
                 String content = entity.getContent();
-                if(Utils.validateString(content)) {
+                if (Utils.validateString(content)) {
                     alertDialogBuilder.setMessage(entity.getContent());
                 }
                 alertDialogBuilder.setPositiveButton("VIEW DETAIL",
