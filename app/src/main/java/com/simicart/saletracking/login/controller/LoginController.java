@@ -127,10 +127,14 @@ public class LoginController extends AppController {
     }
 
     protected void autoSignIn() {
-        if (AppPreferences.isSignInNormal()) {
-            checkLicenseActive(null, true);
-        } else if (AppPreferences.isSignInQr()) {
-            checkLicenseActive(null, false);
+        if (Utils.isInternetAvailable()) {
+            if (AppPreferences.isSignInNormal()) {
+                checkLicenseActive(null, true);
+            } else if (AppPreferences.isSignInQr()) {
+                checkLicenseActive(null, false);
+            } else {
+                mDelegate.dismissDialogLoading();
+            }
         } else {
             mDelegate.dismissDialogLoading();
         }
@@ -250,7 +254,7 @@ public class LoginController extends AppController {
         Intent intent = new Intent(AppManager.getInstance().getCurrentActivity(), QrCodeActivity.class);
         AppManager.getInstance().getCurrentActivity().startActivityForResult(intent, 123);
 
-        if(onScanResultReceiver == null) {
+        if (onScanResultReceiver == null) {
             onScanResultReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {

@@ -1,6 +1,9 @@
 package com.simicart.saletracking.common;
 
 import android.app.Service;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.Html;
 import android.util.DisplayMetrics;
@@ -248,6 +251,15 @@ public class Utils {
             return View.generateViewId();
         }
 
+    }
+
+    public static boolean isInternetAvailable() {
+        ConnectivityManager conMgr = (ConnectivityManager) AppManager.getInstance().getCurrentActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo i = conMgr.getActiveNetworkInfo();
+        if (i == null || !i.isConnected() || !i.isAvailable()) {
+            return false;
+        }
+        return true;
     }
 
 }

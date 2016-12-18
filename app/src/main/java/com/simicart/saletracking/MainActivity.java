@@ -1,14 +1,23 @@
 package com.simicart.saletracking;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +26,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
@@ -24,9 +34,11 @@ import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menutop.MenuTopController;
+import com.simicart.saletracking.notification.entity.NotificationEntity;
 
 import java.util.HashMap;
 
@@ -201,9 +213,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     protected void checkInternetConnection() {
-        ConnectivityManager conMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo i = conMgr.getActiveNetworkInfo();
-        if (i == null || !i.isConnected() || !i.isAvailable()) {
+        if (!Utils.isInternetAvailable()) {
             AlertDialog.Builder alertboxDowload = new AlertDialog.Builder(
                     this);
             alertboxDowload.setTitle("WARNING");

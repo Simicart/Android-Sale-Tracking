@@ -71,10 +71,10 @@ public class NotificationListenerService extends GcmListenerService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon);
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_notification);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.ic_icon)
+                .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(largeIcon)
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_VIBRATE | Notification.DEFAULT_SOUND | Notification.FLAG_SHOW_LIGHTS)
