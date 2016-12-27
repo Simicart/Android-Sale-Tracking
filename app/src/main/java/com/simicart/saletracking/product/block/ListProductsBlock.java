@@ -106,7 +106,8 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
     }
 
     public void showEmptyMessage() {
-        ((ViewGroup) mView).removeAllViewsInLayout();
+//        ((ViewGroup) mView).removeAllViewsInLayout();
+        rvProducts.setVisibility(View.GONE);
         TextView tvEmpty = new TextView(mContext);
         tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("No products found");

@@ -140,7 +140,8 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
     }
 
     public void showEmptyMessage() {
-        ((ViewGroup) mView).removeAllViewsInLayout();
+//        ((ViewGroup) mView).removeAllViewsInLayout();
+        rvOrders.setVisibility(View.GONE);
         TextView tvEmpty = new TextView(mContext);
         tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("No orders found");

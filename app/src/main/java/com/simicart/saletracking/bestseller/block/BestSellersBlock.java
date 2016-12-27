@@ -98,7 +98,8 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
     }
 
     public void showEmptyMessage() {
-        ((ViewGroup) mView).removeAllViewsInLayout();
+//        ((ViewGroup) mView).removeAllViewsInLayout();
+        rvBestSellers.setVisibility(View.GONE);
         TextView tvEmpty = new TextView(mContext);
         tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("No best sellers found");

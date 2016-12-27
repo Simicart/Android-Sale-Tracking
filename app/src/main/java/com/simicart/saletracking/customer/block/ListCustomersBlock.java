@@ -143,7 +143,8 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     }
 
     public void showEmptyMessage() {
-        ((ViewGroup) mView).removeAllViewsInLayout();
+//        ((ViewGroup) mView).removeAllViewsInLayout();
+        rvCustomers.setVisibility(View.GONE);
         TextView tvEmpty = new TextView(mContext);
         tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("No customers found");

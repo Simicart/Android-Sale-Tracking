@@ -139,7 +139,8 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
     }
 
     public void showEmptyMessage() {
-        ((ViewGroup) mView).removeAllViewsInLayout();
+//        ((ViewGroup) mView).removeAllViewsInLayout();
+        rvCarts.setVisibility(View.GONE);
         TextView tvEmpty = new TextView(mContext);
         tvEmpty.setTextColor(Color.BLACK);
         tvEmpty.setText("No abandoned carts found");
