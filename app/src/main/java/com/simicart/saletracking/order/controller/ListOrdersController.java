@@ -44,6 +44,7 @@ public class ListOrdersController extends AppController {
     protected LayerEntity mSortEntity;
     protected LayerEntity mTimeEntity;
     protected HashMap<String, Object> hmData;
+    protected boolean isDetail;
 
     protected int mCurrentPage = 1;
     protected int mTotalPage;
@@ -179,6 +180,7 @@ public class ListOrdersController extends AppController {
                 }
                 hmData.put("search_entity", mSearchEntity);
                 hmData.put("from", Constants.Search.ORDER);
+                hmData.put("is_detail", isDetail);
                 AppManager.getInstance().openSearch(hmData);
             }
         };
@@ -286,5 +288,9 @@ public class ListOrdersController extends AppController {
 
     public View.OnClickListener getOnTimeFilterClick() {
         return mOnTimeFilterClick;
+    }
+
+    public void setDetail(boolean detail) {
+        isDetail = detail;
     }
 }

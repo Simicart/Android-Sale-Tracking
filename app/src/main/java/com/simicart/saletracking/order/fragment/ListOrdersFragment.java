@@ -40,6 +40,7 @@ public class ListOrdersFragment extends AppFragment {
         if (mController == null) {
             mController = new ListOrdersController();
             mController.setDelegate(mBlock);
+            mController.setDetail(isDetail());
             if (mData != null) {
                 mController.setData(mData.getData());
             }

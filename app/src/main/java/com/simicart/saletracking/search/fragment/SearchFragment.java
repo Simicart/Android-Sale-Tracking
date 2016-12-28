@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +21,10 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
+import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.search.entity.SearchEntity;
 import com.simicart.saletracking.style.PredicateLayout;
 
@@ -38,11 +42,13 @@ public class SearchFragment extends AppFragment {
     protected EditText edtQuery;
     protected ImageView imgDelete;
     protected ImageView imgIconSearch;
+    protected TextView tvClear;
     protected PredicateLayout plSearch;
     protected SearchEntity mSelectedSearchEntity;
     protected ArrayList<SearchEntity> mListSearches;
     protected ArrayList<TextView> mListSearchTags;
     protected int mFrom;
+    protected  boolean isDetail = false;
 
     public static SearchFragment newInstance(AppData data) {
         SearchFragment fragment = new SearchFragment();
@@ -60,6 +66,7 @@ public class SearchFragment extends AppFragment {
         if (mData != null) {
             mSelectedSearchEntity = (SearchEntity) getValueWithKey("search_entity");
             mFrom = (int) getValueWithKey("from");
+            isDetail = (boolean) getValueWithKey("is_detail");
         }
 
         mListSearches = new ArrayList<>();
@@ -101,6 +108,18 @@ public class SearchFragment extends AppFragment {
             @Override
             public void onClick(View view) {
                 enableSearchAction(true);
+            }
+        });
+
+        tvClear = (TextView) rootView.findViewById(R.id.tv_clear);
+        tvClear.setTextColor(AppColor.getInstance().getButtonColor());
+        SpannableString content = new SpannableString("Clear");
+        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+        tvClear.setText(content);
+        tvClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                backToSearchFragment(null);
             }
         });
 
@@ -211,13 +230,24 @@ public class SearchFragment extends AppFragment {
         }
         mSelectedSearchEntity.setQuery(query);
         hm.put("search_entity", mSelectedSearchEntity);
-
         hm.remove("from");
 
+        backToSearchFragment(hm);
+    }
+
+    protected void backToSearchFragment(HashMap<String, Object> hm) {
         AppManager.getInstance().clearCurrentFragment();
 
         if (mFrom == Constants.Search.ORDER) {
-            AppManager.getInstance().openListOrders(hm);
+            if(isDetail) {
+                ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hm));
+                orderFragment.setFragmentName("Orders");
+                orderFragment.setDetail(true);
+                AppManager.getInstance().replaceFragment(orderFragment);
+                AppManager.getInstance().getMenuTopController().setOnDetail(true);
+            } else {
+                AppManager.getInstance().openListOrders(hm);
+            }
         } else if (mFrom == Constants.Search.CUSTOMER) {
             AppManager.getInstance().openListCustomers(hm);
         } else if (mFrom == Constants.Search.PRODUCT) {

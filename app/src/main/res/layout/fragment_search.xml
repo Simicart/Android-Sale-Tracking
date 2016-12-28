@@ -47,6 +47,14 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:id="@+id/tv_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_10"
+        android:textSize="@dimen/text_18"
+        android:gravity="center"/>
+
     <com.simicart.saletracking.style.PredicateLayout
         android:id="@+id/pl_search"
         android:layout_width="match_parent"

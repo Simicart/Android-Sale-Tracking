@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_orders:
                 if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.ORDER_LIST)) {
+                    AppManager.getInstance().clearFragments();
                     AppManager.getInstance().openListOrders(null);
                 } else {
                     AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
@@ -156,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_products:
                 if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_LIST)) {
+                    AppManager.getInstance().clearFragments();
                     AppManager.getInstance().openListProducts(null);
                 } else {
                     AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
@@ -163,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_customers:
                 if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.CUSTOMER_LISTS)) {
+                    AppManager.getInstance().clearFragments();
                     AppManager.getInstance().openListCustomers(null);
                 } else {
                     AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
@@ -170,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_abandoned_cart:
                 if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.ABANDONED_CART_LIST)) {
+                    AppManager.getInstance().clearFragments();
                     AppManager.getInstance().openListAbandonedCarts(null);
                 } else {
                     AppNotify.getInstance().showToast(Constants.permissionDeniedMessage);
