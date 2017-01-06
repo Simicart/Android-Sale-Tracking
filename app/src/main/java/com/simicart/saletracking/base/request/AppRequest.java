@@ -30,30 +30,43 @@ public class AppRequest {
 
     protected String mCustomUrl;
     protected HashMap<String, String> hmParams;
+    protected HashMap<String, String> hmBodyParams;
     protected String mExtendUrl;
     protected RequestSuccessCallback mRequestSuccessCallback;
     protected RequestFailCallback mRequestFailCallback;
     protected JSONObject mJSONResult;
     protected AppCollection mCollection;
+    protected int mRequestMethod = Request.Method.GET;
 
     public AppRequest() {
         hmParams = new HashMap<>();
+        hmBodyParams = new HashMap<>();
         if (AppManager.getInstance().isDemo()) {
             hmParams.put("email", Constants.demoEmail);
             hmParams.put("password", Constants.demoPassword);
+
+            hmBodyParams.put("email", Constants.demoEmail);
+            hmBodyParams.put("password", Constants.demoPassword);
         } else if (AppPreferences.isSignInNormal()) {
             hmParams.put("email", AppPreferences.getCustomerEmail());
             hmParams.put("password", AppPreferences.getCustomerPassword());
+
+            hmBodyParams.put("email", Constants.demoEmail);
+            hmBodyParams.put("password", Constants.demoPassword);
         }
         String sessionID = AppManager.getInstance().getSessionID();
         if (Utils.validateString(sessionID)) {
             hmParams.put("session_id", sessionID);
+
+            hmBodyParams.put("session_id", sessionID);
         }
         hmParams.put("store_id", AppManager.getInstance().getStoreID());
+
+        hmBodyParams.put("store_id", AppManager.getInstance().getStoreID());
     }
 
     public void request() {
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, getUrl(),
+        StringRequest stringRequest = new StringRequest(mRequestMethod, getUrl(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -106,6 +119,12 @@ public class AppRequest {
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError
+            {
+                return hmBodyParams;
+            }
         };
         AppRequestController.getInstance().addToRequestQueue(stringRequest);
     }
@@ -157,9 +176,11 @@ public class AppRequest {
             url = "https://" + url;
         }
 
-        String dataParameter = processDataParameter();
-        if (Utils.validateString(dataParameter)) {
-            url = url + "?" + dataParameter;
+        if(mRequestMethod == Request.Method.GET) {
+            String dataParameter = processDataParameter();
+            if (Utils.validateString(dataParameter)) {
+                url = url + "?" + dataParameter;
+            }
         }
 
         return url;
@@ -201,6 +222,10 @@ public class AppRequest {
 
     public void addParam(String key, String value) {
         hmParams.put(key, value);
+    }
+
+    public void addParamBody(String key, String value) {
+        hmBodyParams.put(key, value);
     }
 
     public void addFilterParam(String key, String value) {
@@ -253,5 +278,13 @@ public class AppRequest {
 
     public void setCustomUrl(String customUrl) {
         mCustomUrl = customUrl;
+    }
+
+    public int getRequestMethod() {
+        return mRequestMethod;
+    }
+
+    public void setRequestMethod(int requestMethod) {
+        mRequestMethod = requestMethod;
     }
 }

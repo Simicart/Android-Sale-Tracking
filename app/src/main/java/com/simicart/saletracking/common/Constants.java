@@ -36,6 +36,7 @@ public class Constants {
         public static final String LIFETIME_SALES = "3";
         public static final String PRODUCT_LIST = "4";
         public static final String PRODUCT_DETAILS = "5";
+        public static final String PRODUCT_EDIT = "6";
         public static final String CUSTOMER_LISTS = "7";
         public static final String CUSTOMER_DETAILS = "8";
         public static final String CUSTOMER_EDIT = "9";
@@ -51,6 +52,12 @@ public class Constants {
         public static final String UNHOLD_ORDER = "19";
         public static final String ABANDONED_CART_LIST = "20";
         public static final String ABANDONED_CART_DETAIL = "21";
+    }
+
+    public static class EditProductDescription {
+        public static final int NONE = 1;
+        public static final int SHORT_DESCRIPTION = 2;
+        public static final int DESCRIPTION = 3;
     }
 
 }

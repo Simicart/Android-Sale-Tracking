@@ -8,13 +8,16 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.request.AppCollection;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.adapter.ProductImagesAdapter;
 import com.simicart.saletracking.product.entity.ProductAttributeEntity;
@@ -33,6 +36,7 @@ public class ProductDetailBlock extends AppBlock {
             tvProductPriceLabel, tvProductVisibilityLabel;
     protected TextView tvProductID, tvProductSku, tvProductUrl, tvProductType, tvProductPrice, tvProductVisibility;
     protected TextView tvProductName, tvShortDescription, tvShortDescriptionDetail, tvDescription, tvDescriptionDetail;
+    protected ImageView ivEditInfo, ivEditShortDescription, ivEditDescription;
     protected RecyclerView rvImages;
     protected LinearLayout llAdditional;
     protected RelativeLayout rlViewDetailDescription, rlViewDetailShortDescription;
@@ -75,6 +79,13 @@ public class ProductDetailBlock extends AppBlock {
         tvInfoTitle = (TextView) mView.findViewById(R.id.tv_info_title);
         tvInfoTitle.setTextColor(Color.BLACK);
         tvInfoTitle.setText("PRODUCT INFORMATION");
+
+        ivEditInfo = (ImageView) mView.findViewById(R.id.iv_edit_info);
+        if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_EDIT)) {
+            ivEditInfo.setVisibility(View.GONE);
+        } else {
+            ivEditInfo.setVisibility(View.VISIBLE);
+        }
 
         tvProductName = (TextView) mView.findViewById(R.id.tv_product_name);
         tvProductName.setTextColor(Color.BLACK);
@@ -137,6 +148,13 @@ public class ProductDetailBlock extends AppBlock {
         tvShortDescriptionTitle.setTextColor(Color.BLACK);
         tvShortDescriptionTitle.setText("SHORT DESCRIPTION");
 
+        ivEditShortDescription = (ImageView) mView.findViewById(R.id.iv_edit_short_description);
+        if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_EDIT)) {
+            ivEditShortDescription.setVisibility(View.GONE);
+        } else {
+            ivEditShortDescription.setVisibility(View.VISIBLE);
+        }
+
         tvShortDescription = (TextView) mView.findViewById(R.id.tv_short_description);
         tvShortDescription.setTextColor(Color.BLACK);
 
@@ -151,6 +169,13 @@ public class ProductDetailBlock extends AppBlock {
         tvDescriptionTitle = (TextView) mView.findViewById(R.id.tv_description_title);
         tvDescriptionTitle.setTextColor(Color.BLACK);
         tvDescriptionTitle.setText("DESCRIPTION");
+
+        ivEditDescription = (ImageView) mView.findViewById(R.id.iv_edit_description);
+        if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_EDIT)) {
+            ivEditDescription.setVisibility(View.GONE);
+        } else {
+            ivEditDescription.setVisibility(View.VISIBLE);
+        }
 
         tvDescription = (TextView) mView.findViewById(R.id.tv_description);
         tvDescription.setTextColor(Color.BLACK);
@@ -285,6 +310,14 @@ public class ProductDetailBlock extends AppBlock {
 
     public void setViewDetailShortDescriptionClick(View.OnClickListener listener) {
         rlViewDetailShortDescription.setOnClickListener(listener);
+    }
+
+    public void setEditShortDescriptionClick(View.OnClickListener listener) {
+        ivEditShortDescription.setOnClickListener(listener);
+    }
+
+    public void setEditDescriptionClick(View.OnClickListener listener) {
+        ivEditDescription.setOnClickListener(listener);
     }
 
 }

@@ -9,6 +9,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.entity.ProductEntity;
 import com.simicart.saletracking.product.request.ProductDetailRequest;
@@ -25,6 +26,8 @@ public class ProductDetailController extends AppController {
     protected String mProductID;
     protected View.OnClickListener mOnShortDescriptionClick;
     protected View.OnClickListener mOnDescriptionClick;
+    protected View.OnClickListener mOnEditDescriptionClick;
+    protected View.OnClickListener mOnEditShortDescriptionClick;
 
     @Override
     public void onStart() {
@@ -64,40 +67,63 @@ public class ProductDetailController extends AppController {
         mOnDescriptionClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCollection != null) {
-                    if (mCollection.containKey("product")) {
-                        ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
-                        if (productEntity != null) {
-                            String description = productEntity.getDescription();
-                            if (Utils.validateString(description)) {
-                                HashMap<String, Object> hmData = new HashMap<>();
-                                hmData.put("description", description);
-                                hmData.put("title", "Description");
-                                AppManager.getInstance().openDescription(hmData);
-                            }
-                        }
-                    }
-                }
+                openDescription(false, false);
             }
         };
 
         mOnShortDescriptionClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCollection.containKey("product")) {
-                    ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
-                    if (productEntity != null) {
-                        String shortDescription = productEntity.getShortDescription();
-                        if (Utils.validateString(shortDescription)) {
-                            HashMap<String, Object> hmData = new HashMap<>();
-                            hmData.put("description", shortDescription);
-                            hmData.put("title", "Short Description");
-                            AppManager.getInstance().openDescription(hmData);
-                        }
-                    }
-                }
+                openDescription(true, false);
             }
         };
+
+        mOnEditShortDescriptionClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDescription(true, true);
+            }
+        };
+
+        mOnEditDescriptionClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDescription(false, true);
+            }
+        };
+    }
+
+    protected void openDescription(boolean isShortDescription, boolean isEdit) {
+        if (mCollection.containKey("product")) {
+            ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
+            if (productEntity != null) {
+                HashMap<String, Object> hmData = new HashMap<>();
+                if(isShortDescription) {
+                    String shortDescription = productEntity.getShortDescription();
+                    if (Utils.validateString(shortDescription)) {
+                        hmData.put("description", shortDescription);
+                        hmData.put("title", "Short Description");
+                    }
+                } else {
+                    String description = productEntity.getDescription();
+                    if (Utils.validateString(description)) {
+                        hmData.put("description", description);
+                        hmData.put("title", "Description");
+                    }
+                }
+                if(!isEdit) {
+                    hmData.put("edit", Constants.EditProductDescription.NONE);
+                } else {
+                    if(isShortDescription) {
+                        hmData.put("edit", Constants.EditProductDescription.SHORT_DESCRIPTION);
+                    } else {
+                        hmData.put("edit", Constants.EditProductDescription.DESCRIPTION);
+                    }
+                    hmData.put("product_id", productEntity.getID());
+                }
+                AppManager.getInstance().openDescription(hmData);
+            }
+        }
     }
 
     public void setDelegate(AppDelegate delegate) {
@@ -114,5 +140,13 @@ public class ProductDetailController extends AppController {
 
     public View.OnClickListener getOnShortDescriptionClick() {
         return mOnShortDescriptionClick;
+    }
+
+    public View.OnClickListener getOnEditDescriptionClick() {
+        return mOnEditDescriptionClick;
+    }
+
+    public View.OnClickListener getOnEditShortDescriptionClick() {
+        return mOnEditShortDescriptionClick;
     }
 }
