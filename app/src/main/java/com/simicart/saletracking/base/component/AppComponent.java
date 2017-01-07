@@ -15,6 +15,7 @@ public class AppComponent {
     protected View rootView;
     protected LayoutInflater mInflater;
     protected Context mContext;
+    protected String mKey;
 
     public AppComponent() {
         mContext = AppManager.getInstance().getCurrentActivity();
@@ -25,4 +26,15 @@ public class AppComponent {
         return null;
     }
 
+    public String getText() {
+        return null;
+    }
+
+    public String getKey() {
+        return mKey;
+    }
+
+    public void setKey(String key) {
+        mKey = key;
+    }
 }

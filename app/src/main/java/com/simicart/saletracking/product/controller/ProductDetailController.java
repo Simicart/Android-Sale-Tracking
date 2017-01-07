@@ -1,8 +1,12 @@
 package com.simicart.saletracking.product.controller;
 
+import android.util.Log;
 import android.view.View;
 
 import com.android.volley.Request;
+import com.simicart.saletracking.base.component.EditCallback;
+import com.simicart.saletracking.base.component.EditPopup;
+import com.simicart.saletracking.base.component.popup.RowEntity;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -12,12 +16,12 @@ import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
-import com.simicart.saletracking.product.component.EditProductInfoPopup;
-import com.simicart.saletracking.product.delegate.EditProductCallBack;
 import com.simicart.saletracking.product.entity.ProductEntity;
 import com.simicart.saletracking.product.request.ProductDetailRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Glenn on 12/7/2016.
@@ -102,14 +106,7 @@ public class ProductDetailController extends AppController {
                 if (mCollection.containKey("product")) {
                     ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
                     if (productEntity != null) {
-                        EditProductInfoPopup popup = new EditProductInfoPopup(productEntity);
-                        popup.setEditProductCallBack(new EditProductCallBack() {
-                            @Override
-                            public void editProductInfo(String name, String quantity, String stock) {
-                                requestEditProductInfo(name, quantity, stock);
-                            }
-                        });
-                        popup.show();
+                        openEditPopup(productEntity);
                     }
                 }
             }
@@ -149,7 +146,29 @@ public class ProductDetailController extends AppController {
         }
     }
 
-    protected void requestEditProductInfo(String name, String quantity, String stock) {
+    protected void openEditPopup(ProductEntity productEntity) {
+        ArrayList<RowEntity> mListRows = new ArrayList<>();
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Name", "name", productEntity.getName()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT_NUMBER, "Quantity", "qty", productEntity.getQuantity()));
+        String stocks[] = {"In Stock","Out of Stock"};
+        int selectedStock;
+        if(productEntity.isInStock()) {
+            selectedStock = 0;
+        } else {
+            selectedStock = 1;
+        }
+        mListRows.add(new RowEntity(Constants.RowType.SPINNER, "Stock Availability", "is_in_stock", stocks, selectedStock));
+        EditPopup editPopup = new EditPopup(mListRows);
+        editPopup.setEditCallback(new EditCallback() {
+            @Override
+            public void onEditComplete(HashMap<String, String> hmData) {
+                requestEditProductInfo(hmData);
+            }
+        });
+        editPopup.show();
+    }
+
+    protected void requestEditProductInfo(HashMap<String, String> hmData) {
         mDelegate.showDialogLoading();
         ProductDetailRequest editProductInfoRequest = new ProductDetailRequest();
         editProductInfoRequest.setRequestMethod(Request.Method.PUT);
@@ -169,12 +188,17 @@ public class ProductDetailController extends AppController {
             }
         });
         editProductInfoRequest.setExtendUrl("simitracking/rest/v2/products/" + mProductID);
-        editProductInfoRequest.addParamBody("name", name);
-        editProductInfoRequest.addParamBody("qty", quantity);
-        if(stock.equals("In Stock")) {
-            editProductInfoRequest.addParamBody("is_in_stock", "1");
-        } else {
-            editProductInfoRequest.addParamBody("is_in_stock", "0");
+        for (Map.Entry<String,String> entry : hmData.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if(key.equals("is_in_stock")) {
+                if (value.equals("In Stock")) {
+                    value = "1";
+                } else {
+                    value = "0";
+                }
+            }
+            editProductInfoRequest.addParamBody(key, value);
         }
         editProductInfoRequest.request();
     }
