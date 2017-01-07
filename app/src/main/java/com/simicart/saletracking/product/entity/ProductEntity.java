@@ -1,6 +1,7 @@
 package com.simicart.saletracking.product.entity;
 
 import com.simicart.saletracking.base.entity.AppEntity;
+import com.simicart.saletracking.common.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +30,8 @@ public class ProductEntity extends AppEntity {
     protected String mDescription;
     protected String mShortDescription;
     protected ArrayList<ProductAttributeEntity> mListAttributes;
+    protected boolean mIsInStock;
+    protected String mQuantity;
 
     private final String ITEM_ID = "item_id";
     private final String NAME = "name";
@@ -45,6 +48,9 @@ public class ProductEntity extends AppEntity {
     private final String DESCRIPTION = "description";
     private final String SHORT_DESCRIPTION = "short_description";
     private final String ADDITIONAL = "additional";
+    private final String IS_IN_STOCK = "is_in_stock";
+    private final String STOCK_ITEM = "stock_item";
+    private final String QTY = "qty";
 
     @Override
     public void parse() {
@@ -101,6 +107,15 @@ public class ProductEntity extends AppEntity {
         mDescription = getString(DESCRIPTION);
 
         mShortDescription = getString(SHORT_DESCRIPTION);
+
+        String inStock = getString(IS_IN_STOCK);
+        mIsInStock = Utils.getBoolean(inStock);
+
+        JSONObject stockItemObj = getJSONObjectWithKey(mJSON, STOCK_ITEM);
+        if(stockItemObj != null && stockItemObj.has(QTY)) {
+            mQuantity = Utils.formatNumber(getStringWithKey(stockItemObj, QTY));
+
+        }
 
     }
 
@@ -214,5 +229,21 @@ public class ProductEntity extends AppEntity {
 
     public void setShortDescription(String shortDescription) {
         mShortDescription = shortDescription;
+    }
+
+    public boolean isInStock() {
+        return mIsInStock;
+    }
+
+    public void setInStock(boolean inStock) {
+        mIsInStock = inStock;
+    }
+
+    public String getQuantity() {
+        return mQuantity;
+    }
+
+    public void setQuantity(String quantity) {
+        mQuantity = quantity;
     }
 }

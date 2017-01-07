@@ -2,6 +2,7 @@ package com.simicart.saletracking.product.controller;
 
 import android.view.View;
 
+import com.android.volley.Request;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -11,6 +12,8 @@ import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
+import com.simicart.saletracking.product.component.EditProductInfoPopup;
+import com.simicart.saletracking.product.delegate.EditProductCallBack;
 import com.simicart.saletracking.product.entity.ProductEntity;
 import com.simicart.saletracking.product.request.ProductDetailRequest;
 
@@ -28,6 +31,7 @@ public class ProductDetailController extends AppController {
     protected View.OnClickListener mOnDescriptionClick;
     protected View.OnClickListener mOnEditDescriptionClick;
     protected View.OnClickListener mOnEditShortDescriptionClick;
+    protected View.OnClickListener mOnEditProductInfoClick;
 
     @Override
     public void onStart() {
@@ -91,6 +95,25 @@ public class ProductDetailController extends AppController {
                 openDescription(false, true);
             }
         };
+
+        mOnEditProductInfoClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mCollection.containKey("product")) {
+                    ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
+                    if (productEntity != null) {
+                        EditProductInfoPopup popup = new EditProductInfoPopup(productEntity);
+                        popup.setEditProductCallBack(new EditProductCallBack() {
+                            @Override
+                            public void editProductInfo(String name, String quantity, String stock) {
+                                requestEditProductInfo(name, quantity, stock);
+                            }
+                        });
+                        popup.show();
+                    }
+                }
+            }
+        };
     }
 
     protected void openDescription(boolean isShortDescription, boolean isEdit) {
@@ -126,6 +149,36 @@ public class ProductDetailController extends AppController {
         }
     }
 
+    protected void requestEditProductInfo(String name, String quantity, String stock) {
+        mDelegate.showDialogLoading();
+        ProductDetailRequest editProductInfoRequest = new ProductDetailRequest();
+        editProductInfoRequest.setRequestMethod(Request.Method.PUT);
+        editProductInfoRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                mDelegate.dismissDialogLoading();
+                mCollection = collection;
+                mDelegate.updateView(mCollection);
+            }
+        });
+        editProductInfoRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                mDelegate.dismissDialogLoading();
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        editProductInfoRequest.setExtendUrl("simitracking/rest/v2/products/" + mProductID);
+        editProductInfoRequest.addParamBody("name", name);
+        editProductInfoRequest.addParamBody("qty", quantity);
+        if(stock.equals("In Stock")) {
+            editProductInfoRequest.addParamBody("is_in_stock", "1");
+        } else {
+            editProductInfoRequest.addParamBody("is_in_stock", "0");
+        }
+        editProductInfoRequest.request();
+    }
+
     public void setDelegate(AppDelegate delegate) {
         mDelegate = delegate;
     }
@@ -148,5 +201,9 @@ public class ProductDetailController extends AppController {
 
     public View.OnClickListener getOnEditShortDescriptionClick() {
         return mOnEditShortDescriptionClick;
+    }
+
+    public View.OnClickListener getOnEditProductInfoClick() {
+        return mOnEditProductInfoClick;
     }
 }

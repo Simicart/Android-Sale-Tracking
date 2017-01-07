@@ -7,7 +7,7 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppPreferences;
@@ -30,7 +30,7 @@ public class AppRequest {
 
     protected String mCustomUrl;
     protected HashMap<String, String> hmParams;
-    protected HashMap<String, String> hmBodyParams;
+    protected JSONObject mJSONParams;
     protected String mExtendUrl;
     protected RequestSuccessCallback mRequestSuccessCallback;
     protected RequestFailCallback mRequestFailCallback;
@@ -40,64 +40,68 @@ public class AppRequest {
 
     public AppRequest() {
         hmParams = new HashMap<>();
-        hmBodyParams = new HashMap<>();
-        if (AppManager.getInstance().isDemo()) {
-            hmParams.put("email", Constants.demoEmail);
-            hmParams.put("password", Constants.demoPassword);
+        mJSONParams = new JSONObject();
+        try {
+            if (AppManager.getInstance().isDemo()) {
+                hmParams.put("email", Constants.demoEmail);
+                hmParams.put("password", Constants.demoPassword);
 
-            hmBodyParams.put("email", Constants.demoEmail);
-            hmBodyParams.put("password", Constants.demoPassword);
-        } else if (AppPreferences.isSignInNormal()) {
-            hmParams.put("email", AppPreferences.getCustomerEmail());
-            hmParams.put("password", AppPreferences.getCustomerPassword());
+                mJSONParams.put("email", Constants.demoEmail);
+                mJSONParams.put("password", Constants.demoPassword);
+            } else if (AppPreferences.isSignInNormal()) {
+                hmParams.put("email", AppPreferences.getCustomerEmail());
+                hmParams.put("password", AppPreferences.getCustomerPassword());
 
-            hmBodyParams.put("email", Constants.demoEmail);
-            hmBodyParams.put("password", Constants.demoPassword);
+                mJSONParams.put("email", Constants.demoEmail);
+                mJSONParams.put("password", Constants.demoPassword);
+            }
+            String sessionID = AppManager.getInstance().getSessionID();
+            if (Utils.validateString(sessionID)) {
+                hmParams.put("session_id", sessionID);
+
+                mJSONParams.put("session_id", sessionID);
+            }
+            hmParams.put("store_id", AppManager.getInstance().getStoreID());
+
+            mJSONParams.put("store_id", AppManager.getInstance().getStoreID());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        String sessionID = AppManager.getInstance().getSessionID();
-        if (Utils.validateString(sessionID)) {
-            hmParams.put("session_id", sessionID);
-
-            hmBodyParams.put("session_id", sessionID);
-        }
-        hmParams.put("store_id", AppManager.getInstance().getStoreID());
-
-        hmBodyParams.put("store_id", AppManager.getInstance().getStoreID());
     }
 
     public void request() {
-        StringRequest stringRequest = new StringRequest(mRequestMethod, getUrl(),
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            if (Utils.validateString(response)) {
-                                Log.e("Response", response);
-                                mJSONResult = new JSONObject(response);
-                                if (mJSONResult.has("errors")) {
-                                    JSONArray array = mJSONResult.getJSONArray("errors");
-                                    if (null != array && array.length() > 0) {
-                                        JSONObject json = array.getJSONObject(0);
-                                        String error = json.getString("message");
-                                        if (Utils.validateString(error)) {
-                                            if (mRequestFailCallback != null) {
-                                                mRequestFailCallback.onFail(error);
-                                            } else {
-                                                AppNotify.getInstance().showError(error);
-                                            }
-                                        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(mRequestMethod, getUrl(), getJSONParams(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("Response", response.toString());
+                try {
+                    if (response != null) {
+                        mJSONResult = response;
+                        if (mJSONResult.has("errors")) {
+                            JSONArray array = mJSONResult.getJSONArray("errors");
+                            if (null != array && array.length() > 0) {
+                                JSONObject json = array.getJSONObject(0);
+                                String error = json.getString("message");
+                                if (Utils.validateString(error)) {
+                                    if (mRequestFailCallback != null) {
+                                        mRequestFailCallback.onFail(error);
+                                    } else {
+                                        AppNotify.getInstance().showError(error);
                                     }
-                                } else {
-                                    new ParseAsync().execute();
                                 }
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
+                            new ParseAsync().execute();
                         }
                     }
-                }, new Response.ErrorListener() {
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Log.e("Error", error.getMessage().toString());
                 String errorMessage = error.getMessage();
                 if (Utils.validateString(errorMessage)) {
                     if (errorMessage.contains("Exception")) {
@@ -119,14 +123,8 @@ public class AppRequest {
                 headers.put("Content-Type", "application/json; charset=utf-8");
                 return headers;
             }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError
-            {
-                return hmBodyParams;
-            }
         };
-        AppRequestController.getInstance().addToRequestQueue(stringRequest);
+        AppRequestController.getInstance().addToRequestQueue(jsonObjectRequest);
     }
 
     private class ParseAsync extends AsyncTask<Void, Void, Void> {
@@ -168,7 +166,7 @@ public class AppRequest {
             url += "/";
         }
 
-        if(mExtendUrl != null) {
+        if (mExtendUrl != null) {
             url = url + mExtendUrl;
         }
 
@@ -176,7 +174,7 @@ public class AppRequest {
             url = "https://" + url;
         }
 
-        if(mRequestMethod == Request.Method.GET) {
+        if (mRequestMethod == Request.Method.GET) {
             String dataParameter = processDataParameter();
             if (Utils.validateString(dataParameter)) {
                 url = url + "?" + dataParameter;
@@ -184,6 +182,13 @@ public class AppRequest {
         }
 
         return url;
+    }
+
+    protected JSONObject getJSONParams() {
+        if(mRequestMethod == Request.Method.POST || mRequestMethod == Request.Method.PUT) {
+            return mJSONParams;
+        }
+        return null;
     }
 
     private String processDataParameter() {
@@ -225,7 +230,11 @@ public class AppRequest {
     }
 
     public void addParamBody(String key, String value) {
-        hmBodyParams.put(key, value);
+        try {
+            mJSONParams.put(key, value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public void addFilterParam(String key, String value) {

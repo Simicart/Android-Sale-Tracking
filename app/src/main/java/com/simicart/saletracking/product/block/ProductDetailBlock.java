@@ -33,8 +33,8 @@ public class ProductDetailBlock extends AppBlock {
 
     protected TextView tvInfoTitle, tvImagesTitle, tvShortDescriptionTitle, tvDescriptionTitle, tvAdditionalTitle;
     protected TextView tvProductIDLabel, tvProductSkuLabel, tvProductUrlLabel, tvProductTypeLabel,
-            tvProductPriceLabel, tvProductVisibilityLabel;
-    protected TextView tvProductID, tvProductSku, tvProductUrl, tvProductType, tvProductPrice, tvProductVisibility;
+            tvProductPriceLabel, tvProductVisibilityLabel, tvProductStockLabel, tvProductQuantityLabel;
+    protected TextView tvProductID, tvProductSku, tvProductUrl, tvProductType, tvProductPrice, tvProductVisibility, tvProductStock, tvProductQuantity;
     protected TextView tvProductName, tvShortDescription, tvShortDescriptionDetail, tvDescription, tvDescriptionDetail;
     protected ImageView ivEditInfo, ivEditShortDescription, ivEditDescription;
     protected RecyclerView rvImages;
@@ -131,6 +131,20 @@ public class ProductDetailBlock extends AppBlock {
 
         tvProductVisibility = (TextView) mView.findViewById(R.id.tv_product_visibility);
         tvProductVisibility.setTextColor(Color.BLACK);
+
+        tvProductStockLabel = (TextView) mView.findViewById(R.id.tv_product_stock_label);
+        tvProductStockLabel.setTextColor(Color.BLACK);
+        tvProductStockLabel.setText("Stock Availability");
+
+        tvProductStock = (TextView) mView.findViewById(R.id.tv_product_stock);
+        tvProductStock.setTextColor(Color.BLACK);
+
+        tvProductQuantityLabel = (TextView) mView.findViewById(R.id.tv_product_qty_label);
+        tvProductQuantityLabel.setTextColor(Color.BLACK);
+        tvProductQuantityLabel.setText("Quantity");
+
+        tvProductQuantity = (TextView) mView.findViewById(R.id.tv_product_qty);
+        tvProductQuantity.setTextColor(Color.BLACK);
     }
 
     protected void initImages() {
@@ -225,6 +239,18 @@ public class ProductDetailBlock extends AppBlock {
         if (Utils.validateString(productVisibility)) {
             tvProductVisibility.setText(productVisibility);
         }
+
+        boolean isInStock = mProduct.isInStock();
+        if(isInStock) {
+            tvProductStock.setText("In Stock");
+        } else {
+            tvProductStock.setText("Out of Stock");
+        }
+
+        String quantity = mProduct.getQuantity();
+        if(Utils.validateString(quantity)) {
+            tvProductQuantity.setText(quantity);
+        }
     }
 
     protected void showImages() {
@@ -250,6 +276,7 @@ public class ProductDetailBlock extends AppBlock {
     }
 
     protected void showAdditional() {
+        llAdditional.removeAllViewsInLayout();
         ArrayList<ProductAttributeEntity> listAttributes = mProduct.getListAttributes();
         if (listAttributes != null) {
             for (ProductAttributeEntity attribute : listAttributes) {
@@ -318,6 +345,10 @@ public class ProductDetailBlock extends AppBlock {
 
     public void setEditDescriptionClick(View.OnClickListener listener) {
         ivEditDescription.setOnClickListener(listener);
+    }
+
+    public void setEditProductInfoclick(View.OnClickListener listener) {
+        ivEditInfo.setOnClickListener(listener);
     }
 
 }

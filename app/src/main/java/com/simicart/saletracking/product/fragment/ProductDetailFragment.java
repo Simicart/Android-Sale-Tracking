@@ -57,6 +57,7 @@ public class ProductDetailFragment extends AppFragment {
         mBlock.setViewDetailShortDescriptionClick(mController.getOnShortDescriptionClick());
         mBlock.setEditShortDescriptionClick(mController.getOnEditShortDescriptionClick());
         mBlock.setEditDescriptionClick(mController.getOnEditDescriptionClick());
+        mBlock.setEditProductInfoclick(mController.getOnEditProductInfoClick());
 
         return rootView;
     }

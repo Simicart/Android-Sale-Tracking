@@ -188,6 +188,50 @@
                         android:text="Visible"/>
                 </TableRow>
 
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="7">
+
+                    <TextView
+                        android:id="@+id/tv_product_stock_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Is in Stock"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_product_stock"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="Yes"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="7">
+
+                    <TextView
+                        android:id="@+id/tv_product_qty_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:text="Quantity"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_product_qty"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"
+                        android:text="99"/>
+                </TableRow>
+
             </TableLayout>
 
             <TextView
