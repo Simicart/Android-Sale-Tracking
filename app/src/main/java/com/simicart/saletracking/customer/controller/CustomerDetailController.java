@@ -2,6 +2,10 @@ package com.simicart.saletracking.customer.controller;
 
 import android.view.View;
 
+import com.android.volley.Request;
+import com.simicart.saletracking.base.component.EditCallback;
+import com.simicart.saletracking.base.component.EditPopup;
+import com.simicart.saletracking.base.component.popup.RowEntity;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.entity.AppData;
@@ -10,12 +14,15 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.customer.entity.CustomerEntity;
 import com.simicart.saletracking.customer.request.CustomerDetailRequest;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Glenn on 11/27/2016.
@@ -27,6 +34,8 @@ public class CustomerDetailController extends AppController {
     protected String mCustomerID;
     protected View.OnClickListener mOnCustomerOrderClick;
     protected View.OnClickListener mOnCustomerAddressesClick;
+    protected View.OnClickListener mOnEditSummaryClick;
+    protected View.OnClickListener mOnEditInfoClick;
 
     @Override
     public void onStart() {
@@ -90,6 +99,91 @@ public class CustomerDetailController extends AppController {
                 AppManager.getInstance().openListAddresses(hmData);
             }
         };
+
+        mOnEditSummaryClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, Object> hmData = new HashMap<>();
+                if (mCollection != null) {
+                    CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
+                    if(customerEntity != null) {
+                        onEditSummary(customerEntity);
+                    }
+                }
+            }
+        };
+
+        mOnEditInfoClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HashMap<String, Object> hmData = new HashMap<>();
+                if (mCollection != null) {
+                    CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
+                    if(customerEntity != null) {
+                        onEditInfo(customerEntity);
+                    }
+                }
+            }
+        };
+    }
+
+    protected void onEditSummary(CustomerEntity customerEntity) {
+        ArrayList<RowEntity> mListRows = new ArrayList<>();
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Prefix", "prefix", customerEntity.getPrefix()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "First Name", "firstname", customerEntity.getFirstName()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Last Name", "lastname", customerEntity.getLastName()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Suffix", "suffix", customerEntity.getSuffix()));
+        EditPopup editPopup = new EditPopup(mListRows);
+        editPopup.setEditCallback(new EditCallback() {
+            @Override
+            public void onEditComplete(HashMap<String, String> hmData) {
+                requestEditCustomerInfo(hmData);
+            }
+        });
+        editPopup.show();
+    }
+
+    protected void onEditInfo(CustomerEntity customerEntity) {
+        ArrayList<RowEntity> mListRows = new ArrayList<>();
+        mListRows.add(new RowEntity(Constants.RowType.TIME, "Date Of Birth", "dob", customerEntity.getDob()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "TaxVAT", "taxvat", customerEntity.getTaxVAT()));
+        EditPopup editPopup = new EditPopup(mListRows);
+        editPopup.setEditCallback(new EditCallback() {
+            @Override
+            public void onEditComplete(HashMap<String, String> hmData) {
+                requestEditCustomerInfo(hmData);
+            }
+        });
+        editPopup.show();
+    }
+
+    protected void requestEditCustomerInfo(HashMap<String, String> hmData) {
+        mDelegate.showDialogLoading();
+        CustomerDetailRequest editCustomerRequest = new CustomerDetailRequest();
+        editCustomerRequest.setRequestMethod(Request.Method.PUT);
+        editCustomerRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                mDelegate.dismissDialogLoading();
+                mCollection = collection;
+                mDelegate.updateView(mCollection);
+            }
+        });
+        editCustomerRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                mDelegate.dismissDialogLoading();
+                mDelegate.updateView(mCollection);
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        editCustomerRequest.setExtendUrl("simitracking/rest/v2/customers/" + mCustomerID);
+        for (Map.Entry<String,String> entry : hmData.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            editCustomerRequest.addParamBody(key, value);
+        }
+        editCustomerRequest.request();
     }
 
     public void setDelegate(AppDelegate delegate) {
@@ -106,5 +200,21 @@ public class CustomerDetailController extends AppController {
 
     public View.OnClickListener getOnCustomerAddressesClick() {
         return mOnCustomerAddressesClick;
+    }
+
+    public View.OnClickListener getOnEditInfoClick() {
+        return mOnEditInfoClick;
+    }
+
+    public void setOnEditInfoClick(View.OnClickListener onEditInfoClick) {
+        mOnEditInfoClick = onEditInfoClick;
+    }
+
+    public View.OnClickListener getOnEditSummaryClick() {
+        return mOnEditSummaryClick;
+    }
+
+    public void setOnEditSummaryClick(View.OnClickListener onEditSummaryClick) {
+        mOnEditSummaryClick = onEditSummaryClick;
     }
 }

@@ -59,6 +59,8 @@ public class EditPopup {
                 row = new EditTextRowComponent(rowEntity);
             } else if(type == Constants.RowType.SPINNER) {
                 row = new SpinnerRowComponent(rowEntity);
+            } else if(type == Constants.RowType.TIME) {
+                row = new TimeRowComponent(rowEntity);
             }
             row.setKey(rowEntity.getKey());
             mListRows.add(row);
@@ -77,7 +79,26 @@ public class EditPopup {
                 for(AppComponent row : mListRows) {
                     String text = row.getText();
                     if(Utils.validateString(text)) {
-                        hmData.put(row.getKey(), text);
+                        if(row.getKey().equals("dob")) {
+                            String[] splits = text.split("-");
+                            if(splits.length == 3) {
+                                String year = splits[0];
+                                String month = splits[1];
+                                String day = splits[2];
+
+                                if(Utils.validateString(year)) {
+                                    hmData.put("year", year);
+                                }
+                                if(Utils.validateString(month)) {
+                                    hmData.put("month", month);
+                                }
+                                if(Utils.validateString(day)) {
+                                    hmData.put("day", day);
+                                }
+                            }
+                        } else {
+                            hmData.put(row.getKey(), text);
+                        }
                     } else {
                         AppNotify.getInstance().showToast("Cannot leave blank field!");
                         break;

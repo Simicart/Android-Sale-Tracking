@@ -18,10 +18,13 @@ public class CustomerEntity extends AppEntity {
     protected String mUpdatedAt;
     protected boolean mIsActive;
     protected String mCreatedIn;
+    protected String mPrefix;
     protected String mFirstName;
     protected String mLastName;
+    protected String mSuffix;
     protected String mGender;
     protected String mDob;
+    protected String mTaxVAT;
     protected AddressEntity mBillingAddress;
     protected AddressEntity mShippingAddress;
 
@@ -31,10 +34,13 @@ public class CustomerEntity extends AppEntity {
     private final String UPDATED_AT = "updated_at";
     private final String IS_ACTIVE = "is_active";
     private final String CREATED_IN = "created_in";
+    private final String PREFIX = "prefix";
     private final String FIRST_NAME = "firstname";
     private final String LAST_NAME = "lastname";
+    private final String SUFFIX = "suffix";
     private final String GENDER = "gender";
     private final String DOB = "dob";
+    private final String TAXVAT = "taxvat";
     private final String BILLING_ADDRESS_DATA = "billing_address_data";
     private final String SHIPPING_ADDRESS_DATA = "shipping_address_data";
 
@@ -64,13 +70,19 @@ public class CustomerEntity extends AppEntity {
 
         mCreatedIn = getString(CREATED_IN);
 
+        mPrefix = getString(PREFIX);
+
         mFirstName = getString(FIRST_NAME);
 
         mLastName = getString(LAST_NAME);
 
+        mSuffix = getString(SUFFIX);
+
         mGender = getString(GENDER);
 
         mDob = getString(DOB);
+
+        mTaxVAT = getString(TAXVAT);
 
         JSONObject billingObj = getJSONObjectWithKey(mJSON, BILLING_ADDRESS_DATA);
         if (billingObj != null) {
@@ -188,5 +200,29 @@ public class CustomerEntity extends AppEntity {
 
     public void setShippingAddress(AddressEntity shippingAddress) {
         mShippingAddress = shippingAddress;
+    }
+
+    public String getPrefix() {
+        return mPrefix;
+    }
+
+    public void setPrefix(String prefix) {
+        mPrefix = prefix;
+    }
+
+    public String getSuffix() {
+        return mSuffix;
+    }
+
+    public void setSuffix(String suffix) {
+        mSuffix = suffix;
+    }
+
+    public String getTaxVAT() {
+        return mTaxVAT;
+    }
+
+    public void setTaxVAT(String taxVAT) {
+        mTaxVAT = taxVAT;
     }
 }

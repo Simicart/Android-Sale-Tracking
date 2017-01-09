@@ -52,6 +52,8 @@ public class CustomerDetailFragment extends AppFragment {
         }
         mBlock.setOnCustomerOrdersClick(mController.getOnCustomerOrderClick());
         mBlock.setOnCustomerAddressesClick(mController.getOnCustomerAddressesClick());
+        mBlock.setOnEditSummaryClick(mController.getOnEditSummaryClick());
+        mBlock.setOnEditInfoClick(mController.getOnEditInfoClick());
 
         return rootView;
     }

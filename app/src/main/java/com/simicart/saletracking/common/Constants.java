@@ -64,6 +64,7 @@ public class Constants {
         public static final int TEXT = 1;
         public static final int TEXT_NUMBER = 2;
         public static final int SPINNER = 3;
+        public static final int TIME = 4;
     }
 
 }

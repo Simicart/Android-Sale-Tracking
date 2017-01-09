@@ -2,6 +2,7 @@ package com.simicart.saletracking.customer.block;
 
 import android.graphics.Color;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,10 +21,11 @@ import com.simicart.saletracking.customer.entity.CustomerEntity;
 public class CustomerDetailBlock extends AppBlock {
 
     protected TextView tvSummaryTitle, tvInfoTitle, tvOrderTitle, tvAddressTitle, tvBillingTitle, tvShippingTitle;
-    protected TextView tvCustomerIDLabel, tvCustomerEmailLabel, tvCustomerFirstNameLabel, tvCustomerLastNameLabel,
-            tvCreatedAtLabel, tvUpdatedAtLabel, tvActiveLabel, tvDobLabel, tvCreatedInLabel, tvGenderLabel;
-    protected TextView tvCustomerID, tvCustomerEmail, tvCustomerFirstName, tvCustomerLastName,
-            tvCreatedAt, tvUpdatedAt, tvActive, tvDob, tvCreatedIn, tvGender, tvOrder, tvAddress;
+    protected ImageView ivEditSummary, ivEditInfo;
+    protected TextView tvCustomerIDLabel, tvCustomerEmailLabel, tvCustomerPrefixLabel, tvCustomerFirstNameLabel, tvCustomerLastNameLabel, tvCustomerSuffixLabel,
+            tvCreatedAtLabel, tvUpdatedAtLabel, tvActiveLabel, tvDobLabel, tvCreatedInLabel, tvGenderLabel, tvTaxVATLabel;
+    protected TextView tvCustomerID, tvCustomerEmail, tvCustomerPrefix, tvCustomerFirstName, tvCustomerLastName, tvCustomerSuffix,
+            tvCreatedAt, tvUpdatedAt, tvActive, tvDob, tvCreatedIn, tvGender, tvOrder, tvAddress, tvTaxVAT;
     protected LinearLayout llBillingAddress, llShippingAddress;
 
     public CustomerDetailBlock(View view) {
@@ -67,6 +69,8 @@ public class CustomerDetailBlock extends AppBlock {
         tvSummaryTitle.setTextColor(Color.BLACK);
         tvSummaryTitle.setText("CUSTOMER SUMMARY");
 
+        ivEditSummary = (ImageView) mView.findViewById(R.id.iv_edit_summary);
+
         tvCustomerIDLabel = (TextView) mView.findViewById(R.id.tv_customer_id_label);
         tvCustomerIDLabel.setTextColor(Color.BLACK);
         tvCustomerIDLabel.setText("Customer ID");
@@ -74,6 +78,10 @@ public class CustomerDetailBlock extends AppBlock {
         tvCustomerEmailLabel = (TextView) mView.findViewById(R.id.tv_customer_email_label);
         tvCustomerEmailLabel.setTextColor(Color.BLACK);
         tvCustomerEmailLabel.setText("Customer Email");
+
+        tvCustomerPrefixLabel = (TextView) mView.findViewById(R.id.tv_prefix_label);
+        tvCustomerPrefixLabel.setTextColor(Color.BLACK);
+        tvCustomerPrefixLabel.setText("Prefix");
 
         tvCustomerFirstNameLabel = (TextView) mView.findViewById(R.id.tv_first_name_label);
         tvCustomerFirstNameLabel.setTextColor(Color.BLACK);
@@ -83,17 +91,27 @@ public class CustomerDetailBlock extends AppBlock {
         tvCustomerLastNameLabel.setTextColor(Color.BLACK);
         tvCustomerLastNameLabel.setText("Last Name");
 
+        tvCustomerSuffixLabel = (TextView) mView.findViewById(R.id.tv_suffix_label);
+        tvCustomerSuffixLabel.setTextColor(Color.BLACK);
+        tvCustomerSuffixLabel.setText("Suffix");
+
         tvCustomerID = (TextView) mView.findViewById(R.id.tv_customer_id);
         tvCustomerID.setTextColor(Color.BLACK);
 
         tvCustomerEmail = (TextView) mView.findViewById(R.id.tv_customer_email);
         tvCustomerEmail.setTextColor(Color.BLACK);
 
+        tvCustomerPrefix = (TextView) mView.findViewById(R.id.tv_prefix);
+        tvCustomerPrefix.setTextColor(Color.BLACK);
+
         tvCustomerFirstName = (TextView) mView.findViewById(R.id.tv_first_name);
         tvCustomerFirstName.setTextColor(Color.BLACK);
 
         tvCustomerLastName = (TextView) mView.findViewById(R.id.tv_last_name);
         tvCustomerLastName.setTextColor(Color.BLACK);
+
+        tvCustomerSuffix = (TextView) mView.findViewById(R.id.tv_suffix);
+        tvCustomerSuffix.setTextColor(Color.BLACK);
 
     }
 
@@ -102,6 +120,8 @@ public class CustomerDetailBlock extends AppBlock {
         tvInfoTitle = (TextView) mView.findViewById(R.id.tv_info_title);
         tvInfoTitle.setTextColor(Color.BLACK);
         tvInfoTitle.setText("CUSTOMER INFORMATION");
+
+        ivEditInfo = (ImageView) mView.findViewById(R.id.iv_edit_info);
 
         tvCreatedAtLabel = (TextView) mView.findViewById(R.id.tv_created_at_label);
         tvCreatedAtLabel.setTextColor(Color.BLACK);
@@ -127,6 +147,10 @@ public class CustomerDetailBlock extends AppBlock {
         tvGenderLabel.setTextColor(Color.BLACK);
         tvGenderLabel.setText("Gender");
 
+        tvTaxVATLabel = (TextView) mView.findViewById(R.id.tv_taxvat_label);
+        tvTaxVATLabel.setTextColor(Color.BLACK);
+        tvTaxVATLabel.setText("TaxVAT");
+
         tvCreatedAt = (TextView) mView.findViewById(R.id.tv_created_at);
         tvCreatedAt.setTextColor(Color.BLACK);
 
@@ -144,6 +168,9 @@ public class CustomerDetailBlock extends AppBlock {
 
         tvGender = (TextView) mView.findViewById(R.id.tv_gender);
         tvGender.setTextColor(Color.BLACK);
+
+        tvTaxVAT = (TextView) mView.findViewById(R.id.tv_taxvat);
+        tvTaxVAT.setTextColor(Color.BLACK);
 
     }
 
@@ -203,6 +230,11 @@ public class CustomerDetailBlock extends AppBlock {
             tvCustomerEmail.setText(email);
         }
 
+        String prefix = customerEntity.getPrefix();
+        if(Utils.validateString(prefix)) {
+            tvCustomerPrefix.setText(prefix);
+        }
+
         String firstName = customerEntity.getFirstName();
         if (Utils.validateString(firstName)) {
             tvCustomerFirstName.setText(firstName);
@@ -211,6 +243,11 @@ public class CustomerDetailBlock extends AppBlock {
         String lastName = customerEntity.getLastName();
         if (Utils.validateString(lastName)) {
             tvCustomerLastName.setText(lastName);
+        }
+
+        String suffix = customerEntity.getSuffix();
+        if(Utils.validateString(suffix)) {
+            tvCustomerSuffix.setText(suffix);
         }
 
     }
@@ -249,6 +286,11 @@ public class CustomerDetailBlock extends AppBlock {
             tvGender.setText(gender);
         }
 
+        String taxvat = customerEntity.getTaxVAT();
+        if (Utils.validateString(taxvat)) {
+            tvTaxVAT.setText(taxvat);
+        }
+
     }
 
     protected void showBilling(CustomerEntity customerEntity) {
@@ -285,6 +327,14 @@ public class CustomerDetailBlock extends AppBlock {
 
     public void setOnCustomerAddressesClick(View.OnClickListener listener) {
         tvAddress.setOnClickListener(listener);
+    }
+
+    public void setOnEditSummaryClick(View.OnClickListener listener) {
+        ivEditSummary.setOnClickListener(listener);
+    }
+
+    public void setOnEditInfoClick(View.OnClickListener listener) {
+        ivEditInfo.setOnClickListener(listener);
     }
 
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -13,14 +13,28 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_summary_title"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="CUSTOMER SUMMARY"/>
+                android:padding="@dimen/size_10">
+
+                <ImageView
+                    android:id="@+id/iv_edit_summary"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/size_3"
+                    android:src="@drawable/ic_edit"/>
+
+                <TextView
+                    android:id="@+id/tv_summary_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/iv_edit_summary"
+                    android:textSize="@dimen/text_16"/>
+
+            </RelativeLayout>
 
             <TableLayout
                 android:id="@+id/tl_summary"
@@ -31,100 +45,146 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_customer_id_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Customer Id"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_customer_id"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="123" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_customer_email_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Customer Email"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_customer_email"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="glenn@simicart.com" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_prefix_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_prefix"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_first_name_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="First Name"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_first_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Glenn" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_last_name_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Last Name"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_last_name"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Nguyen" />
+                        android:layout_weight="3"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_suffix_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_suffix"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"/>
                 </TableRow>
 
             </TableLayout>
 
-            <TextView
-                android:id="@+id/tv_info_title"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="CUSTOMER INFORMATION"/>
+                android:padding="@dimen/size_10">
+
+                <ImageView
+                    android:id="@+id/iv_edit_info"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_alignParentEnd="true"
+                    android:padding="@dimen/size_3"
+                    android:src="@drawable/ic_edit"/>
+
+                <TextView
+                    android:id="@+id/tv_info_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toStartOf="@+id/iv_edit_info"
+                    android:textSize="@dimen/text_16"/>
+
+            </RelativeLayout>
 
             <TableLayout
                 android:id="@+id/tl_info"
@@ -135,132 +195,140 @@
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_created_at_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Created At"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_created_at"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="2016-11-27 11:04:30" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_updated_at_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Last Updated At"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_updated_at"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="2016-11-27 11:04:30" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_active_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Is Active"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_active"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Yes" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_dob_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Date Of Birth"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_dob"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="06/03/1994" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_created_in_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Created In"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_created_in"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Admin" />
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/size_5"
-                    android:weightSum="5" >
+                    android:weightSum="5">
 
                     <TextView
                         android:id="@+id/tv_gender_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:text="Gender"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_gender"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="Male" />
+                        android:layout_weight="3"/>
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/size_5"
+                    android:weightSum="5">
+
+                    <TextView
+                        android:id="@+id/tv_taxvat_label"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:id="@+id/tv_taxvat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"/>
                 </TableRow>
 
             </TableLayout>
@@ -269,46 +337,41 @@
                 android:id="@+id/tv_order_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="CUSTOMER ORDERS"/>
+                android:padding="@dimen/size_10"
+                android:textSize="@dimen/text_16"/>
 
             <TextView
                 android:id="@+id/tv_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:drawableEnd="@drawable/ic_arrow_right"
-                android:text="VIEW CUSTOMER ORDERS"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:padding="@dimen/size_10"/>
 
             <TextView
                 android:id="@+id/tv_address_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="CUSTOMER ADDRESSES"/>
+                android:padding="@dimen/size_10"
+                android:textSize="@dimen/text_16"/>
 
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:drawableEnd="@drawable/ic_arrow_right"
-                android:text="VIEW CUSTOMER ADDRESSES"
-                android:gravity="center_vertical"/>
+                android:gravity="center_vertical"
+                android:padding="@dimen/size_10"/>
 
             <TextView
                 android:id="@+id/tv_billing_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="DEFAULT BILLING ADDRESS"/>
+                android:padding="@dimen/size_10"
+                android:textSize="@dimen/text_16"/>
 
             <LinearLayout
                 android:id="@+id/ll_billing_address"
@@ -320,10 +383,9 @@
                 android:id="@+id/tv_shipping_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/size_10"
                 android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="DEFAULT SHIPPING ADDRESS"/>
+                android:padding="@dimen/size_10"
+                android:textSize="@dimen/text_16"/>
 
             <LinearLayout
                 android:id="@+id/ll_shipping_address"

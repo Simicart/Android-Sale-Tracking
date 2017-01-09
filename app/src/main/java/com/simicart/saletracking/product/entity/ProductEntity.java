@@ -108,13 +108,16 @@ public class ProductEntity extends AppEntity {
 
         mShortDescription = getString(SHORT_DESCRIPTION);
 
-        String inStock = getString(IS_IN_STOCK);
-        mIsInStock = Utils.getBoolean(inStock);
-
         JSONObject stockItemObj = getJSONObjectWithKey(mJSON, STOCK_ITEM);
-        if(stockItemObj != null && stockItemObj.has(QTY)) {
-            mQuantity = Utils.formatNumber(getStringWithKey(stockItemObj, QTY));
+        if(stockItemObj != null) {
+            if(stockItemObj.has(QTY)) {
+                mQuantity = Utils.formatNumber(getStringWithKey(stockItemObj, QTY));
+            }
 
+            if(stockItemObj.has(IS_IN_STOCK)) {
+                String inStock = getStringWithKey(stockItemObj, IS_IN_STOCK);
+                mIsInStock = Utils.getBoolean(inStock);
+            }
         }
 
     }
