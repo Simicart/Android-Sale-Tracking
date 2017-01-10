@@ -56,6 +56,14 @@ public class AppColor {
         return Color.parseColor(mButtonColor);
     }
 
+    public ColorStateList getButtonColor(String color) {
+        return new ColorStateList(new int[][]{{0}}, new int[]{Color.parseColor(color)});
+    }
+
+    public ColorStateList getButtonColor(int color) {
+        return new ColorStateList(new int[][]{{0}}, new int[]{color});
+    }
+
     public String getButtonTextColor() {
         return mButtonTextColor;
     }

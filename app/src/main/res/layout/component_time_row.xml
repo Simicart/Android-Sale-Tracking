@@ -13,6 +13,7 @@
     <DatePicker
         android:id="@+id/dp_time"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></DatePicker>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/size_5"></DatePicker>
 
 </LinearLayout>

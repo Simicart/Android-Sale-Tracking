@@ -133,7 +133,7 @@ public class CustomerDetailController extends AppController {
         mListRows.add(new RowEntity(Constants.RowType.TEXT, "First Name", "firstname", customerEntity.getFirstName()));
         mListRows.add(new RowEntity(Constants.RowType.TEXT, "Last Name", "lastname", customerEntity.getLastName()));
         mListRows.add(new RowEntity(Constants.RowType.TEXT, "Suffix", "suffix", customerEntity.getSuffix()));
-        EditPopup editPopup = new EditPopup(mListRows);
+        EditPopup editPopup = new EditPopup(mListRows, "Edit Customer Summary");
         editPopup.setEditCallback(new EditCallback() {
             @Override
             public void onEditComplete(HashMap<String, String> hmData) {
@@ -147,7 +147,7 @@ public class CustomerDetailController extends AppController {
         ArrayList<RowEntity> mListRows = new ArrayList<>();
         mListRows.add(new RowEntity(Constants.RowType.TIME, "Date Of Birth", "dob", customerEntity.getDob()));
         mListRows.add(new RowEntity(Constants.RowType.TEXT, "TaxVAT", "taxvat", customerEntity.getTaxVAT()));
-        EditPopup editPopup = new EditPopup(mListRows);
+        EditPopup editPopup = new EditPopup(mListRows, "Edit Customer Information");
         editPopup.setEditCallback(new EditCallback() {
             @Override
             public void onEditComplete(HashMap<String, String> hmData) {

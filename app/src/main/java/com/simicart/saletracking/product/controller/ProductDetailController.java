@@ -158,7 +158,7 @@ public class ProductDetailController extends AppController {
             selectedStock = 1;
         }
         mListRows.add(new RowEntity(Constants.RowType.SPINNER, "Stock Availability", "is_in_stock", stocks, selectedStock));
-        EditPopup editPopup = new EditPopup(mListRows);
+        EditPopup editPopup = new EditPopup(mListRows, "Edit Product Information");
         editPopup.setEditCallback(new EditCallback() {
             @Override
             public void onEditComplete(HashMap<String, String> hmData) {
