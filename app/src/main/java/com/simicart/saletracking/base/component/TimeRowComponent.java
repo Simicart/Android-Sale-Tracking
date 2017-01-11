@@ -1,13 +1,11 @@
 package com.simicart.saletracking.base.component;
 
 import android.graphics.Color;
-import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
-import com.simicart.saletracking.base.component.popup.RowEntity;
 import com.simicart.saletracking.common.Utils;
 
 import java.text.DateFormat;

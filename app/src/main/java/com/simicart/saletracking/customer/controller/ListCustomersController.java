@@ -154,6 +154,7 @@ public class ListCustomersController extends AppController {
                 }
                 hmData.put("search_entity", mSearchEntity);
                 hmData.put("from", Constants.Search.CUSTOMER);
+                hmData.put("is_detail", false);
                 AppManager.getInstance().openSearch(hmData);
             }
         };

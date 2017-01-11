@@ -18,6 +18,7 @@ import com.simicart.saletracking.product.entity.ProductEntity;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -117,7 +118,7 @@ public class Utils {
     public static String getPrice(ProductEntity productEntity, String baseCurrency, String orderCurrency) {
         String price = "";
         String productBasePrice = productEntity.getBasePrice();
-        String productPrice = productEntity.getPrice();
+        String productPrice = getFormattedPrice(productEntity.getPrice());
         if (validateString(baseCurrency) && validateString(orderCurrency)) {
             if (baseCurrency.equals(orderCurrency)) {
                 price = getPrice(productPrice, orderCurrency);
@@ -130,8 +131,9 @@ public class Utils {
 
     public static String getPrice(QuoteItemEntity quoteItemEntity, String baseCurrency, String orderCurrency) {
         String price = "";
-        String productBasePrice = quoteItemEntity.getBasePrice();
-        String productPrice = quoteItemEntity.getPrice();
+        String productBasePrice = getFormattedPrice(quoteItemEntity.getBasePrice());
+        String productPrice = getFormattedPrice(quoteItemEntity.getPrice());
+
         if (validateString(baseCurrency) && validateString(orderCurrency)) {
             if (baseCurrency.equals(orderCurrency)) {
                 price = getPrice(productPrice, orderCurrency);
@@ -142,39 +144,88 @@ public class Utils {
         return price;
     }
 
-    public static String getPrice(String price, String symbol) {
-        price = formatNumber(price);
-        if ((null == symbol) || (symbol.equals("null"))) {
-            return "USD " + price;
+    public static String getFormattedPrice(String price) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("#");
+        String thousandSeparator = "";
+        String decimalSeparator = "";
+        int numberOfDecimals = AppPreferences.getNumberOfDecimals();
+        if(AppPreferences.getSeparator() == Constants.Separator.COMMA_FIRST) {
+            thousandSeparator = ",";
+            decimalSeparator = ".";
         } else {
-            return symbol + " " + price;
+            thousandSeparator = ".";
+            decimalSeparator = ",";
         }
+        builder.append(thousandSeparator);
+        builder.append("###");
+        builder.append(thousandSeparator);
+        builder.append("##0");
+        if (numberOfDecimals > 0) {
+            builder.append(decimalSeparator);
+            for (int i = 0; i < numberOfDecimals; i++) {
+                builder.append("0");
+            }
+        }
+        DecimalFormatSymbols formatSymbols = new DecimalFormatSymbols();
+        formatSymbols.setGroupingSeparator(thousandSeparator.charAt(0));
+        formatSymbols.setDecimalSeparator(decimalSeparator.charAt(0));
+        DecimalFormat mPriceFormat = new DecimalFormat(builder.toString(), formatSymbols);
+
+        if (numberOfDecimals == 0) {
+            mPriceFormat.setParseIntegerOnly(true);
+        }
+
+        return mPriceFormat.format(Double.parseDouble(price));
     }
 
-    public static String formatNumber(String number) {
-        DecimalFormat df = new DecimalFormat("#,##0.00");
-        if (number == null || number.equals("null")) {
-            number = "0";
+    public static String getPrice(String price, String symbol) {
+        int currencyPosition = AppPreferences.getCurrencyPosition();
+        price = getFormattedPrice(price);
+        switch (currencyPosition) {
+            case Constants.CurrencyPosition.LEFT:
+                price = symbol + price;
+                break;
+            case Constants.CurrencyPosition.RIGHT:
+                price = price + symbol;
+                break;
+            case Constants.CurrencyPosition.LEFT_SPACE:
+                price = symbol + " " + price;
+                break;
+            case Constants.CurrencyPosition.RIGHT_SPACE:
+                price = price + " " + symbol;
+                break;
+            default:
+                break;
         }
-        String formattedNumber = df.format(Float.parseFloat(number));
-        if (formattedNumber.contains(".")) {
-            int i = formattedNumber.length();
-            while (true) {
-                i--;
-                char c = formattedNumber.charAt(i);
-                if (c == '.') {
-                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
-                    break;
-                } else if (c != '0') {
-                    break;
-                } else {
-                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
-                }
-            }
-            return formattedNumber;
-        } else {
-            return formattedNumber;
-        }
+        return price;
+    }
+
+    public static String formatIntNumber(String number) {
+        return "" + ((int)Double.parseDouble(number));
+//        DecimalFormat df = new DecimalFormat("#,##0.00");
+//        if (number == null || number.equals("null")) {
+//            number = "0";
+//        }
+//        String formattedNumber = df.format(Float.parseFloat(number));
+//        if (formattedNumber.contains(".")) {
+//            int i = formattedNumber.length();
+//            while (true) {
+//                i--;
+//                char c = formattedNumber.charAt(i);
+//                if (c == '.') {
+//                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
+//                    break;
+//                } else if (c != '0') {
+//                    break;
+//                } else {
+//                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
+//                }
+//            }
+//            return formattedNumber;
+//        } else {
+//            return formattedNumber;
+//        }
     }
 
     public static void setTextHtml(TextView textView, String html) {

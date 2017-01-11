@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
+import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.component.AddressComponent;
 import com.simicart.saletracking.customer.entity.AddressEntity;
@@ -79,8 +80,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initSummary() {
 
         tvOrderSummaryTitle = (TextView) mView.findViewById(R.id.tv_order_summary_title);
-        tvOrderSummaryTitle.setTextColor(Color.BLACK);
-        tvOrderSummaryTitle.setText("ORDER SUMMARY");
+        tvOrderSummaryTitle.setText("Order Summary");
 
         tvIncrementIDLabel = (TextView) mView.findViewById(R.id.tv_increment_id_label);
         tvIncrementIDLabel.setTextColor(Color.BLACK);
@@ -104,7 +104,7 @@ public class OrderDetailBlock extends AppBlock {
         tvSummaryGrandTotalLabel.setTextColor(Color.BLACK);
         tvSummaryGrandTotalLabel.setText("Grand Total");
         tvSummaryGrandTotal = (TextView) mView.findViewById(R.id.tv_summary_grand_total);
-        tvSummaryGrandTotal.setTextColor(Color.BLACK);
+        tvSummaryGrandTotal.setTextColor(AppColor.getInstance().getPriceColor());
 
         tvStoreViewLabel = (TextView) mView.findViewById(R.id.tv_store_view_label);
         tvStoreViewLabel.setTextColor(Color.BLACK);
@@ -125,8 +125,7 @@ public class OrderDetailBlock extends AppBlock {
         rlCustomer = (RelativeLayout) mView.findViewById(R.id.rl_customer);
 
         tvCustomerTitle = (TextView) mView.findViewById(R.id.tv_customer_title);
-        tvCustomerTitle.setTextColor(Color.BLACK);
-        tvCustomerTitle.setText("CUSTOMER");
+        tvCustomerTitle.setText("Customer");
 
         tvCustomerIDLabel = (TextView) mView.findViewById(R.id.tv_customer_id_label);
         tvCustomerIDLabel.setTextColor(Color.BLACK);
@@ -151,8 +150,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initItems() {
 
         tvItemsTitle = (TextView) mView.findViewById(R.id.tv_items_title);
-        tvItemsTitle.setTextColor(Color.BLACK);
-        tvItemsTitle.setText("ITEMS");
+        tvItemsTitle.setText("Items");
 
         llItems = (LinearLayout) mView.findViewById(R.id.ll_items);
 
@@ -161,8 +159,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initShippingAddress() {
 
         tvShippingAddressTitle = (TextView) mView.findViewById(R.id.tv_shipping_address_title);
-        tvShippingAddressTitle.setTextColor(Color.BLACK);
-        tvShippingAddressTitle.setText("SHIPPING ADDRESS");
+        tvShippingAddressTitle.setText("Shipping Address");
 
         llShippingAddress = (LinearLayout) mView.findViewById(R.id.ll_shipping_address);
 
@@ -171,8 +168,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initBillingAddress() {
 
         tvBillingAddressTitle = (TextView) mView.findViewById(R.id.tv_billing_address_title);
-        tvBillingAddressTitle.setTextColor(Color.BLACK);
-        tvBillingAddressTitle.setText("BILLING ADDRESS");
+        tvBillingAddressTitle.setText("Billing Address");
 
         llBillingAddress = (LinearLayout) mView.findViewById(R.id.ll_billing_address);
 
@@ -181,8 +177,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initPaymentMethod() {
 
         tvPaymentMethodTitle = (TextView) mView.findViewById(R.id.tv_payment_method_title);
-        tvPaymentMethodTitle.setTextColor(Color.BLACK);
-        tvPaymentMethodTitle.setText("PAYMENT METHOD");
+        tvPaymentMethodTitle.setText("Payment Method");
 
         tvPaymentMethodCodeLabel = (TextView) mView.findViewById(R.id.tv_payment_method_code_label);
         tvPaymentMethodCodeLabel.setTextColor(Color.BLACK);
@@ -201,8 +196,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initShippingMethod() {
 
         tvShippingMethodTitle = (TextView) mView.findViewById(R.id.tv_shipping_method_title);
-        tvShippingMethodTitle.setTextColor(Color.BLACK);
-        tvShippingMethodTitle.setText("SHIPPING METHOD");
+        tvShippingMethodTitle.setText("Shipping Method");
 
         tvShippingMethodCodeLabel = (TextView) mView.findViewById(R.id.tv_shipping_method_code_label);
         tvShippingMethodCodeLabel.setTextColor(Color.BLACK);
@@ -221,8 +215,7 @@ public class OrderDetailBlock extends AppBlock {
     protected void initTotalFee() {
 
         tvTotalFeeTitle = (TextView) mView.findViewById(R.id.tv_total_fee_title);
-        tvTotalFeeTitle.setTextColor(Color.BLACK);
-        tvTotalFeeTitle.setText("TOTAL FEE");
+        tvTotalFeeTitle.setText("Total Fee");
 
         tvSubTotalExclLabel = (TextView) mView.findViewById(R.id.tv_subtotal_excl_label);
         tvSubTotalExclLabel.setTextColor(Color.BLACK);
@@ -252,7 +245,7 @@ public class OrderDetailBlock extends AppBlock {
         tvFeeGrandTotalLabel.setTextColor(Color.BLACK);
         tvFeeGrandTotalLabel.setText("Grandtotal");
         tvFeeGrandTotal = (TextView) mView.findViewById(R.id.tv_fee_grand_total);
-        tvFeeGrandTotal.setTextColor(Color.BLACK);
+        tvFeeGrandTotal.setTextColor(AppColor.getInstance().getPriceColor());
 
     }
 

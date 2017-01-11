@@ -1,8 +1,6 @@
 package com.simicart.saletracking.base.component;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.view.LayoutInflater;
@@ -12,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
-import com.simicart.saletracking.base.component.popup.RowEntity;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.common.AppColor;

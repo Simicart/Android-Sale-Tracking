@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="@dimen/size_15">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/size_17"
+        android:paddingEnd="@dimen/size_17"
+        android:paddingTop="@dimen/size_15">
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/bt_save"
+            android:layout_width="@dimen/size_70"
+            android:layout_height="@dimen/size_30"
+            android:textSize="@dimen/text_16"
+            android:textAllCaps="false"
+            android:gravity="end|center_vertical"
+            android:background="@null"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_30"
+            android:textSize="@dimen/text_16"
+            android:textStyle="bold"
+            android:gravity="center_vertical"
+            android:layout_toStartOf="@+id/bt_save"
+            android:layout_marginEnd="@dimen/size_5"
+            android:textColor="@color/colorBlack"/>
+
+    </RelativeLayout>
+
+    <NumberPicker
+        android:id="@+id/np_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleX="1.5"
+        android:scaleY="1.5"
+        android:divider="@null"></NumberPicker>
+
+</LinearLayout>

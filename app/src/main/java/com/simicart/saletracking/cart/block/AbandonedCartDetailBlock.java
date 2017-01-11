@@ -53,8 +53,7 @@ public class AbandonedCartDetailBlock extends AppBlock {
 
     protected void initSummary() {
         tvSummaryTitle = (TextView) mView.findViewById(R.id.tv_summary_title);
-        tvSummaryTitle.setTextColor(Color.BLACK);
-        tvSummaryTitle.setText("CART SUMMARY");
+        tvSummaryTitle.setText("Cart Summary");
 
         tvCustomerEmailLabel = (TextView) mView.findViewById(R.id.tv_customer_email_label);
         tvCustomerEmailLabel.setTextColor(Color.BLACK);
@@ -101,8 +100,7 @@ public class AbandonedCartDetailBlock extends AppBlock {
 
     protected void initItems() {
         tvItemsTitle = (TextView) mView.findViewById(R.id.tv_items_title);
-        tvItemsTitle.setTextColor(Color.BLACK);
-        tvItemsTitle.setText("CART ITEMS");
+        tvItemsTitle.setText("Cart Items");
 
         llCartItems = (LinearLayout) mView.findViewById(R.id.ll_cart_items);
     }

@@ -109,7 +109,7 @@ public class ListAbandonedCartsAdapter extends SectioningAdapter {
 
         String qty = cartEntity.getItemQty();
         if (Utils.validateString(qty)) {
-            String formattedNumber = Utils.formatNumber(qty);
+            String formattedNumber = Utils.formatIntNumber(qty);
             try {
                 int quantity = Integer.parseInt(formattedNumber);
                 if(quantity > 1) {

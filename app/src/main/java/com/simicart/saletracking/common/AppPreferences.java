@@ -27,6 +27,9 @@ public class AppPreferences {
     private static final String DASHBOARD_SHOW_BEST_SELLERS = "dashboardShowBestSellers";
     private static final String DASHBOARD_SHOW_LATEST_CUSTOMERS = "dashboardShowLatestCustomers";
     private static final String DASHBOARD_SHOW_LATEST_ORDERS = "dashboardShowLatestOrders";
+    private static final String CURRENCY_POSITION = "currencyPosition";
+    private static final String SEPARATOR = "separator";
+    private static final String NUMBER_OF_DECIMALS = "numberOfDecimals";
 
     public static void init() {
         mContext = AppManager.getInstance().getCurrentActivity();
@@ -232,6 +235,48 @@ public class AppPreferences {
             paging = mSharedPre.getInt(PAGING, 40);
         }
         return paging;
+    }
+
+    public static void setCurrencyPosition(int currencyPosition) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putInt(CURRENCY_POSITION, currencyPosition);
+        editor.commit();
+    }
+
+    public static int getCurrencyPosition() {
+        int currencyPosition = 1;
+        if (mSharedPre != null) {
+            currencyPosition = mSharedPre.getInt(CURRENCY_POSITION, 1);
+        }
+        return currencyPosition;
+    }
+
+    public static void setSeparator(int separator) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putInt(SEPARATOR, separator);
+        editor.commit();
+    }
+
+    public static int getSeparator() {
+        int separator = 1;
+        if (mSharedPre != null) {
+            separator = mSharedPre.getInt(SEPARATOR, 1);
+        }
+        return separator;
+    }
+
+    public static void setNumberOfDecimals(int numberOfDecimals) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putInt(NUMBER_OF_DECIMALS, numberOfDecimals);
+        editor.commit();
+    }
+
+    public static int getNumberOfDecimals() {
+        int numberOfDecimals = 2;
+        if (mSharedPre != null) {
+            numberOfDecimals = mSharedPre.getInt(NUMBER_OF_DECIMALS, 2);
+        }
+        return numberOfDecimals;
     }
 
 }

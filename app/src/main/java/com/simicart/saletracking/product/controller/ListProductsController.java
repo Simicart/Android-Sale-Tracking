@@ -160,6 +160,7 @@ public class ListProductsController extends AppController {
                 }
                 hmData.put("search_entity", mSearchEntity);
                 hmData.put("from", Constants.Search.PRODUCT);
+                hmData.put("is_detail", false);
                 AppManager.getInstance().openSearch(hmData);
             }
         };

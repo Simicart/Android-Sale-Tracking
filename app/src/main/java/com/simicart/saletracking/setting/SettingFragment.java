@@ -6,17 +6,25 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
+import com.simicart.saletracking.base.component.ChooserCallback;
+import com.simicart.saletracking.base.component.ChooserPopup;
+import com.simicart.saletracking.base.component.NumberPickerPopup;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
+
+import java.util.ArrayList;
 
 /**
  * Created by Glenn on 12/8/2016.
@@ -24,8 +32,9 @@ import com.simicart.saletracking.common.Utils;
 
 public class SettingFragment extends AppFragment {
 
-    protected TextView tvPagingTitle, tvItemShownTitle;
-    protected TextView tvPaging, tvPagingValue, tvItemSaleReport, tvItemLatestCustomers, tvItemLatestOrders, tvItemBestSellers;
+    protected TextView tvPagingTitle, tvItemShownTitle, tvCurrencyTitle;
+    protected TextView tvPaging, tvPagingValue, tvItemSaleReport, tvItemLatestCustomers, tvItemLatestOrders, tvItemBestSellers, tvCurrencyPosition,
+            tvCurrencyPositionValue, tvSeparator, tvSeparatorValue, tvNumberDecimals, tvNumberDecimalsValue;
     protected SwitchCompat swItemSaleReport, swItemLatestCustomers, swItemLatestOrders, swItemBestSellers;
     protected RelativeLayout rlItemSaleReport, rlItemLatestCustomers, rlItemLatestOrders, rlItemBestSellers;
 
@@ -43,17 +52,16 @@ public class SettingFragment extends AppFragment {
 
         initPaging();
         initItemsShown();
+        initCurrency();
 
         return rootView;
     }
 
     protected void initPaging() {
         tvPagingTitle = (TextView) rootView.findViewById(R.id.tv_paging_title);
-        tvPagingTitle.setTextColor(Color.BLACK);
-        tvPagingTitle.setText("PAGING");
+        tvPagingTitle.setText("Paging");
 
         tvPaging = (TextView) rootView.findViewById(R.id.tv_paging);
-        tvPaging.setTextColor(Color.BLACK);
         tvPaging.setText("Items Per Pages");
 
         tvPagingValue = (TextView) rootView.findViewById(R.id.tv_paging_value);
@@ -73,23 +81,18 @@ public class SettingFragment extends AppFragment {
 
     protected void initItemsShown() {
         tvItemShownTitle = (TextView) rootView.findViewById(R.id.tv_item_shown_title);
-        tvItemShownTitle.setTextColor(Color.BLACK);
-        tvItemShownTitle.setText("ITEMS SHOWN ON DASHBOARD");
+        tvItemShownTitle.setText("Items Shown On Dashboard");
 
         tvItemSaleReport = (TextView) rootView.findViewById(R.id.tv_item_sale_report);
-        tvItemSaleReport.setTextColor(Color.BLACK);
         tvItemSaleReport.setText("Sales Reports");
 
         tvItemBestSellers = (TextView) rootView.findViewById(R.id.tv_item_best_seller);
-        tvItemBestSellers.setTextColor(Color.BLACK);
         tvItemBestSellers.setText("Best Sellers");
 
         tvItemLatestCustomers = (TextView) rootView.findViewById(R.id.tv_item_latest_customer);
-        tvItemLatestCustomers.setTextColor(Color.BLACK);
         tvItemLatestCustomers.setText("Latest Customers");
 
         tvItemLatestOrders = (TextView) rootView.findViewById(R.id.tv_item_latest_order);
-        tvItemLatestOrders.setTextColor(Color.BLACK);
         tvItemLatestOrders.setText("Latest Orders");
 
         swItemSaleReport = (SwitchCompat) rootView.findViewById(R.id.sw_item_sale_report);
@@ -170,21 +173,149 @@ public class SettingFragment extends AppFragment {
 
     }
 
-    protected void createPagingChooser() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setSingleChoiceItems(pagingArr, pagingPosition, new DialogInterface.OnClickListener() {
+    protected void initCurrency() {
+        tvCurrencyTitle = (TextView) rootView.findViewById(R.id.tv_currency_title);
+        tvCurrencyTitle.setText("Currency");
+
+        tvCurrencyPosition = (TextView) rootView.findViewById(R.id.tv_currency_position);
+        tvCurrencyPosition.setText("Currency Position");
+
+        tvCurrencyPositionValue = (TextView) rootView.findViewById(R.id.tv_currency_position_value);
+        tvCurrencyPositionValue.setTextColor(AppColor.getInstance().getThemeColor());
+        tvCurrencyPositionValue.setBackground(AppColor.getInstance().coloringIcon(R.drawable.border_line, "#fc9900"));
+        showCurrencyPositionValue();
+        tvCurrencyPositionValue.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                pagingPosition = which;
-                tvPagingValue.setText(pagingArr[which]);
-                AppPreferences.setPaging(Integer.parseInt(pagingArr[which].toString()));
+            public void onClick(View view) {
+                createCurrencyPositionChooser();
             }
         });
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setEnabled(false);
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+        tvSeparator = (TextView) rootView.findViewById(R.id.tv_separator_position);
+        tvSeparator.setText("Separator");
+
+        tvSeparatorValue = (TextView) rootView.findViewById(R.id.tv_separator_position_value);
+        tvSeparatorValue.setTextColor(AppColor.getInstance().getThemeColor());
+        tvSeparatorValue.setBackground(AppColor.getInstance().coloringIcon(R.drawable.border_line, "#fc9900"));
+        int separator = AppPreferences.getSeparator();
+        String separatorValue = "";
+        switch (separator) {
+            case Constants.Separator.COMMA_FIRST:
+                separatorValue = "";
+                break;
+            case Constants.Separator.DOT_FIRST:
+                separatorValue = "";
+                break;
+            default:
+                break;
+        }
+        tvSeparatorValue.setText(separatorValue);
+        tvSeparatorValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        tvNumberDecimals = (TextView) rootView.findViewById(R.id.tv_number_decimals);
+        tvNumberDecimals.setText("Number of Decimals");
+
+        tvNumberDecimalsValue = (TextView) rootView.findViewById(R.id.tv_number_decimals_value);
+        tvNumberDecimalsValue.setTextColor(AppColor.getInstance().getThemeColor());
+        tvNumberDecimalsValue.setBackground(AppColor.getInstance().coloringIcon(R.drawable.border_line, "#fc9900"));
+        tvNumberDecimalsValue.setText("" + AppPreferences.getNumberOfDecimals());
+        tvNumberDecimalsValue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNumberOfDecimalsChooser();
+            }
+        });
+    }
+
+    protected void createPagingChooser() {
+        ArrayList<String> listPaging = new ArrayList<>();
+        listPaging.add("20");
+        listPaging.add("40");
+        listPaging.add("60");
+        listPaging.add("80");
+        listPaging.add("100");
+
+        ChooserPopup chooserPopup = new ChooserPopup(listPaging, pagingPosition);
+        chooserPopup.setChooserCallback(new ChooserCallback() {
+            @Override
+            public void onClick(int position) {
+                AppPreferences.setPaging((position+1)*20);
+                showPagingValue();
+            }
+        });
+        chooserPopup.show();
+    }
+
+    protected void createCurrencyPositionChooser() {
+        ArrayList<String> listCurrencyPosition = new ArrayList<>();
+        listCurrencyPosition.add("Left ($99.00)");
+        listCurrencyPosition.add("Right (99.00$)");
+        listCurrencyPosition.add("Left Space ($ 99.00)");
+        listCurrencyPosition.add("Right Space ($ 99.00)");
+
+        ChooserPopup chooserPopup = new ChooserPopup(listCurrencyPosition, AppPreferences.getCurrencyPosition() - 1);
+        chooserPopup.setChooserCallback(new ChooserCallback() {
+            @Override
+            public void onClick(int position) {
+                AppPreferences.setCurrencyPosition(position + 1);
+                showCurrencyPositionValue();
+            }
+        });
+        chooserPopup.show();
+    }
+
+    protected void createNumberOfDecimalsChooser() {
+        ArrayList<String> listNumberOfDecimals = new ArrayList<>();
+        for(int i=0;i<10;i++) {
+            listNumberOfDecimals.add("" + i);
+        }
+
+        ChooserPopup chooserPopup = new ChooserPopup(listNumberOfDecimals, AppPreferences.getNumberOfDecimals());
+        chooserPopup.setChooserCallback(new ChooserCallback() {
+            @Override
+            public void onClick(int position) {
+                AppPreferences.setNumberOfDecimals(position);
+                showNumberOfDecimals();
+            }
+        });
+        chooserPopup.show();
+    }
+
+    protected void showPagingValue() {
+        int paging = AppPreferences.getPaging();
+        pagingPosition = (paging/20) - 1;
+        tvPagingValue.setText(String.valueOf(paging));
+    }
+
+    protected void showCurrencyPositionValue() {
+        int currencyPosition = AppPreferences.getCurrencyPosition();
+        String currencyPositionValue = "";
+        switch (currencyPosition) {
+            case Constants.CurrencyPosition.LEFT:
+                currencyPositionValue = "Left ($99.00)";
+                break;
+            case Constants.CurrencyPosition.RIGHT:
+                currencyPositionValue = "Right (99.00$)";
+                break;
+            case Constants.CurrencyPosition.LEFT_SPACE:
+                currencyPositionValue = "Left Space ($ 99.00)";
+                break;
+            case Constants.CurrencyPosition.RIGHT_SPACE:
+                currencyPositionValue = "Right Space (99.00 $)";
+                break;
+            default:
+                break;
+        }
+        tvCurrencyPositionValue.setText(currencyPositionValue);
+    }
+
+    protected void showNumberOfDecimals() {
+        tvNumberDecimalsValue.setText("" + AppPreferences.getNumberOfDecimals());
     }
 
 }

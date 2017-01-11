@@ -60,7 +60,7 @@ public class BestSellersAdapter extends RecyclerView.Adapter<BestSellersAdapter.
 
         String qty = bestSellerEntity.getQtyOrdered();
         if(Utils.validateString(qty)) {
-            holder.tvQty.setText("Ordered: " + Utils.formatNumber(qty));
+            holder.tvQty.setText("Ordered: " + Utils.formatIntNumber(qty));
         }
 
         holder.rlItem.setOnClickListener(new View.OnClickListener() {

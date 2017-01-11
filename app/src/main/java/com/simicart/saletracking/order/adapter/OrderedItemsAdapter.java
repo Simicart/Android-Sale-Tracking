@@ -78,7 +78,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
 
         String qty = productEntity.getQuantityOrdered();
         if (Utils.validateString(qty)) {
-            holder.tvQty.setText("Quantity Ordered: " + Utils.formatNumber(qty));
+            holder.tvQty.setText("Quantity Ordered: " + Utils.formatIntNumber(qty));
         }
 
         String image = productEntity.getOrderImage();
@@ -115,7 +115,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
 
         String qty = quoteItemEntity.getItemsQty();
         if (Utils.validateString(qty)) {
-            holder.tvQty.setText("Quantity: " + Utils.formatNumber(qty));
+            holder.tvQty.setText("Quantity: " + Utils.formatIntNumber(qty));
         }
 
         String image = quoteItemEntity.getOrderImage();

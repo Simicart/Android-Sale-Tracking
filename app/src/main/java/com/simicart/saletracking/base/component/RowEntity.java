@@ -1,4 +1,4 @@
-package com.simicart.saletracking.base.component.popup;
+package com.simicart.saletracking.base.component;
 
 /**
  * Created by Martial on 1/7/2017.

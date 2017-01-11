@@ -5,7 +5,7 @@ import android.view.View;
 import com.android.volley.Request;
 import com.simicart.saletracking.base.component.EditCallback;
 import com.simicart.saletracking.base.component.EditPopup;
-import com.simicart.saletracking.base.component.popup.RowEntity;
+import com.simicart.saletracking.base.component.RowEntity;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.entity.AppData;

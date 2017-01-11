@@ -48,6 +48,7 @@ import java.util.Calendar;
 public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     protected LinearLayout llRefresh, llChart, llTopChart;
+    protected TextView tvXLabel, tvYLabel;
     protected TextView tvRefresh;
     protected Spinner spTime;
     protected TableLayout tlSummary;
@@ -66,6 +67,12 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     public void initView() {
 
         initTopChart();
+
+        tvXLabel = (TextView) mView.findViewById(R.id.tv_x_label);
+        tvXLabel.setText("Orders");
+
+        tvYLabel = (TextView) mView.findViewById(R.id.tv_y_label);
+        tvYLabel.setText("Invoices");
 
         llChart = (LinearLayout) mView.findViewById(R.id.ll_chart);
 

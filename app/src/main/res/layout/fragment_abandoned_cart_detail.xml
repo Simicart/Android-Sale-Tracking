@@ -14,14 +14,18 @@
             android:orientation="vertical"
             android:background="@color/colorSection">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <TextView
                 android:id="@+id/tv_summary_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/size_10"
-                android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="CART SUMMARY"/>
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorWhite"/>
 
             <TableLayout
                 android:layout_width="match_parent"
@@ -39,15 +43,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Customer Email"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_customer_email"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="test@simicart.com" />
+                        android:layout_weight="4" />
                 </TableRow>
 
                 <TableRow
@@ -61,15 +63,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Customer Ip"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_customer_ip"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="192.168.1.2" />
+                        android:layout_weight="4" />
                 </TableRow>
 
                 <TableRow
@@ -83,15 +83,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Grandtotal"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_grand_total"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:text="USD 980"/>
+                        android:layout_weight="3"/>
                 </TableRow>
 
                 <TableRow
@@ -105,15 +103,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Subtotal"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_subtotal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="USD 980" />
+                        android:layout_weight="4" />
                 </TableRow>
 
                 <TableRow
@@ -127,15 +123,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Created At"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_created_at"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="2016-12-08" />
+                        android:layout_weight="4" />
                 </TableRow>
 
                 <TableRow
@@ -149,27 +143,29 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Updated At"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_updated_at"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="2016-12-08" />
+                        android:layout_weight="4" />
                 </TableRow>
 
             </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
 
             <TextView
                 android:id="@+id/tv_items_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/size_10"
-                android:background="@color/colorSection"
-                android:textSize="@dimen/text_16"
-                android:text="CART ITEMS"/>
+                android:background="@color/colorPrimaryDark"
+                android:textColor="@color/colorWhite"/>
 
             <LinearLayout
                 android:id="@+id/ll_cart_items"

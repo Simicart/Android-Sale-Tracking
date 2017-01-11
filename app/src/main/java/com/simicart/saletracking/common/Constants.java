@@ -67,4 +67,16 @@ public class Constants {
         public static final int TIME = 4;
     }
 
+    public static class CurrencyPosition {
+        public static final int LEFT = 1;
+        public static final int RIGHT = 2;
+        public static final int LEFT_SPACE = 3;
+        public static final int RIGHT_SPACE = 4;
+    }
+
+    public static class Separator {
+        public static final int COMMA_FIRST = 1;
+        public static final int DOT_FIRST = 2;
+    }
+
 }

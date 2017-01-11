@@ -59,7 +59,7 @@ public class TopBestSellerAdapter extends RecyclerView.Adapter<TopBestSellerAdap
 
         String qty = bestSellerEntity.getQtyOrdered();
         if (Utils.validateString(qty)) {
-            holder.tvQty.setText("Ordered: " + Utils.formatNumber(qty));
+            holder.tvQty.setText("Ordered: " + Utils.formatIntNumber(qty));
         }
 
         String itemName = bestSellerEntity.getItemName();

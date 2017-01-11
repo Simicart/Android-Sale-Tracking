@@ -85,6 +85,8 @@ public class ChartComponent extends AppComponent {
         mAxisRight.setAxisMinimum(0f);
         mAxisRight.setValueFormatter(new IntegerValueFormatter());
 
+
+
         mAxisLeft = mCombinedChart.getAxisLeft();
         mAxisLeft.setDrawGridLines(true);
         mAxisLeft.setAxisMinimum(0f);

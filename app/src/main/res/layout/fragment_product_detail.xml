@@ -13,10 +13,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10">
 
                 <ImageView
@@ -25,7 +30,8 @@
                     android:layout_height="@dimen/size_20"
                     android:layout_alignParentEnd="true"
                     android:padding="@dimen/size_3"
-                    android:src="@drawable/ic_edit"/>
+                    android:src="@drawable/ic_edit"
+                    android:layout_centerVertical="true"/>
 
                 <TextView
                     android:id="@+id/tv_info_title"
@@ -33,8 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_toStartOf="@+id/iv_edit_info"
-                    android:text="PRODUCT INFORMATION"
-                    android:textSize="@dimen/text_16"/>
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
 
@@ -66,15 +72,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Id"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_id"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="123"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
                 <TableRow
@@ -88,15 +92,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Sku"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_sku"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="sku_1234"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
                 <TableRow
@@ -110,7 +112,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Url"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -118,8 +119,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:autoLink="web"
-                        android:text="http://simicart.com"/>
+                        android:autoLink="web"/>
                 </TableRow>
 
                 <TableRow
@@ -133,15 +133,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Type"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_type"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="Simple"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
                 <TableRow
@@ -155,15 +153,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Price"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_price"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="USD 123"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
                 <TableRow
@@ -177,15 +173,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Visibility"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_visibility"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="Visible"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
                 <TableRow
@@ -199,15 +193,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Is in Stock"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_stock"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="Yes"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
                 <TableRow
@@ -221,37 +213,44 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:text="Quantity"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/tv_product_qty"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:text="99"/>
+                        android:layout_weight="4"/>
                 </TableRow>
 
             </TableLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
 
             <TextView
                 android:id="@+id/tv_images_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10"
-                android:text="PRODUCT IMAGES"
-                android:textSize="@dimen/text_16"/>
+                android:textColor="@color/colorWhite"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rv_product_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10">
 
                 <ImageView
@@ -266,11 +265,9 @@
                     android:id="@+id/tv_short_description_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorSection"
-                    android:text="SHORT DESCRIPTION"
-                    android:textSize="@dimen/text_16"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/iv_edit_short_description"/>
+                    android:layout_toStartOf="@+id/iv_edit_short_description"
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
 
@@ -296,8 +293,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:text="View Detail"/>
+                    android:layout_centerVertical="true"/>
 
                 <ImageView
                     android:layout_width="@dimen/size_20"
@@ -308,10 +304,15 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10">
 
                 <ImageView
@@ -326,11 +327,9 @@
                     android:id="@+id/tv_description_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorSection"
-                    android:text="DESCRIPTION"
-                    android:textSize="@dimen/text_16"
                     android:layout_alignParentStart="true"
-                    android:layout_toStartOf="@+id/iv_edit_description"/>
+                    android:layout_toStartOf="@+id/iv_edit_description"
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
 
@@ -368,14 +367,18 @@
 
             </RelativeLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <TextView
                 android:id="@+id/tv_additional_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10"
-                android:text="ADDITIONAL"
-                android:textSize="@dimen/text_16"/>
+                android:textColor="@color/colorWhite"/>
 
             <LinearLayout
                 android:id="@+id/ll_product_additional"

@@ -13,10 +13,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10">
 
                 <ImageView
@@ -32,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/iv_edit_summary"
-                    android:textSize="@dimen/text_16"/>
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
 
@@ -163,10 +168,15 @@
 
             </TableLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10">
 
                 <ImageView
@@ -182,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/iv_edit_info"
-                    android:textSize="@dimen/text_16"/>
+                    android:textColor="@color/colorWhite"/>
 
             </RelativeLayout>
 
@@ -333,45 +343,88 @@
 
             </TableLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <TextView
                 android:id="@+id/tv_order_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10"
-                android:textSize="@dimen/text_16"/>
+                android:textColor="@color/colorWhite"/>
 
-            <TextView
-                android:id="@+id/tv_order"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_arrow_right"
-                android:gravity="center_vertical"
-                android:padding="@dimen/size_10"/>
+                android:padding="@dimen/size_10">
+
+                <ImageView
+                    android:id="@+id/iv_detail_order"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right"/>
+
+                <TextView
+                    android:id="@+id/tv_order"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/iv_detail_order"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
 
             <TextView
                 android:id="@+id/tv_address_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10"
-                android:textSize="@dimen/text_16"/>
+                android:textColor="@color/colorWhite"/>
 
-            <TextView
-                android:id="@+id/tv_address"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/ic_arrow_right"
-                android:gravity="center_vertical"
-                android:padding="@dimen/size_10"/>
+                android:padding="@dimen/size_10">
+
+                <ImageView
+                    android:id="@+id/iv_detail_addresses"
+                    android:layout_width="@dimen/size_20"
+                    android:layout_height="@dimen/size_20"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_arrow_right"/>
+
+                <TextView
+                    android:id="@+id/tv_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@+id/iv_detail_addresses"/>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
 
             <TextView
                 android:id="@+id/tv_billing_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10"
-                android:textSize="@dimen/text_16"/>
+                android:textColor="@color/colorWhite"/>
 
             <LinearLayout
                 android:id="@+id/ll_billing_address"
@@ -379,13 +432,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"></LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_15"
+                android:background="@color/colorSection"></View>
+
             <TextView
                 android:id="@+id/tv_shipping_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorSection"
+                android:background="@color/colorPrimaryDark"
                 android:padding="@dimen/size_10"
-                android:textSize="@dimen/text_16"/>
+                android:textColor="@color/colorWhite"/>
 
             <LinearLayout
                 android:id="@+id/ll_shipping_address"

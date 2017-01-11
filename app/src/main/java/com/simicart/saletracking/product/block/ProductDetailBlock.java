@@ -77,8 +77,7 @@ public class ProductDetailBlock extends AppBlock {
 
     protected void initInfo() {
         tvInfoTitle = (TextView) mView.findViewById(R.id.tv_info_title);
-        tvInfoTitle.setTextColor(Color.BLACK);
-        tvInfoTitle.setText("PRODUCT INFORMATION");
+        tvInfoTitle.setText("Product Information");
 
         ivEditInfo = (ImageView) mView.findViewById(R.id.iv_edit_info);
         if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_EDIT)) {
@@ -149,8 +148,7 @@ public class ProductDetailBlock extends AppBlock {
 
     protected void initImages() {
         tvImagesTitle = (TextView) mView.findViewById(R.id.tv_images_title);
-        tvImagesTitle.setTextColor(Color.BLACK);
-        tvImagesTitle.setText("PRODUCT IMAGES");
+        tvImagesTitle.setText("Product Images");
 
         rvImages = (RecyclerView) mView.findViewById(R.id.rv_product_images);
         rvImages.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -159,8 +157,7 @@ public class ProductDetailBlock extends AppBlock {
 
     protected void initShortDescription() {
         tvShortDescriptionTitle = (TextView) mView.findViewById(R.id.tv_short_description_title);
-        tvShortDescriptionTitle.setTextColor(Color.BLACK);
-        tvShortDescriptionTitle.setText("SHORT DESCRIPTION");
+        tvShortDescriptionTitle.setText("Short Description");
 
         ivEditShortDescription = (ImageView) mView.findViewById(R.id.iv_edit_short_description);
         if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_EDIT)) {
@@ -181,8 +178,7 @@ public class ProductDetailBlock extends AppBlock {
 
     protected void initDescription() {
         tvDescriptionTitle = (TextView) mView.findViewById(R.id.tv_description_title);
-        tvDescriptionTitle.setTextColor(Color.BLACK);
-        tvDescriptionTitle.setText("DESCRIPTION");
+        tvDescriptionTitle.setText("Description");
 
         ivEditDescription = (ImageView) mView.findViewById(R.id.iv_edit_description);
         if(!AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.PRODUCT_EDIT)) {
@@ -203,8 +199,7 @@ public class ProductDetailBlock extends AppBlock {
 
     protected void initAdditional() {
         tvAdditionalTitle = (TextView) mView.findViewById(R.id.tv_additional_title);
-        tvAdditionalTitle.setTextColor(Color.BLACK);
-        tvAdditionalTitle.setText("ADDITIONAL");
+        tvAdditionalTitle.setText("Additional");
 
         llAdditional = (LinearLayout) mView.findViewById(R.id.ll_product_additional);
     }

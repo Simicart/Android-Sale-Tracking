@@ -1,166 +1,295 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/tv_paging_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/size_10"
-        android:background="@color/colorSection"
-        android:textSize="@dimen/text_16"
-        android:text="PAGING"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/size_10">
-
-        <TextView
-            android:id="@+id/tv_paging"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentStart="true"/>
-
-        <TextView
-            android:id="@+id/tv_paging_value"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:paddingTop="@dimen/size_10"
-            android:paddingBottom="@dimen/size_10"
-            android:paddingStart="@dimen/size_20"
-            android:paddingEnd="@dimen/size_20"/>
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_item_shown_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/size_10"
-        android:background="@color/colorSection"
-        android:textSize="@dimen/text_16"
-        android:text="ITEMS SHOWN ON DASHBOARD"/>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_item_sale_report"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_15"
+            android:background="@color/colorSection"></View>
+
+        <TextView
+            android:id="@+id/tv_paging_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/size_10"
-            android:paddingBottom="@dimen/size_10"
-            android:paddingEnd="@dimen/size_10"
-            android:layout_marginStart="@dimen/size_10"
-            android:background="@drawable/bottom_line_border">
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/size_10"
+            android:textColor="@color/colorWhite"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/size_10">
 
             <TextView
-                android:id="@+id/tv_item_sale_report"
+                android:id="@+id/tv_paging"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:textColor="@color/colorBlack"/>
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/sw_item_sale_report"
+            <TextView
+                android:id="@+id/tv_paging_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                app:theme="@style/SwitchStyle"/>
+                android:layout_centerVertical="true"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_20"
+                android:paddingStart="@dimen/size_20"
+                android:paddingTop="@dimen/size_10"/>
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/rl_item_best_seller"
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_15"
+            android:background="@color/colorSection"></View>
+
+        <TextView
+            android:id="@+id/tv_item_shown_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/size_10"
-            android:paddingBottom="@dimen/size_10"
-            android:paddingEnd="@dimen/size_10"
-            android:layout_marginStart="@dimen/size_10"
-            android:background="@drawable/bottom_line_border">
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/size_10"
+            android:textColor="@color/colorWhite"/>
 
-            <TextView
-                android:id="@+id/tv_item_best_seller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
-
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/sw_item_best_seller"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                app:theme="@style/SwitchStyle"/>
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_item_latest_customer"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/size_10"
-            android:paddingBottom="@dimen/size_10"
-            android:paddingEnd="@dimen/size_10"
-            android:layout_marginStart="@dimen/size_10"
-            android:background="@drawable/bottom_line_border">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_item_latest_customer"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_item_sale_report"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_marginStart="@dimen/size_10"
+                android:background="@drawable/bottom_line_border"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/sw_item_latest_customer"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_item_sale_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sw_item_sale_report"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:theme="@style/SwitchStyle"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_item_best_seller"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                app:theme="@style/SwitchStyle"/>
+                android:layout_marginStart="@dimen/size_10"
+                android:background="@drawable/bottom_line_border"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_item_best_seller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
 
-        <RelativeLayout
-            android:id="@+id/rl_item_latest_order"
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sw_item_best_seller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:theme="@style/SwitchStyle"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_item_latest_customer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_10"
+                android:background="@drawable/bottom_line_border"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
+
+                <TextView
+                    android:id="@+id/tv_item_latest_customer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sw_item_latest_customer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:theme="@style/SwitchStyle"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_item_latest_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/size_10"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
+
+                <TextView
+                    android:id="@+id/tv_item_latest_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
+
+                <android.support.v7.widget.SwitchCompat
+                    android:id="@+id/sw_item_latest_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    app:theme="@style/SwitchStyle"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_15"
+            android:background="@color/colorSection"></View>
+
+        <TextView
+            android:id="@+id/tv_currency_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/size_10"
-            android:paddingBottom="@dimen/size_10"
-            android:paddingEnd="@dimen/size_10"
-            android:layout_marginStart="@dimen/size_10"
-            android:background="@drawable/bottom_line_border">
+            android:background="@color/colorPrimaryDark"
+            android:padding="@dimen/size_10"
+            android:textColor="@color/colorWhite"/>
 
-            <TextView
-                android:id="@+id/tv_item_latest_order"
-                android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"/>
+                android:background="@drawable/bottom_line_border"
+                android:layout_marginStart="@dimen/size_10"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
 
-            <android.support.v7.widget.SwitchCompat
-                android:id="@+id/sw_item_latest_order"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/tv_currency_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/tv_currency_position_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/size_10"
+                    android:paddingEnd="@dimen/size_20"
+                    android:paddingStart="@dimen/size_20"
+                    android:paddingTop="@dimen/size_10"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                app:theme="@style/SwitchStyle"/>
+                android:background="@drawable/bottom_line_border"
+                android:layout_marginStart="@dimen/size_10"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_separator_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/tv_separator_position_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/size_10"
+                    android:paddingEnd="@dimen/size_20"
+                    android:paddingStart="@dimen/size_20"
+                    android:paddingTop="@dimen/size_10"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bottom_line_border"
+                android:layout_marginStart="@dimen/size_10"
+                android:paddingBottom="@dimen/size_10"
+                android:paddingEnd="@dimen/size_10"
+                android:paddingTop="@dimen/size_10">
+
+                <TextView
+                    android:id="@+id/tv_number_decimals"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/colorBlack"/>
+
+                <TextView
+                    android:id="@+id/tv_number_decimals_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:paddingBottom="@dimen/size_10"
+                    android:paddingEnd="@dimen/size_20"
+                    android:paddingStart="@dimen/size_20"
+                    android:paddingTop="@dimen/size_10"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.v4.widget.NestedScrollView>

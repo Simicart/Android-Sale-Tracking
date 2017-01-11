@@ -66,8 +66,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initSummary() {
 
         tvSummaryTitle = (TextView) mView.findViewById(R.id.tv_summary_title);
-        tvSummaryTitle.setTextColor(Color.BLACK);
-        tvSummaryTitle.setText("CUSTOMER SUMMARY");
+        tvSummaryTitle.setText("Customer Summary");
 
         ivEditSummary = (ImageView) mView.findViewById(R.id.iv_edit_summary);
 
@@ -118,8 +117,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initInfo() {
 
         tvInfoTitle = (TextView) mView.findViewById(R.id.tv_info_title);
-        tvInfoTitle.setTextColor(Color.BLACK);
-        tvInfoTitle.setText("CUSTOMER INFORMATION");
+        tvInfoTitle.setText("Customer Information");
 
         ivEditInfo = (ImageView) mView.findViewById(R.id.iv_edit_info);
 
@@ -177,32 +175,29 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initOrder() {
 
         tvOrderTitle = (TextView) mView.findViewById(R.id.tv_order_title);
-        tvOrderTitle.setTextColor(Color.BLACK);
-        tvOrderTitle.setText("CUSTOMER ORDERS");
+        tvOrderTitle.setText("Customer Orders");
 
         tvOrder = (TextView) mView.findViewById(R.id.tv_order);
         tvOrder.setTextColor(Color.BLACK);
-        tvOrder.setText("VIEW CUSTOMER ORDERS");
+        tvOrder.setText("View Customer Orders");
 
     }
 
     protected void initAddress() {
 
         tvAddressTitle = (TextView) mView.findViewById(R.id.tv_address_title);
-        tvAddressTitle.setTextColor(Color.BLACK);
-        tvAddressTitle.setText("CUSTOMER ADDRESSES");
+        tvAddressTitle.setText("Customer Addresses");
 
         tvAddress = (TextView) mView.findViewById(R.id.tv_address);
         tvAddress.setTextColor(Color.BLACK);
-        tvAddress.setText("VIEW CUSTOMER ADDRESSES");
+        tvAddress.setText("View Customer Addresses");
 
     }
 
     protected void initBillingAddress() {
 
         tvBillingTitle = (TextView) mView.findViewById(R.id.tv_billing_title);
-        tvBillingTitle.setTextColor(Color.BLACK);
-        tvBillingTitle.setText("DEFAULT BILLING ADDRESS");
+        tvBillingTitle.setText("Default Billing Address");
 
         llBillingAddress = (LinearLayout) mView.findViewById(R.id.ll_billing_address);
 
@@ -211,8 +206,7 @@ public class CustomerDetailBlock extends AppBlock {
     protected void initShippingAddress() {
 
         tvShippingTitle = (TextView) mView.findViewById(R.id.tv_shipping_title);
-        tvShippingTitle.setTextColor(Color.BLACK);
-        tvShippingTitle.setText("DEFAULT SHIPPING ADDRESS");
+        tvShippingTitle.setText("Default Shipping Address");
 
         llShippingAddress = (LinearLayout) mView.findViewById(R.id.ll_shipping_address);
 

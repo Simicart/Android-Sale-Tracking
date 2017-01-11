@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.simicart.saletracking.R;
-import com.simicart.saletracking.base.component.popup.RowEntity;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 
