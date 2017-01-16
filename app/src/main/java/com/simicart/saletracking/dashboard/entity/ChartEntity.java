@@ -25,6 +25,10 @@ public class ChartEntity extends AppEntity {
     protected float mTotalShippingAmountActual;
     protected float mTotalDiscountAmount;
     protected float mTotalDiscountAmountActual;
+    protected float mOrdersCountUpper;
+    protected float mOrdersCountLower;
+    protected float mTotalInvoicedAmountUpper;
+    protected float mTotalInvoicedAmountLower;
 
     private final String PERIOD = "period";
     private final String ORDERS_COUNT = "orders_count";
@@ -43,6 +47,10 @@ public class ChartEntity extends AppEntity {
     private final String TOTAL_SHIPPING_AMOUNT_ACTUAL = "total_shipping_amount_actual";
     private final String TOTAL_DISCOUNT_AMOUNT = "total_discount_amount";
     private final String TOTAL_DISCOUNT_AMOUNT_ACTUAL = "total_discount_amount_actual";
+    private final String ORDERS_COUNT_UPPER = "orders_count_upper";
+    private final String ORDERS_COUNT_LOWER = "orders_count_lower";
+    private final String TOTAL_INVOICED_AMOUNT_UPPER = "total_invoiced_amount_upper";
+    private final String TOTAL_INVOICED_AMOUNT_LOWER = "total_invoiced_amount_lower";
 
     @Override
     public void parse() {
@@ -96,6 +104,18 @@ public class ChartEntity extends AppEntity {
 
         String totalDiscountAmountActual = getString(TOTAL_DISCOUNT_AMOUNT_ACTUAL);
         mTotalDiscountAmountActual = parseFloat(totalDiscountAmountActual);
+
+        String ordersCountUpper = getString(ORDERS_COUNT_UPPER);
+        mOrdersCountUpper = parseFloat(ordersCountUpper);
+
+        String ordersCountLower = getString(ORDERS_COUNT_LOWER);
+        mOrdersCountLower = parseFloat(ordersCountLower);
+
+        String totalInvoicedAmountUpper = getString(TOTAL_INVOICED_AMOUNT_UPPER);
+        mTotalInvoicedAmountUpper = parseFloat(totalInvoicedAmountUpper);
+
+        String totalInvoicedAmountLower = getString(TOTAL_INVOICED_AMOUNT_LOWER);
+        mTotalInvoicedAmountLower = parseFloat(totalInvoicedAmountLower);
 
     }
 
@@ -233,5 +253,37 @@ public class ChartEntity extends AppEntity {
 
     public void setTotalTaxAmountActual(float totalTaxAmountActual) {
         mTotalTaxAmountActual = totalTaxAmountActual;
+    }
+
+    public float getOrdersCountLower() {
+        return mOrdersCountLower;
+    }
+
+    public void setOrdersCountLower(float ordersCountLower) {
+        mOrdersCountLower = ordersCountLower;
+    }
+
+    public float getOrdersCountUpper() {
+        return mOrdersCountUpper;
+    }
+
+    public void setOrdersCountUpper(float ordersCountUpper) {
+        mOrdersCountUpper = ordersCountUpper;
+    }
+
+    public float getTotalInvoicedAmountLower() {
+        return mTotalInvoicedAmountLower;
+    }
+
+    public void setTotalInvoicedAmountLower(float totalInvoicedAmountLower) {
+        mTotalInvoicedAmountLower = totalInvoicedAmountLower;
+    }
+
+    public float getTotalInvoicedAmountUpper() {
+        return mTotalInvoicedAmountUpper;
+    }
+
+    public void setTotalInvoicedAmountUpper(float totalInvoicedAmountUpper) {
+        mTotalInvoicedAmountUpper = totalInvoicedAmountUpper;
     }
 }

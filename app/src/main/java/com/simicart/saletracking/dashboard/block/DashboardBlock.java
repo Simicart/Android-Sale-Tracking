@@ -16,6 +16,17 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -30,8 +41,12 @@ import com.simicart.saletracking.dashboard.adapter.LatestCustomerAdapter;
 import com.simicart.saletracking.dashboard.adapter.LatestOrdersAdapter;
 import com.simicart.saletracking.dashboard.adapter.TimeAdapter;
 import com.simicart.saletracking.dashboard.adapter.TopBestSellerAdapter;
+import com.simicart.saletracking.dashboard.chart.DateInMonthValueFormatter;
+import com.simicart.saletracking.dashboard.chart.IntegerValueFormatter;
+import com.simicart.saletracking.dashboard.chart.MonthInYearValueFormatter;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
+import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import com.simicart.saletracking.order.entity.OrderEntity;
@@ -47,8 +62,10 @@ import java.util.Calendar;
 
 public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
-    protected LinearLayout llRefresh, llChart, llTopChart;
+    protected LinearLayout llRefresh, llTopChart;
+    protected RelativeLayout rlAxisLabel;
     protected TextView tvXLabel, tvYLabel;
+    protected CombinedChart mCombinedChart;
     protected TextView tvRefresh;
     protected Spinner spTime;
     protected TableLayout tlSummary;
@@ -58,6 +75,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     protected TextView tvTopBestSellersTitle, tvLatestOrdersTitle, tvLatestCustomersTitle;
     protected RecyclerView rvTopBestSellers, rvLatestOrders, rvLatestCustomers;
     protected ArrayList<TimeLayerEntity> mListTimeLayers;
+    protected TimeLayerEntity mTimeLayerEntity;
 
     public DashboardBlock(View view) {
         super(view);
@@ -67,15 +85,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     public void initView() {
 
         initTopChart();
-
-        tvXLabel = (TextView) mView.findViewById(R.id.tv_x_label);
-        tvXLabel.setText("Orders");
-
-        tvYLabel = (TextView) mView.findViewById(R.id.tv_y_label);
-        tvYLabel.setText("Invoices");
-
-        llChart = (LinearLayout) mView.findViewById(R.id.ll_chart);
-
+        initChart();
         initTotal();
 
         tvTopBestSellersTitle = (TextView) mView.findViewById(R.id.tv_best_seller_title);
@@ -108,7 +118,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         int gone = 0;
         if (!AppPreferences.getShowSaleReport()) {
             llTopChart.setVisibility(View.GONE);
-            llChart.setVisibility(View.GONE);
+            mCombinedChart.setVisibility(View.GONE);
             tlSummary.setVisibility(View.GONE);
             gone++;
         }
@@ -140,14 +150,6 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     @Override
     public void updateView(AppCollection collection) {
 
-    }
-
-    @Override
-    public void showChart(View view) {
-        if (view != null) {
-            llChart.removeAllViewsInLayout();
-            llChart.addView(view);
-        }
     }
 
     @Override
@@ -213,6 +215,11 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         return mListTimeLayers;
     }
 
+    @Override
+    public void setTimeLayer(TimeLayerEntity timeLayer) {
+        mTimeLayerEntity = timeLayer;
+    }
+
     protected void initTopChart() {
         llTopChart = (LinearLayout) mView.findViewById(R.id.ll_top_chart);
         spTime = (Spinner) mView.findViewById(R.id.sp_time);
@@ -231,52 +238,150 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         mListTimeLayers = new ArrayList<>();
 
         TimeLayerEntity last7Days = new TimeLayerEntity();
-        last7Days.setFromDate(getDate(Calendar.DATE, -7, true));
-        last7Days.setToDate(getToDay());
+        last7Days.setFromDate(Utils.getDate(Calendar.DATE, -7, true));
+        last7Days.setToDate(Utils.getToDay());
         last7Days.setLabel("Last 7 Days");
         last7Days.setKey("7_days");
         last7Days.setPeriod("day");
         mListTimeLayers.add(last7Days);
 
         TimeLayerEntity currentMonth = new TimeLayerEntity();
-        currentMonth.setFromDate(getDate(Calendar.DAY_OF_MONTH, 1, false));
-        currentMonth.setToDate(getToDay());
+        currentMonth.setFromDate(Utils.getDate(Calendar.DAY_OF_MONTH, 1, false));
+        currentMonth.setToDate(Utils.getToDay());
         currentMonth.setLabel("Current Month");
         currentMonth.setKey("current_month");
         currentMonth.setPeriod("day");
         mListTimeLayers.add(currentMonth);
 
         TimeLayerEntity lastMonth = new TimeLayerEntity();
-        lastMonth.setFromDate(getFirstDayOfLastMonth());
-        lastMonth.setToDate(getLastDayOfLastMonth());
+        lastMonth.setFromDate(Utils.getFirstDayOfLastMonth());
+        lastMonth.setToDate(Utils.getLastDayOfLastMonth());
         lastMonth.setLabel("Last Month");
         lastMonth.setKey("last_month");
         lastMonth.setPeriod("day");
         mListTimeLayers.add(lastMonth);
 
         TimeLayerEntity threeMonths = new TimeLayerEntity();
-        threeMonths.setFromDate(getDate(Calendar.DAY_OF_MONTH, -90, true));
-        threeMonths.setToDate(getToDay());
+        threeMonths.setFromDate(Utils.getDate(Calendar.DAY_OF_MONTH, -90, true));
+        threeMonths.setToDate(Utils.getToDay());
         threeMonths.setLabel("Last 3 Months (90 Days)");
         threeMonths.setKey("three_months");
         threeMonths.setPeriod("day");
         mListTimeLayers.add(threeMonths);
 
         TimeLayerEntity thisYear = new TimeLayerEntity();
-        thisYear.setFromDate(getDate(Calendar.DAY_OF_YEAR, 1, false));
-        thisYear.setToDate(getToDay());
+        thisYear.setFromDate(Utils.getDate(Calendar.DAY_OF_YEAR, 1, false));
+        thisYear.setToDate(Utils.getToDay());
         thisYear.setLabel("Year To Day");
         thisYear.setKey("this_year");
         thisYear.setPeriod("month");
         mListTimeLayers.add(thisYear);
 
         TimeLayerEntity twoYears = new TimeLayerEntity();
-        twoYears.setFromDate(getFirstDayOfLast2Year());
-        twoYears.setToDate(getToDay());
+        twoYears.setFromDate(Utils.getFirstDayOfLast2Year());
+        twoYears.setToDate(Utils.getToDay());
         twoYears.setLabel("2 Years To Day");
         twoYears.setKey("two_years");
         twoYears.setPeriod("month");
         mListTimeLayers.add(twoYears);
+
+        mTimeLayerEntity = mListTimeLayers.get(0);
+    }
+
+    protected void initChart() {
+        rlAxisLabel = (RelativeLayout) mView.findViewById(R.id.rl_axis_label);
+        tvXLabel = (TextView) mView.findViewById(R.id.tv_x_label);
+        tvXLabel.setText("Orders");
+
+        tvYLabel = (TextView) mView.findViewById(R.id.tv_y_label);
+        tvYLabel.setText("Invoices");
+
+        mCombinedChart = (CombinedChart) mView.findViewById(R.id.chart);
+        mCombinedChart.getDescription().setEnabled(false);
+        mCombinedChart.setBackgroundColor(Color.WHITE);
+        mCombinedChart.setDrawGridBackground(false);
+        mCombinedChart.setDrawBarShadow(false);
+        mCombinedChart.setHighlightFullBarEnabled(false);
+        mCombinedChart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE});
+
+        Legend l = mCombinedChart.getLegend();
+        l.setWordWrapEnabled(true);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+
+        YAxis mAxisRight = mCombinedChart.getAxisRight();
+        mAxisRight.setDrawGridLines(false);
+        mAxisRight.setAxisMinimum(0f);
+        mAxisRight.setValueFormatter(new IntegerValueFormatter());
+
+        YAxis mAxisLeft = mCombinedChart.getAxisLeft();
+        mAxisLeft.setDrawGridLines(true);
+        mAxisLeft.setAxisMinimum(0f);
+
+        XAxis mAxisTop = mCombinedChart.getXAxis();
+        mAxisTop.setPosition(XAxis.XAxisPosition.BOTTOM);
+        mAxisTop.setDrawGridLines(true);
+        if(mTimeLayerEntity.getPeriod().equals("day")) {
+            mAxisTop.setValueFormatter(new DateInMonthValueFormatter(mTimeLayerEntity));
+        } else {
+            mAxisTop.setValueFormatter(new MonthInYearValueFormatter(mTimeLayerEntity));
+        }
+    }
+
+    @Override
+    public void showChart(ArrayList<ChartEntity> listCharts) {
+        CombinedData mCombinedData = new CombinedData();
+        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
+        if (listCharts != null) {
+            for (ChartEntity chartEntity : listCharts) {
+                barEntries.add(new BarEntry(listCharts.indexOf(chartEntity), (float) chartEntity.getOrdersCount()));
+            }
+        }
+
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Orders Count");
+        barDataSet.setColor(AppColor.getInstance().getThemeColor());
+        barDataSet.setDrawValues(false);
+        barDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+
+        BarData barData = new BarData();
+        barData.addDataSet(barDataSet);
+
+        mCombinedData.setData(barData);
+
+        LineData lineData = new LineData();
+
+        ArrayList<Entry> lineEntries = new ArrayList<>();
+        float maxIncome = 0;
+        float minIncome = 0;
+        if (listCharts != null) {
+            for (ChartEntity chartEntity : listCharts) {
+                float income = chartEntity.getTotalIncomeAmount();
+                if (income < minIncome) {
+                    minIncome = income;
+                }
+                if (income > maxIncome) {
+                    maxIncome = income;
+                }
+                lineEntries.add(new Entry(listCharts.indexOf(chartEntity), income));
+            }
+        }
+
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Income Value (USD)");
+        lineDataSet.setColor(Color.parseColor("#cc0000"));
+        lineDataSet.setLineWidth(1.5f);
+        lineDataSet.setDrawCircles(false);
+        lineDataSet.setDrawCircleHole(false);
+        lineDataSet.setMode(LineDataSet.Mode.LINEAR);
+        lineDataSet.setDrawValues(false);
+        lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineData.addDataSet(lineDataSet);
+
+        mCombinedData.setData(lineData);
+        mCombinedChart.setData(mCombinedData);
+        mCombinedChart.invalidate();
     }
 
     protected void initTotal() {
@@ -347,47 +452,6 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         tvEmpty.setGravity(Gravity.CENTER);
         tvEmpty.setLayoutParams(params);
         ((ViewGroup) mView).addView(tvEmpty);
-    }
-
-    protected String getDate(int a, int b, boolean add) {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        if (add) {
-            cal.add(a, b);
-        } else {
-            cal.set(a, b);
-        }
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getFirstDayOfLastMonth() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.MONTH, -1);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getLastDayOfLastMonth() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.add(Calendar.DATE, -1);
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getFirstDayOfLast2Year() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.YEAR, -2);
-        cal.set(Calendar.DAY_OF_YEAR, 1);
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getToDay() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        return dateFormat.format(cal.getTime());
     }
 
     public void setOnTimeSelected(AdapterView.OnItemSelectedListener listener) {

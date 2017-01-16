@@ -79,4 +79,9 @@ public class Constants {
         public static final int COMMA_FIRST = 2;
     }
 
+    public static class Chart {
+        public static final int DASHBOARD = 1;
+        public static final int FORECAST = 2;
+    }
+
 }

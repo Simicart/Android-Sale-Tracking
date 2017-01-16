@@ -17,6 +17,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.component.AppComponent;
 import com.simicart.saletracking.common.AppColor;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.dashboard.chart.DateInMonthValueFormatter;
 import com.simicart.saletracking.dashboard.chart.IntegerValueFormatter;
@@ -34,18 +35,24 @@ import java.util.ArrayList;
 public class ChartComponent extends AppComponent {
 
     protected CombinedChart mCombinedChart;
-    protected SaleEntity saleEntity;
+    protected LineData mLineData;
+    protected ArrayList<ChartEntity> listCharts;
     protected TimeLayerEntity mTimeLayerEntity;
     protected CombinedData mCombinedData;
     protected YAxis mAxisRight, mAxisLeft;
     protected XAxis mAxisTop;
+    protected int mType;
 
-    public void setSaleEntity(SaleEntity saleEntity) {
-        this.saleEntity = saleEntity;
+    public void setListCharts(ArrayList<ChartEntity> listCharts) {
+        this.listCharts = listCharts;
     }
 
     public void setTimeLayerEntity(TimeLayerEntity timeLayerEntity) {
         mTimeLayerEntity = timeLayerEntity;
+    }
+
+    public void setType(int type) {
+        mType = type;
     }
 
     @Override
@@ -55,9 +62,12 @@ public class ChartComponent extends AppComponent {
         initChart();
 
         mCombinedData = new CombinedData();
-        showBar();
-        showLine();
-        mCombinedChart.setData(mCombinedData);
+        if(mType == Constants.Chart.DASHBOARD) {
+            showDashboard();
+            mCombinedChart.setData(mCombinedData);
+        } else {
+            showForecast();
+        }
         mCombinedChart.invalidate();
 
         return rootView;
@@ -85,8 +95,6 @@ public class ChartComponent extends AppComponent {
         mAxisRight.setAxisMinimum(0f);
         mAxisRight.setValueFormatter(new IntegerValueFormatter());
 
-
-
         mAxisLeft = mCombinedChart.getAxisLeft();
         mAxisLeft.setDrawGridLines(true);
         mAxisLeft.setAxisMinimum(0f);
@@ -101,17 +109,15 @@ public class ChartComponent extends AppComponent {
         }
     }
 
-    protected void showBar() {
-
-        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
-        ArrayList<ChartEntity> listCharts = saleEntity.getListTotalCharts();
+    protected void showDashboard() {
+        ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
         if (listCharts != null) {
             for (ChartEntity chartEntity : listCharts) {
-                entries.add(new BarEntry(listCharts.indexOf(chartEntity), (float) chartEntity.getOrdersCount()));
+                barEntries.add(new BarEntry(listCharts.indexOf(chartEntity), (float) chartEntity.getOrdersCount()));
             }
         }
 
-        BarDataSet barDataSet = new BarDataSet(entries, "Orders Count");
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Orders Count");
         barDataSet.setColor(AppColor.getInstance().getThemeColor());
         barDataSet.setDrawValues(false);
         barDataSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
@@ -121,13 +127,9 @@ public class ChartComponent extends AppComponent {
 
         mCombinedData.setData(barData);
 
-    }
-
-    protected void showLine() {
         LineData lineData = new LineData();
 
-        ArrayList<Entry> entries = new ArrayList<>();
-        ArrayList<ChartEntity> listCharts = saleEntity.getListTotalCharts();
+        ArrayList<Entry> lineEntries = new ArrayList<>();
         float maxIncome = 0;
         float minIncome = 0;
         if (listCharts != null) {
@@ -139,11 +141,11 @@ public class ChartComponent extends AppComponent {
                 if (income > maxIncome) {
                     maxIncome = income;
                 }
-                entries.add(new Entry(listCharts.indexOf(chartEntity), income));
+                lineEntries.add(new Entry(listCharts.indexOf(chartEntity), income));
             }
         }
 
-        LineDataSet lineDataSet = new LineDataSet(entries, "Income Value (USD)");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Income Value (USD)");
         lineDataSet.setColor(Color.parseColor("#cc0000"));
         lineDataSet.setLineWidth(1.5f);
         lineDataSet.setDrawCircles(false);
@@ -154,7 +156,68 @@ public class ChartComponent extends AppComponent {
         lineData.addDataSet(lineDataSet);
 
         mCombinedData.setData(lineData);
+    }
 
+    protected void showForecast() {
+        LineData lineDataUpper = new LineData();
+
+        ArrayList<Entry> lineEntrieslineDataSetUpper = new ArrayList<>();
+        float maxIncomeUpper = 0;
+        float minIncomeUpper = 0;
+        if (listCharts != null) {
+            for (ChartEntity chartEntity : listCharts) {
+                float income = chartEntity.getTotalInvoicedAmountUpper();
+                if (income < minIncomeUpper) {
+                    minIncomeUpper = income;
+                }
+                if (income > maxIncomeUpper) {
+                    maxIncomeUpper = income;
+                }
+                lineEntrieslineDataSetUpper.add(new Entry(listCharts.indexOf(chartEntity), income));
+            }
+        }
+
+        LineDataSet lineDataSetUpper = new LineDataSet(lineEntrieslineDataSetUpper, "Income Upper");
+        lineDataSetUpper.setColor(Color.parseColor("#ffff00"));
+        lineDataSetUpper.setLineWidth(1.5f);
+        lineDataSetUpper.setDrawCircles(true);
+        lineDataSetUpper.setDrawCircleHole(false);
+        lineDataSetUpper.setMode(LineDataSet.Mode.LINEAR);
+        lineDataSetUpper.setDrawValues(false);
+        lineDataSetUpper.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineDataUpper.addDataSet(lineDataSetUpper);
+
+        mCombinedData.setData(lineDataUpper);
+
+        LineData lineDataLower = new LineData();
+
+        ArrayList<Entry> lineEntrieslineDataSetLower = new ArrayList<>();
+        float maxIncomeLower = 0;
+        float minIncomeLower = 0;
+        if (listCharts != null) {
+            for (ChartEntity chartEntity : listCharts) {
+                float income = chartEntity.getTotalInvoicedAmountLower();
+                if (income < minIncomeLower) {
+                    minIncomeLower = income;
+                }
+                if (income > maxIncomeLower) {
+                    maxIncomeLower = income;
+                }
+                lineEntrieslineDataSetLower.add(new Entry(listCharts.indexOf(chartEntity), income));
+            }
+        }
+
+        LineDataSet lineDataSetLower = new LineDataSet(lineEntrieslineDataSetLower, "Income Lower");
+        lineDataSetLower.setColor(Color.parseColor("#008000"));
+        lineDataSetLower.setLineWidth(1.5f);
+        lineDataSetLower.setDrawCircles(true);
+        lineDataSetLower.setDrawCircleHole(false);
+        lineDataSetLower.setMode(LineDataSet.Mode.LINEAR);
+        lineDataSetLower.setDrawValues(false);
+        lineDataSetLower.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        lineDataLower.addDataSet(lineDataSetLower);
+
+        mCombinedData.setData(new LineData());
     }
 
 }

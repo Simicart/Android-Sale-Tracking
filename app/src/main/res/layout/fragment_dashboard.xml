@@ -76,6 +76,7 @@
             </LinearLayout>
 
             <RelativeLayout
+                android:id="@+id/rl_axis_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/size_5">
@@ -100,11 +101,12 @@
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_chart"
+            <com.github.mikephil.charting.charts.CombinedChart
+                android:id="@+id/chart"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"></LinearLayout>
+                android:layout_height="@dimen/size_270"
+                android:paddingStart="@dimen/size_5"
+                android:paddingEnd="@dimen/size_10"></com.github.mikephil.charting.charts.CombinedChart>
 
             <TableLayout
                 android:id="@+id/tl_summary"

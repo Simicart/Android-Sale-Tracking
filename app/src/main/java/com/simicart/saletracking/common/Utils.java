@@ -313,4 +313,45 @@ public class Utils {
         return true;
     }
 
+    public static String getDate(int a, int b, boolean add) {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        if (add) {
+            cal.add(a, b);
+        } else {
+            cal.set(a, b);
+        }
+        return dateFormat.format(cal.getTime());
+    }
+
+    public static String getFirstDayOfLastMonth() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.MONTH, -1);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    public static String getLastDayOfLastMonth() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.add(Calendar.DATE, -1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    public static String getFirstDayOfLast2Year() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        cal.add(Calendar.YEAR, -2);
+        cal.set(Calendar.DAY_OF_YEAR, 1);
+        return dateFormat.format(cal.getTime());
+    }
+
+    public static String getToDay() {
+        Calendar cal = Calendar.getInstance();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return dateFormat.format(cal.getTime());
+    }
+
 }

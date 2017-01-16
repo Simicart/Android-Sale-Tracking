@@ -10,6 +10,7 @@ import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.bestseller.request.BestSellersRequest;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
@@ -196,6 +197,7 @@ public class DashboardController extends AppController {
                     isReloadChart = true;
                     mDelegate.showDialogLoading();
                     mTimeLayerEntity = mDelegate.getListTimeLayers().get(i);
+                    mDelegate.setTimeLayer(mTimeLayerEntity);
                     requestSales("saleinfo");
                 } else {
                     isFirstRun = false;
@@ -223,11 +225,7 @@ public class DashboardController extends AppController {
             if (collection.containKey("sale")) {
                 SaleEntity saleEntity = (SaleEntity) collection.getDataWithKey("sale");
                 if (saleEntity != null) {
-                    ChartComponent chartComponent = new ChartComponent();
-                    chartComponent.setSaleEntity(saleEntity);
-                    chartComponent.setTimeLayerEntity(mTimeLayerEntity);
-                    View chartView = chartComponent.createView();
-                    mDelegate.showChart(chartView);
+                    mDelegate.showChart(saleEntity.getListTotalCharts());
                     mDelegate.showTotal(saleEntity);
                 }
             }

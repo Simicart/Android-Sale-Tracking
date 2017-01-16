@@ -28,6 +28,7 @@ import com.simicart.saletracking.customer.fragment.CustomerDetailFragment;
 import com.simicart.saletracking.customer.fragment.ListAddressesFragment;
 import com.simicart.saletracking.customer.fragment.ListCustomersFragment;
 import com.simicart.saletracking.dashboard.fragment.DashboardFragment;
+import com.simicart.saletracking.forecast.fragment.ForecastFragment;
 import com.simicart.saletracking.layer.fragment.LayerFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menutop.MenuTopController;
@@ -215,6 +216,14 @@ public class AppManager {
         dashboardFragment.setDetail(false);
         dashboardFragment.setShowStore(true);
         replaceFragment(dashboardFragment);
+    }
+
+    public void openForecast() {
+        ForecastFragment forecastFragment = ForecastFragment.newInstance();
+        forecastFragment.setFragmentName("Forecast");
+        forecastFragment.setDetail(false);
+        forecastFragment.setShowStore(true);
+        replaceFragment(forecastFragment);
     }
 
     public void openListOrders(HashMap<String, Object> hmData) {

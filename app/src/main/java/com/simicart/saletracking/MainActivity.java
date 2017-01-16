@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AppManager.getInstance().clearFragments();
                 AppManager.getInstance().openDashboardPage();
                 break;
+            case R.id.nav_forecast:
+                AppManager.getInstance().clearFragments();
+                AppManager.getInstance().openForecast();
+                break;
             case R.id.nav_orders:
                 if (AppManager.getInstance().getCurrentUser().hasPermission(Constants.Permission.ORDER_LIST)) {
                     AppManager.getInstance().clearFragments();

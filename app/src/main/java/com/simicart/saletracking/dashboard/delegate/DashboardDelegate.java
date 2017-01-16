@@ -4,6 +4,7 @@ import android.view.View;
 
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.request.AppCollection;
+import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public interface DashboardDelegate extends AppDelegate {
 
-    public void showChart(View view);
+    public void showChart(ArrayList<ChartEntity> listCharts);
 
     public void showTotal(SaleEntity saleEntity);
 
@@ -26,5 +27,7 @@ public interface DashboardDelegate extends AppDelegate {
     public void showLatestCustomers(AppCollection collection);
 
     public ArrayList<TimeLayerEntity> getListTimeLayers();
+
+    public void setTimeLayer(TimeLayerEntity timeLayer);
 
 }
