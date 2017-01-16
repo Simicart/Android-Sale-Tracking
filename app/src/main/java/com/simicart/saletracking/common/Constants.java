@@ -75,8 +75,8 @@ public class Constants {
     }
 
     public static class Separator {
-        public static final int COMMA_FIRST = 1;
-        public static final int DOT_FIRST = 2;
+        public static final int DOT_FIRST = 1;
+        public static final int COMMA_FIRST = 2;
     }
 
 }

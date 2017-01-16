@@ -157,12 +157,12 @@ public class Utils {
             thousandSeparator = ".";
             decimalSeparator = ",";
         }
-        builder.append(thousandSeparator);
+        builder.append(",");
         builder.append("###");
-        builder.append(thousandSeparator);
+        builder.append(",");
         builder.append("##0");
         if (numberOfDecimals > 0) {
-            builder.append(decimalSeparator);
+            builder.append(".");
             for (int i = 0; i < numberOfDecimals; i++) {
                 builder.append("0");
             }

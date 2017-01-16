@@ -39,7 +39,6 @@ public class SettingFragment extends AppFragment {
     protected RelativeLayout rlItemSaleReport, rlItemLatestCustomers, rlItemLatestOrders, rlItemBestSellers;
 
     protected int pagingPosition = 0;
-    protected CharSequence[] pagingArr = {"20", "40", "60", "80", "100"};
 
     public static SettingFragment newInstance() {
         return new SettingFragment();
@@ -197,23 +196,11 @@ public class SettingFragment extends AppFragment {
         tvSeparatorValue = (TextView) rootView.findViewById(R.id.tv_separator_position_value);
         tvSeparatorValue.setTextColor(AppColor.getInstance().getThemeColor());
         tvSeparatorValue.setBackground(AppColor.getInstance().coloringIcon(R.drawable.border_line, "#fc9900"));
-        int separator = AppPreferences.getSeparator();
-        String separatorValue = "";
-        switch (separator) {
-            case Constants.Separator.COMMA_FIRST:
-                separatorValue = "";
-                break;
-            case Constants.Separator.DOT_FIRST:
-                separatorValue = "";
-                break;
-            default:
-                break;
-        }
-        tvSeparatorValue.setText(separatorValue);
+        showSeparator();
         tvSeparatorValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                createSeparatorChooser();
             }
         });
 
@@ -269,6 +256,22 @@ public class SettingFragment extends AppFragment {
         chooserPopup.show();
     }
 
+    protected void createSeparatorChooser() {
+        ArrayList<String> listSeparator = new ArrayList<>();
+        listSeparator.add("Type 1: 1.000,00");
+        listSeparator.add("Type 2: 1,000.00");
+
+        ChooserPopup chooserPopup = new ChooserPopup(listSeparator, AppPreferences.getSeparator() - 1);
+        chooserPopup.setChooserCallback(new ChooserCallback() {
+            @Override
+            public void onClick(int position) {
+                AppPreferences.setSeparator(position + 1);
+                showSeparator();
+            }
+        });
+        chooserPopup.show();
+    }
+
     protected void createNumberOfDecimalsChooser() {
         ArrayList<String> listNumberOfDecimals = new ArrayList<>();
         for(int i=0;i<10;i++) {
@@ -312,6 +315,14 @@ public class SettingFragment extends AppFragment {
                 break;
         }
         tvCurrencyPositionValue.setText(currencyPositionValue);
+    }
+
+    protected void showSeparator() {
+        if(AppPreferences.getSeparator() == Constants.Separator.DOT_FIRST) {
+            tvSeparatorValue.setText("Type 1: 1.000,00");
+        } else {
+            tvSeparatorValue.setText("Type 2: 1,000.00");
+        }
     }
 
     protected void showNumberOfDecimals() {
