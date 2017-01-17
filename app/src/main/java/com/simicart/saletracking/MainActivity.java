@@ -90,7 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 1) {
             AppFragment backFragment = (AppFragment) getSupportFragmentManager().getFragments().get(0);
-            if (backFragment instanceof DashboardFragment || backFragment instanceof LoginFragment) {
+            String fragmentName = backFragment.getFragmentName();
+            if (fragmentName != null && (fragmentName.equals("Dashboard") || fragmentName.equals("Login"))) {
                 if (doubleBackToExitPressedOnce) {
                     finish();
                 }

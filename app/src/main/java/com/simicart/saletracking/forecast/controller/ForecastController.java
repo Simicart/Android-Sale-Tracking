@@ -2,12 +2,16 @@ package com.simicart.saletracking.forecast.controller;
 
 import android.view.View;
 
+import com.simicart.saletracking.base.component.ChooserCallback;
+import com.simicart.saletracking.base.component.ChooserPopup;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.forecast.delegate.ForecastDelegate;
@@ -15,6 +19,7 @@ import com.simicart.saletracking.forecast.request.ForecastRequest;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Martial on 1/16/2017.
@@ -25,10 +30,20 @@ public class ForecastController extends AppController {
     protected ForecastDelegate mDelegate;
     protected ForecastRequest forecastRequest;
     protected TimeLayerEntity mTimeLayerEntity;
+    protected View.OnClickListener mOnChangeTimeClick;
+    protected ArrayList<TimeLayerEntity> mListTimeLayers;
+    protected ArrayList<ChartEntity> chartEntities;
 
     @Override
     public void onStart() {
-        mTimeLayerEntity = mDelegate.getListTimeLayers().get(0);
+        initTimeLayer();
+
+        mOnChangeTimeClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openTimeChooser();
+            }
+        };
 
         requestForecast();
     }
@@ -59,17 +74,73 @@ public class ForecastController extends AppController {
         forecastRequest.request();
     }
 
+    protected void initTimeLayer() {
+        mListTimeLayers = new ArrayList<>();
+
+        TimeLayerEntity oneMonth = new TimeLayerEntity();
+        oneMonth.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
+        oneMonth.setToDate(Utils.getDate(Calendar.DATE, 30, true));
+        oneMonth.setLabel("1 Month");
+        oneMonth.setKey("one_month");
+        oneMonth.setPeriod("day");
+        mListTimeLayers.add(oneMonth);
+
+        TimeLayerEntity twoMonths = new TimeLayerEntity();
+        twoMonths.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
+        twoMonths.setToDate(Utils.getDate(Calendar.DATE, 60, true));
+        twoMonths.setLabel("2 Months");
+        twoMonths.setKey("two_months");
+        twoMonths.setPeriod("day");
+        mListTimeLayers.add(twoMonths);
+
+        TimeLayerEntity threeMonths = new TimeLayerEntity();
+        threeMonths.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
+        threeMonths.setToDate(Utils.getDate(Calendar.DATE, 90, true));
+        threeMonths.setLabel("3 Months");
+        threeMonths.setKey("three_months");
+        threeMonths.setPeriod("day");
+        mListTimeLayers.add(threeMonths);
+
+        mTimeLayerEntity = mListTimeLayers.get(0);
+        mDelegate.setTimeFormat(mTimeLayerEntity);
+    }
+
     protected void showChart(AppCollection collection) {
         if (collection != null) {
             if (collection.containKey("salesforecast")) {
-                ArrayList<ChartEntity> chartEntities = (ArrayList<ChartEntity>) collection.getDataWithKey("salesforecast");
-                
+                chartEntities = (ArrayList<ChartEntity>) collection.getDataWithKey("salesforecast");
+                showChart();
             }
         }
+    }
+
+    protected void showChart() {
+        mDelegate.showChart(chartEntities, mTimeLayerEntity);
+    }
+
+    protected void openTimeChooser() {
+        ArrayList<String> listTimes = new ArrayList<>();
+        listTimes.add("1 month");
+        listTimes.add("2 months");
+        listTimes.add("3 months");
+
+        ChooserPopup chooserPopup = new ChooserPopup(listTimes, mListTimeLayers.indexOf(mTimeLayerEntity));
+        chooserPopup.setChooserCallback(new ChooserCallback() {
+            @Override
+            public void onClick(int position) {
+                mTimeLayerEntity = mListTimeLayers.get(position);
+                mDelegate.setTimeFormat(mTimeLayerEntity);
+                showChart();
+            }
+        });
+        chooserPopup.show();
     }
 
     public void setDelegate(ForecastDelegate delegate) {
         mDelegate = delegate;
     }
 
+    public View.OnClickListener getOnChangeTimeClick() {
+        return mOnChangeTimeClick;
+    }
 }

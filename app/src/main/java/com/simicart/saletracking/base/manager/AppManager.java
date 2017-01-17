@@ -206,6 +206,7 @@ public class AppManager {
 
     public void openLoginPage() {
         LoginFragment loginFragment = LoginFragment.newInstance();
+        loginFragment.setFragmentName("Login");
         replaceFragment(loginFragment);
         mMenuTopController.showMenuTop(false);
     }

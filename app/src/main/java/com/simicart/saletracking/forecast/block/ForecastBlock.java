@@ -1,14 +1,29 @@
 package com.simicart.saletracking.forecast.block;
 
+import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.block.AppBlock;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.common.Utils;
+import com.simicart.saletracking.dashboard.chart.DateInMonthValueFormatter;
+import com.simicart.saletracking.dashboard.chart.IntegerValueFormatter;
+import com.simicart.saletracking.dashboard.chart.MonthInYearValueFormatter;
+import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.forecast.delegate.ForecastDelegate;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 
@@ -21,9 +36,8 @@ import java.util.Calendar;
 
 public class ForecastBlock extends AppBlock implements ForecastDelegate {
 
-    protected TextView tvTime, tvXAxis, tvYAxis;
+    protected TextView tvTime;
     protected LineChart mLineChart;
-    protected ArrayList<TimeLayerEntity> mListTimeLayers;
 
     public ForecastBlock(View view) {
         super(view);
@@ -31,18 +45,10 @@ public class ForecastBlock extends AppBlock implements ForecastDelegate {
 
     @Override
     public void initView() {
-        initTimeLayer();
 
         tvTime = (TextView) mView.findViewById(R.id.tv_time);
-        Utils.setTextHtml(tvTime, "<p><u>3 month</u> forecast</p>");
 
-        tvXAxis = (TextView) mView.findViewById(R.id.tv_x_label);
-        tvXAxis.setText("Orders");
-
-        tvYAxis = (TextView) mView.findViewById(R.id.tv_y_label);
-        tvYAxis.setText("Invoices");
-
-        mLineChart = (LineChart) mView.findViewById(R.id.chart);
+        initChart();
     }
 
     @Override
@@ -51,32 +57,95 @@ public class ForecastBlock extends AppBlock implements ForecastDelegate {
     }
 
     @Override
-    public ArrayList<TimeLayerEntity> getListTimeLayers() {
-        return mListTimeLayers;
+    public void showChart(ArrayList<ChartEntity> listCharts, TimeLayerEntity timeLayer) {
+        initChart();
+
+        int period = 0;
+        String key = timeLayer.getKey();
+        switch (key) {
+            case "one_month":
+                period = 30;
+                Utils.setTextHtml(tvTime, "<u><font color=#13f501>1 month</font></u> forecast");
+                break;
+            case "two_months":
+                period = 60;
+                Utils.setTextHtml(tvTime, "<u><font color=#13f501>2 months</font></u> forecast");
+                break;
+            case "three_months":
+                period = 90;
+                Utils.setTextHtml(tvTime, "<u><font color=#13f501>3 months</font></u> forecast");
+                break;
+            default:
+                break;
+        }
+
+        LineData lineData = new LineData();
+
+        ArrayList<Entry> upperEntries = new ArrayList<>();
+        ArrayList<Entry> lowerEntries = new ArrayList<>();
+        if (listCharts != null) {
+            for (int i=0;i<period;i++) {
+                ChartEntity chartEntity = listCharts.get(i);
+                float upperIncome = chartEntity.getTotalInvoicedAmountUpper();
+                float lowerIncome = chartEntity.getTotalInvoicedAmountLower();
+
+                upperEntries.add(new Entry(i, upperIncome));
+                lowerEntries.add(new Entry(i, lowerIncome));
+            }
+        }
+
+        LineDataSet lineDataSetUpper = new LineDataSet(upperEntries, "Income Upper");
+        lineDataSetUpper.setColor(Color.parseColor("#3399ff"));
+        lineDataSetUpper.setLineWidth(1.5f);
+        lineDataSetUpper.setDrawCircles(false);
+        lineDataSetUpper.setDrawCircleHole(false);
+        lineDataSetUpper.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        lineDataSetUpper.setDrawValues(false);
+        lineDataSetUpper.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineData.addDataSet(lineDataSetUpper);
+
+        LineDataSet lineDataSetLower = new LineDataSet(lowerEntries, "Income Lower");
+        lineDataSetLower.setColor(Color.parseColor("#ffa500"));
+        lineDataSetLower.setLineWidth(1.5f);
+        lineDataSetLower.setDrawCircles(false);
+        lineDataSetLower.setDrawCircleHole(false);
+        lineDataSetLower.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        lineDataSetLower.setDrawValues(false);
+        lineDataSetLower.setAxisDependency(YAxis.AxisDependency.LEFT);
+        lineData.addDataSet(lineDataSetLower);
+
+        mLineChart.setData(lineData);
+        mLineChart.invalidate();
     }
 
-    protected void initTimeLayer() {
-        mListTimeLayers = new ArrayList<>();
+    @Override
+    public void setTimeFormat(TimeLayerEntity timeLayer) {
+        XAxis mAxisTop = mLineChart.getXAxis();
+        mAxisTop.setPosition(XAxis.XAxisPosition.BOTTOM);
+        mAxisTop.setDrawGridLines(true);
+        mAxisTop.setValueFormatter(new DateInMonthValueFormatter(timeLayer));
+    }
 
-        TimeLayerEntity last7Days = new TimeLayerEntity();
-        last7Days.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
-        last7Days.setToDate(Utils.getDate(Calendar.DATE, 30, true));
-        last7Days.setLabel("1 Month");
-        last7Days.setPeriod("day");
-        mListTimeLayers.add(last7Days);
+    protected void initChart() {
 
-        TimeLayerEntity currentMonth = new TimeLayerEntity();
-        currentMonth.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
-        currentMonth.setToDate(Utils.getDate(Calendar.DATE, 60, true));
-        currentMonth.setLabel("2 Months");
-        currentMonth.setPeriod("day");
-        mListTimeLayers.add(currentMonth);
+        mLineChart = (LineChart) mView.findViewById(R.id.chart);
+        mLineChart.getDescription().setEnabled(false);
+        mLineChart.setBackgroundColor(Color.WHITE);
+        mLineChart.setDrawGridBackground(false);
 
-        TimeLayerEntity lastMonth = new TimeLayerEntity();
-        lastMonth.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
-        lastMonth.setToDate(Utils.getDate(Calendar.DATE, 90, true));
-        lastMonth.setLabel("3 Months");
-        lastMonth.setPeriod("day");
-        mListTimeLayers.add(lastMonth);
+        Legend l = mLineChart.getLegend();
+        l.setWordWrapEnabled(true);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
+        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
+        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setDrawInside(false);
+
+        YAxis mAxisLeft = mLineChart.getAxisLeft();
+        mAxisLeft.setDrawGridLines(false);
+        mAxisLeft.setAxisMinimum(0f);
+    }
+
+    public void setOnChangeTimeClick(View.OnClickListener listener) {
+        tvTime.setOnClickListener(listener);
     }
 }

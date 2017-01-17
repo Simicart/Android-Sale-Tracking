@@ -101,9 +101,9 @@ public class AppRequest {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Error", error.getMessage().toString());
                 String errorMessage = error.getMessage();
                 if (Utils.validateString(errorMessage)) {
+                    Log.e("Error", errorMessage);
                     if (errorMessage.contains("Exception")) {
                         errorMessage = "Some error occur. Please try again later!";
                     }

@@ -39,6 +39,7 @@ public class ForecastFragment extends AppFragment {
             mController.setDelegate(mBlock);
             mController.onResume();
         }
+        mBlock.setOnChangeTimeClick(mController.getOnChangeTimeClick());
 
         return rootView;
     }
