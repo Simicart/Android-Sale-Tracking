@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -23,6 +24,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppLogging;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
@@ -105,10 +107,10 @@ public class LoginController extends AppController {
                 mDeviceToken = instanceID.getToken("1045130557303",
                         GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
-                Log.e("LoginController", "GCM Registration Token: " + mDeviceToken);
+                AppLogging.logData("LoginController", "GCM Registration Token: " + mDeviceToken);
 
             } catch (Exception e) {
-                Log.e("LoginController", "Failed to complete token refresh", e);
+                AppLogging.logData("LoginController", "Failed to complete token refresh");
             } finally {
                 if (mDeviceToken == null) {
                     mDeviceToken = Settings.Secure.getString(AppManager.getInstance().getCurrentActivity().getContentResolver(),
@@ -149,23 +151,44 @@ public class LoginController extends AppController {
             @Override
             public void onSuccess(AppCollection collection) {
                 if (collection != null) {
+                    boolean isActive = true;
+                    boolean isExpired = false;
+                    String version = "";
                     if (collection.containKey("is_active")) {
-                        boolean isActive = (boolean) collection.getDataWithKey("is_active");
-                        if (isActive) {
-                            if (isLoginNormal) {
-                                onLoginUser(loginEntity);
-                            } else {
-                                onLoginQr(loginEntity);
-                            }
+                        isActive = (boolean) collection.getDataWithKey("is_active");
+                    }
+                    if (collection.containKey("expired_time")) {
+                        isExpired = (boolean) collection.getDataWithKey("expired_time");
+                    }
+                    if(collection.containKey("version")) {
+                        version = (String) collection.getDataWithKey("version");
+                    }
+                    if (isActive && !isExpired && version.equals(AppManager.getInstance().getCurrentAppVersion())) {
+                        if (isLoginNormal) {
+                            onLoginUser(loginEntity);
                         } else {
-                            mDelegate.dismissDialogLoading();
-                            if (collection.containKey("message")) {
-                                String message = (String) collection.getDataWithKey("message");
-                                if (Utils.validateString(message)) {
-                                    AppNotify.getInstance().showError(message);
-                                }
-                            }
+                            onLoginQr(loginEntity);
                         }
+                    } else {
+                        mDelegate.dismissDialogLoading();
+                        if(!isActive) {
+                            AppNotify.getInstance().showError("Your account has not been actived!");
+                            return;
+                        }
+                        if(isExpired) {
+                            AppNotify.getInstance().showError("Your account has been expired!");
+                            return;
+                        }
+                        if(!version.equals(AppManager.getInstance().getCurrentAppVersion())) {
+                            AppNotify.getInstance().showError("Please update your application!");
+                            return;
+                        }
+//                        if (collection.containKey("message")) {
+//                            String message = (String) collection.getDataWithKey("message");
+//                            if (Utils.validateString(message)) {
+//                                AppNotify.getInstance().showError(message);
+//                            }
+//                        }
                     }
                 }
             }
@@ -268,7 +291,7 @@ public class LoginController extends AppController {
                             final String decodedResult = new String(decodedBytes, "UTF-8");
                             parseDecodedQrCode(decodedResult);
                         } catch (UnsupportedEncodingException e) {
-                            Log.e("Decode QR Result", e.getMessage());
+                            AppLogging.logData("Decode QR Result", e.getMessage());
                         }
                     }
                     LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity()).unregisterReceiver(onScanResultReceiver);

@@ -2,6 +2,7 @@ package com.simicart.saletracking.base.manager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
@@ -11,16 +12,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mixpanel.android.mpmetrics.MixpanelAPI;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.bestseller.fragment.BestSellersFragment;
 import com.simicart.saletracking.cart.fragment.AbandonedCartDetailFragment;
 import com.simicart.saletracking.cart.fragment.ListAbandonedCartsFragment;
+import com.simicart.saletracking.common.AppLogging;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
@@ -39,6 +43,9 @@ import com.simicart.saletracking.product.fragment.ProductDescriptionFragment;
 import com.simicart.saletracking.product.fragment.ProductDetailFragment;
 import com.simicart.saletracking.search.fragment.SearchFragment;
 import com.simicart.saletracking.setting.SettingFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -59,6 +66,7 @@ public class AppManager {
     private boolean mIsDemo = false;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
+    private MixpanelAPI mMixPanel;
 
     public static AppManager instance;
 
@@ -382,6 +390,51 @@ public class AppManager {
     public void navigateFirstFragment() {
         mNavigationView.getMenu().getItem(0).setChecked(true);
         openDashboardPage();
+    }
+
+    public String getCurrentAppVersion() {
+        PackageInfo pInfo = null;
+        try {
+            pInfo = mCurrentActivity.getPackageManager().getPackageInfo(mCurrentActivity.getPackageName(), 0);
+            String version = pInfo.versionName;
+            return version;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "0.1.0";
+    }
+
+    public void initMixPanelWithToken(String token) {
+        if (Utils.validateString(token)) {
+            mMixPanel = MixpanelAPI.getInstance(mCurrentActivity.getApplicationContext(), token);
+        }
+    }
+
+    public void trackWithMixPanel(String eventName, String property, String value) {
+        JSONObject props = null;
+        if (Utils.validateString(property) && Utils.validateString(value)) {
+            props = new JSONObject();
+            try {
+                props.put(property, value);
+            } catch (JSONException e) {
+                props = null;
+            }
+        }
+        trackWithMixPanel(eventName, props);
+    }
+
+    public void trackWithMixPanel(String eventName, JSONObject property) {
+        if (null == mMixPanel) {
+            return;
+        }
+
+        if (null != property) {
+            AppLogging.logData("SimiManager ", "trackWithMixpanel eventName " + eventName + " PROPERTY " + property.toString());
+            mMixPanel.track(eventName, property);
+        } else {
+            AppLogging.logData("SimiManager ", "trackWithMixpanel eventName " + eventName);
+            mMixPanel.track(eventName);
+        }
     }
 
 }

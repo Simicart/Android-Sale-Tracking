@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.AppLogging;
 import com.simicart.saletracking.common.Utils;
 
 import java.util.HashMap;
@@ -76,14 +77,14 @@ public class AppFragment extends Fragment {
 
         if (savedInstanceState != null) {
             getDataFromBundle();
-            Log.e("AppFragment ", "onActivityCreated RESTORE DATA ");
+            AppLogging.logData("AppFragment ", "onActivityCreated RESTORE DATA ");
         } else {
             if (mData != null) {
                 //returning from backstack, data is fine, do nothing
-                Log.e("AppFragment ", "onActivityCreated DATA NOOT NULL");
+                AppLogging.logData("AppFragment ", "onActivityCreated DATA NOT NULL");
             } else {
                 //newly created, compute data
-                Log.e("AppFragment ", "onActivityCreated DATA NULL");
+                AppLogging.logData("AppFragment ", "onActivityCreated DATA NULL");
             }
         }
     }

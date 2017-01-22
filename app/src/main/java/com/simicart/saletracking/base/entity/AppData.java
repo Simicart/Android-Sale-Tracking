@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import com.simicart.saletracking.common.AppLogging;
+
 import java.util.HashMap;
 
 /**
@@ -52,7 +54,7 @@ public class AppData implements Parcelable {
 
             dest.writeValue(mData);
         } catch (Exception e) {
-            Log.e("AppData ", " write exception " + e.getMessage());
+            AppLogging.logData("AppData ", " write exception " + e.getMessage());
         }
     }
 

@@ -10,6 +10,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
+import com.simicart.saletracking.common.AppLogging;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
@@ -73,7 +74,7 @@ public class AppRequest {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(mRequestMethod, getUrl(), getJSONParams(), new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.e("Response", response.toString());
+                AppLogging.logData("Response", response.toString());
                 try {
                     if (response != null) {
                         mJSONResult = response;
@@ -103,7 +104,7 @@ public class AppRequest {
             public void onErrorResponse(VolleyError error) {
                 String errorMessage = error.getMessage();
                 if (Utils.validateString(errorMessage)) {
-                    Log.e("Error", errorMessage);
+                    AppLogging.logData("Error", errorMessage);
                     if (errorMessage.contains("Exception")) {
                         errorMessage = "Some error occur. Please try again later!";
                     }

@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         isRunning = true;
 
+        AppManager.getInstance().initMixPanelWithToken("917eb52f5b8be67636facfa5251ecbc0");
+
     }
 
     @Override

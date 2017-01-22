@@ -8,7 +8,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 25
         versionCode 7
-        versionName "1.1"
+        versionName "0.1.0"
     }
     buildTypes {
         debug {
@@ -40,4 +40,5 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v3.0.1'
     compile 'com.google.android.gms:play-services-gcm:10.0.1'
     compile 'me.dm7.barcodescanner:zxing:1.9'
+    compile 'com.mixpanel.android:mixpanel-android:4.+'
 }
