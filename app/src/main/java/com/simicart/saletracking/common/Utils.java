@@ -118,7 +118,7 @@ public class Utils {
     public static String getPrice(ProductEntity productEntity, String baseCurrency, String orderCurrency) {
         String price = "";
         String productBasePrice = productEntity.getBasePrice();
-        String productPrice = getFormattedPrice(productEntity.getPrice());
+        String productPrice = productEntity.getPrice();
         if (validateString(baseCurrency) && validateString(orderCurrency)) {
             if (baseCurrency.equals(orderCurrency)) {
                 price = getPrice(productPrice, orderCurrency);
@@ -131,8 +131,8 @@ public class Utils {
 
     public static String getPrice(QuoteItemEntity quoteItemEntity, String baseCurrency, String orderCurrency) {
         String price = "";
-        String productBasePrice = getFormattedPrice(quoteItemEntity.getBasePrice());
-        String productPrice = getFormattedPrice(quoteItemEntity.getPrice());
+        String productBasePrice = quoteItemEntity.getBasePrice();
+        String productPrice = quoteItemEntity.getPrice();
 
         if (validateString(baseCurrency) && validateString(orderCurrency)) {
             if (baseCurrency.equals(orderCurrency)) {
