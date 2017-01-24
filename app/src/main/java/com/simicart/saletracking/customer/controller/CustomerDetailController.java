@@ -146,17 +146,6 @@ public class CustomerDetailController extends AppController {
                     CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
                     if (customerEntity != null) {
                         onEditInfo(customerEntity);
-
-                        // Tracking with MixPanel
-                        try {
-                            JSONObject object = new JSONObject();
-                            object.put("action", "previous_page");
-                            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
-                            AppManager.getInstance().trackWithMixPanel("list_products_action", object);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }
@@ -174,6 +163,17 @@ public class CustomerDetailController extends AppController {
             @Override
             public void onEditComplete(HashMap<String, String> hmData) {
                 requestEditCustomerInfo(hmData);
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("edit_action", "customer_summary");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         editPopup.show();
@@ -188,6 +188,17 @@ public class CustomerDetailController extends AppController {
             @Override
             public void onEditComplete(HashMap<String, String> hmData) {
                 requestEditCustomerInfo(hmData);
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("edit_action", "customer_information");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         editPopup.show();
@@ -214,20 +225,10 @@ public class CustomerDetailController extends AppController {
             }
         });
         editCustomerRequest.setExtendUrl("simitracking/rest/v2/customers/" + mCustomerID);
-        try {
-            JSONObject object = new JSONObject();
-            for (Map.Entry<String, String> entry : hmData.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                editCustomerRequest.addParamBody(key, value);
-
-                object.put("edit_action", key);
-            }
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
-            AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        for (Map.Entry<String, String> entry : hmData.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            editCustomerRequest.addParamBody(key, value);
         }
         editCustomerRequest.request();
     }

@@ -234,22 +234,24 @@ public class ProductDetailController extends AppController {
             }
         });
         editProductInfoRequest.setExtendUrl("simitracking/rest/v2/products/" + mProductID);
+
+        for (Map.Entry<String, String> entry : hmData.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (key.equals("is_in_stock")) {
+                if (value.equals("In Stock")) {
+                    value = "1";
+                } else {
+                    value = "0";
+                }
+            }
+            editProductInfoRequest.addParamBody(key, value);
+        }
+
+        // Tracking with MixPanel
         try {
             JSONObject object = new JSONObject();
-            for (Map.Entry<String, String> entry : hmData.entrySet()) {
-                String key = entry.getKey();
-                String value = entry.getValue();
-                if (key.equals("is_in_stock")) {
-                    if (value.equals("In Stock")) {
-                        value = "1";
-                    } else {
-                        value = "0";
-                    }
-                }
-                editProductInfoRequest.addParamBody(key, value);
-
-                object.put("edit_action", key);
-            }
+            object.put("edit_action", "product_information");
             object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
             object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
