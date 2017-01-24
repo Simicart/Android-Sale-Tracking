@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
@@ -13,6 +14,9 @@ import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.bestseller.delegate.BestSellersDelegate;
 import com.simicart.saletracking.bestseller.request.BestSellersRequest;
 import com.simicart.saletracking.common.AppPreferences;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Glenn on 12/9/2016.
@@ -124,6 +128,17 @@ public class BestSellersController extends AppController {
                     mCurrentPage++;
                     mOffset += mLimit;
                     requestBestSellers();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "next_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("best_bellers_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -135,6 +150,17 @@ public class BestSellersController extends AppController {
                     mCurrentPage--;
                     mOffset -= mLimit;
                     requestBestSellers();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "previous_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("best_bellers_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

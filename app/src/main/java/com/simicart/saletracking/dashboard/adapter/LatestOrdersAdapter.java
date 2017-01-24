@@ -15,6 +15,9 @@ import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.entity.OrderEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -82,6 +85,17 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
         holder.llItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_latest_order_detail");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("dashboard_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 HashMap<String,Object> hmData = new HashMap<String, Object>();
                 hmData.put("order_id", orderEntity.getID());
                 AppManager.getInstance().openOrderDetail(hmData);

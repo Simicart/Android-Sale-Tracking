@@ -40,6 +40,9 @@ import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menutop.MenuTopController;
 import com.simicart.saletracking.notification.entity.NotificationEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         isRunning = true;
 
-        AppManager.getInstance().initMixPanelWithToken("917eb52f5b8be67636facfa5251ecbc0");
+        AppManager.getInstance().initMixPanelWithToken("286b4016149732004b4ebb2f2891ffec");
 
     }
 
@@ -141,6 +144,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
+
+        // Tracking with MixPanel
+        try {
+            JSONObject object = new JSONObject();
+            object.put("click_on", id);
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("slide_menu", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         switch (id) {
             case R.id.nav_dashboard:
                 AppManager.getInstance().clearFragments();

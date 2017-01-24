@@ -216,6 +216,18 @@ public class LoginController extends AppController {
             @Override
             public void onSuccess(AppCollection collection) {
                 mDelegate.dismissDialogLoading();
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "login_demo");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("login_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 goToHome();
             }
         });
@@ -246,6 +258,18 @@ public class LoginController extends AppController {
                 if (loginEntity != null) {
                     AppPreferences.saveCustomerInfo(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getPassword());
                 }
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "login_user");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("login_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 goToHome();
             }
         });
@@ -331,6 +355,18 @@ public class LoginController extends AppController {
                 if (loginEntity != null) {
                     AppPreferences.saveCustomerInfoForQr(loginEntity.getUrl(), loginEntity.getEmail(), loginEntity.getSessionID());
                 }
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "login_qr_code");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("login_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 goToHome();
             }
         });

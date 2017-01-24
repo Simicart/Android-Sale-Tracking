@@ -16,6 +16,9 @@ import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.entity.ProductEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -87,6 +90,17 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
         holder.rlProductItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_product_detail");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("list_products_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("product_id", productID);
                 AppManager.getInstance().openProductDetail(hmData);

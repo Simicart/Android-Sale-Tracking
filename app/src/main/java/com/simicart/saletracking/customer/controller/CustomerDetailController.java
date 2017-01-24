@@ -20,6 +20,9 @@ import com.simicart.saletracking.customer.request.CustomerDetailRequest;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +78,17 @@ public class CustomerDetailController extends AppController {
         mOnCustomerOrderClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_customer_orders");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 HashMap<String, Object> hmData = new HashMap<>();
                 if (mCollection != null) {
                     CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
@@ -94,6 +108,17 @@ public class CustomerDetailController extends AppController {
         mOnCustomerAddressesClick = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_customer_addresses");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 HashMap<String, Object> hmData = new HashMap<>();
                 hmData.put("customer_id", mCustomerID);
                 AppManager.getInstance().openListAddresses(hmData);
@@ -106,7 +131,7 @@ public class CustomerDetailController extends AppController {
                 HashMap<String, Object> hmData = new HashMap<>();
                 if (mCollection != null) {
                     CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
-                    if(customerEntity != null) {
+                    if (customerEntity != null) {
                         onEditSummary(customerEntity);
                     }
                 }
@@ -119,8 +144,19 @@ public class CustomerDetailController extends AppController {
                 HashMap<String, Object> hmData = new HashMap<>();
                 if (mCollection != null) {
                     CustomerEntity customerEntity = (CustomerEntity) mCollection.getDataWithKey("customer");
-                    if(customerEntity != null) {
+                    if (customerEntity != null) {
                         onEditInfo(customerEntity);
+
+                        // Tracking with MixPanel
+                        try {
+                            JSONObject object = new JSONObject();
+                            object.put("action", "previous_page");
+                            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                            AppManager.getInstance().trackWithMixPanel("list_products_action", object);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }
@@ -178,10 +214,20 @@ public class CustomerDetailController extends AppController {
             }
         });
         editCustomerRequest.setExtendUrl("simitracking/rest/v2/customers/" + mCustomerID);
-        for (Map.Entry<String,String> entry : hmData.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            editCustomerRequest.addParamBody(key, value);
+        try {
+            JSONObject object = new JSONObject();
+            for (Map.Entry<String, String> entry : hmData.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                editCustomerRequest.addParamBody(key, value);
+
+                object.put("edit_action", key);
+            }
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         editCustomerRequest.request();
     }

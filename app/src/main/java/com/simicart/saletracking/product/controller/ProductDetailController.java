@@ -18,6 +18,9 @@ import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.entity.ProductEntity;
 import com.simicart.saletracking.product.request.ProductDetailRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,6 +78,17 @@ public class ProductDetailController extends AppController {
             @Override
             public void onClick(View view) {
                 openDescription(false, false);
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_description");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -82,6 +96,17 @@ public class ProductDetailController extends AppController {
             @Override
             public void onClick(View view) {
                 openDescription(true, false);
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_short_description");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -89,6 +114,17 @@ public class ProductDetailController extends AppController {
             @Override
             public void onClick(View view) {
                 openDescription(true, true);
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("edit_action", "short_description");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -96,6 +132,17 @@ public class ProductDetailController extends AppController {
             @Override
             public void onClick(View view) {
                 openDescription(false, true);
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("edit_action", "description");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
 
@@ -117,7 +164,7 @@ public class ProductDetailController extends AppController {
             ProductEntity productEntity = (ProductEntity) mCollection.getDataWithKey("product");
             if (productEntity != null) {
                 HashMap<String, Object> hmData = new HashMap<>();
-                if(isShortDescription) {
+                if (isShortDescription) {
                     String shortDescription = productEntity.getShortDescription();
                     if (Utils.validateString(shortDescription)) {
                         hmData.put("description", shortDescription);
@@ -130,10 +177,10 @@ public class ProductDetailController extends AppController {
                         hmData.put("title", "Description");
                     }
                 }
-                if(!isEdit) {
+                if (!isEdit) {
                     hmData.put("edit", Constants.EditProductDescription.NONE);
                 } else {
-                    if(isShortDescription) {
+                    if (isShortDescription) {
                         hmData.put("edit", Constants.EditProductDescription.SHORT_DESCRIPTION);
                     } else {
                         hmData.put("edit", Constants.EditProductDescription.DESCRIPTION);
@@ -149,9 +196,9 @@ public class ProductDetailController extends AppController {
         ArrayList<RowEntity> mListRows = new ArrayList<>();
         mListRows.add(new RowEntity(Constants.RowType.TEXT, "Name", "name", productEntity.getName()));
         mListRows.add(new RowEntity(Constants.RowType.TEXT_NUMBER, "Quantity", "qty", productEntity.getQuantity()));
-        String stocks[] = {"In Stock","Out of Stock"};
+        String stocks[] = {"In Stock", "Out of Stock"};
         int selectedStock;
-        if(productEntity.isInStock()) {
+        if (productEntity.isInStock()) {
             selectedStock = 0;
         } else {
             selectedStock = 1;
@@ -187,17 +234,27 @@ public class ProductDetailController extends AppController {
             }
         });
         editProductInfoRequest.setExtendUrl("simitracking/rest/v2/products/" + mProductID);
-        for (Map.Entry<String,String> entry : hmData.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            if(key.equals("is_in_stock")) {
-                if (value.equals("In Stock")) {
-                    value = "1";
-                } else {
-                    value = "0";
+        try {
+            JSONObject object = new JSONObject();
+            for (Map.Entry<String, String> entry : hmData.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                if (key.equals("is_in_stock")) {
+                    if (value.equals("In Stock")) {
+                        value = "1";
+                    } else {
+                        value = "0";
+                    }
                 }
+                editProductInfoRequest.addParamBody(key, value);
+
+                object.put("edit_action", key);
             }
-            editProductInfoRequest.addParamBody(key, value);
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         editProductInfoRequest.request();
     }

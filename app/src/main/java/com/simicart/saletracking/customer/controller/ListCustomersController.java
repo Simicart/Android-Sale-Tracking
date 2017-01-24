@@ -1,6 +1,5 @@
 package com.simicart.saletracking.customer.controller;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -14,8 +13,10 @@ import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.customer.delegate.ListCustomersDelegate;
 import com.simicart.saletracking.customer.request.ListCustomersRequest;
-import com.simicart.saletracking.order.request.ListOrdersRequest;
 import com.simicart.saletracking.search.entity.SearchEntity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -98,8 +99,18 @@ public class ListCustomersController extends AppController {
         mListCustomersRequest.addParam("dir", "desc");
         mListCustomersRequest.addParam("limit", String.valueOf(mLimit));
         mListCustomersRequest.addParam("offset", String.valueOf(mOffset));
-        if (mSearchEntity != null) {
-            mListCustomersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+        try {
+            JSONObject object = new JSONObject();
+            if (mSearchEntity != null) {
+                mListCustomersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+
+                object.put("search_action", mSearchEntity.getKey());
+            }
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("list_customers_action", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         mListCustomersRequest.request();
     }
@@ -131,6 +142,17 @@ public class ListCustomersController extends AppController {
                     mCurrentPage++;
                     mOffset += mLimit;
                     requestListCustomers();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "next_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_customers_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -142,6 +164,17 @@ public class ListCustomersController extends AppController {
                     mCurrentPage--;
                     mOffset -= mLimit;
                     requestListCustomers();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "previous_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_customers_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

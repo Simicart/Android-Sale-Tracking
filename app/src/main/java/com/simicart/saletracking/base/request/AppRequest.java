@@ -297,4 +297,8 @@ public class AppRequest {
     public void setRequestMethod(int requestMethod) {
         mRequestMethod = requestMethod;
     }
+
+    public JSONObject getJSONParam() {
+        return mJSONParams;
+    }
 }

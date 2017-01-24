@@ -15,6 +15,8 @@ import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.entity.OrderEntity;
 import com.simicart.saletracking.order.entity.OrderSection;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.zakariya.stickyheaders.SectioningAdapter;
 
 import java.util.ArrayList;
@@ -149,6 +151,17 @@ public class ListOrdersAdapter extends SectioningAdapter {
         itemViewHolder.llOrderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_order_detail");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("order_id", orderEntity.getID());
                 AppManager.getInstance().openOrderDetail(hmData);

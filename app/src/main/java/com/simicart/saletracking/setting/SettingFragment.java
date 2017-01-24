@@ -1,28 +1,25 @@
 package com.simicart.saletracking.setting;
 
-import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.component.ChooserCallback;
 import com.simicart.saletracking.base.component.ChooserPopup;
-import com.simicart.saletracking.base.component.NumberPickerPopup;
 import com.simicart.saletracking.base.fragment.AppFragment;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
-import com.simicart.saletracking.common.Utils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -67,7 +64,7 @@ public class SettingFragment extends AppFragment {
         tvPagingValue.setTextColor(AppColor.getInstance().getThemeColor());
         tvPagingValue.setBackground(AppColor.getInstance().coloringIcon(R.drawable.border_line, "#fc9900"));
         int paging = AppPreferences.getPaging();
-        pagingPosition = (paging/20) - 1;
+        pagingPosition = (paging / 20) - 1;
         tvPagingValue.setText(String.valueOf(paging));
 
         tvPagingValue.setOnClickListener(new View.OnClickListener() {
@@ -112,12 +109,23 @@ public class SettingFragment extends AppFragment {
             public void onClick(View view) {
                 boolean isChecked = swItemSaleReport.isChecked();
 
-                if (isChecked) {
-                    swItemSaleReport.setChecked(false);
-                    AppPreferences.setShowSaleReport(false);
-                } else {
-                    swItemSaleReport.setChecked(true);
-                    AppPreferences.setShowSaleReport(true);
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    if (isChecked) {
+                        object.put("show_reports_on_dashboard", "enable");
+                        swItemSaleReport.setChecked(false);
+                        AppPreferences.setShowSaleReport(false);
+                    } else {
+                        object.put("show_reports_on_dashboard", "disable");
+                        swItemSaleReport.setChecked(true);
+                        AppPreferences.setShowSaleReport(true);
+                    }
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -128,12 +136,23 @@ public class SettingFragment extends AppFragment {
             public void onClick(View view) {
                 boolean isChecked = swItemBestSellers.isChecked();
 
-                if (isChecked) {
-                    swItemBestSellers.setChecked(false);
-                    AppPreferences.setShowBestSellers(false);
-                } else {
-                    swItemBestSellers.setChecked(true);
-                    AppPreferences.setShowBestSellers(true);
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    if (isChecked) {
+                        object.put("show_bestsellers_on_dashboard", "enable");
+                        swItemBestSellers.setChecked(false);
+                        AppPreferences.setShowBestSellers(false);
+                    } else {
+                        object.put("show_bestsellers_on_dashboard", "disable");
+                        swItemBestSellers.setChecked(true);
+                        AppPreferences.setShowBestSellers(true);
+                    }
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -144,12 +163,23 @@ public class SettingFragment extends AppFragment {
             public void onClick(View view) {
                 boolean isChecked = swItemLatestCustomers.isChecked();
 
-                if (isChecked) {
-                    swItemLatestCustomers.setChecked(false);
-                    AppPreferences.setShowLatestCustomer(false);
-                } else {
-                    swItemLatestCustomers.setChecked(true);
-                    AppPreferences.setShowLatestCustomer(true);
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    if (isChecked) {
+                        object.put("show_latest_customers_on_dashboard", "enable");
+                        swItemLatestCustomers.setChecked(false);
+                        AppPreferences.setShowLatestCustomer(false);
+                    } else {
+                        object.put("show_latest_customers_on_dashboard", "disable");
+                        swItemLatestCustomers.setChecked(true);
+                        AppPreferences.setShowLatestCustomer(true);
+                    }
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -160,12 +190,23 @@ public class SettingFragment extends AppFragment {
             public void onClick(View view) {
                 boolean isChecked = swItemLatestOrders.isChecked();
 
-                if (isChecked) {
-                    swItemLatestOrders.setChecked(false);
-                    AppPreferences.setShowLatestOrder(false);
-                } else {
-                    swItemLatestOrders.setChecked(true);
-                    AppPreferences.setShowLatestOrder(true);
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    if (isChecked) {
+                        object.put("show_last_orders_on_dashboard", "enable");
+                        swItemLatestOrders.setChecked(false);
+                        AppPreferences.setShowLatestOrder(false);
+                    } else {
+                        object.put("show_lastest_orders_on_dashboard", "disable");
+                        swItemLatestOrders.setChecked(true);
+                        AppPreferences.setShowLatestOrder(true);
+                    }
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
@@ -231,8 +272,19 @@ public class SettingFragment extends AppFragment {
         chooserPopup.setChooserCallback(new ChooserCallback() {
             @Override
             public void onClick(int position) {
-                AppPreferences.setPaging((position+1)*20);
+                AppPreferences.setPaging((position + 1) * 20);
                 showPagingValue();
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("paging", (position + 1) * 20);
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         chooserPopup.show();
@@ -251,6 +303,32 @@ public class SettingFragment extends AppFragment {
             public void onClick(int position) {
                 AppPreferences.setCurrencyPosition(position + 1);
                 showCurrencyPositionValue();
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    switch (position+1) {
+                        case Constants.CurrencyPosition.LEFT:
+                            object.put("currency_position", "left");
+                            break;
+                        case Constants.CurrencyPosition.RIGHT:
+                            object.put("currency_position", "right");
+                            break;
+                        case Constants.CurrencyPosition.LEFT_SPACE:
+                            object.put("currency_position", "left_space");
+                            break;
+                        case Constants.CurrencyPosition.RIGHT_SPACE:
+                            object.put("currency_position", "right_space");
+                            break;
+                        default:
+                            break;
+                    }
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         chooserPopup.show();
@@ -267,6 +345,26 @@ public class SettingFragment extends AppFragment {
             public void onClick(int position) {
                 AppPreferences.setSeparator(position + 1);
                 showSeparator();
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    switch (position+1) {
+                        case Constants.Separator.DOT_FIRST:
+                            object.put("currency_separator", "type_1");
+                            break;
+                        case Constants.Separator.COMMA_FIRST:
+                            object.put("currency_separator", "type_2");
+                            break;
+                        default:
+                            break;
+                    }
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         chooserPopup.show();
@@ -274,7 +372,7 @@ public class SettingFragment extends AppFragment {
 
     protected void createNumberOfDecimalsChooser() {
         ArrayList<String> listNumberOfDecimals = new ArrayList<>();
-        for(int i=0;i<10;i++) {
+        for (int i = 0; i < 10; i++) {
             listNumberOfDecimals.add("" + i);
         }
 
@@ -284,6 +382,17 @@ public class SettingFragment extends AppFragment {
             public void onClick(int position) {
                 AppPreferences.setNumberOfDecimals(position);
                 showNumberOfDecimals();
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("number_of_decimals", position);
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("setting", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         chooserPopup.show();
@@ -291,7 +400,7 @@ public class SettingFragment extends AppFragment {
 
     protected void showPagingValue() {
         int paging = AppPreferences.getPaging();
-        pagingPosition = (paging/20) - 1;
+        pagingPosition = (paging / 20) - 1;
         tvPagingValue.setText(String.valueOf(paging));
     }
 
@@ -318,7 +427,7 @@ public class SettingFragment extends AppFragment {
     }
 
     protected void showSeparator() {
-        if(AppPreferences.getSeparator() == Constants.Separator.DOT_FIRST) {
+        if (AppPreferences.getSeparator() == Constants.Separator.DOT_FIRST) {
             tvSeparatorValue.setText("Type 1: 1.000,00");
         } else {
             tvSeparatorValue.setText("Type 2: 1,000.00");

@@ -22,6 +22,7 @@ public class UserEntity extends AppEntity {
     protected String mRoleID;
     protected String mBaseCurrency;
     protected String mRoleTitle;
+    protected String mIP;
     protected ArrayList<UserPermissionEntity> mListPermissions;
 
     private final String ENTITY_ID = "entity_id";
@@ -33,6 +34,7 @@ public class UserEntity extends AppEntity {
     private final String BASE_CURRENCY = "base_currency";
     private final String ROLE_TITLE = "role_title";
     private final String PERMISSIONS = "permissions";
+    private final String DEVICE_IP = "device_ip";
 
     @Override
     public void parse() {
@@ -52,6 +54,8 @@ public class UserEntity extends AppEntity {
         mRoleTitle = getString(ROLE_TITLE);
 
         mBaseCurrency = getString(BASE_CURRENCY);
+
+        mIP = getString(DEVICE_IP);
 
         try {
             JSONArray permissionArr = getJSONArrayWithKey(mJSON, PERMISSIONS);
@@ -149,5 +153,13 @@ public class UserEntity extends AppEntity {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public String getIP() {
+        return mIP;
+    }
+
+    public void setIP(String IP) {
+        mIP = IP;
     }
 }

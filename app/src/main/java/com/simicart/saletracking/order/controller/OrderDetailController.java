@@ -12,6 +12,9 @@ import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.order.entity.OrderEntity;
 import com.simicart.saletracking.order.request.OrderDetailRequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -45,6 +48,18 @@ public class OrderDetailController extends AppController {
                         String customerID = orderEntity.getCustomerID();
                         HashMap<String,Object> hmData = new HashMap<>();
                         hmData.put("customer_id", customerID);
+
+                        // Tracking with MixPanel
+                        try {
+                            JSONObject object = new JSONObject();
+                            object.put("action", "view_customer_detail");
+                            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                            AppManager.getInstance().trackWithMixPanel("order_detail_action", object);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         AppManager.getInstance().openCustomerDetail(hmData);
                     }
                 }

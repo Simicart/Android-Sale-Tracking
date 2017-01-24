@@ -16,6 +16,9 @@ import com.simicart.saletracking.product.delegate.ListProductsDelegate;
 import com.simicart.saletracking.product.request.ListProductsRequest;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -95,13 +98,20 @@ public class ListProductsController extends AppController {
             }
         });
         listProductsRequest.setExtendUrl("simitracking/rest/v2/products");
-        listProductsRequest.addParam("dir", "desc");
         listProductsRequest.addParam("limit", String.valueOf(mLimit));
         listProductsRequest.addParam("offset", String.valueOf(mOffset));
         listProductsRequest.addParam("store_id", AppManager.getInstance().getStoreID());
-        if (mSearchEntity != null) {
-            listProductsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+        listProductsRequest.addParam("dir", "desc");
+        JSONObject object = new JSONObject();
+        try {
+            if (mSearchEntity != null) {
+                listProductsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+                object.put("search_action", mSearchEntity.getKey());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        AppManager.getInstance().trackWithMixPanel("list_products_action", object);
         listProductsRequest.request();
     }
 
@@ -137,6 +147,17 @@ public class ListProductsController extends AppController {
                     mCurrentPage++;
                     mOffset += mLimit;
                     requestListProducts();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "next_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_products_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -148,6 +169,17 @@ public class ListProductsController extends AppController {
                     mCurrentPage--;
                     mOffset -= mLimit;
                     requestListProducts();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "previous_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_products_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

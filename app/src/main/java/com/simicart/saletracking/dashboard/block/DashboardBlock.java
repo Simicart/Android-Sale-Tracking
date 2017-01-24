@@ -241,7 +241,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         last7Days.setFromDate(Utils.getDate(Calendar.DATE, -7, true));
         last7Days.setToDate(Utils.getToDay());
         last7Days.setLabel("Last 7 Days");
-        last7Days.setKey("7_days");
+        last7Days.setKey("chart_last_7_days");
         last7Days.setPeriod("day");
         mListTimeLayers.add(last7Days);
 
@@ -249,7 +249,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         currentMonth.setFromDate(Utils.getDate(Calendar.DAY_OF_MONTH, 1, false));
         currentMonth.setToDate(Utils.getToDay());
         currentMonth.setLabel("Current Month");
-        currentMonth.setKey("current_month");
+        currentMonth.setKey("chart_current_month");
         currentMonth.setPeriod("day");
         mListTimeLayers.add(currentMonth);
 
@@ -257,7 +257,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         lastMonth.setFromDate(Utils.getFirstDayOfLastMonth());
         lastMonth.setToDate(Utils.getLastDayOfLastMonth());
         lastMonth.setLabel("Last Month");
-        lastMonth.setKey("last_month");
+        lastMonth.setKey("chart_last_month");
         lastMonth.setPeriod("day");
         mListTimeLayers.add(lastMonth);
 
@@ -265,7 +265,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         threeMonths.setFromDate(Utils.getDate(Calendar.DAY_OF_MONTH, -90, true));
         threeMonths.setToDate(Utils.getToDay());
         threeMonths.setLabel("Last 3 Months (90 Days)");
-        threeMonths.setKey("three_months");
+        threeMonths.setKey("chart_last_3_months");
         threeMonths.setPeriod("day");
         mListTimeLayers.add(threeMonths);
 
@@ -273,7 +273,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         thisYear.setFromDate(Utils.getDate(Calendar.DAY_OF_YEAR, 1, false));
         thisYear.setToDate(Utils.getToDay());
         thisYear.setLabel("Year To Day");
-        thisYear.setKey("this_year");
+        thisYear.setKey("chart_year_to_day");
         thisYear.setPeriod("month");
         mListTimeLayers.add(thisYear);
 
@@ -281,7 +281,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         twoYears.setFromDate(Utils.getFirstDayOfLast2Year());
         twoYears.setToDate(Utils.getToDay());
         twoYears.setLabel("2 Years To Day");
-        twoYears.setKey("two_years");
+        twoYears.setKey("chart_2_years_to_day");
         twoYears.setPeriod("month");
         mListTimeLayers.add(twoYears);
 

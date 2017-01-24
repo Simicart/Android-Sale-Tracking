@@ -18,6 +18,9 @@ import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.product.entity.ProductEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -89,7 +92,22 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "view_product_detail");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    if (isCart) {
+                        AppManager.getInstance().trackWithMixPanel("abandoned_cart_detail", object);
+                    } else {
+                        AppManager.getInstance().trackWithMixPanel("order_detail_action", object);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("product_id", productEntity.getItemID());
                 AppManager.getInstance().openProductDetail(hmData);
             }
@@ -126,7 +144,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
         holder.rlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("product_id", quoteItemEntity.getProductID());
                 AppManager.getInstance().openProductDetail(hmData);
             }

@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
@@ -18,6 +19,9 @@ import com.simicart.saletracking.dashboard.entity.SaleEntity;
 import com.simicart.saletracking.dashboard.request.ListSalesRequest;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import com.simicart.saletracking.order.request.ListOrdersRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Glenn on 12/5/2016.
@@ -202,6 +206,17 @@ public class DashboardController extends AppController {
                 } else {
                     isFirstRun = false;
                 }
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("filter_action", mTimeLayerEntity.getKey());
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("dashboard_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -216,6 +231,17 @@ public class DashboardController extends AppController {
                 isReloadChart = true;
                 mDelegate.showDialogLoading();
                 requestSales("refresh");
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("action", "chart_refresh");
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("dashboard_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         };
     }

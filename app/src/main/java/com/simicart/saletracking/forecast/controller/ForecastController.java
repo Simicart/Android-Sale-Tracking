@@ -5,6 +5,7 @@ import android.view.View;
 import com.simicart.saletracking.base.component.ChooserCallback;
 import com.simicart.saletracking.base.component.ChooserPopup;
 import com.simicart.saletracking.base.controller.AppController;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
@@ -17,6 +18,9 @@ import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.forecast.delegate.ForecastDelegate;
 import com.simicart.saletracking.forecast.request.ForecastRequest;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -81,7 +85,7 @@ public class ForecastController extends AppController {
         oneMonth.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
         oneMonth.setToDate(Utils.getDate(Calendar.DATE, 30, true));
         oneMonth.setLabel("1 Month");
-        oneMonth.setKey("one_month");
+        oneMonth.setKey("chart_1_month");
         oneMonth.setPeriod("day");
         mListTimeLayers.add(oneMonth);
 
@@ -89,7 +93,7 @@ public class ForecastController extends AppController {
         twoMonths.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
         twoMonths.setToDate(Utils.getDate(Calendar.DATE, 60, true));
         twoMonths.setLabel("2 Months");
-        twoMonths.setKey("two_months");
+        twoMonths.setKey("chart_2_months");
         twoMonths.setPeriod("day");
         mListTimeLayers.add(twoMonths);
 
@@ -97,7 +101,7 @@ public class ForecastController extends AppController {
         threeMonths.setFromDate(Utils.getDate(Calendar.DATE, 1, true));
         threeMonths.setToDate(Utils.getDate(Calendar.DATE, 90, true));
         threeMonths.setLabel("3 Months");
-        threeMonths.setKey("three_months");
+        threeMonths.setKey("chart_3_months");
         threeMonths.setPeriod("day");
         mListTimeLayers.add(threeMonths);
 
@@ -131,6 +135,17 @@ public class ForecastController extends AppController {
                 mTimeLayerEntity = mListTimeLayers.get(position);
                 mDelegate.setTimeFormat(mTimeLayerEntity);
                 showChart();
+
+                // Tracking with MixPanel
+                try {
+                    JSONObject object = new JSONObject();
+                    object.put("filter_action", mTimeLayerEntity.getKey());
+                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                    AppManager.getInstance().trackWithMixPanel("forecast_action", object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
         chooserPopup.show();

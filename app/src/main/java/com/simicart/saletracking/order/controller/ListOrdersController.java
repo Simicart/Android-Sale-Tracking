@@ -1,6 +1,5 @@
 package com.simicart.saletracking.order.controller;
 
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -17,10 +16,9 @@ import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import com.simicart.saletracking.order.delegate.ListOrdersDelegate;
 import com.simicart.saletracking.order.request.ListOrdersRequest;
 import com.simicart.saletracking.search.entity.SearchEntity;
-import com.simicart.saletracking.store.entity.StoreViewEntity;
-import com.simicart.saletracking.store.request.GetStoreRequest;
 
-import org.zakariya.stickyheaders.StickyHeaderLayoutManager;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,22 +108,36 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.setExtendUrl("simitracking/rest/v2/orders");
         mListOrdersRequest.addParam("limit", String.valueOf(mLimit));
         mListOrdersRequest.addParam("offset", String.valueOf(mOffset));
-        if (mSearchEntity != null) {
-            mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
-        }
-        if (mStatusFilter != null) {
-            mListOrdersRequest.addFilterParam(mStatusFilter.getKey(), mStatusFilter.getValue());
-        }
-        if (mSortEntity != null) {
-            mListOrdersRequest.addSortParam(mSortEntity.getKey());
-            mListOrdersRequest.addParam("dir", mSortEntity.getValue());
-        } else {
-            mListOrdersRequest.addSortDirDESCParam();
-        }
-        if (mTimeEntity != null) {
-            TimeLayerEntity timeLayerEntity = (TimeLayerEntity) mTimeEntity;
-            mListOrdersRequest.addParam(timeLayerEntity.getFromDateKey(), timeLayerEntity.getFromDate());
-            mListOrdersRequest.addParam(timeLayerEntity.getToDateKey(), timeLayerEntity.getToDate());
+        try {
+            JSONObject object = new JSONObject();
+            if (mSearchEntity != null) {
+                mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+                object.put("search_action", mSearchEntity.getKey());
+            }
+            if (mStatusFilter != null) {
+                mListOrdersRequest.addFilterParam(mStatusFilter.getKey(), mStatusFilter.getValue());
+                object.put("filter_action", mStatusFilter.getKey());
+            }
+            if (mSortEntity != null) {
+                mListOrdersRequest.addSortParam(mSortEntity.getKey());
+                object.put("sort_action", mSortEntity.getKey());
+                mListOrdersRequest.addParam("dir", mSortEntity.getValue());
+                object.put("dir", mSortEntity.getValue());
+            } else {
+                mListOrdersRequest.addSortDirDESCParam();
+                object.put("dir", "desc");
+            }
+            if (mTimeEntity != null) {
+                TimeLayerEntity timeLayerEntity = (TimeLayerEntity) mTimeEntity;
+                mListOrdersRequest.addParam(timeLayerEntity.getFromDateKey(), timeLayerEntity.getFromDate());
+                mListOrdersRequest.addParam(timeLayerEntity.getToDateKey(), timeLayerEntity.getToDate());
+                object.put("time_filter_action", timeLayerEntity.getKey());
+            }
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         mListOrdersRequest.request();
     }
@@ -157,6 +169,17 @@ public class ListOrdersController extends AppController {
                     mCurrentPage++;
                     mOffset += mLimit;
                     requestListOrders();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "next_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -168,6 +191,17 @@ public class ListOrdersController extends AppController {
                     mCurrentPage--;
                     mOffset -= mLimit;
                     requestListOrders();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "previous_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };

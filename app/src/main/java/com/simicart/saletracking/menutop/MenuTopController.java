@@ -17,6 +17,9 @@ import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.store.apdater.StoreViewAdapter;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -82,7 +85,20 @@ public class MenuTopController {
                 }
 
                 if (!isFirstRun) {
-                    AppManager.getInstance().setStoreID(mListStoreViews.get(i).getStoreID());
+                    String storeID = mListStoreViews.get(i).getStoreID();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("store_id", storeID);
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("change_store", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    AppManager.getInstance().setStoreID(storeID);
                     mController.onStart();
                 } else {
                     isFirstRun = false;

@@ -272,7 +272,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         threeMonths.setFromDate(getDate(Calendar.DAY_OF_MONTH, -90, true));
         threeMonths.setToDate(getToDay());
         threeMonths.setLabel("Last 3 Months (90 Days)");
-        threeMonths.setKey("three_months");
+        threeMonths.setKey("3_months");
         mListLayers.add(threeMonths);
 
         TimeLayerEntity thisYear = new TimeLayerEntity();
@@ -286,7 +286,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         twoYears.setFromDate(getFirstDayOfLast2Year());
         twoYears.setToDate(getToDay());
         twoYears.setLabel("2 Years To Day");
-        twoYears.setKey("two_years");
+        twoYears.setKey("2_years_to_day");
         mListLayers.add(twoYears);
     }
 

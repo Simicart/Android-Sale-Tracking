@@ -16,6 +16,9 @@ import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 
 /**
@@ -97,9 +100,17 @@ public class ListAbandonedCartsController extends AppController {
         cartsRequest.addParam("dir", "desc");
         cartsRequest.addParam("limit", String.valueOf(mLimit));
         cartsRequest.addParam("offset", String.valueOf(mOffset));
-        if (mSearchEntity != null) {
-            cartsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+        JSONObject object = new JSONObject();
+        try {
+            if (mSearchEntity != null) {
+                cartsRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+
+                object.put("search_action", mSearchEntity.getKey());
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        AppManager.getInstance().trackWithMixPanel("list_abandoned_cart_action", object);
         cartsRequest.request();
     }
 
@@ -130,6 +141,17 @@ public class ListAbandonedCartsController extends AppController {
                     mCurrentPage++;
                     mOffset += mLimit;
                     requestListCarts();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "next_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_abandoned_cart_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
@@ -141,6 +163,17 @@ public class ListAbandonedCartsController extends AppController {
                     mCurrentPage--;
                     mOffset -= mLimit;
                     requestListCarts();
+
+                    // Tracking with MixPanel
+                    try {
+                        JSONObject object = new JSONObject();
+                        object.put("action", "previous_page");
+                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+                        AppManager.getInstance().trackWithMixPanel("list_abandoned_cart_action", object);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         };
