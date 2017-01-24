@@ -59,8 +59,7 @@ public class ListOrdersController extends AppController {
 
     @Override
     public void onResume() {
-        mDelegate.showPage(mCurrentPage, mTotalPage);
-        mDelegate.updateView(mCollection);
+        requestListOrders();
     }
 
     protected void requestListOrders() {

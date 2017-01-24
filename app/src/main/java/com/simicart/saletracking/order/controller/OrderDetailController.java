@@ -2,6 +2,9 @@ package com.simicart.saletracking.order.controller;
 
 import android.view.View;
 
+import com.android.volley.Request;
+import com.simicart.saletracking.base.component.ChooserCallback;
+import com.simicart.saletracking.base.component.ChooserPopup;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -9,13 +12,16 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.order.entity.ActionEntity;
 import com.simicart.saletracking.order.entity.OrderEntity;
 import com.simicart.saletracking.order.request.OrderDetailRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Glenn on 11/29/2016.
@@ -25,6 +31,7 @@ public class OrderDetailController extends AppController {
 
     protected AppDelegate mDelegate;
     protected View.OnClickListener mOnCustomerClick;
+    protected View.OnClickListener mOnEditOrderClick;
     protected String mOrderID;
 
     public void setDelegate(AppDelegate delegate) {
@@ -37,7 +44,7 @@ public class OrderDetailController extends AppController {
 
     @Override
     public void onStart() {
-        requestOrderDetail();
+        requestOrderDetail(Request.Method.GET, null);
 
         mOnCustomerClick = new View.OnClickListener() {
             @Override
@@ -65,6 +72,13 @@ public class OrderDetailController extends AppController {
                 }
             }
         };
+
+        mOnEditOrderClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showEditOrderChooser();
+            }
+        };
     }
 
     @Override
@@ -72,13 +86,21 @@ public class OrderDetailController extends AppController {
         mDelegate.updateView(mCollection);
     }
 
-    protected void requestOrderDetail() {
-        mDelegate.showLoading();
+    protected void requestOrderDetail(int requestMethod, final HashMap<String,String> hmParams) {
+        if(hmParams != null) {
+            mDelegate.showDialogLoading();
+        } else {
+            mDelegate.showLoading();
+        }
         OrderDetailRequest orderDetailRequest = new OrderDetailRequest();
         orderDetailRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                mDelegate.dismissLoading();
+                if(hmParams != null) {
+                    mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissLoading();
+                }
                 mCollection = collection;
                 mDelegate.updateView(mCollection);
             }
@@ -86,16 +108,56 @@ public class OrderDetailController extends AppController {
         orderDetailRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                mDelegate.dismissLoading();
+                if(hmParams != null) {
+                    mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissLoading();
+                }
                 mDelegate.updateView(mCollection);
                 AppNotify.getInstance().showError(message);
             }
         });
         orderDetailRequest.setExtendUrl("simitracking/rest/v2/orders/" + mOrderID);
+        orderDetailRequest.setRequestMethod(requestMethod);
+        if(hmParams != null) {
+            for (Map.Entry<String, String> entry : hmParams.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
+                orderDetailRequest.addParamBody(key, value);
+            }
+        }
         orderDetailRequest.request();
+    }
+
+    protected void showEditOrderChooser() {
+        if(mCollection != null && mCollection.containKey("action")) {
+            final ArrayList<ActionEntity> listActions = (ArrayList<ActionEntity>) mCollection.getDataWithKey("action");
+            if(listActions.size() > 0) {
+                ArrayList<String> listSActions = new ArrayList<>();
+                for(ActionEntity actionEntity : listActions) {
+                    listSActions.add(actionEntity.getValue());
+                }
+                ChooserPopup chooserPopup = new ChooserPopup(listSActions, -1);
+                chooserPopup.setChooserCallback(new ChooserCallback() {
+                    @Override
+                    public void onClick(int position) {
+                        String action = listActions.get(position).getKey();
+                        HashMap<String,String> hmParams = new HashMap<String, String>();
+                        hmParams.put("status", action);
+                        requestOrderDetail(Request.Method.PUT, hmParams);
+                    }
+                });
+                chooserPopup.setTitle("Update Order");
+                chooserPopup.show();
+            }
+        }
     }
 
     public View.OnClickListener getOnCustomerClick() {
         return mOnCustomerClick;
+    }
+
+    public View.OnClickListener getOnEditOrderClick() {
+        return mOnEditOrderClick;
     }
 }

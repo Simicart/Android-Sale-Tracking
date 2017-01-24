@@ -1,6 +1,10 @@
 package com.simicart.saletracking.order.block;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -37,6 +41,7 @@ public class OrderDetailBlock extends AppBlock {
             tvFeeGrandTotal;
     protected LinearLayout llItems, llShippingAddress, llBillingAddress;
     protected RelativeLayout rlCustomer;
+    protected FloatingActionButton fabEdit;
 
     public OrderDetailBlock(View view) {
         super(view);
@@ -52,6 +57,12 @@ public class OrderDetailBlock extends AppBlock {
         initPaymentMethod();
         initShippingMethod();
         initTotalFee();
+
+        fabEdit = (FloatingActionButton) mView.findViewById(R.id.fab_edit);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            RelativeLayout.LayoutParams fabParams = (RelativeLayout.LayoutParams) fabEdit.getLayoutParams();
+            fabParams.setMargins(0, 0, Utils.toPixel(15), Utils.toPixel(15));
+        }
     }
 
     @Override
@@ -278,9 +289,18 @@ public class OrderDetailBlock extends AppBlock {
             tvStoreView.setText(storeView);
         }
 
-        String status = orderEntity.getStatus();
+        final String status = orderEntity.getStatus();
         if (Utils.validateString(status)) {
             tvStatus.setText(status);
+
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(status.equals("complete")) {
+                        fabEdit.setVisibility(View.GONE);
+                    }
+                }
+            }, 550);
         }
 
     }
@@ -415,6 +435,10 @@ public class OrderDetailBlock extends AppBlock {
 
     public void setOnCustomerClick(View.OnClickListener listener) {
         rlCustomer.setOnClickListener(listener);
+    }
+
+    public void setOnEditOrderClick(View.OnClickListener listener) {
+        fabEdit.setOnClickListener(listener);
     }
 
 }

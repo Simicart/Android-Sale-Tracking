@@ -16,6 +16,8 @@ import com.simicart.saletracking.base.delegate.AppDelegate;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.request.AppCollection;
 
+import java.util.ArrayList;
+
 /**
  * Created by Glenn on 11/24/2016.
  */
@@ -28,6 +30,7 @@ public class AppBlock implements AppDelegate {
     protected ProgressDialog pd_loading;
     protected ViewGroup viewGroup;
     protected boolean isInitDialogLoading = false;
+    protected ArrayList<Integer> listStatus;
 
     public AppBlock(View view) {
         mView = view;
@@ -68,7 +71,9 @@ public class AppBlock implements AppDelegate {
 
     @Override
     public void showLoading() {
+        listStatus = new ArrayList<>();
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
+            listStatus.add(viewGroup.getChildAt(i).getVisibility());
             viewGroup.getChildAt(i).setVisibility(View.GONE);
         }
         viewGroup.addView(progressDialogView);
@@ -90,7 +95,7 @@ public class AppBlock implements AppDelegate {
                 viewGroup.removeView(progressDialogView);
                 for (int i = 0; i < viewGroup.getChildCount(); i++) {
                     View view = viewGroup.getChildAt(i);
-                    if (!(view instanceof ProgressBar)) {
+                    if (!(view instanceof ProgressBar) && listStatus.get(i) == View.VISIBLE) {
                         view.setVisibility(View.VISIBLE);
                     }
                 }

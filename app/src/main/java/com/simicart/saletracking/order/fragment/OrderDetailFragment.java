@@ -51,6 +51,7 @@ public class OrderDetailFragment extends AppFragment {
             mController.onResume();
         }
         mBlock.setOnCustomerClick(mController.getOnCustomerClick());
+        mBlock.setOnEditOrderClick(mController.getOnEditOrderClick());
 
         return rootView;
     }
