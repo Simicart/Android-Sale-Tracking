@@ -2,9 +2,11 @@ package com.simicart.saletracking.base.manager;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
@@ -67,6 +70,8 @@ public class AppManager {
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private MixpanelAPI mMixPanel;
+    private ProgressDialog mLoading;
+    protected boolean isInitDialogLoading = false;
 
     public static AppManager instance;
 
@@ -75,6 +80,18 @@ public class AppManager {
             instance = new AppManager();
         }
         return instance;
+    }
+
+    protected void initDialogLoading() {
+        mLoading = ProgressDialog.show(mCurrentActivity, null, null, true, false);
+        LayoutInflater inflater = LayoutInflater.from(mCurrentActivity);
+        View loadingView = inflater.inflate(R.layout.view_loading, null);
+        mLoading.setContentView(loadingView);
+        mLoading.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mLoading.setCanceledOnTouchOutside(false);
+        mLoading.setCancelable(false);
+        mLoading.dismiss();
     }
 
     public Activity getCurrentActivity() {
@@ -435,6 +452,25 @@ public class AppManager {
             AppLogging.logData("SimiManager ", "trackWithMixpanel eventName " + eventName);
             mMixPanel.track(eventName);
         }
+    }
+
+    public void showDialogLoading() {
+        if (!isInitDialogLoading) {
+            isInitDialogLoading = true;
+            initDialogLoading();
+        }
+
+        mLoading.getWindow().setBackgroundDrawable(
+                new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        mLoading.show();
+    }
+
+    public void dismissDialogLoading() {
+        if (!isInitDialogLoading) {
+            isInitDialogLoading = true;
+            initDialogLoading();
+        }
+        mLoading.dismiss();
     }
 
 }

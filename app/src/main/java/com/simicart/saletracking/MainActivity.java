@@ -32,6 +32,10 @@ import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
+import com.simicart.saletracking.base.request.AppCollection;
+import com.simicart.saletracking.base.request.AppRequest;
+import com.simicart.saletracking.base.request.RequestFailCallback;
+import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
@@ -207,7 +211,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 AppManager.getInstance().clearFragments();
-                processLogout();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        processLogout();
+                    }
+                }, 300);
                 break;
         }
 
@@ -217,6 +226,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     protected void processLogout() {
+        AppManager.getInstance().showDialogLoading();
+        AppRequest logoutRequest = new AppRequest();
+        logoutRequest.setExtendUrl("simitracking/rest/v2/staffs/logout");
+        logoutRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                AppManager.getInstance().dismissDialogLoading();
+                onLogoutSuccess();
+            }
+        });
+        logoutRequest.setRequestFailCallback(new RequestFailCallback() {
+            @Override
+            public void onFail(String message) {
+                AppManager.getInstance().dismissDialogLoading();
+                AppNotify.getInstance().showError(message);
+            }
+        });
+        logoutRequest.request();
+    }
+
+    protected void onLogoutSuccess() {
         AppManager.getInstance().getMenuTopController().setFirstRun(true);
         AppManager.getInstance().setSessionID(null);
         mDrawer.closeDrawer(GravityCompat.START);
@@ -229,13 +259,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AppPreferences.setSignInQr(false);
             AppPreferences.clearCustomerInfoForQr();
         }
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                AppManager.getInstance().openLoginPage();
-                AppManager.getInstance().disableDrawer();
-            }
-        }, 300);
+        AppManager.getInstance().openLoginPage();
+        AppManager.getInstance().disableDrawer();
     }
 
     protected void checkInternetConnection() {
