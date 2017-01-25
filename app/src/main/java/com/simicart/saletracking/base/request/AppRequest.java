@@ -1,7 +1,6 @@
 package com.simicart.saletracking.base.request;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -42,32 +41,18 @@ public class AppRequest {
     public AppRequest() {
         hmParams = new HashMap<>();
         mJSONParams = new JSONObject();
-        try {
-            if (AppManager.getInstance().isDemo()) {
-                hmParams.put("email", Constants.demoEmail);
-                hmParams.put("password", Constants.demoPassword);
-
-                mJSONParams.put("email", Constants.demoEmail);
-                mJSONParams.put("password", Constants.demoPassword);
-            } else if (AppPreferences.isSignInNormal()) {
-                hmParams.put("email", AppPreferences.getCustomerEmail());
-                hmParams.put("password", AppPreferences.getCustomerPassword());
-
-                mJSONParams.put("email", Constants.demoEmail);
-                mJSONParams.put("password", Constants.demoPassword);
-            }
-            String sessionID = AppManager.getInstance().getSessionID();
-            if (Utils.validateString(sessionID)) {
-                hmParams.put("session_id", sessionID);
-
-                mJSONParams.put("session_id", sessionID);
-            }
-            hmParams.put("store_id", AppManager.getInstance().getStoreID());
-
-            mJSONParams.put("store_id", AppManager.getInstance().getStoreID());
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (AppManager.getInstance().isDemo()) {
+            hmParams.put("email", Constants.demoEmail);
+            hmParams.put("password", Constants.demoPassword);
+        } else if (AppPreferences.isSignInNormal()) {
+            hmParams.put("email", AppPreferences.getCustomerEmail());
+            hmParams.put("password", AppPreferences.getCustomerPassword());
         }
+        String sessionID = AppManager.getInstance().getSessionID();
+        if (Utils.validateString(sessionID)) {
+            hmParams.put("session_id", sessionID);
+        }
+        hmParams.put("store_id", AppManager.getInstance().getStoreID());
     }
 
     public void request() {
@@ -175,18 +160,17 @@ public class AppRequest {
             url = "https://" + url;
         }
 
-        if (mRequestMethod == Request.Method.GET) {
-            String dataParameter = processDataParameter();
-            if (Utils.validateString(dataParameter)) {
-                url = url + "?" + dataParameter;
-            }
+        String dataParameter = processDataParameter();
+        if (Utils.validateString(dataParameter)) {
+            url = url + "?" + dataParameter;
         }
 
         return url;
     }
 
     protected JSONObject getJSONParams() {
-        if(mRequestMethod == Request.Method.POST || mRequestMethod == Request.Method.PUT) {
+        if (mRequestMethod == Request.Method.POST || mRequestMethod == Request.Method.PUT) {
+            AppLogging.logData("POST Param", mJSONParams.toString());
             return mJSONParams;
         }
         return null;
