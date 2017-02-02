@@ -42,6 +42,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Glenn on 11/24/2016.
@@ -397,7 +398,15 @@ public class LoginController extends AppController {
         AppManager.getInstance().enableDrawer();
         AppManager.getInstance().initHeader();
         AppManager.getInstance().getManager().popBackStackImmediate();
-        AppManager.getInstance().navigateFirstFragment();
+
+        NotificationEntity notificationEntity = AppManager.getInstance().getNotificationEntity();
+        if(notificationEntity != null) {
+            HashMap<String,Object> hmData = new HashMap<String, Object>();
+            hmData.put("order_id", notificationEntity.getOrderID());
+            AppManager.getInstance().openOrderDetail(hmData);
+        } else {
+            AppManager.getInstance().navigateFirstFragment();
+        }
         AppManager.getInstance().getMenuTopController().showMenuTop(true);
     }
 
@@ -449,7 +458,9 @@ public class LoginController extends AppController {
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface arg0, int arg1) {
-
+                                HashMap<String,Object> hmData = new HashMap<String, Object>();
+                                hmData.put("order_id", entity.getOrderID());
+                                AppManager.getInstance().openOrderDetail(hmData);
                             }
                         });
 

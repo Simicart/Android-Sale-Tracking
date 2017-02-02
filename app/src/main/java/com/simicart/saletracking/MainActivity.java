@@ -72,6 +72,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuTopController menuTopController = new MenuTopController(toolbar);
         AppManager.getInstance().setMenuTopController(menuTopController);
 
+        // check whether have any notifications
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            NotificationEntity notificationData = (NotificationEntity) extras
+                    .getSerializable("NOTIFICATION_DATA");
+            AppManager.getInstance().setNotificationEntity(notificationData);
+        }
+
         AppManager.getInstance().openLoginPage();
 
         checkInternetConnection();

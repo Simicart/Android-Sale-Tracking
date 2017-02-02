@@ -39,6 +39,7 @@ import com.simicart.saletracking.forecast.fragment.ForecastFragment;
 import com.simicart.saletracking.layer.fragment.LayerFragment;
 import com.simicart.saletracking.login.fragment.LoginFragment;
 import com.simicart.saletracking.menutop.MenuTopController;
+import com.simicart.saletracking.notification.entity.NotificationEntity;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.order.fragment.OrderDetailFragment;
 import com.simicart.saletracking.product.fragment.ListProductsFragment;
@@ -72,6 +73,7 @@ public class AppManager {
     private MixpanelAPI mMixPanel;
     private ProgressDialog mLoading;
     protected boolean isInitDialogLoading = false;
+    protected NotificationEntity mNotificationEntity;
 
     public static AppManager instance;
 
@@ -164,6 +166,14 @@ public class AppManager {
 
     public void setNavigationView(NavigationView navigationView) {
         mNavigationView = navigationView;
+    }
+
+    public NotificationEntity getNotificationEntity() {
+        return mNotificationEntity;
+    }
+
+    public void setNotificationEntity(NotificationEntity notificationEntity) {
+        mNotificationEntity = notificationEntity;
     }
 
     public void initHeader() {

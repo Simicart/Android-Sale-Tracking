@@ -12,9 +12,11 @@ public class NotificationEntity extends AppEntity implements Serializable {
 
     protected String mTitle;
     protected String mContent;
+    protected String mOrderID;
 
     private final String NOTICE_TITLE = "notice_title";
     private final String NOTICE_CONTENT = "notice_content";
+    private final String ORDER_ID = "order_id";
 
     @Override
     public void parse() {
@@ -22,6 +24,8 @@ public class NotificationEntity extends AppEntity implements Serializable {
         mTitle = getString(NOTICE_TITLE);
 
         mContent = getString(NOTICE_CONTENT);
+
+        mOrderID = getString(ORDER_ID);
 
     }
 
@@ -39,5 +43,13 @@ public class NotificationEntity extends AppEntity implements Serializable {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public String getOrderID() {
+        return mOrderID;
+    }
+
+    public void setOrderID(String orderID) {
+        mOrderID = orderID;
     }
 }
