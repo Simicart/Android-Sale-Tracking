@@ -168,7 +168,7 @@ public class MenuTopController {
             mListStoreViews.add(defaultStoreView);
 
             mListStoreViews.addAll(listStoreViews);
-            rlStore.setVisibility(View.VISIBLE);
+//            rlStore.setVisibility(View.VISIBLE);
             StoreViewAdapter storeViewAdapter = new StoreViewAdapter(mListStoreViews);
             spStore.setAdapter(storeViewAdapter);
         }
