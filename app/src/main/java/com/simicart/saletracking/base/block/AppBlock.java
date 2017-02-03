@@ -2,14 +2,18 @@ package com.simicart.saletracking.base.block;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.delegate.AppDelegate;
@@ -55,6 +59,7 @@ public class AppBlock implements AppDelegate {
         progressDialogView = inflater.inflate(
                 R.layout.view_loading, viewGroup,
                 false);
+        progressDialogView.setBackgroundColor(Color.WHITE);
     }
 
     protected void initDialogLoading() {
@@ -71,12 +76,15 @@ public class AppBlock implements AppDelegate {
 
     @Override
     public void showLoading() {
-        listStatus = new ArrayList<>();
-        for (int i = 0; i < viewGroup.getChildCount(); i++) {
-            listStatus.add(viewGroup.getChildAt(i).getVisibility());
-            viewGroup.getChildAt(i).setVisibility(View.GONE);
+        if(mView instanceof LinearLayout) {
+            viewGroup.addView(progressDialogView, 0);
+        } else {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT);
+            progressDialogView.setLayoutParams(params);
+            viewGroup.addView(progressDialogView);
         }
-        viewGroup.addView(progressDialogView);
     }
 
     @Override
@@ -93,12 +101,6 @@ public class AppBlock implements AppDelegate {
             @Override
             public void onAnimationEnd(Animation animation) {
                 viewGroup.removeView(progressDialogView);
-                for (int i = 0; i < viewGroup.getChildCount(); i++) {
-                    View view = viewGroup.getChildAt(i);
-                    if (!(view instanceof ProgressBar) && listStatus.get(i) == View.VISIBLE) {
-                        view.setVisibility(View.VISIBLE);
-                    }
-                }
             }
 
             @Override
