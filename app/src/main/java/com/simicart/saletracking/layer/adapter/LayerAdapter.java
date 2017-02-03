@@ -116,7 +116,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         return mListLayers.size();
     }
 
-    public static class LayerHolder extends RecyclerView.ViewHolder {
+    public class LayerHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout rlItem;
         private TextView tvLayer;

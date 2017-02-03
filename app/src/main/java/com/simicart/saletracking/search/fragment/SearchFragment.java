@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
 import android.view.KeyEvent;
@@ -25,6 +27,7 @@ import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
+import com.simicart.saletracking.search.adapter.TagSearchAdapter;
 import com.simicart.saletracking.search.entity.SearchEntity;
 import com.simicart.saletracking.style.PredicateLayout;
 
@@ -43,10 +46,10 @@ public class SearchFragment extends AppFragment {
     protected ImageView imgDelete;
     protected ImageView imgIconSearch;
     protected TextView tvClear;
-    protected PredicateLayout plSearch;
+    protected RecyclerView rvTags;
+    protected TagSearchAdapter mTagSearchAdapter;
     protected SearchEntity mSelectedSearchEntity;
     protected ArrayList<SearchEntity> mListSearches;
-    protected ArrayList<TextView> mListSearchTags;
     protected int mFrom;
     protected  boolean isDetail = false;
 
@@ -123,7 +126,8 @@ public class SearchFragment extends AppFragment {
             }
         });
 
-        plSearch = (PredicateLayout) rootView.findViewById(R.id.pl_search);
+        rvTags = (RecyclerView) rootView.findViewById(R.id.rv_tag_searches);
+        rvTags.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 
         if (mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
             enableSearchAction(true);
@@ -138,54 +142,8 @@ public class SearchFragment extends AppFragment {
     }
 
     protected void initSearchTags() {
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        mListSearchTags = new ArrayList<>();
-        for (final SearchEntity searchEntity : mListSearches) {
-            View itemView = inflater.inflate(R.layout.view_search_tag, null);
-            final TextView tvItem = (TextView) itemView.findViewById(R.id.tv_search_tag);
-            tvItem.setText(searchEntity.getLabel());
-
-            if (mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
-                if (searchEntity.getKey().equals(mSelectedSearchEntity.getKey())) {
-                    setTagChoose(tvItem, true);
-                } else {
-                    setTagChoose(tvItem, false);
-                }
-            } else {
-                if (mListSearches.indexOf(searchEntity) == 0) {
-                    mSelectedSearchEntity = searchEntity;
-                    setTagChoose(tvItem, true);
-                } else {
-                    setTagChoose(tvItem, false);
-                }
-            }
-
-            mListSearchTags.add(tvItem);
-            plSearch.addView(itemView);
-
-            tvItem.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (TextView textView : mListSearchTags) {
-                        setTagChoose(textView, false);
-                        setTagChoose(tvItem, true);
-                        mSelectedSearchEntity = searchEntity;
-                    }
-                }
-            });
-
-        }
-
-    }
-
-    protected void setTagChoose(TextView textView, boolean choose) {
-        if (choose) {
-            textView.setBackgroundResource(R.drawable.tag_background_choosed);
-            textView.setTextColor(Color.WHITE);
-        } else {
-            textView.setBackgroundResource(R.drawable.tag_background);
-            textView.setTextColor(Color.BLACK);
-        }
+        mTagSearchAdapter = new TagSearchAdapter(mListSearches, mSelectedSearchEntity);
+        rvTags.setAdapter(mTagSearchAdapter);
     }
 
     protected void enableSearchAction(boolean isEnable) {
@@ -202,6 +160,7 @@ public class SearchFragment extends AppFragment {
             params.setMarginEnd(Utils.toPixel(40));
             edtQuery.setLayoutParams(params);
             edtQuery.setVisibility(View.VISIBLE);
+            edtQuery.requestFocus();
             hiddenKeyboard(edtQuery, false);
             imgDelete.setVisibility(View.VISIBLE);
 
@@ -215,6 +174,7 @@ public class SearchFragment extends AppFragment {
             paramsIcon.leftMargin = Utils.toPixel(5);
             imgIconSearch.setLayoutParams(paramsIcon);
 
+            edtQuery.setText("");
             edtQuery.clearFocus();
             hiddenKeyboard(edtQuery, true);
         }
@@ -228,6 +188,7 @@ public class SearchFragment extends AppFragment {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
+        mSelectedSearchEntity = mTagSearchAdapter.getSelectedSearchEntity();
         mSelectedSearchEntity.setQuery(query);
         hm.put("search_entity", mSelectedSearchEntity);
         hm.remove("from");
