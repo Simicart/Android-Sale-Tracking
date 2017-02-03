@@ -84,6 +84,7 @@ public class SearchFragment extends AppFragment {
         }
 
         edtQuery = (EditText) rootView.findViewById(R.id.et_query);
+        edtQuery.setHint("Search here");
         edtQuery.setTextColor(Color.BLACK);
         edtQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -148,7 +149,7 @@ public class SearchFragment extends AppFragment {
 
     protected void enableSearchAction(boolean isEnable) {
         if (isEnable) {
-            RelativeLayout.LayoutParams paramsIcon = new RelativeLayout.LayoutParams(Utils.toPixel(20), Utils.toPixel(20));
+            RelativeLayout.LayoutParams paramsIcon = new RelativeLayout.LayoutParams(Utils.toPixel(17), Utils.toPixel(17));
             paramsIcon.addRule(RelativeLayout.ALIGN_PARENT_START);
             paramsIcon.addRule(RelativeLayout.CENTER_VERTICAL);
             paramsIcon.rightMargin = Utils.toPixel(5);
