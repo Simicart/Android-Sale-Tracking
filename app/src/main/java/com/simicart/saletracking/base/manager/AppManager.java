@@ -222,7 +222,7 @@ public class AppManager {
     public void replaceFragment(Fragment fragment) {
         FragmentTransaction fragmentTransaction = mManager.beginTransaction();
         String fragmentName = ((AppFragment) fragment).getFragmentName();
-        mManager.popBackStack(fragmentName,
+        mManager.popBackStackImmediate(fragmentName,
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
         fragmentTransaction.replace(R.id.container, fragment);
         fragmentTransaction.addToBackStack(fragmentName);
@@ -237,6 +237,10 @@ public class AppManager {
         while (mManager.getBackStackEntryCount() > 0) {
             mManager.popBackStackImmediate();
         }
+    }
+
+    public void removeFragment(String fragmentName) {
+        mManager.beginTransaction().remove(mManager.findFragmentByTag(fragmentName)).commit();
     }
 
     public void openLoginPage() {
@@ -337,7 +341,7 @@ public class AppManager {
     public void openProductDetail(HashMap<String, Object> hmData) {
         if (mCurrentUser.hasPermission(Constants.Permission.PRODUCT_DETAILS)) {
             ProductDetailFragment productDetailFragment = ProductDetailFragment.newInstance(new AppData(hmData));
-            productDetailFragment.setFragmentName("product Detail");
+            productDetailFragment.setFragmentName("Product Detail");
             productDetailFragment.setDetail(true);
             productDetailFragment.setShowStore(false);
             replaceFragment(productDetailFragment);

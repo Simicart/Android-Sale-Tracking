@@ -51,6 +51,7 @@ public class ListAbandonedCartsFragment extends AppFragment {
         mBlock.setOnNextPage(mController.getOnNextPageClick());
         mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
         mBlock.setOnSearchClick(mController.getOnSearchClick());
+        mBlock.setOnRefreshListener(mController.getOnRefreshPull());
 
         return rootView;
     }

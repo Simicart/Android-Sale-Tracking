@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 
 public class ListCustomersBlock extends AppBlock implements ListCustomersDelegate {
 
+    protected SwipeRefreshLayout srlRefresh;
     protected RecyclerView rvCustomers;
     protected RelativeLayout rlMenuBottom;
     protected TextView tvPage;
@@ -49,6 +51,8 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
     @Override
     public void initView() {
         initMenuBottom();
+
+        srlRefresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
 
         rvCustomers = (RecyclerView) mView.findViewById(R.id.rv_customers);
         rvCustomers.setLayoutManager(new StickyHeaderLayoutManager());
@@ -130,6 +134,11 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
         return listCustomers.size();
     }
 
+    @Override
+    public void dismissRefresh() {
+        srlRefresh.setRefreshing(false);
+    }
+
     protected void initMenuBottom() {
 
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
@@ -173,6 +182,10 @@ public class ListCustomersBlock extends AppBlock implements ListCustomersDelegat
 
     public void setOnSearchClick(View.OnClickListener listener) {
         fabSearch.setOnClickListener(listener);
+    }
+
+    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        srlRefresh.setOnRefreshListener(listener);
     }
 
 }

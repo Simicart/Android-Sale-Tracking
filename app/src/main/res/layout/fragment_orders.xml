@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto">
+                android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/ll_top_menu"
@@ -18,21 +18,21 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="@dimen/size_30"
                     android:layout_height="@dimen/size_30"
-                    android:src="@drawable/ic_time"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_time"/>
 
                 <TextView
                     android:id="@+id/tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="All Time"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:text="All Time"/>
 
             </LinearLayout>
 
@@ -41,9 +41,9 @@
         <View
             android:layout_width="@dimen/size_1"
             android:layout_height="match_parent"
-            android:background="@color/colorSection"
+            android:layout_marginBottom="@dimen/size_10"
             android:layout_marginTop="@dimen/size_10"
-            android:layout_marginBottom="@dimen/size_10"></View>
+            android:background="@color/colorSection"></View>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -53,21 +53,21 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="@dimen/size_30"
                     android:layout_height="@dimen/size_30"
-                    android:src="@drawable/ic_sort"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_sort"/>
 
                 <TextView
                     android:id="@+id/tv_sort"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Sort"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:text="Sort"/>
 
             </LinearLayout>
 
@@ -76,9 +76,9 @@
         <View
             android:layout_width="@dimen/size_1"
             android:layout_height="match_parent"
-            android:background="@color/colorSection"
+            android:layout_marginBottom="@dimen/size_10"
             android:layout_marginTop="@dimen/size_10"
-            android:layout_marginBottom="@dimen/size_10"></View>
+            android:background="@color/colorSection"></View>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -88,21 +88,21 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_centerInParent="true">
+                android:layout_centerInParent="true"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="@dimen/size_30"
                     android:layout_height="@dimen/size_30"
-                    android:src="@drawable/ic_filter"
-                    android:scaleType="centerInside"/>
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_filter"/>
 
                 <TextView
                     android:id="@+id/tv_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Filter"
-                    android:layout_gravity="center_vertical"/>
+                    android:layout_gravity="center_vertical"
+                    android:text="Filter"/>
 
             </LinearLayout>
 
@@ -110,11 +110,18 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_orders"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/ll_top_menu"/>
+        android:layout_below="@+id/ll_top_menu">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_orders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
         android:id="@+id/rl_menu_bottom"
@@ -128,9 +135,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="1/9"
+            android:paddingEnd="@dimen/size_20"
             android:paddingStart="@dimen/size_20"
-            android:paddingEnd="@dimen/size_20"/>
+            android:text="1/9"/>
 
         <LinearLayout
             android:id="@+id/ll_previous"
@@ -176,9 +183,9 @@
         android:id="@+id/fab_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_search"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_search"
         app:backgroundTint="@color/colorWhite"/>
 
 </RelativeLayout>

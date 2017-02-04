@@ -14,4 +14,6 @@ public interface ListAbandonedCartsDelegate extends AppDelegate {
 
     public int getPageSize();
 
+    public void dismissRefresh();
+
 }

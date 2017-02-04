@@ -14,4 +14,6 @@ public interface BestSellersDelegate extends AppDelegate {
 
     public int getPageSize();
 
+    public void dismissRefresh();
+
 }

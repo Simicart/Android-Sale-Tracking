@@ -14,4 +14,6 @@ public interface ListProductsDelegate extends AppDelegate {
 
     public int getPageSize();
 
+    public void dismissRefresh();
+
 }

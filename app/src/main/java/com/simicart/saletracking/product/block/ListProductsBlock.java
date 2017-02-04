@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 
 public class ListProductsBlock extends AppBlock implements ListProductsDelegate {
 
+    protected SwipeRefreshLayout srlRefresh;
     protected RecyclerView rvProducts;
     protected FloatingActionButton fabSearch;
     protected RelativeLayout rlMenuBottom;
@@ -46,6 +48,8 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
 
     @Override
     public void initView() {
+        srlRefresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
+
         rvProducts = (RecyclerView) mView.findViewById(R.id.rv_products);
         rvProducts.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
 
@@ -105,6 +109,11 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
         return listProducts.size();
     }
 
+    @Override
+    public void dismissRefresh() {
+        srlRefresh.setRefreshing(false);
+    }
+
     public void showEmptyMessage() {
 //        ((ViewGroup) mView).removeAllViewsInLayout();
         rvProducts.setVisibility(View.GONE);
@@ -136,6 +145,10 @@ public class ListProductsBlock extends AppBlock implements ListProductsDelegate 
 
     public void setOnSearchClick(View.OnClickListener listener) {
         fabSearch.setOnClickListener(listener);
+    }
+
+    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        srlRefresh.setOnRefreshListener(listener);
     }
 
 }

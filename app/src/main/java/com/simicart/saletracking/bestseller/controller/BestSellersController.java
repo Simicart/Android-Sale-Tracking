@@ -1,5 +1,6 @@
 package com.simicart.saletracking.bestseller.controller;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.bestseller.delegate.BestSellersDelegate;
 import com.simicart.saletracking.bestseller.request.BestSellersRequest;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +30,7 @@ public class BestSellersController extends AppController {
     protected RecyclerView.OnScrollListener mOnListScroll;
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
+    protected SwipeRefreshLayout.OnRefreshListener mOnRefreshPull;
 
     protected int mCurrentPage = 1;
     protected int mTotalPage;
@@ -37,7 +40,7 @@ public class BestSellersController extends AppController {
 
     @Override
     public void onStart() {
-        requestBestSellers();
+        requestBestSellers(Constants.TypeShowLoading.LOADING);
         initListener();
     }
 
@@ -47,21 +50,22 @@ public class BestSellersController extends AppController {
         mDelegate.updateView(mCollection);
     }
 
-    protected void requestBestSellers() {
-        if (isFirstRequest) {
+    protected void requestBestSellers(final int showLoading) {
+        if (showLoading == Constants.TypeShowLoading.LOADING) {
             mDelegate.showLoading();
-        } else {
+        } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
             mDelegate.showDialogLoading();
         }
         BestSellersRequest bestSellersRequest = new BestSellersRequest();
         bestSellersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                    isFirstRequest = false;
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mCollection = collection;
                 if (collection != null) {
@@ -80,10 +84,12 @@ public class BestSellersController extends AppController {
         bestSellersRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mDelegate.updateView(mCollection);
                 AppNotify.getInstance().showError(message);
@@ -127,7 +133,7 @@ public class BestSellersController extends AppController {
                 if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
                     mOffset += mLimit;
-                    requestBestSellers();
+                    requestBestSellers(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -149,7 +155,7 @@ public class BestSellersController extends AppController {
                 if (mCurrentPage > 1) {
                     mCurrentPage--;
                     mOffset -= mLimit;
-                    requestBestSellers();
+                    requestBestSellers(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -162,6 +168,13 @@ public class BestSellersController extends AppController {
                         e.printStackTrace();
                     }
                 }
+            }
+        };
+
+        mOnRefreshPull = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestBestSellers(Constants.TypeShowLoading.REFRESH);
             }
         };
     }
@@ -180,5 +193,9 @@ public class BestSellersController extends AppController {
 
     public View.OnClickListener getOnPreviousPageClick() {
         return mOnPreviousPageClick;
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshPull() {
+        return mOnRefreshPull;
     }
 }

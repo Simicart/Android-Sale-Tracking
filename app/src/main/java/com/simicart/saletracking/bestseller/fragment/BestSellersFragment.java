@@ -43,6 +43,7 @@ public class BestSellersFragment extends AppFragment {
         mBlock.setOnListScroll(mController.getOnListScroll());
         mBlock.setOnNextPage(mController.getOnNextPageClick());
         mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
+        mBlock.setOnRefreshListener(mController.getOnRefreshPull());
 
         AppManager.getInstance().getMenuTopController().setController(mController);
 

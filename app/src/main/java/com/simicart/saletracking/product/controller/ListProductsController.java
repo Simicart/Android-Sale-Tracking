@@ -1,5 +1,6 @@
 package com.simicart.saletracking.product.controller;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -33,6 +34,7 @@ public class ListProductsController extends AppController {
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
     protected View.OnClickListener mOnSearchClick;
+    protected SwipeRefreshLayout.OnRefreshListener mOnRefreshPull;
     protected SearchEntity mSearchEntity;
     protected HashMap<String, Object> hmData;
 
@@ -45,7 +47,7 @@ public class ListProductsController extends AppController {
     @Override
     public void onStart() {
         parseData();
-        requestListProducts();
+        requestListProducts(Constants.TypeShowLoading.LOADING);
         initListener();
     }
 
@@ -55,21 +57,22 @@ public class ListProductsController extends AppController {
         mDelegate.updateView(mCollection);
     }
 
-    protected void requestListProducts() {
-        if (isFirstRequest) {
+    protected void requestListProducts(final int showLoading) {
+        if (showLoading == Constants.TypeShowLoading.LOADING) {
             mDelegate.showLoading();
-        } else {
+        } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
             mDelegate.showDialogLoading();
         }
         ListProductsRequest listProductsRequest = new ListProductsRequest();
         listProductsRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                    isFirstRequest = false;
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mCollection = collection;
                 if (collection != null) {
@@ -88,10 +91,12 @@ public class ListProductsController extends AppController {
         listProductsRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mDelegate.updateView(mCollection);
                 AppNotify.getInstance().showError(message);
@@ -146,7 +151,7 @@ public class ListProductsController extends AppController {
                 if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
                     mOffset += mLimit;
-                    requestListProducts();
+                    requestListProducts(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -168,7 +173,7 @@ public class ListProductsController extends AppController {
                 if (mCurrentPage > 1) {
                     mCurrentPage--;
                     mOffset -= mLimit;
-                    requestListProducts();
+                    requestListProducts(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -194,6 +199,13 @@ public class ListProductsController extends AppController {
                 hmData.put("from", Constants.Search.PRODUCT);
                 hmData.put("is_detail", false);
                 AppManager.getInstance().openSearch(hmData);
+            }
+        };
+
+        mOnRefreshPull = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestListProducts(Constants.TypeShowLoading.REFRESH);
             }
         };
 
@@ -231,6 +243,10 @@ public class ListProductsController extends AppController {
 
     public View.OnClickListener getOnSearchClick() {
         return mOnSearchClick;
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshPull() {
+        return mOnRefreshPull;
     }
 
 }

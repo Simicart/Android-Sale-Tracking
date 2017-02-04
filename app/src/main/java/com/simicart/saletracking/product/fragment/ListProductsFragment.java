@@ -52,6 +52,7 @@ public class ListProductsFragment extends AppFragment {
         mBlock.setOnNextPage(mController.getOnNextPageClick());
         mBlock.setOnPreviousPage(mController.getOnPreviousPageClick());
         mBlock.setOnSearchClick(mController.getOnSearchClick());
+        mBlock.setOnRefreshListener(mController.getOnRefreshPull());
 
         AppManager.getInstance().getMenuTopController().setController(mController);
 

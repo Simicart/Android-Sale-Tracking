@@ -14,4 +14,6 @@ public interface ListOrdersDelegate extends AppDelegate {
 
     public int getPageSize();
 
+    public void dismissRefresh();
+
 }

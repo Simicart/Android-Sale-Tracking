@@ -84,4 +84,10 @@ public class Constants {
         public static final int FORECAST = 2;
     }
 
+    public static class TypeShowLoading {
+        public static final int LOADING = 1;
+        public static final int DIALOG = 2;
+        public static final int REFRESH = 3;
+    }
+
 }

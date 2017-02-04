@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCartsDelegate {
 
     protected RecyclerView rvCarts;
+    protected SwipeRefreshLayout srlRefresh;
     protected RelativeLayout rlMenuBottom;
     protected TextView tvPage;
     protected LinearLayout llNext, llPrevious;
@@ -49,6 +51,8 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
     @Override
     public void initView() {
         initMenuBottom();
+
+        srlRefresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
 
         rvCarts = (RecyclerView) mView.findViewById(R.id.rv_carts);
         rvCarts.setLayoutManager(new StickyHeaderLayoutManager());
@@ -126,6 +130,11 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
         return listCarts.size();
     }
 
+    @Override
+    public void dismissRefresh() {
+        srlRefresh.setRefreshing(false);
+    }
+
     protected void initMenuBottom() {
 
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
@@ -169,6 +178,10 @@ public class ListAbandonedCartBlock extends AppBlock implements ListAbandonedCar
 
     public void setOnSearchClick(View.OnClickListener listener) {
         fabSearch.setOnClickListener(listener);
+    }
+
+    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        srlRefresh.setOnRefreshListener(listener);
     }
 
 }

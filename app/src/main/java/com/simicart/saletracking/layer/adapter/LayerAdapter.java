@@ -105,7 +105,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
                         break;
                 }
                 AppManager.getInstance().openListOrders(hmData);
-//                AppManager.getInstance().removeFragment("layer");
+//                AppManager.getInstance().removeFragment("Layer");
             }
         });
 

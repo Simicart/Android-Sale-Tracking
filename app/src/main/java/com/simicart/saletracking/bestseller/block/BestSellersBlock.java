@@ -2,6 +2,7 @@ package com.simicart.saletracking.bestseller.block;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 
 public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
 
+    protected SwipeRefreshLayout srlRefresh;
     protected RecyclerView rvBestSellers;
     protected RelativeLayout rlMenuBottom;
     protected TextView tvPage;
@@ -41,6 +43,8 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
     @Override
     public void initView() {
         initMenuBottom();
+
+        srlRefresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
 
         rvBestSellers = (RecyclerView) mView.findViewById(R.id.rv_bestsellers);
         rvBestSellers.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -85,6 +89,11 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
         return listBestSellers.size();
     }
 
+    @Override
+    public void dismissRefresh() {
+        srlRefresh.setRefreshing(false);
+    }
+
     protected void initMenuBottom() {
 
         rlMenuBottom = (RelativeLayout) mView.findViewById(R.id.rl_menu_bottom);
@@ -124,5 +133,9 @@ public class BestSellersBlock extends AppBlock implements BestSellersDelegate {
 
     public void setOnNextPage(View.OnClickListener listener) {
         llNext.setOnClickListener(listener);
+    }
+
+    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        srlRefresh.setOnRefreshListener(listener);
     }
 }

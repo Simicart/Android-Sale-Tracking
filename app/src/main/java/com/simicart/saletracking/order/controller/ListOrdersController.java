@@ -1,5 +1,6 @@
 package com.simicart.saletracking.order.controller;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -37,6 +38,7 @@ public class ListOrdersController extends AppController {
     protected View.OnClickListener mOnStatusFilterClick;
     protected View.OnClickListener mOnSortClick;
     protected View.OnClickListener mOnTimeFilterClick;
+    protected SwipeRefreshLayout.OnRefreshListener mOnRefreshPull;
     protected SearchEntity mSearchEntity;
     protected LayerEntity mStatusFilter;
     protected LayerEntity mSortEntity;
@@ -48,35 +50,36 @@ public class ListOrdersController extends AppController {
     protected int mTotalPage;
     protected int mOffset = 0;
     protected int mLimit = AppPreferences.getPaging();
-    protected boolean isFirstRequest = true;
 
     @Override
     public void onStart() {
         parseData();
-        requestListOrders();
+        requestListOrders(Constants.TypeShowLoading.LOADING);
         initListener();
     }
 
     @Override
     public void onResume() {
-        requestListOrders();
+        mDelegate.showPage(mCurrentPage, mTotalPage);
+        mDelegate.updateView(mCollection);
     }
 
-    protected void requestListOrders() {
-        if (isFirstRequest) {
+    protected void requestListOrders(final int showLoading) {
+        if (showLoading == Constants.TypeShowLoading.LOADING) {
             mDelegate.showLoading();
-        } else {
+        } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
             mDelegate.showDialogLoading();
         }
         ListOrdersRequest mListOrdersRequest = new ListOrdersRequest();
         mListOrdersRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                    isFirstRequest = false;
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mCollection = collection;
                 if (collection != null) {
@@ -95,10 +98,12 @@ public class ListOrdersController extends AppController {
         mListOrdersRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mDelegate.updateView(mCollection);
                 AppNotify.getInstance().showError(message);
@@ -167,7 +172,7 @@ public class ListOrdersController extends AppController {
                 if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
                     mOffset += mLimit;
-                    requestListOrders();
+                    requestListOrders(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -189,7 +194,7 @@ public class ListOrdersController extends AppController {
                 if (mCurrentPage > 1) {
                     mCurrentPage--;
                     mOffset -= mLimit;
-                    requestListOrders();
+                    requestListOrders(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -260,6 +265,13 @@ public class ListOrdersController extends AppController {
             }
         };
 
+        mOnRefreshPull = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestListOrders(Constants.TypeShowLoading.REFRESH);
+            }
+        };
+
     }
 
     protected void parseData() {
@@ -321,6 +333,10 @@ public class ListOrdersController extends AppController {
 
     public View.OnClickListener getOnTimeFilterClick() {
         return mOnTimeFilterClick;
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshPull() {
+        return mOnRefreshPull;
     }
 
     public void setDetail(boolean detail) {

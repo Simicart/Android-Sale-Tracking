@@ -1,5 +1,6 @@
 package com.simicart.saletracking.cart.controller;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ListAbandonedCartsController extends AppController {
     protected View.OnClickListener mOnPreviousPageClick;
     protected View.OnClickListener mOnNextPageClick;
     protected View.OnClickListener mOnSearchClick;
+    protected SwipeRefreshLayout.OnRefreshListener mOnRefreshPull;
     protected SearchEntity mSearchEntity;
     protected HashMap<String, Object> hmData;
 
@@ -44,7 +46,7 @@ public class ListAbandonedCartsController extends AppController {
     @Override
     public void onStart() {
         parseData();
-        requestListCarts();
+        requestListCarts(Constants.TypeShowLoading.LOADING);
         initListener();
     }
 
@@ -54,21 +56,22 @@ public class ListAbandonedCartsController extends AppController {
         mDelegate.updateView(mCollection);
     }
 
-    protected void requestListCarts() {
-        if (isFirstRequest) {
+    protected void requestListCarts(final int showLoading) {
+        if (showLoading == Constants.TypeShowLoading.LOADING) {
             mDelegate.showLoading();
-        } else {
+        } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
             mDelegate.showDialogLoading();
         }
         ListAbandonedCartsRequest cartsRequest = new ListAbandonedCartsRequest();
         cartsRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                    isFirstRequest = false;
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mCollection = collection;
                 if (collection != null) {
@@ -87,10 +90,12 @@ public class ListAbandonedCartsController extends AppController {
         cartsRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                if (isFirstRequest) {
+                if (showLoading == Constants.TypeShowLoading.LOADING) {
                     mDelegate.dismissLoading();
-                } else {
+                } else if(showLoading == Constants.TypeShowLoading.DIALOG) {
                     mDelegate.dismissDialogLoading();
+                } else {
+                    mDelegate.dismissRefresh();
                 }
                 mDelegate.updateView(mCollection);
                 AppNotify.getInstance().showError(message);
@@ -140,7 +145,7 @@ public class ListAbandonedCartsController extends AppController {
                 if (mCurrentPage < mTotalPage) {
                     mCurrentPage++;
                     mOffset += mLimit;
-                    requestListCarts();
+                    requestListCarts(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -162,7 +167,7 @@ public class ListAbandonedCartsController extends AppController {
                 if (mCurrentPage > 1) {
                     mCurrentPage--;
                     mOffset -= mLimit;
-                    requestListCarts();
+                    requestListCarts(Constants.TypeShowLoading.DIALOG);
 
                     // Tracking with MixPanel
                     try {
@@ -188,6 +193,13 @@ public class ListAbandonedCartsController extends AppController {
                 hmData.put("from", Constants.Search.CART);
                 hmData.put("is_detail", false);
                 AppManager.getInstance().openSearch(hmData);
+            }
+        };
+
+        mOnRefreshPull = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                requestListCarts(Constants.TypeShowLoading.REFRESH);
             }
         };
 
@@ -223,6 +235,10 @@ public class ListAbandonedCartsController extends AppController {
 
     public View.OnClickListener getOnSearchClick() {
         return mOnSearchClick;
+    }
+
+    public SwipeRefreshLayout.OnRefreshListener getOnRefreshPull() {
+        return mOnRefreshPull;
     }
 
 }

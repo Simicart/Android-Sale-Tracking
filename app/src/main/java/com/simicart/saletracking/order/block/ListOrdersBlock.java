@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -37,6 +38,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
     protected TextView tvTime, tvSort, tvFilter;
     protected RecyclerView rvOrders;
+    protected SwipeRefreshLayout srlRefresh;
     protected RelativeLayout rlMenuBottom;
     protected TextView tvPage;
     protected LinearLayout llNext, llPrevious;
@@ -53,6 +55,8 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
         initMenuTop();
         initMenuBottom();
+
+        srlRefresh = (SwipeRefreshLayout) mView.findViewById(R.id.srl_refresh);
 
         rvOrders = (RecyclerView) mView.findViewById(R.id.rv_orders);
         rvOrders.setLayoutManager(new StickyHeaderLayoutManager());
@@ -175,6 +179,11 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
         return listOrders.size();
     }
 
+    @Override
+    public void dismissRefresh() {
+        srlRefresh.setRefreshing(false);
+    }
+
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {
         rvOrders.setOnScrollListener(listener);
     }
@@ -201,6 +210,10 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
 
     public void setOnTimeFilterClick(View.OnClickListener listener) {
         tvTime.setOnClickListener(listener);
+    }
+
+    public void setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener listener) {
+        srlRefresh.setOnRefreshListener(listener);
     }
 
 }
