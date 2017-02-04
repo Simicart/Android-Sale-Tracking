@@ -80,6 +80,7 @@ public class DashboardController extends AppController {
 
     @Override
     public void onResume() {
+        isFirstRun = true;
         showChart(listSalesRequest.getCollection());
         mDelegate.showBestSellers(bestSellersRequest.getCollection());
         mDelegate.showLatestOrders(listOrdersRequest.getCollection());

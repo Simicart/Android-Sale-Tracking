@@ -37,7 +37,6 @@ public class ProductDescriptionFragment extends AppFragment {
 
     protected String mDescription;
     protected int mEdit;
-    protected ProgressDialog pd_loading;
     protected String mProductID;
 
     protected EditText etDescription;
@@ -60,8 +59,6 @@ public class ProductDescriptionFragment extends AppFragment {
             mEdit = (int) getValueWithKey("edit");
             mProductID = (String)  getValueWithKey("product_id");
         }
-
-        initDialogLoading();
 
         etDescription = (EditText) rootView.findViewById(R.id.et_description);
         etDescription.setTextColor(Color.BLACK);
@@ -90,37 +87,14 @@ public class ProductDescriptionFragment extends AppFragment {
         return rootView;
     }
 
-    protected void initDialogLoading() {
-        pd_loading = ProgressDialog.show(getActivity(), null, null, true, false);
-        LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View loadingView = inflater.inflate(R.layout.view_loading, null);
-        pd_loading.setContentView(loadingView);
-        pd_loading.getWindow().setBackgroundDrawable(
-                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        pd_loading.setCanceledOnTouchOutside(false);
-        pd_loading.setCancelable(false);
-        pd_loading.dismiss();
-    }
-
-    public void showDialogLoading() {
-        pd_loading.getWindow().setBackgroundDrawable(
-                new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        pd_loading.show();
-    }
-
-    public void dismissDialogLoading() {
-        pd_loading.dismiss();
-    }
-
     protected void editProductDescription() {
-        showDialogLoading();
+        AppManager.getInstance().showDialogLoading();
         ProductDetailRequest editProductRequest = new ProductDetailRequest();
         editProductRequest.setRequestMethod(Request.Method.PUT);
         editProductRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
             @Override
             public void onSuccess(AppCollection collection) {
-                dismissDialogLoading();
-                AppManager.getInstance().clearCurrentFragment();
+                AppManager.getInstance().dismissDialogLoading();
                 HashMap<String, Object> hmData = new HashMap<String, Object>();
                 hmData.put("product_id", mProductID);
                 AppManager.getInstance().openProductDetail(hmData);
@@ -129,7 +103,7 @@ public class ProductDescriptionFragment extends AppFragment {
         editProductRequest.setRequestFailCallback(new RequestFailCallback() {
             @Override
             public void onFail(String message) {
-                dismissDialogLoading();
+                AppManager.getInstance().dismissDialogLoading();
                 AppNotify.getInstance().showError(message);
             }
         });

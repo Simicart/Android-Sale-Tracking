@@ -24,6 +24,7 @@ import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppEvent;
 import com.simicart.saletracking.common.AppLogging;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
@@ -322,8 +323,7 @@ public class LoginController extends AppController {
                     LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity()).unregisterReceiver(onScanResultReceiver);
                 }
             };
-            LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity())
-                    .registerReceiver(onScanResultReceiver, new IntentFilter("login.qrcode"));
+            AppEvent.getInstance().registerEvent("login.qrcode", onScanResultReceiver);
         }
     }
 
@@ -431,14 +431,13 @@ public class LoginController extends AppController {
         BroadcastReceiver receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                AppData appData = intent.getParcelableExtra("data");
+                Bundle bundle = intent.getBundleExtra("data");
+                AppData appData = bundle.getParcelable("entity");
                 NotificationEntity notificationEntity = (NotificationEntity) appData.getData().get("notification_entity");
                 showPopupNotification(notificationEntity);
             }
         };
-
-        IntentFilter notificationFilter = new IntentFilter("com.simitracking.notification");
-        LocalBroadcastManager.getInstance(AppManager.getInstance().getCurrentActivity()).registerReceiver(receiver, notificationFilter);
+        AppEvent.getInstance().registerEvent("com.simitracking.notification", receiver);
     }
 
     protected void showPopupNotification(final NotificationEntity entity) {

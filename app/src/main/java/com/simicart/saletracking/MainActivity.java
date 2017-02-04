@@ -36,6 +36,7 @@ import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.AppRequest;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
+import com.simicart.saletracking.common.AppEvent;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
@@ -142,13 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             HashMap<String, Object> hmQRData = new HashMap<>();
             hmQRData.put("result", result);
 
-            Intent intent = new Intent("login.qrcode");
-            Bundle bundle = new Bundle();
-            AppData mData = new AppData(hmQRData);
-            bundle.putParcelable("entity", mData);
-            intent.putExtra("data", bundle);
-
-            LocalBroadcastManager.getInstance(this).sendBroadcastSync(intent);
+            AppEvent.getInstance().dispatchEvent("login.qrcode", hmQRData);
         }
     }
 
@@ -267,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             AppPreferences.setSignInQr(false);
             AppPreferences.clearCustomerInfoForQr();
         }
+        AppEvent.getInstance().unregisterAllEvents();
         AppManager.getInstance().openLoginPage();
         AppManager.getInstance().disableDrawer();
     }

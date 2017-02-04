@@ -23,6 +23,7 @@ import com.simicart.saletracking.MainActivity;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.AppEvent;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.notification.entity.NotificationEntity;
 
@@ -50,12 +51,9 @@ public class NotificationListenerService extends GcmListenerService {
                 NotificationEntity notificationEntity = new NotificationEntity();
                 notificationEntity.parse(json);
                 if (MainActivity.isRunning) {
-                    Intent intent = new Intent("com.simitracking.notification");
                     HashMap<String, Object> data = new HashMap<>();
                     data.put("notification_entity", notificationEntity);
-                    AppData appData = new AppData(data);
-                    intent.putExtra("data", appData);
-                    LocalBroadcastManager.getInstance(this).sendBroadcastSync(intent);
+                    AppEvent.getInstance().dispatchEvent("com.simitracking.notification", data);
                 } else {
                     showNotification(notificationEntity);
                 }
