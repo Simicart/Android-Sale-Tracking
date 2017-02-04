@@ -27,7 +27,6 @@ import com.simicart.saletracking.layer.adapter.LayerAdapter;
 public class LayerFragment extends AppFragment {
 
     protected TextView tvTitle, tvClear;
-    protected AppCompatButton btCancel;
     protected RecyclerView rvLayers;
     protected LayerAdapter mAdapter;
     protected String mTitle;
@@ -80,9 +79,6 @@ public class LayerFragment extends AppFragment {
                 AppManager.getInstance().openListOrders(mHashMapData);
             }
         });
-
-        btCancel = (AppCompatButton) rootView.findViewById(R.id.bt_cancel);
-        AppColor.getInstance().initButton(btCancel, "Cancel");
 
         rvLayers = (RecyclerView) rootView.findViewById(R.id.rv_layers);
         rvLayers.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));

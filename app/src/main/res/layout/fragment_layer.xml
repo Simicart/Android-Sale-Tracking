@@ -28,19 +28,10 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/bt_cancel"
-        style="@style/ButtonStyle"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/size_20"
-        android:layout_marginEnd="@dimen/size_20"
-        android:layout_marginBottom="@dimen/size_10"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_layers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rl_top"
-        android:layout_above="@+id/bt_cancel"></android.support.v7.widget.RecyclerView>
+        android:layout_below="@+id/rl_top"></android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>
