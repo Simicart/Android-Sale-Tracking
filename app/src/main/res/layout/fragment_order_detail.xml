@@ -549,6 +549,7 @@
         android:src="@drawable/ic_edit"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         app:backgroundTint="@color/colorPrimary"/>
 
 </RelativeLayout>

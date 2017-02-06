@@ -29,7 +29,7 @@
                     android:layout_width="@dimen/size_20"
                     android:layout_height="@dimen/size_20"
                     android:layout_alignParentEnd="true"
-                    android:padding="@dimen/size_3"
+                    android:padding="@dimen/size_5"
                     android:src="@drawable/ic_edit"/>
 
                 <TextView
@@ -184,7 +184,7 @@
                     android:layout_width="@dimen/size_20"
                     android:layout_height="@dimen/size_20"
                     android:layout_alignParentEnd="true"
-                    android:padding="@dimen/size_3"
+                    android:padding="@dimen/size_5"
                     android:src="@drawable/ic_edit"/>
 
                 <TextView

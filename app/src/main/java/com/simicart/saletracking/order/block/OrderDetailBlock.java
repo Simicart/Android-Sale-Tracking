@@ -296,8 +296,8 @@ public class OrderDetailBlock extends AppBlock {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if(status.equals("complete")) {
-                        fabEdit.setVisibility(View.GONE);
+                    if(!status.equals("complete") && !status.equals("canceled")) {
+                        fabEdit.setVisibility(View.VISIBLE);
                     }
                 }
             }, 550);

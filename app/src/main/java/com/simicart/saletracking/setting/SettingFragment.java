@@ -6,6 +6,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -108,25 +109,18 @@ public class SettingFragment extends AppFragment {
             @Override
             public void onClick(View view) {
                 boolean isChecked = swItemSaleReport.isChecked();
-
-                // Tracking with MixPanel
-                try {
-                    JSONObject object = new JSONObject();
-                    if (isChecked) {
-                        object.put("show_reports_on_dashboard", "enable");
-                        swItemSaleReport.setChecked(false);
-                        AppPreferences.setShowSaleReport(false);
-                    } else {
-                        object.put("show_reports_on_dashboard", "disable");
-                        swItemSaleReport.setChecked(true);
-                        AppPreferences.setShowSaleReport(true);
-                    }
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
-                    AppManager.getInstance().trackWithMixPanel("setting", object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(isChecked) {
+                    swItemSaleReport.setChecked(false);
+                } else {
+                    swItemSaleReport.setChecked(true);
                 }
+                showSaleReport(swItemSaleReport.isChecked());
+            }
+        });
+        swItemSaleReport.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                showSaleReport(b);
             }
         });
 
@@ -135,25 +129,18 @@ public class SettingFragment extends AppFragment {
             @Override
             public void onClick(View view) {
                 boolean isChecked = swItemBestSellers.isChecked();
-
-                // Tracking with MixPanel
-                try {
-                    JSONObject object = new JSONObject();
-                    if (isChecked) {
-                        object.put("show_bestsellers_on_dashboard", "enable");
-                        swItemBestSellers.setChecked(false);
-                        AppPreferences.setShowBestSellers(false);
-                    } else {
-                        object.put("show_bestsellers_on_dashboard", "disable");
-                        swItemBestSellers.setChecked(true);
-                        AppPreferences.setShowBestSellers(true);
-                    }
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
-                    AppManager.getInstance().trackWithMixPanel("setting", object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(isChecked) {
+                    swItemBestSellers.setChecked(false);
+                } else {
+                    swItemBestSellers.setChecked(true);
                 }
+                showBestSellers(swItemBestSellers.isChecked());
+            }
+        });
+        swItemBestSellers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                showBestSellers(b);
             }
         });
 
@@ -162,25 +149,18 @@ public class SettingFragment extends AppFragment {
             @Override
             public void onClick(View view) {
                 boolean isChecked = swItemLatestCustomers.isChecked();
-
-                // Tracking with MixPanel
-                try {
-                    JSONObject object = new JSONObject();
-                    if (isChecked) {
-                        object.put("show_latest_customers_on_dashboard", "enable");
-                        swItemLatestCustomers.setChecked(false);
-                        AppPreferences.setShowLatestCustomer(false);
-                    } else {
-                        object.put("show_latest_customers_on_dashboard", "disable");
-                        swItemLatestCustomers.setChecked(true);
-                        AppPreferences.setShowLatestCustomer(true);
-                    }
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
-                    AppManager.getInstance().trackWithMixPanel("setting", object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(isChecked) {
+                    swItemLatestCustomers.setChecked(false);
+                } else {
+                    swItemLatestCustomers.setChecked(true);
                 }
+                showLatestCustomers(swItemLatestCustomers.isChecked());
+            }
+        });
+        swItemLatestCustomers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                showLatestCustomers(b);
             }
         });
 
@@ -189,25 +169,18 @@ public class SettingFragment extends AppFragment {
             @Override
             public void onClick(View view) {
                 boolean isChecked = swItemLatestOrders.isChecked();
-
-                // Tracking with MixPanel
-                try {
-                    JSONObject object = new JSONObject();
-                    if (isChecked) {
-                        object.put("show_last_orders_on_dashboard", "enable");
-                        swItemLatestOrders.setChecked(false);
-                        AppPreferences.setShowLatestOrder(false);
-                    } else {
-                        object.put("show_lastest_orders_on_dashboard", "disable");
-                        swItemLatestOrders.setChecked(true);
-                        AppPreferences.setShowLatestOrder(true);
-                    }
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
-                    AppManager.getInstance().trackWithMixPanel("setting", object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if(isChecked) {
+                    swItemLatestOrders.setChecked(false);
+                } else {
+                    swItemLatestOrders.setChecked(true);
                 }
+                showLatestOrders(swItemLatestOrders.isChecked());
+            }
+        });
+        swItemLatestOrders.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                showLatestOrders(b);
             }
         });
 
@@ -396,6 +369,78 @@ public class SettingFragment extends AppFragment {
             }
         });
         chooserPopup.show();
+    }
+
+    protected void showSaleReport(boolean show) {
+        // Tracking with MixPanel
+        try {
+            JSONObject object = new JSONObject();
+            if (show) {
+                object.put("show_reports_on_dashboard", "enable");
+            } else {
+                object.put("show_reports_on_dashboard", "disable");
+            }
+            AppPreferences.setShowSaleReport(show);
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("setting", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void showBestSellers(boolean show) {
+        // Tracking with MixPanel
+        try {
+            JSONObject object = new JSONObject();
+            if (show) {
+                object.put("show_bestsellers_on_dashboard", "enable");
+            } else {
+                object.put("show_bestsellers_on_dashboard", "disable");
+            }
+            AppPreferences.setShowBestSellers(show);
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("setting", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void showLatestCustomers(boolean show) {
+        // Tracking with MixPanel
+        try {
+            JSONObject object = new JSONObject();
+            if (show) {
+                object.put("show_latest_customers_on_dashboard", "enable");
+            } else {
+                object.put("show_latest_customers_on_dashboard", "disable");
+            }
+            AppPreferences.setShowLatestCustomer(show);
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("setting", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void showLatestOrders(boolean show) {
+        // Tracking with MixPanel
+        try {
+            JSONObject object = new JSONObject();
+            if (show) {
+                object.put("show_last_orders_on_dashboard", "enable");
+            } else {
+                object.put("show_lastest_orders_on_dashboard", "disable");
+            }
+            AppPreferences.setShowLatestOrder(show);
+            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            AppManager.getInstance().trackWithMixPanel("setting", object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void showPagingValue() {
