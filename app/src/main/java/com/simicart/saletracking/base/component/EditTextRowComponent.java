@@ -38,7 +38,7 @@ public class EditTextRowComponent extends AppComponent {
         etText = (EditText) rootView.findViewById(R.id.et_text);
         etText.setTextColor(Color.BLACK);
         if(mRowEntity.getType() == Constants.RowType.TEXT_NUMBER) {
-            etText.setInputType(InputType.TYPE_CLASS_NUMBER);
+            etText.setRawInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         }
         String value = mRowEntity.getValue();
         if(value != null) {

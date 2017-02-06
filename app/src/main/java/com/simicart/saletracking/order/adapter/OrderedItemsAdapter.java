@@ -81,7 +81,7 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
 
         String qty = productEntity.getQuantityOrdered();
         if (Utils.validateString(qty)) {
-            holder.tvQty.setText("Quantity Ordered: " + Utils.formatIntNumber(qty));
+            holder.tvQty.setText("Quantity Ordered: " + Utils.parseFloat(qty));
         }
 
         String image = productEntity.getOrderImage();

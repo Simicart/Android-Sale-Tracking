@@ -147,7 +147,7 @@ public class CustomerDetailBlock extends AppBlock {
 
         tvTaxVATLabel = (TextView) mView.findViewById(R.id.tv_taxvat_label);
         tvTaxVATLabel.setTextColor(Color.BLACK);
-        tvTaxVATLabel.setText("TaxVAT");
+        tvTaxVATLabel.setText("Tax VAT");
 
         tvCreatedAt = (TextView) mView.findViewById(R.id.tv_created_at);
         tvCreatedAt.setTextColor(Color.BLACK);

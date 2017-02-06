@@ -245,6 +245,13 @@ public class ProductDetailController extends AppController {
                     value = "0";
                 }
             }
+            if(key.equals("qty")) {
+                if(value.contains("-")) {
+                    value = value.replace("-", ".");
+                } else if(value.contains(",")) {
+                    value = value.replace(",", ".");
+                }
+            }
             editProductInfoRequest.addParamBody(key, value);
         }
 

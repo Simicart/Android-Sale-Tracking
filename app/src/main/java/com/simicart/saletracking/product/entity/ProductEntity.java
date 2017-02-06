@@ -111,7 +111,7 @@ public class ProductEntity extends AppEntity {
         JSONObject stockItemObj = getJSONObjectWithKey(mJSON, STOCK_ITEM);
         if(stockItemObj != null) {
             if(stockItemObj.has(QTY)) {
-                mQuantity = Utils.formatIntNumber(getStringWithKey(stockItemObj, QTY));
+                mQuantity = getStringWithKey(stockItemObj, QTY);
             }
 
             if(stockItemObj.has(IS_IN_STOCK)) {

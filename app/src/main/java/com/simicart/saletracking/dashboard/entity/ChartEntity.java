@@ -2,6 +2,9 @@ package com.simicart.saletracking.dashboard.entity;
 
 import com.simicart.saletracking.base.entity.AppEntity;
 
+import static com.simicart.saletracking.common.Utils.parseFloat;
+import static com.simicart.saletracking.common.Utils.parseInt;
+
 /**
  * Created by Glenn on 12/5/2016.
  */

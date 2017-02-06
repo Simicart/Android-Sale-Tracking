@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.store.apdater.StoreViewAdapter;
 import com.simicart.saletracking.store.entity.StoreViewEntity;
 
@@ -59,6 +60,7 @@ public class MenuTopController {
             @Override
             public void onClick(View view) {
                 if (isOnDetail) {
+                    Utils.hideKeyboard();
                     AppManager.getInstance().clearCurrentFragment();
                 } else {
                     AppManager.getInstance().openDrawer();

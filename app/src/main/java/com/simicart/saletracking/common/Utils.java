@@ -203,29 +203,22 @@ public class Utils {
 
     public static String formatIntNumber(String number) {
         return "" + ((int)Double.parseDouble(number));
-//        DecimalFormat df = new DecimalFormat("#,##0.00");
-//        if (number == null || number.equals("null")) {
-//            number = "0";
-//        }
-//        String formattedNumber = df.format(Float.parseFloat(number));
-//        if (formattedNumber.contains(".")) {
-//            int i = formattedNumber.length();
-//            while (true) {
-//                i--;
-//                char c = formattedNumber.charAt(i);
-//                if (c == '.') {
-//                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
-//                    break;
-//                } else if (c != '0') {
-//                    break;
-//                } else {
-//                    formattedNumber = formattedNumber.substring(0, formattedNumber.length() - 1);
-//                }
-//            }
-//            return formattedNumber;
-//        } else {
-//            return formattedNumber;
-//        }
+    }
+
+    public static float parseFloat(String s) {
+        if (Utils.validateString(s)) {
+            if (Utils.isFloat(s)) {
+                return Float.parseFloat(s);
+            }
+        }
+        return 0;
+    }
+
+    public static int parseInt(String s) {
+        if (Utils.isInteger(s)) {
+            return Integer.parseInt(s);
+        }
+        return 0;
     }
 
     public static void setTextHtml(TextView textView, String html) {

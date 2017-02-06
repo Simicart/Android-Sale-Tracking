@@ -31,22 +31,6 @@ public class AppEntity {
 
     }
 
-    protected float parseFloat(String s) {
-        if (Utils.validateString(s)) {
-            if (Utils.isFloat(s)) {
-                return Float.parseFloat(s);
-            }
-        }
-        return 0;
-    }
-
-    protected int parseInt(String s) {
-        if (Utils.isInteger(s)) {
-            return Integer.parseInt(s);
-        }
-        return 0;
-    }
-
     public String getString(String key) {
         if (mJSON != null && mJSON.has(key)) {
             try {

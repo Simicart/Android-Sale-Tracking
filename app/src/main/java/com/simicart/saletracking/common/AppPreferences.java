@@ -40,7 +40,7 @@ public class AppPreferences {
     public static void setSignInNormal(boolean signIn) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(SIGN_IN_NORMAL, signIn);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isSignInNormal() {
@@ -54,7 +54,7 @@ public class AppPreferences {
     public static void setSignInQr(boolean signIn) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(SIGN_IN_QR, signIn);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isSignInQr() {
@@ -68,7 +68,7 @@ public class AppPreferences {
     public static void setIsDemo(boolean demo) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(IS_DEMO, demo);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean isDemo() {
@@ -82,7 +82,7 @@ public class AppPreferences {
     public static void setCustomerUrl(String url) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putString(CUSTOMER_URL, url);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getCustomerUrl() {
@@ -96,7 +96,7 @@ public class AppPreferences {
     public static void setCustomerEmail(String email) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putString(CUSTOMER_EMAIL, email);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getCustomerEmail() {
@@ -110,7 +110,7 @@ public class AppPreferences {
     public static void setCustomerPassword(String pass) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putString(CUSTOMER_PASSWORD, pass);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getCustomerPassword() {
@@ -124,7 +124,7 @@ public class AppPreferences {
     public static void setCustomerQrSession(String session) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putString(CUSTOMER_QR_SESSION, session);
-        editor.commit();
+        editor.apply();
     }
 
     public static String getCustomerQrSession() {
@@ -140,7 +140,7 @@ public class AppPreferences {
         editor.putString(CUSTOMER_URL, url);
         editor.putString(CUSTOMER_EMAIL, email);
         editor.putString(CUSTOMER_PASSWORD, pass);
-        editor.commit();
+        editor.apply();
     }
 
     public static void clearCustomerInfo() {
@@ -148,7 +148,7 @@ public class AppPreferences {
         editor.putString(CUSTOMER_URL, null);
         editor.putString(CUSTOMER_EMAIL, null);
         editor.putString(CUSTOMER_PASSWORD, null);
-        editor.commit();
+        editor.apply();
     }
 
     public static void saveCustomerInfoForQr(String url, String email, String session) {
@@ -156,7 +156,7 @@ public class AppPreferences {
         editor.putString(CUSTOMER_URL, url);
         editor.putString(CUSTOMER_EMAIL, email);
         editor.putString(CUSTOMER_QR_SESSION, session);
-        editor.commit();
+        editor.apply();
     }
 
     public static void clearCustomerInfoForQr() {
@@ -164,13 +164,13 @@ public class AppPreferences {
         editor.putString(CUSTOMER_URL, null);
         editor.putString(CUSTOMER_EMAIL, null);
         editor.putString(CUSTOMER_QR_SESSION, null);
-        editor.commit();
+        editor.apply();
     }
 
     public static void setShowSaleReport(boolean show) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(DASHBOARD_SHOW_SALE_REPORT, show);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean getShowSaleReport() {
@@ -184,7 +184,7 @@ public class AppPreferences {
     public static void setShowBestSellers(boolean show) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(DASHBOARD_SHOW_BEST_SELLERS, show);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean getShowBestSellers() {
@@ -198,7 +198,7 @@ public class AppPreferences {
     public static void setShowLatestCustomer(boolean show) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(DASHBOARD_SHOW_LATEST_CUSTOMERS, show);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean getShowLatestCustomer() {
@@ -212,7 +212,7 @@ public class AppPreferences {
     public static void setShowLatestOrder(boolean show) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putBoolean(DASHBOARD_SHOW_LATEST_ORDERS, show);
-        editor.commit();
+        editor.apply();
     }
 
     public static boolean getShowLatestOrder() {
@@ -226,7 +226,7 @@ public class AppPreferences {
     public static void setPaging(int paging) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putInt(PAGING, paging);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getPaging() {
@@ -240,7 +240,7 @@ public class AppPreferences {
     public static void setCurrencyPosition(int currencyPosition) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putInt(CURRENCY_POSITION, currencyPosition);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getCurrencyPosition() {
@@ -254,7 +254,7 @@ public class AppPreferences {
     public static void setSeparator(int separator) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putInt(SEPARATOR, separator);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getSeparator() {
@@ -268,7 +268,7 @@ public class AppPreferences {
     public static void setNumberOfDecimals(int numberOfDecimals) {
         SharedPreferences.Editor editor = mSharedPre.edit();
         editor.putInt(NUMBER_OF_DECIMALS, numberOfDecimals);
-        editor.commit();
+        editor.apply();
     }
 
     public static int getNumberOfDecimals() {

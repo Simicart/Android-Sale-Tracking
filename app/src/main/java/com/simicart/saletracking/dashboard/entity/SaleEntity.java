@@ -1,12 +1,16 @@
 package com.simicart.saletracking.dashboard.entity;
 
 import com.simicart.saletracking.base.entity.AppEntity;
+import com.simicart.saletracking.common.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import static com.simicart.saletracking.common.Utils.parseFloat;
+import static com.simicart.saletracking.common.Utils.parseInt;
 
 /**
  * Created by Glenn on 12/5/2016.
