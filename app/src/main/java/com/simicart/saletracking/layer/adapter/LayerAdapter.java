@@ -262,8 +262,8 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         mListLayers.add(currentMonth);
 
         TimeLayerEntity lastMonth = new TimeLayerEntity();
-        lastMonth.setFromDate(getFirstDayOfLastMonth());
-        lastMonth.setToDate(getLastDayOfLastMonth());
+        lastMonth.setFromDate(Utils.getFirstDayOfLastMonth());
+        lastMonth.setToDate(Utils.getLastDayOfLastMonth());
         lastMonth.setLabel("Last Month");
         lastMonth.setKey("last_month");
         mListLayers.add(lastMonth);
@@ -283,7 +283,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         mListLayers.add(thisYear);
 
         TimeLayerEntity twoYears = new TimeLayerEntity();
-        twoYears.setFromDate(getFirstDayOfLast2Year());
+        twoYears.setFromDate(Utils.getFirstDayOfLastYear());
         twoYears.setToDate(getToDay());
         twoYears.setLabel("2 Years To Day");
         twoYears.setKey("2_years_to_day");
@@ -298,30 +298,6 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
         } else {
             cal.set(a, b);
         }
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getFirstDayOfLastMonth() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.MONTH, -1);
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getLastDayOfLastMonth() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.add(Calendar.DATE, -1);
-        return dateFormat.format(cal.getTime());
-    }
-
-    protected String getFirstDayOfLast2Year() {
-        Calendar cal = Calendar.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.YEAR, -2);
-        cal.set(Calendar.DAY_OF_YEAR, 1);
         return dateFormat.format(cal.getTime());
     }
 

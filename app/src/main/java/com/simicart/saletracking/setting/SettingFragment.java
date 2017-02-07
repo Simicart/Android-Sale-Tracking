@@ -271,6 +271,7 @@ public class SettingFragment extends AppFragment {
         listCurrencyPosition.add("Right Space ($ 99.00)");
 
         ChooserPopup chooserPopup = new ChooserPopup(listCurrencyPosition, AppPreferences.getCurrencyPosition() - 1);
+        chooserPopup.setTitle("Choose Currency Position");
         chooserPopup.setChooserCallback(new ChooserCallback() {
             @Override
             public void onClick(int position) {
@@ -313,6 +314,7 @@ public class SettingFragment extends AppFragment {
         listSeparator.add("Type 2: 1,000.00");
 
         ChooserPopup chooserPopup = new ChooserPopup(listSeparator, AppPreferences.getSeparator() - 1);
+        chooserPopup.setTitle("Choose Currency Separator");
         chooserPopup.setChooserCallback(new ChooserCallback() {
             @Override
             public void onClick(int position) {
@@ -350,6 +352,7 @@ public class SettingFragment extends AppFragment {
         }
 
         ChooserPopup chooserPopup = new ChooserPopup(listNumberOfDecimals, AppPreferences.getNumberOfDecimals());
+        chooserPopup.setTitle("Choose Number Of Decimals");
         chooserPopup.setChooserCallback(new ChooserCallback() {
             @Override
             public void onClick(int position) {

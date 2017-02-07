@@ -117,7 +117,7 @@ public class SearchFragment extends AppFragment {
 
         tvClear = (TextView) rootView.findViewById(R.id.tv_clear);
         tvClear.setTextColor(AppColor.getInstance().getButtonColor());
-        SpannableString content = new SpannableString("Clear");
+        SpannableString content = new SpannableString("Reset");
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
         tvClear.setText(content);
         tvClear.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +133,9 @@ public class SearchFragment extends AppFragment {
         if (mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
             enableSearchAction(true);
             edtQuery.setText(mSelectedSearchEntity.getQuery());
+            tvClear.setVisibility(View.VISIBLE);
+        } else {
+            tvClear.setVisibility(View.GONE);
         }
 
         if (mListSearches != null) {

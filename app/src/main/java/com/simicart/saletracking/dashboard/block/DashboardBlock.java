@@ -120,6 +120,8 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
             llTopChart.setVisibility(View.GONE);
             mCombinedChart.setVisibility(View.GONE);
             tlSummary.setVisibility(View.GONE);
+            tvXLabel.setVisibility(View.GONE);
+            tvYLabel.setVisibility(View.GONE);
             gone++;
         }
 
@@ -278,7 +280,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         mListTimeLayers.add(thisYear);
 
         TimeLayerEntity twoYears = new TimeLayerEntity();
-        twoYears.setFromDate(Utils.getFirstDayOfLast2Year());
+        twoYears.setFromDate(Utils.getFirstDayOfLastYear());
         twoYears.setToDate(Utils.getToDay());
         twoYears.setLabel("2 Years To Day");
         twoYears.setKey("chart_2_years_to_day");

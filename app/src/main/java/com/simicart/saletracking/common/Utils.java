@@ -333,10 +333,10 @@ public class Utils {
         return dateFormat.format(cal.getTime());
     }
 
-    public static String getFirstDayOfLast2Year() {
+    public static String getFirstDayOfLastYear() {
         Calendar cal = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        cal.add(Calendar.YEAR, -2);
+        cal.add(Calendar.YEAR, -1);
         cal.set(Calendar.DAY_OF_YEAR, 1);
         return dateFormat.format(cal.getTime());
     }
