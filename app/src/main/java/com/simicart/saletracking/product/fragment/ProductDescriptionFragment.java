@@ -81,6 +81,7 @@ public class ProductDescriptionFragment extends AppFragment {
             btSave.setVisibility(View.GONE);
         } else {
             etDescription.setEnabled(true);
+            etDescription.requestFocus();
             btSave.setVisibility(View.VISIBLE);
         }
 

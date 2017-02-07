@@ -123,7 +123,6 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
             tvCustomerName = (TextView) itemView.findViewById(R.id.tv_customer_name);
             tvCustomerName.setTextColor(Color.BLACK);
             tvCustomerEmail = (TextView) itemView.findViewById(R.id.tv_customer_email);
-            tvCustomerEmail.setTextColor(Color.BLACK);
             llItem = (LinearLayout) itemView.findViewById(R.id.ll_item_order);
         }
     }

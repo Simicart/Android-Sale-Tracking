@@ -85,7 +85,6 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     public void initView() {
 
         initTopChart();
-        initChart();
         initTotal();
 
         tvTopBestSellersTitle = (TextView) mView.findViewById(R.id.tv_best_seller_title);
@@ -335,6 +334,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
 
     @Override
     public void showChart(ArrayList<ChartEntity> listCharts) {
+        initChart();
         CombinedData mCombinedData = new CombinedData();
         ArrayList<BarEntry> barEntries = new ArrayList<BarEntry>();
         if (listCharts != null) {
