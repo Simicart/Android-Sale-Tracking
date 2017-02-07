@@ -129,6 +129,7 @@ public class ForecastController extends AppController {
         listTimes.add("3 months");
 
         ChooserPopup chooserPopup = new ChooserPopup(listTimes, mListTimeLayers.indexOf(mTimeLayerEntity));
+        chooserPopup.setTitle("Select time range to forecast");
         chooserPopup.setChooserCallback(new ChooserCallback() {
             @Override
             public void onClick(int position) {

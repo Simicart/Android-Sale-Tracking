@@ -63,15 +63,15 @@ public class ForecastBlock extends AppBlock implements ForecastDelegate {
         int period = 0;
         String key = timeLayer.getKey();
         switch (key) {
-            case "one_month":
+            case "chart_1_month":
                 period = 30;
                 Utils.setTextHtml(tvTime, "<u><font color=#13f501>1 month</font></u> forecast");
                 break;
-            case "two_months":
+            case "chart_2_months":
                 period = 60;
                 Utils.setTextHtml(tvTime, "<u><font color=#13f501>2 months</font></u> forecast");
                 break;
-            case "three_months":
+            case "chart_3_months":
                 period = 90;
                 Utils.setTextHtml(tvTime, "<u><font color=#13f501>3 months</font></u> forecast");
                 break;
