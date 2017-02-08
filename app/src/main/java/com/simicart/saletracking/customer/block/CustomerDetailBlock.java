@@ -22,9 +22,9 @@ public class CustomerDetailBlock extends AppBlock {
 
     protected TextView tvSummaryTitle, tvInfoTitle, tvOrderTitle, tvAddressTitle, tvBillingTitle, tvShippingTitle;
     protected ImageView ivEditSummary, ivEditInfo;
-    protected TextView tvCustomerIDLabel, tvCustomerEmailLabel, tvCustomerPrefixLabel, tvCustomerFirstNameLabel, tvCustomerLastNameLabel, tvCustomerSuffixLabel,
+    protected TextView tvCustomerIDLabel, tvCustomerEmailLabel, tvCustomerPrefixLabel, tvCustomerFirstNameLabel, tvCustomerMiddleNameLabel, tvCustomerLastNameLabel, tvCustomerSuffixLabel,
             tvCreatedAtLabel, tvUpdatedAtLabel, tvActiveLabel, tvDobLabel, tvCreatedInLabel, tvGenderLabel, tvTaxVATLabel;
-    protected TextView tvCustomerID, tvCustomerEmail, tvCustomerPrefix, tvCustomerFirstName, tvCustomerLastName, tvCustomerSuffix,
+    protected TextView tvCustomerID, tvCustomerEmail, tvCustomerPrefix, tvCustomerFirstName, tvCustomerMiddleName, tvCustomerLastName, tvCustomerSuffix,
             tvCreatedAt, tvUpdatedAt, tvActive, tvDob, tvCreatedIn, tvGender, tvOrder, tvAddress, tvTaxVAT;
     protected LinearLayout llBillingAddress, llShippingAddress;
 
@@ -86,6 +86,10 @@ public class CustomerDetailBlock extends AppBlock {
         tvCustomerFirstNameLabel.setTextColor(Color.BLACK);
         tvCustomerFirstNameLabel.setText("First Name");
 
+        tvCustomerMiddleNameLabel = (TextView) mView.findViewById(R.id.tv_middle_name_label);
+        tvCustomerMiddleNameLabel.setTextColor(Color.BLACK);
+        tvCustomerMiddleNameLabel.setText("Middle Name");
+
         tvCustomerLastNameLabel = (TextView) mView.findViewById(R.id.tv_last_name_label);
         tvCustomerLastNameLabel.setTextColor(Color.BLACK);
         tvCustomerLastNameLabel.setText("Last Name");
@@ -105,6 +109,9 @@ public class CustomerDetailBlock extends AppBlock {
 
         tvCustomerFirstName = (TextView) mView.findViewById(R.id.tv_first_name);
         tvCustomerFirstName.setTextColor(Color.BLACK);
+
+        tvCustomerMiddleName = (TextView) mView.findViewById(R.id.tv_middle_name);
+        tvCustomerMiddleName.setTextColor(Color.BLACK);
 
         tvCustomerLastName = (TextView) mView.findViewById(R.id.tv_last_name);
         tvCustomerLastName.setTextColor(Color.BLACK);
@@ -232,6 +239,11 @@ public class CustomerDetailBlock extends AppBlock {
         String firstName = customerEntity.getFirstName();
         if (Utils.validateString(firstName)) {
             tvCustomerFirstName.setText(firstName);
+        }
+
+        String middleName = customerEntity.getMiddleName();
+        if (Utils.validateString(middleName)) {
+            tvCustomerMiddleName.setText(middleName);
         }
 
         String lastName = customerEntity.getLastName();

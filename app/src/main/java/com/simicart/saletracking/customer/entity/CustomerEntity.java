@@ -20,6 +20,7 @@ public class CustomerEntity extends AppEntity {
     protected String mCreatedIn;
     protected String mPrefix;
     protected String mFirstName;
+    protected String mMiddleName;
     protected String mLastName;
     protected String mSuffix;
     protected String mGender;
@@ -36,6 +37,7 @@ public class CustomerEntity extends AppEntity {
     private final String CREATED_IN = "created_in";
     private final String PREFIX = "prefix";
     private final String FIRST_NAME = "firstname";
+    private final String MIDDLE_NAME = "middlename";
     private final String LAST_NAME = "lastname";
     private final String SUFFIX = "suffix";
     private final String GENDER = "gender";
@@ -73,6 +75,8 @@ public class CustomerEntity extends AppEntity {
         mPrefix = getString(PREFIX);
 
         mFirstName = getString(FIRST_NAME);
+
+        mMiddleName = getString(MIDDLE_NAME);
 
         mLastName = getString(LAST_NAME);
 
@@ -224,5 +228,13 @@ public class CustomerEntity extends AppEntity {
 
     public void setTaxVAT(String taxVAT) {
         mTaxVAT = taxVAT;
+    }
+
+    public String getMiddleName() {
+        return mMiddleName;
+    }
+
+    public void setMiddleName(String middleName) {
+        mMiddleName = middleName;
     }
 }

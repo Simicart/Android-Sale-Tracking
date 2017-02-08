@@ -16,6 +16,7 @@ public class AppComponent {
     protected LayoutInflater mInflater;
     protected Context mContext;
     protected String mKey;
+    protected boolean mIsRequired;
 
     public AppComponent() {
         mContext = AppManager.getInstance().getCurrentActivity();
@@ -36,5 +37,9 @@ public class AppComponent {
 
     public void setKey(String key) {
         mKey = key;
+    }
+
+    public boolean isRequired() {
+        return false;
     }
 }

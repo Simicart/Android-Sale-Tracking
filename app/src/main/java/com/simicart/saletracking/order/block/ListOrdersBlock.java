@@ -216,4 +216,7 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
         srlRefresh.setOnRefreshListener(listener);
     }
 
+    public void hideSearchButton() {
+        fabSearch.setVisibility(View.GONE);
+    }
 }

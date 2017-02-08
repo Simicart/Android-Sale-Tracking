@@ -33,6 +33,9 @@ public class SpinnerRowComponent extends AppComponent {
         tvTitle.setTextColor(Color.BLACK);
         String title = mRowEntity.getTitle();
         if(Utils.validateString(title)) {
+            if(mRowEntity.isRequired()) {
+                title += "(*)";
+            }
             tvTitle.setText(title);
         }
 
@@ -47,6 +50,11 @@ public class SpinnerRowComponent extends AppComponent {
     @Override
     public String getText() {
         return (String) spChooser.getSelectedItem();
+    }
+
+    @Override
+    public boolean isRequired() {
+        return mRowEntity.isRequired();
     }
 
 }

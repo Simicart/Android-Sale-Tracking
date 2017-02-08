@@ -115,7 +115,11 @@ public class ListOrdersController extends AppController {
         try {
             JSONObject object = new JSONObject();
             if (mSearchEntity != null) {
-                mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+                String query = mSearchEntity.getQuery();
+                if(hmData != null && !hmData.containsKey("orders_customer")) {
+                    query = "%" + query + "%";
+                }
+                mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), query);
                 object.put("search_action", mSearchEntity.getKey());
             }
             if (mStatusFilter != null) {

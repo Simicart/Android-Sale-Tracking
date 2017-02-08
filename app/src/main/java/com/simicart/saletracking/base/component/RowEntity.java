@@ -12,12 +12,14 @@ public class RowEntity {
     protected String[] mChooseValues;
     protected int mCurrentSelected;
     protected String mKey;
+    protected boolean mIsRequired;
 
-    public RowEntity(int type, String title, String key, String value) {
+    public RowEntity(int type, String title, String key, String value, boolean isRequired) {
         mType = type;
         mTitle = title;
         mKey = key;
         mValue = value;
+        mIsRequired = isRequired;
     }
 
     public RowEntity(int type, String title, String key, String[] chooseValues, int currentSelected) {
@@ -74,5 +76,13 @@ public class RowEntity {
 
     public void setCurrentSelected(int currentSelected) {
         mCurrentSelected = currentSelected;
+    }
+
+    public boolean isRequired() {
+        return mIsRequired;
+    }
+
+    public void setRequired(boolean required) {
+        mIsRequired = required;
     }
 }

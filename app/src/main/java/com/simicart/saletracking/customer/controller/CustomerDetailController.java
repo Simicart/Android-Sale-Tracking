@@ -97,11 +97,13 @@ public class CustomerDetailController extends AppController {
                     searchEntity.setQuery(customerEntity.getEmail());
                     hmData.put("search_entity", searchEntity);
                 }
+                hmData.put("orders_customer", "1");
                 ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hmData));
                 orderFragment.setFragmentName("Orders");
                 orderFragment.setDetail(true);
                 AppManager.getInstance().replaceFragment(orderFragment);
                 AppManager.getInstance().getMenuTopController().setOnDetail(true);
+                AppManager.getInstance().getMenuTopController().showStorePicker(true);
             }
         };
 
@@ -154,10 +156,11 @@ public class CustomerDetailController extends AppController {
 
     protected void onEditSummary(CustomerEntity customerEntity) {
         ArrayList<RowEntity> mListRows = new ArrayList<>();
-        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Prefix", "prefix", customerEntity.getPrefix()));
-        mListRows.add(new RowEntity(Constants.RowType.TEXT, "First Name", "firstname", customerEntity.getFirstName()));
-        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Last Name", "lastname", customerEntity.getLastName()));
-        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Suffix", "suffix", customerEntity.getSuffix()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Prefix", "prefix", customerEntity.getPrefix(), false));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "First Name", "firstname", customerEntity.getFirstName(), true));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Middle Name", "middlename", customerEntity.getMiddleName(), false));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Last Name", "lastname", customerEntity.getLastName(), true));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Suffix", "suffix", customerEntity.getSuffix(), false));
         EditPopup editPopup = new EditPopup(mListRows, "Edit Customer Summary");
         editPopup.setEditCallback(new EditCallback() {
             @Override
@@ -181,8 +184,8 @@ public class CustomerDetailController extends AppController {
 
     protected void onEditInfo(CustomerEntity customerEntity) {
         ArrayList<RowEntity> mListRows = new ArrayList<>();
-        mListRows.add(new RowEntity(Constants.RowType.TIME, "Date Of Birth", "dob", customerEntity.getDob()));
-        mListRows.add(new RowEntity(Constants.RowType.TEXT, "TaxVAT", "taxvat", customerEntity.getTaxVAT()));
+        mListRows.add(new RowEntity(Constants.RowType.TIME, "Date Of Birth", "dob", customerEntity.getDob(), false));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Tax VAT", "taxvat", customerEntity.getTaxVAT(), false));
         EditPopup editPopup = new EditPopup(mListRows, "Edit Customer Information");
         editPopup.setEditCallback(new EditCallback() {
             @Override

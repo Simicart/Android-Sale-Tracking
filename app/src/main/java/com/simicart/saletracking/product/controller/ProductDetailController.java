@@ -194,8 +194,8 @@ public class ProductDetailController extends AppController {
 
     protected void openEditPopup(ProductEntity productEntity) {
         ArrayList<RowEntity> mListRows = new ArrayList<>();
-        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Name", "name", productEntity.getName()));
-        mListRows.add(new RowEntity(Constants.RowType.TEXT_NUMBER, "Quantity", "qty", productEntity.getQuantity()));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT, "Name", "name", productEntity.getName(), true));
+        mListRows.add(new RowEntity(Constants.RowType.TEXT_NUMBER, "Quantity", "qty", productEntity.getQuantity(), true));
         String stocks[] = {"In Stock", "Out of Stock"};
         int selectedStock;
         if (productEntity.isInStock()) {

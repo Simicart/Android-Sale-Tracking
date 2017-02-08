@@ -36,6 +36,9 @@ public class TimeRowComponent extends AppComponent {
         tvTitle.setTextColor(Color.BLACK);
         String title = mRowEntity.getTitle();
         if(Utils.validateString(title)) {
+            if(mRowEntity.isRequired()) {
+                title += "(*)";
+            }
             tvTitle.setText(title);
         }
 
@@ -74,5 +77,10 @@ public class TimeRowComponent extends AppComponent {
         cal.set(dpTime.getYear(), dpTime.getMonth(), dpTime.getDayOfMonth());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(cal.getTime());
+    }
+
+    @Override
+    public boolean isRequired() {
+        return mRowEntity.isRequired();
     }
 }

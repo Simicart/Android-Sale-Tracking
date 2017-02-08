@@ -13,6 +13,8 @@ import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.order.block.ListOrdersBlock;
 import com.simicart.saletracking.order.controller.ListOrdersController;
 
+import java.util.HashMap;
+
 /**
  * Created by Glenn on 11/26/2016.
  */
@@ -37,6 +39,11 @@ public class ListOrdersFragment extends AppFragment {
 
         mBlock = new ListOrdersBlock(rootView);
         mBlock.initView();
+        if (mData != null && mData.getData() != null) {
+            if(mData.getData().containsKey("orders_customer")) {
+                mBlock.hideSearchButton();
+            }
+        }
         if (mController == null) {
             mController = new ListOrdersController();
             mController.setDelegate(mBlock);

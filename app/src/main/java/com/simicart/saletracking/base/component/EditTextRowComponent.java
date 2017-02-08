@@ -33,6 +33,9 @@ public class EditTextRowComponent extends AppComponent {
         tilTitle = (TextInputLayout) rootView.findViewById(R.id.til_title);
         String title = mRowEntity.getTitle();
         if(Utils.validateString(title)) {
+            if(mRowEntity.isRequired()) {
+                title += "(*)";
+            }
             tilTitle.setHint(title);
         }
         etText = (EditText) rootView.findViewById(R.id.et_text);
@@ -53,4 +56,8 @@ public class EditTextRowComponent extends AppComponent {
         return etText.getText().toString();
     }
 
+    @Override
+    public boolean isRequired() {
+        return mRowEntity.isRequired();
+    }
 }

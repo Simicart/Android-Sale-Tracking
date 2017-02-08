@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="@dimen/size_180"
-        android:layout_height="@dimen/size_180"
+        android:layout_width="@dimen/size_190"
+        android:layout_height="@dimen/size_190"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/size_25"/>
 

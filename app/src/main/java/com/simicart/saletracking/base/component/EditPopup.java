@@ -108,8 +108,12 @@ public class EditPopup {
                             hmData.put(row.getKey(), text);
                         }
                     } else {
-                        AppNotify.getInstance().showToast("Cannot leave blank field!");
-                        break;
+                        if(row.isRequired()) {
+                            AppNotify.getInstance().showToast("Cannot leave blank field!");
+                            break;
+                        } else {
+                            hmData.put(row.getKey(), "");
+                        }
                     }
                     if(mListRows.indexOf(row) == mListRows.size() - 1 && mEditCallback != null) {
                         dismiss();
