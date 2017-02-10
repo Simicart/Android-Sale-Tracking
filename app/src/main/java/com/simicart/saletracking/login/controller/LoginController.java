@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
@@ -32,6 +33,7 @@ import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.login.activity.QrCodeActivity;
 import com.simicart.saletracking.login.delegate.LoginDelegate;
 import com.simicart.saletracking.login.entity.LoginEntity;
+import com.simicart.saletracking.login.fragment.PrivacyPolicyFragment;
 import com.simicart.saletracking.login.request.CheckLicenseActiveRequest;
 import com.simicart.saletracking.login.request.LoginRequest;
 import com.simicart.saletracking.notification.entity.NotificationEntity;
@@ -55,6 +57,7 @@ public class LoginController extends AppController {
     protected View.OnClickListener onTryDemoClick;
     protected View.OnClickListener onLoginClick;
     protected View.OnClickListener onLoginQrClick;
+    protected View.OnClickListener onPrivacyPolicyClick;
     protected String mDeviceToken;
     protected BroadcastReceiver onScanResultReceiver;
 
@@ -89,6 +92,17 @@ public class LoginController extends AppController {
             @Override
             public void onClick(View view) {
                 onQrCodeClick();
+            }
+        };
+
+        onPrivacyPolicyClick = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PrivacyPolicyFragment fragment = PrivacyPolicyFragment.newInstance();
+                AppManager.getInstance().getManager().beginTransaction()
+                        .replace(R.id.container, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         };
 
@@ -493,4 +507,7 @@ public class LoginController extends AppController {
         return onLoginQrClick;
     }
 
+    public View.OnClickListener getOnPrivacyPolicyClick() {
+        return onPrivacyPolicyClick;
+    }
 }

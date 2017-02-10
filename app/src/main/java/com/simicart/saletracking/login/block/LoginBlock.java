@@ -29,7 +29,7 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
     protected ImageView ivUrl, ivUser, ivPass, ivLogo;
     protected EditText etUrl, etUser, etPass;
     protected AppCompatButton btLogin, btLoginQr, btDemo;
-    protected TextView tvHelp;
+    protected TextView tvHelp, tvPrivacyPolicy;
     protected RelativeLayout rlLogin;
 
     public LoginBlock(View view) {
@@ -78,6 +78,10 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
         tvHelp = (TextView) mView.findViewById(R.id.tv_help);
         tvHelp.setText("Need Help?");
         tvHelp.setTextColor(Color.parseColor("#FFFFFF"));
+
+        tvPrivacyPolicy = (TextView) mView.findViewById(R.id.tv_privacy_policy);
+        tvPrivacyPolicy.setText("Privacy Policy");
+        tvPrivacyPolicy.setTextColor(Color.parseColor("#FFFFFF"));
 
         if(AppPreferences.isSignInNormal()) {
             String url = AppPreferences.getCustomerUrl();
@@ -146,5 +150,9 @@ public class LoginBlock extends AppBlock implements LoginDelegate {
 
     public void onLoginQrClick(View.OnClickListener listener) {
         btLoginQr.setOnClickListener(listener);
+    }
+
+    public void onPrivacyClick(View.OnClickListener listener) {
+        tvPrivacyPolicy.setOnClickListener(listener);
     }
 }

@@ -117,7 +117,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AppNotify.getInstance().showToast("Press BACK again to exit");
 
                 new Handler().postDelayed(new Runnable() {
-
                     @Override
                     public void run() {
                         doubleBackToExitPressedOnce = false;
@@ -125,7 +124,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }, 2000);
             } else {
                 AppManager.getInstance().clearCurrentFragment();
-                AppManager.getInstance().navigateFirstFragment();
+                if(AppManager.getInstance().isDemo() || AppPreferences.isSignInNormal() || AppPreferences.isSignInQr()) {
+                    AppManager.getInstance().navigateFirstFragment();
+                }
             }
         } else {
             AppManager.getInstance().clearCurrentFragment();
