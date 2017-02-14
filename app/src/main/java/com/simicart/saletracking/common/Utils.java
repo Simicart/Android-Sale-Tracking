@@ -2,6 +2,7 @@ package com.simicart.saletracking.common;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -345,6 +346,13 @@ public class Utils {
         Calendar cal = Calendar.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return dateFormat.format(cal.getTime());
+    }
+
+    public static boolean hasPermission(String perm) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            return (PackageManager.PERMISSION_GRANTED == AppManager.getInstance().getCurrentActivity().checkSelfPermission(perm));
+        }
+        return true;
     }
 
 }

@@ -1,12 +1,24 @@
 package com.simicart.saletracking.customer.component;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.component.AppComponent;
+import com.simicart.saletracking.base.manager.AppManager;
+import com.simicart.saletracking.common.AppEvent;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.customer.entity.AddressEntity;
 
@@ -25,6 +37,7 @@ public class AddressComponent extends AppComponent {
     protected TableRow trEmail;
     protected boolean isShowEmail;
     protected boolean isShowTitle = false;
+    protected String[] PHONE_PERM = {Manifest.permission.CALL_PHONE};
 
     @Override
     public View createView() {
@@ -112,9 +125,11 @@ public class AddressComponent extends AppComponent {
 
         tvPhone = (TextView) rootView.findViewById(R.id.tv_phone);
         tvPhone.setTextColor(Color.BLACK);
-        String phone = mAddressEntity.getPhone();
+        final String phone = mAddressEntity.getPhone();
         if (Utils.validateString(phone)) {
-            tvPhone.setText(phone);
+            final SpannableString spannableString = new SpannableString(phone);
+            spannableString.setSpan(new URLSpan(""), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvPhone.setText(spannableString, TextView.BufferType.SPANNABLE);
         }
 
         tvPostCode = (TextView) rootView.findViewById(R.id.tv_post_code);

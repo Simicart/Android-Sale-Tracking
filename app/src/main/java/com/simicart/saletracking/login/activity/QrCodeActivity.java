@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import com.google.zxing.Result;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.common.AppPreferences;
+import com.simicart.saletracking.common.Utils;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
@@ -31,7 +32,7 @@ public class QrCodeActivity extends AppCompatActivity implements ZXingScannerVie
 
         initCameraView();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (hasPermission(Manifest.permission.CAMERA) == false) {
+            if (Utils.hasPermission(Manifest.permission.CAMERA) == false) {
                 requestPermissions(CAMERA_PERM, 753);
             }
         }
@@ -40,7 +41,7 @@ public class QrCodeActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void onResume() {
         super.onResume();
-        if (isAccessCamera()) {
+        if (Utils.hasPermission(Manifest.permission.CAMERA)) {
             mScannerView.setResultHandler(this);
             mScannerView.startCamera();
         }
@@ -49,7 +50,7 @@ public class QrCodeActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void onPause() {
         super.onPause();
-        if (isAccessCamera()) {
+        if (Utils.hasPermission(Manifest.permission.CAMERA)) {
             mScannerView.stopCamera();
         }
     }
@@ -68,7 +69,7 @@ public class QrCodeActivity extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (isAccessCamera()) {
+        if (Utils.hasPermission(Manifest.permission.CAMERA)) {
             initCameraView();
         } else {
             showErrorMessage(shouldShowRequestPermissionRationale(Manifest.permission.CAMERA));
@@ -79,20 +80,6 @@ public class QrCodeActivity extends AppCompatActivity implements ZXingScannerVie
         ViewGroup contentFrame = (ViewGroup) findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
         contentFrame.addView(mScannerView);
-    }
-
-    protected boolean isAccessCamera() {
-        if (hasPermission(Manifest.permission.CAMERA)) {
-            return true;
-        }
-        return false;
-    }
-
-    protected boolean hasPermission(String perm) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            return (PackageManager.PERMISSION_GRANTED == checkSelfPermission(perm));
-        }
-        return true;
     }
 
     protected void showErrorMessage(final boolean isUnCheckNeverAsk) {
