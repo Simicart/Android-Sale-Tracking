@@ -73,8 +73,6 @@ public class BestSellersAdapter extends RecyclerView.Adapter<BestSellersAdapter.
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_product_detail");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("best_bellers_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

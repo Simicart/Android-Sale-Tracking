@@ -60,8 +60,6 @@ public class OrderDetailController extends AppController {
                         try {
                             JSONObject object = new JSONObject();
                             object.put("action", "view_customer_detail");
-                            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                             AppManager.getInstance().trackWithMixPanel("order_detail_action", object);
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -94,8 +94,6 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_product_detail");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("list_products_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

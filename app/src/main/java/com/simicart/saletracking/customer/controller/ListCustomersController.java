@@ -110,8 +110,6 @@ public class ListCustomersController extends AppController {
 
                 object.put("search_action", mSearchEntity.getKey());
             }
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("list_customers_action", object);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -151,8 +149,6 @@ public class ListCustomersController extends AppController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("action", "next_page");
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("list_customers_action", object);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -173,8 +169,6 @@ public class ListCustomersController extends AppController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("action", "previous_page");
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("list_customers_action", object);
                     } catch (JSONException e) {
                         e.printStackTrace();

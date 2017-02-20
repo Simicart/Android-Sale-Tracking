@@ -83,8 +83,6 @@ public class ProductDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_description");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -101,8 +99,6 @@ public class ProductDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_short_description");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -119,8 +115,6 @@ public class ProductDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("edit_action", "short_description");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -137,8 +131,6 @@ public class ProductDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("edit_action", "description");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -259,8 +251,6 @@ public class ProductDetailController extends AppController {
         try {
             JSONObject object = new JSONObject();
             object.put("edit_action", "product_information");
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("product_detail_action", object);
         } catch (JSONException e) {
             e.printStackTrace();

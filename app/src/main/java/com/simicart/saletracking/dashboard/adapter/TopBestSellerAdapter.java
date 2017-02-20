@@ -77,8 +77,6 @@ public class TopBestSellerAdapter extends RecyclerView.Adapter<TopBestSellerAdap
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_best_seller_detail");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("dashboard_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

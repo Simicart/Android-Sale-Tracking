@@ -82,8 +82,6 @@ public class CustomerDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_customer_orders");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -114,8 +112,6 @@ public class CustomerDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_customer_addresses");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -171,8 +167,6 @@ public class CustomerDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("edit_action", "customer_summary");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -196,8 +190,6 @@ public class CustomerDetailController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("edit_action", "customer_information");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("customer_detail_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

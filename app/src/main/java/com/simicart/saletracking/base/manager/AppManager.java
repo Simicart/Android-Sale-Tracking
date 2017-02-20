@@ -28,6 +28,7 @@ import com.simicart.saletracking.bestseller.fragment.BestSellersFragment;
 import com.simicart.saletracking.cart.fragment.AbandonedCartDetailFragment;
 import com.simicart.saletracking.cart.fragment.ListAbandonedCartsFragment;
 import com.simicart.saletracking.common.AppLogging;
+import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.common.user.UserEntity;
@@ -61,6 +62,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AppManager {
 
+    private String mDeviceToken;
     private Activity mCurrentActivity;
     private FragmentManager mManager;
     private UserEntity mCurrentUser;
@@ -205,6 +207,18 @@ public class AppManager {
             }
         }
 
+    }
+
+    public void removeHeader() {
+        View navHeader = mNavigationView.getHeaderView(0);
+        CircleImageView ivAva = (CircleImageView) navHeader.findViewById(R.id.iv_ava);
+        ivAva.setImageResource(0);
+        TextView tvName = (TextView) navHeader.findViewById(R.id.tv_name);
+        tvName.setText("");
+        TextView tvEmail = (TextView) navHeader.findViewById(R.id.tv_email);
+        tvEmail.setText("");
+        TextView tvRole = (TextView) navHeader.findViewById(R.id.tv_role);
+        tvRole.setText("");
     }
 
     public void disableDrawer() {
@@ -460,6 +474,13 @@ public class AppManager {
         }
 
         if (null != property) {
+            try {
+                property.put("url", AppPreferences.getCustomerUrl());
+                property.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
+                property.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             AppLogging.logData("SimiManager ", "trackWithMixpanel eventName " + eventName + " PROPERTY " + property.toString());
             mMixPanel.track(eventName, property);
         } else {
@@ -487,4 +508,11 @@ public class AppManager {
         mLoading.dismiss();
     }
 
+    public String getDeviceToken() {
+        return mDeviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        mDeviceToken = deviceToken;
+    }
 }

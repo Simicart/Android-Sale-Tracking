@@ -155,8 +155,6 @@ public class ListOrdersAdapter extends SectioningAdapter {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_order_detail");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

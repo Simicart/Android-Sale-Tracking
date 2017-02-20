@@ -89,8 +89,6 @@ public class LatestOrdersAdapter extends RecyclerView.Adapter<LatestOrdersAdapte
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_latest_order_detail");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("dashboard_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -141,8 +141,6 @@ public class ListOrdersController extends AppController {
                 mListOrdersRequest.addParam(timeLayerEntity.getToDateKey(), timeLayerEntity.getToDate());
                 object.put("time_filter_action", timeLayerEntity.getKey());
             }
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -182,8 +180,6 @@ public class ListOrdersController extends AppController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("action", "next_page");
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -204,8 +200,6 @@ public class ListOrdersController extends AppController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("action", "previous_page");
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("list_orders_action", object);
                     } catch (JSONException e) {
                         e.printStackTrace();

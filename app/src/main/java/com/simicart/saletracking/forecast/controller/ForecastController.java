@@ -141,8 +141,6 @@ public class ForecastController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("filter_action", mTimeLayerEntity.getKey());
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("forecast_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

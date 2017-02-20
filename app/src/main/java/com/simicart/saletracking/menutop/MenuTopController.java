@@ -93,8 +93,6 @@ public class MenuTopController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("store_id", storeID);
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("change_store", object);
                     } catch (JSONException e) {
                         e.printStackTrace();

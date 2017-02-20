@@ -140,6 +140,7 @@ public class LoginController extends AppController {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            AppManager.getInstance().setDeviceToken(mDeviceToken);
             autoSignIn();
         }
     }
@@ -237,8 +238,6 @@ public class LoginController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "login_demo");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("login_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -279,8 +278,6 @@ public class LoginController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "login_user");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("login_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -375,8 +372,6 @@ public class LoginController extends AppController {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "login_qr_code");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("login_action", object);
                 } catch (JSONException e) {
                     e.printStackTrace();

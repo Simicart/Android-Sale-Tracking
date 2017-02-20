@@ -96,8 +96,6 @@ public class OrderedItemsAdapter extends RecyclerView.Adapter<OrderedItemsAdapte
                 try {
                     JSONObject object = new JSONObject();
                     object.put("action", "view_product_detail");
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     if (isCart) {
                         AppManager.getInstance().trackWithMixPanel("abandoned_cart_detail", object);
                     } else {

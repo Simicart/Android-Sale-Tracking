@@ -139,8 +139,6 @@ public class BestSellersController extends AppController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("action", "next_page");
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("best_bellers_action", object);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -161,8 +159,6 @@ public class BestSellersController extends AppController {
                     try {
                         JSONObject object = new JSONObject();
                         object.put("action", "previous_page");
-                        object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                        object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                         AppManager.getInstance().trackWithMixPanel("best_bellers_action", object);
                     } catch (JSONException e) {
                         e.printStackTrace();

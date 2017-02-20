@@ -159,8 +159,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         try {
             JSONObject object = new JSONObject();
             object.put("click_on", id);
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("slide_menu", object);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -249,12 +247,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 AppNotify.getInstance().showError(message);
             }
         });
+        logoutRequest.addParam("device_token", AppManager.getInstance().getDeviceToken());
         logoutRequest.request();
     }
 
     protected void onLogoutSuccess() {
         AppManager.getInstance().getMenuTopController().setFirstRun(true);
         AppManager.getInstance().setSessionID(null);
+        AppManager.getInstance().removeHeader();
         mDrawer.closeDrawer(GravityCompat.START);
         if (AppManager.getInstance().isDemo()) {
             AppManager.getInstance().setDemo(false);

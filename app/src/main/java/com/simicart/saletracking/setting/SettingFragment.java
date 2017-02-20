@@ -252,8 +252,6 @@ public class SettingFragment extends AppFragment {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("paging", (position + 1) * 20);
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("setting", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -297,8 +295,6 @@ public class SettingFragment extends AppFragment {
                         default:
                             break;
                     }
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("setting", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -334,8 +330,6 @@ public class SettingFragment extends AppFragment {
                         default:
                             break;
                     }
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("setting", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -363,8 +357,6 @@ public class SettingFragment extends AppFragment {
                 try {
                     JSONObject object = new JSONObject();
                     object.put("number_of_decimals", position);
-                    object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-                    object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
                     AppManager.getInstance().trackWithMixPanel("setting", object);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -384,8 +376,6 @@ public class SettingFragment extends AppFragment {
                 object.put("show_reports_on_dashboard", "disable");
             }
             AppPreferences.setShowSaleReport(show);
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("setting", object);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -402,8 +392,6 @@ public class SettingFragment extends AppFragment {
                 object.put("show_bestsellers_on_dashboard", "disable");
             }
             AppPreferences.setShowBestSellers(show);
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("setting", object);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -420,8 +408,6 @@ public class SettingFragment extends AppFragment {
                 object.put("show_latest_customers_on_dashboard", "disable");
             }
             AppPreferences.setShowLatestCustomer(show);
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("setting", object);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -438,8 +424,6 @@ public class SettingFragment extends AppFragment {
                 object.put("show_lastest_orders_on_dashboard", "disable");
             }
             AppPreferences.setShowLatestOrder(show);
-            object.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
-            object.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             AppManager.getInstance().trackWithMixPanel("setting", object);
         } catch (JSONException e) {
             e.printStackTrace();
