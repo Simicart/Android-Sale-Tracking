@@ -10,6 +10,7 @@ public class Constants {
     public static final String demoEmail = "cody@simicart.com";
     public static final String demoPassword = "123456";
     public static final String permissionDeniedMessage = "You don't have permission to access this";
+    public static final String urlOnStore = "https://play.google.com/store/apps/details?id=com.simicart.saletracking";
 
     public static class Search {
         public static final int ORDER = 1;

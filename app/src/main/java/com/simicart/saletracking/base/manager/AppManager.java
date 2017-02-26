@@ -3,10 +3,16 @@ package com.simicart.saletracking.base.manager;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -53,6 +59,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -76,6 +83,7 @@ public class AppManager {
     private ProgressDialog mLoading;
     protected boolean isInitDialogLoading = false;
     protected NotificationEntity mNotificationEntity;
+    protected boolean mNeedUpdate = false;
 
     public static AppManager instance;
 
@@ -219,6 +227,72 @@ public class AppManager {
         tvEmail.setText("");
         TextView tvRole = (TextView) navHeader.findViewById(R.id.tv_role);
         tvRole.setText("");
+    }
+
+    public void showUpdate() {
+        View navHeader = mNavigationView.getHeaderView(0);
+        TextView tvUpdate = (TextView) navHeader.findViewById(R.id.tv_update);
+        tvUpdate.setVisibility(View.VISIBLE);
+        tvUpdate.setBackgroundColor(Color.RED);
+        tvUpdate.setText("New version available!");
+        tvUpdate.setTextColor(Color.WHITE);
+        tvUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openAppRating(mCurrentActivity);
+            }
+        });
+    }
+
+    public void hideUpdate() {
+        View navHeader = mNavigationView.getHeaderView(0);
+        TextView tvUpdate = (TextView) navHeader.findViewById(R.id.tv_update);
+        tvUpdate.setVisibility(View.GONE);
+    }
+
+    public static void openAppRating(Context context) {
+        // you can also use BuildConfig.APPLICATION_ID
+        String appId = context.getPackageName();
+        Intent rateIntent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("market://details?id=" + appId));
+        boolean marketFound = false;
+
+        // find all applications able to handle our rateIntent
+        final List<ResolveInfo> otherApps = context.getPackageManager()
+                .queryIntentActivities(rateIntent, 0);
+        for (ResolveInfo otherApp: otherApps) {
+            // look for Google Play application
+            if (otherApp.activityInfo.applicationInfo.packageName
+                    .equals("com.android.vending")) {
+
+                ActivityInfo otherAppActivity = otherApp.activityInfo;
+                ComponentName componentName = new ComponentName(
+                        otherAppActivity.applicationInfo.packageName,
+                        otherAppActivity.name
+                );
+                // make sure it does NOT open in the stack of your activity
+                rateIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                // task reparenting if needed
+                rateIntent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                // if the Google Play was already open in a search result
+                //  this make sure it still go to the app page you requested
+                rateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                // this make sure only the Google Play app is allowed to
+                // intercept the intent
+                rateIntent.setComponent(componentName);
+                context.startActivity(rateIntent);
+                marketFound = true;
+                break;
+
+            }
+        }
+
+        // if GP not present on device, open web browser
+        if (!marketFound) {
+            Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id="+appId));
+            context.startActivity(webIntent);
+        }
     }
 
     public void disableDrawer() {
@@ -514,5 +588,13 @@ public class AppManager {
 
     public void setDeviceToken(String deviceToken) {
         mDeviceToken = deviceToken;
+    }
+
+    public boolean isNeedUpdate() {
+        return mNeedUpdate;
+    }
+
+    public void setNeedUpdate(boolean mNeedUpdate) {
+        this.mNeedUpdate = mNeedUpdate;
     }
 }

@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         AppManager.getInstance().initMixPanelWithToken("286b4016149732004b4ebb2f2891ffec");
 
+        AppManager.getInstance().showUpdate();
     }
 
     @Override

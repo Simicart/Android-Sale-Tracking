@@ -197,6 +197,7 @@ public class LoginController extends AppController {
                             return;
                         }
                         if(!version.equals(AppManager.getInstance().getCurrentAppVersion())) {
+                            AppManager.getInstance().setNeedUpdate(true);
                             AppNotify.getInstance().showError("Please update your application!");
                             return;
                         }
