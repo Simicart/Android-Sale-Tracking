@@ -30,6 +30,7 @@ public class AppPreferences {
     private static final String CURRENCY_POSITION = "currencyPosition";
     private static final String SEPARATOR = "separator";
     private static final String NUMBER_OF_DECIMALS = "numberOfDecimals";
+    private static final String ASK_UPDATE_APP = "askUpdateApp";
 
     public static void init() {
         mContext = AppManager.getInstance().getCurrentActivity();
@@ -277,6 +278,20 @@ public class AppPreferences {
             numberOfDecimals = mSharedPre.getInt(NUMBER_OF_DECIMALS, 2);
         }
         return numberOfDecimals;
+    }
+
+    public static void setAskUpdateApp(boolean isUpdate) {
+        SharedPreferences.Editor editor = mSharedPre.edit();
+        editor.putBoolean(ASK_UPDATE_APP, isUpdate);
+        editor.apply();
+    }
+
+    public static boolean getAskUpdateApp() {
+        boolean isUpdate = true;
+        if (mSharedPre != null) {
+            isUpdate = mSharedPre.getBoolean(ASK_UPDATE_APP, true);
+        }
+        return isUpdate;
     }
 
 }

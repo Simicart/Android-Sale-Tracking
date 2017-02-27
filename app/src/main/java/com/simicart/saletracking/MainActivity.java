@@ -14,6 +14,7 @@ import android.media.RingtoneManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,11 +35,13 @@ import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.fragment.AppFragment;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
+import com.simicart.saletracking.base.manager.DialogCallBack;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.AppRequest;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.AppEvent;
+import com.simicart.saletracking.common.AppLogging;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
@@ -49,7 +52,9 @@ import com.simicart.saletracking.notification.entity.NotificationEntity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -103,7 +108,61 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         AppManager.getInstance().initMixPanelWithToken("286b4016149732004b4ebb2f2891ffec");
 
-        AppManager.getInstance().showUpdate();
+        new VersionAsync().execute();
+    }
+
+    public class VersionAsync extends AsyncTask<Void,Void,String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            String newVersion = null;
+            try {
+                newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=com.simicart.saletracking&hl=it")
+                        .timeout(30000)
+                        .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
+                        .referrer("http://www.google.com")
+                        .get()
+                        .select("div[itemprop=softwareVersion]")
+                        .first()
+                        .ownText();
+                AppLogging.logData("App Version", newVersion);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return newVersion;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if(s != null && !s.equals(AppManager.getInstance().getCurrentAppVersion())) {
+                showPopupUpdate();
+            } else {
+                AppPreferences.setAskUpdateApp(true);
+                AppManager.getInstance().setNeedUpdate(false);
+            }
+        }
+    }
+
+    public void showPopupUpdate() {
+        AppManager.getInstance().setNeedUpdate(true);
+        if(AppPreferences.getAskUpdateApp()) {
+            AppNotify.getInstance().showPopupCustom("New version available!", "Upgrade now", new DialogCallBack() {
+                @Override
+                public void onClick() {
+                    AppManager.getInstance().openGooglePlay();
+                }
+            }, "Don't ask again", new DialogCallBack() {
+                @Override
+                public void onClick() {
+                    AppPreferences.setAskUpdateApp(false);
+                }
+            }, "Cancel", new DialogCallBack() {
+                @Override
+                public void onClick() {
+
+                }
+            });
+        }
     }
 
     @Override

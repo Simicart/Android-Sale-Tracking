@@ -22,6 +22,7 @@ import com.simicart.saletracking.base.controller.AppController;
 import com.simicart.saletracking.base.entity.AppData;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
+import com.simicart.saletracking.base.manager.DialogCallBack;
 import com.simicart.saletracking.base.request.AppCollection;
 import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
@@ -177,10 +178,7 @@ public class LoginController extends AppController {
                     if (collection.containKey("expired_time")) {
                         isExpired = (boolean) collection.getDataWithKey("expired_time");
                     }
-                    if(collection.containKey("version")) {
-                        version = (String) collection.getDataWithKey("version");
-                    }
-                    if (isActive && !isExpired && version.equals(AppManager.getInstance().getCurrentAppVersion())) {
+                    if (isActive && !isExpired) {
                         if (isLoginNormal) {
                             onLoginUser(loginEntity);
                         } else {
@@ -196,17 +194,6 @@ public class LoginController extends AppController {
                             AppNotify.getInstance().showError("Your account has been expired!");
                             return;
                         }
-                        if(!version.equals(AppManager.getInstance().getCurrentAppVersion())) {
-                            AppManager.getInstance().setNeedUpdate(true);
-                            AppNotify.getInstance().showError("Please update your application!");
-                            return;
-                        }
-//                        if (collection.containKey("message")) {
-//                            String message = (String) collection.getDataWithKey("message");
-//                            if (Utils.validateString(message)) {
-//                                AppNotify.getInstance().showError(message);
-//                            }
-//                        }
                     }
                 }
             }
@@ -418,6 +405,9 @@ public class LoginController extends AppController {
             AppManager.getInstance().navigateFirstFragment();
         }
         AppManager.getInstance().getMenuTopController().showMenuTop(true);
+        if(AppManager.getInstance().isNeedUpdate()) {
+            AppManager.getInstance().showUpdate();
+        }
     }
 
     protected void requestListStoreViews() {

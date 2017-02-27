@@ -68,6 +68,10 @@ public class AppColor {
         return mButtonTextColor;
     }
 
+    public int getIButtonTextColor() {
+        return Color.parseColor(mButtonTextColor);
+    }
+
     public int getThemeColor() {
         return Color.parseColor(mThemeColor);
     }

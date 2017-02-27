@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:padding="@dimen/size_20"
+    android:background="@color/colorWhite">
+    
+    <TextView
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_20"
+        android:textColor="@color/colorBlack"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/size_10">
+
+        <TextView
+            android:id="@+id/tv_first"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_button"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:background="@drawable/bottom_line_border"/>
+
+        <TextView
+            android:id="@+id/tv_second"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_button"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:background="@drawable/bottom_line_border"/>
+
+        <TextView
+            android:id="@+id/tv_third"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_button"
+            android:textAllCaps="false"
+            android:gravity="center"
+            android:background="@drawable/bottom_line_border"/>
+
+    </LinearLayout>
+
+</LinearLayout>

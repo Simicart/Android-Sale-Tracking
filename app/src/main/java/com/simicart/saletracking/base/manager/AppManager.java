@@ -234,12 +234,12 @@ public class AppManager {
         TextView tvUpdate = (TextView) navHeader.findViewById(R.id.tv_update);
         tvUpdate.setVisibility(View.VISIBLE);
         tvUpdate.setBackgroundColor(Color.RED);
-        tvUpdate.setText("New version available!");
+        Utils.setTextHtml(tvUpdate, "New version available!   <u><font color=#13f501>Upgrade</font></u>");
         tvUpdate.setTextColor(Color.WHITE);
         tvUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openAppRating(mCurrentActivity);
+                openGooglePlay();
             }
         });
     }
@@ -250,48 +250,12 @@ public class AppManager {
         tvUpdate.setVisibility(View.GONE);
     }
 
-    public static void openAppRating(Context context) {
-        // you can also use BuildConfig.APPLICATION_ID
-        String appId = context.getPackageName();
-        Intent rateIntent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse("market://details?id=" + appId));
-        boolean marketFound = false;
-
-        // find all applications able to handle our rateIntent
-        final List<ResolveInfo> otherApps = context.getPackageManager()
-                .queryIntentActivities(rateIntent, 0);
-        for (ResolveInfo otherApp: otherApps) {
-            // look for Google Play application
-            if (otherApp.activityInfo.applicationInfo.packageName
-                    .equals("com.android.vending")) {
-
-                ActivityInfo otherAppActivity = otherApp.activityInfo;
-                ComponentName componentName = new ComponentName(
-                        otherAppActivity.applicationInfo.packageName,
-                        otherAppActivity.name
-                );
-                // make sure it does NOT open in the stack of your activity
-                rateIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                // task reparenting if needed
-                rateIntent.addFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                // if the Google Play was already open in a search result
-                //  this make sure it still go to the app page you requested
-                rateIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                // this make sure only the Google Play app is allowed to
-                // intercept the intent
-                rateIntent.setComponent(componentName);
-                context.startActivity(rateIntent);
-                marketFound = true;
-                break;
-
-            }
-        }
-
-        // if GP not present on device, open web browser
-        if (!marketFound) {
-            Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id="+appId));
-            context.startActivity(webIntent);
+    public void openGooglePlay() {
+        final String appPackageName = mCurrentActivity.getPackageName();
+        try {
+            mCurrentActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            mCurrentActivity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appPackageName)));
         }
     }
 
@@ -512,15 +476,15 @@ public class AppManager {
     }
 
     public String getCurrentAppVersion() {
-        PackageInfo pInfo = null;
-        try {
-            pInfo = mCurrentActivity.getPackageManager().getPackageInfo(mCurrentActivity.getPackageName(), 0);
-            String version = pInfo.versionName;
-            return version;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return "0.1.0";
+//        PackageInfo pInfo = null;
+//        try {
+//            pInfo = mCurrentActivity.getPackageManager().getPackageInfo(mCurrentActivity.getPackageName(), 0);
+//            String version = pInfo.versionName;
+//            return version;
+//        } catch (PackageManager.NameNotFoundException e) {
+//            e.printStackTrace();
+//        }
+        return "0.1.1";
     }
 
     public void initMixPanelWithToken(String token) {

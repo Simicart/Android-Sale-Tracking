@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/size_10"
-        android:textSize="@dimen/size_18"
+        android:textSize="@dimen/text_16"
         android:gravity="center"
         android:visibility="gone"></TextView>
 
