@@ -1,6 +1,9 @@
 package com.simicart.saletracking.cart.block;
 
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -114,7 +117,9 @@ public class AbandonedCartDetailBlock extends AppBlock {
 
         String customerEmail = mAbandonedCart.getCustomerEmail();
         if (Utils.validateString(customerEmail)) {
-            tvCustomerEmail.setText(customerEmail);
+            final SpannableString spannableString = new SpannableString(customerEmail);
+            spannableString.setSpan(new URLSpan(""), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvCustomerEmail.setText(spannableString, TextView.BufferType.SPANNABLE);
         }
 
         String ip = mAbandonedCart.getRemoteIP();

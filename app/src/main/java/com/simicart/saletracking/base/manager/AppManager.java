@@ -476,15 +476,15 @@ public class AppManager {
     }
 
     public String getCurrentAppVersion() {
-//        PackageInfo pInfo = null;
-//        try {
-//            pInfo = mCurrentActivity.getPackageManager().getPackageInfo(mCurrentActivity.getPackageName(), 0);
-//            String version = pInfo.versionName;
-//            return version;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        return "0.1.1";
+        PackageInfo pInfo = null;
+        try {
+            pInfo = mCurrentActivity.getPackageManager().getPackageInfo(mCurrentActivity.getPackageName(), 0);
+            String version = pInfo.versionName;
+            return version;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return "0.1.0";
     }
 
     public void initMixPanelWithToken(String token) {
@@ -513,7 +513,11 @@ public class AppManager {
 
         if (null != property) {
             try {
-                property.put("url", AppPreferences.getCustomerUrl());
+                if (AppManager.getInstance().isDemo()) {
+                    property.put("url", Constants.demoUrl);
+                } else {
+                    property.put("url", AppPreferences.getCustomerUrl());
+                }
                 property.put("customer_identity", AppManager.getInstance().getCurrentUser().getEmail());
                 property.put("customer_ip", AppManager.getInstance().getCurrentUser().getIP());
             } catch (JSONException e) {

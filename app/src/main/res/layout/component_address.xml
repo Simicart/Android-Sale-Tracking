@@ -29,15 +29,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Customer Id"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_full_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="123" />
+                android:layout_weight="3" />
         </TableRow>
 
         <TableRow
@@ -51,15 +49,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Customer Email"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_street"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="glenn@simicart.com" />
+                android:layout_weight="3" />
         </TableRow>
 
         <TableRow
@@ -73,15 +69,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="First Name"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_city"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Glenn" />
+                android:layout_weight="3" />
         </TableRow>
 
         <TableRow
@@ -95,15 +89,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Last Name"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_state"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Nguyen" />
+                android:layout_weight="3" />
         </TableRow>
 
         <TableRow
@@ -117,15 +109,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Last Name"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_country"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Nguyen" />
+                android:layout_weight="3" />
         </TableRow>
 
         <TableRow
@@ -139,7 +129,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Last Name"
                 android:textStyle="bold" />
 
             <TextView
@@ -147,7 +136,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Nguyen"
                 android:autoLink="phone"/>
         </TableRow>
 
@@ -162,15 +150,13 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Last Name"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_post_code"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:text="Nguyen" />
+                android:layout_weight="3" />
         </TableRow>
 
         <TableRow
@@ -185,7 +171,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:text="Last Name"
                 android:textStyle="bold" />
 
             <TextView
@@ -193,7 +178,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
-                android:text="Nguyen" />
+                android:autoLink="email"/>
         </TableRow>
 
     </TableLayout>

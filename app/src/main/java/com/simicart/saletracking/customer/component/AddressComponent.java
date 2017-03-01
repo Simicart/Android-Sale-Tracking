@@ -143,7 +143,9 @@ public class AddressComponent extends AppComponent {
         tvEmail.setTextColor(Color.BLACK);
         String email = mAddressEntity.getEmail();
         if (Utils.validateString(email)) {
-            tvEmail.setText(email);
+            final SpannableString spannableString = new SpannableString(email);
+            spannableString.setSpan(new URLSpan(""), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvEmail.setText(spannableString, TextView.BufferType.SPANNABLE);
         }
 
         trEmail = (TableRow) rootView.findViewById(R.id.tr_email);

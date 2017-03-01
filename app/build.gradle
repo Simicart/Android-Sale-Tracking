@@ -7,7 +7,7 @@ android {
         applicationId "com.simicart.saletracking"
         minSdkVersion 17
         targetSdkVersion 25
-        versionCode 11
+        versionCode 13
         versionName "0.1.0"
     }
     buildTypes {

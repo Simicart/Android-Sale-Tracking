@@ -2,6 +2,7 @@ package com.simicart.saletracking.common;
 
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -114,6 +115,14 @@ public class Utils {
         DisplayMetrics metrics = AppManager.getInstance().getCurrentActivity().getResources().getDisplayMetrics();
         int px = value * ((int) metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return px;
+    }
+
+    public static void openMail(String mailAddress) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{ mailAddress });
+        i.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+        i.putExtra(android.content.Intent.EXTRA_TEXT, "");
+        AppManager.getInstance().getCurrentActivity().startActivity(Intent.createChooser(i, "Send email"));
     }
 
     public static String getPrice(ProductEntity productEntity, String baseCurrency, String orderCurrency) {

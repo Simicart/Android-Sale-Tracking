@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -320,7 +323,9 @@ public class OrderDetailBlock extends AppBlock {
 
         String customerEmail = orderEntity.getCustomerEmail();
         if (Utils.validateString(customerEmail)) {
-            tvCustomerEmail.setText(customerEmail);
+            final SpannableString spannableString = new SpannableString(customerEmail);
+            spannableString.setSpan(new URLSpan(""), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvCustomerEmail.setText(spannableString, TextView.BufferType.SPANNABLE);
         }
 
     }

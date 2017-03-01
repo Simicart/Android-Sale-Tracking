@@ -1,6 +1,9 @@
 package com.simicart.saletracking.customer.block;
 
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -228,7 +231,9 @@ public class CustomerDetailBlock extends AppBlock {
 
         String email = customerEntity.getEmail();
         if (Utils.validateString(email)) {
-            tvCustomerEmail.setText(email);
+            final SpannableString spannableString = new SpannableString(email);
+            spannableString.setSpan(new URLSpan(""), 0, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tvCustomerEmail.setText(spannableString, TextView.BufferType.SPANNABLE);
         }
 
         String prefix = customerEntity.getPrefix();
