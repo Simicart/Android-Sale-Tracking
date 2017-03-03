@@ -134,7 +134,11 @@ public class SearchFragment extends AppFragment {
 
         if (mSelectedSearchEntity != null && Utils.validateString(mSelectedSearchEntity.getLabel())) {
             enableSearchAction(true);
-            edtQuery.setText(mSelectedSearchEntity.getQuery());
+            String query = mSelectedSearchEntity.getQuery();
+            if(query.contains("%40")) {
+                query = query.replace("%40", "@");
+            }
+            edtQuery.setText(query);
             tvClear.setVisibility(View.VISIBLE);
         } else {
             tvClear.setVisibility(View.GONE);

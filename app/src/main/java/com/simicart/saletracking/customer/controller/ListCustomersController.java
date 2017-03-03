@@ -107,7 +107,12 @@ public class ListCustomersController extends AppController {
         try {
             JSONObject object = new JSONObject();
             if (mSearchEntity != null) {
-                mListCustomersRequest.addSearchParam(mSearchEntity.getKey(), mSearchEntity.getQuery());
+                String key = mSearchEntity.getKey();
+                String query = mSearchEntity.getQuery();
+                if(key.equals("email")) {
+                    query = "%25" + query + "%25";
+                }
+                mListCustomersRequest.addSearchParam(key, query);
 
                 object.put("search_action", mSearchEntity.getKey());
             }
