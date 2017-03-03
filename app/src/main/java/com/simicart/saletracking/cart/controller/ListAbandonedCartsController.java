@@ -15,6 +15,7 @@ import com.simicart.saletracking.cart.delegate.ListAbandonedCartsDelegate;
 import com.simicart.saletracking.cart.request.ListAbandonedCartsRequest;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
+import com.simicart.saletracking.search.callback.SearchCallBack;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
 import org.json.JSONException;
@@ -187,7 +188,14 @@ public class ListAbandonedCartsController extends AppController {
                 }
                 hmData.put("search_entity", mSearchEntity);
                 hmData.put("from", Constants.Search.CART);
-                hmData.put("is_detail", false);
+                hmData.put("callback", new SearchCallBack() {
+                    @Override
+                    public void onSearch(SearchEntity searchEntity) {
+                        hmData.remove("from");
+                        mSearchEntity = searchEntity;
+                        requestListCarts(Constants.TypeShowLoading.DIALOG);
+                    }
+                });
                 AppManager.getInstance().openSearch(hmData);
             }
         };

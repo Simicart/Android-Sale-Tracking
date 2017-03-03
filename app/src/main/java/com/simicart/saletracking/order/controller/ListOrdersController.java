@@ -12,10 +12,12 @@ import com.simicart.saletracking.base.request.RequestFailCallback;
 import com.simicart.saletracking.base.request.RequestSuccessCallback;
 import com.simicart.saletracking.common.AppPreferences;
 import com.simicart.saletracking.common.Constants;
+import com.simicart.saletracking.layer.callback.LayerCallback;
 import com.simicart.saletracking.layer.entity.LayerEntity;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import com.simicart.saletracking.order.delegate.ListOrdersDelegate;
 import com.simicart.saletracking.order.request.ListOrdersRequest;
+import com.simicart.saletracking.search.callback.SearchCallBack;
 import com.simicart.saletracking.search.entity.SearchEntity;
 
 import org.json.JSONException;
@@ -44,7 +46,6 @@ public class ListOrdersController extends AppController {
     protected LayerEntity mSortEntity;
     protected LayerEntity mTimeEntity;
     protected HashMap<String, Object> hmData;
-    protected boolean isDetail;
 
     protected int mCurrentPage = 1;
     protected int mTotalPage;
@@ -117,7 +118,7 @@ public class ListOrdersController extends AppController {
             if (mSearchEntity != null) {
                 String query = mSearchEntity.getQuery();
                 if(hmData != null && !hmData.containsKey("orders_customer")) {
-                    query = "%" + query + "%";
+                    query = "%25" + query + "%25";
                 }
                 mListOrdersRequest.addSearchParam(mSearchEntity.getKey(), query);
                 object.put("search_action", mSearchEntity.getKey());
@@ -216,7 +217,14 @@ public class ListOrdersController extends AppController {
                 }
                 hmData.put("search_entity", mSearchEntity);
                 hmData.put("from", Constants.Search.ORDER);
-                hmData.put("is_detail", isDetail);
+                hmData.put("callback", new SearchCallBack() {
+                    @Override
+                    public void onSearch(SearchEntity searchEntity) {
+                        hmData.remove("from");
+                        mSearchEntity = searchEntity;
+                        requestListOrders(Constants.TypeShowLoading.DIALOG);
+                    }
+                });
                 AppManager.getInstance().openSearch(hmData);
             }
         };
@@ -233,6 +241,15 @@ public class ListOrdersController extends AppController {
                 }
                 hmData.put("from", Constants.Layer.FILTER);
                 hmData.put("title", "Select Status To Filter");
+                hmData.put("callback", new LayerCallback() {
+                    @Override
+                    public void onLayer(LayerEntity layerEntity) {
+                        hmData.remove("from");
+                        hmData.remove("list_status_layer");
+                        mStatusFilter = layerEntity;
+                        requestListOrders(Constants.TypeShowLoading.DIALOG);
+                    }
+                });
                 AppManager.getInstance().openLayer(hmData);
             }
         };
@@ -246,6 +263,14 @@ public class ListOrdersController extends AppController {
                 hmData.put("sort_layer", mSortEntity);
                 hmData.put("from", Constants.Layer.SORT);
                 hmData.put("title", "Sort By");
+                hmData.put("callback", new LayerCallback() {
+                    @Override
+                    public void onLayer(LayerEntity layerEntity) {
+                        hmData.remove("from");
+                        mSortEntity = layerEntity;
+                        requestListOrders(Constants.TypeShowLoading.DIALOG);
+                    }
+                });
                 AppManager.getInstance().openLayer(hmData);
             }
         };
@@ -259,6 +284,14 @@ public class ListOrdersController extends AppController {
                 hmData.put("time_layer", mTimeEntity);
                 hmData.put("from", Constants.Layer.TIME);
                 hmData.put("title", "Select Time Range To Filter");
+                hmData.put("callback", new LayerCallback() {
+                    @Override
+                    public void onLayer(LayerEntity layerEntity) {
+                        hmData.remove("from");
+                        mTimeEntity = layerEntity;
+                        requestListOrders(Constants.TypeShowLoading.DIALOG);
+                    }
+                });
                 AppManager.getInstance().openLayer(hmData);
             }
         };
@@ -335,9 +368,5 @@ public class ListOrdersController extends AppController {
 
     public SwipeRefreshLayout.OnRefreshListener getOnRefreshPull() {
         return mOnRefreshPull;
-    }
-
-    public void setDetail(boolean detail) {
-        isDetail = detail;
     }
 }

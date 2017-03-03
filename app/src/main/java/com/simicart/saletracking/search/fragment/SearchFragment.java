@@ -28,6 +28,7 @@ import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
 import com.simicart.saletracking.order.fragment.ListOrdersFragment;
 import com.simicart.saletracking.search.adapter.TagSearchAdapter;
+import com.simicart.saletracking.search.callback.SearchCallBack;
 import com.simicart.saletracking.search.entity.SearchEntity;
 import com.simicart.saletracking.style.PredicateLayout;
 
@@ -52,6 +53,7 @@ public class SearchFragment extends AppFragment {
     protected ArrayList<SearchEntity> mListSearches;
     protected int mFrom;
     protected  boolean isDetail = false;
+    protected SearchCallBack mSearchCallBack;
 
     public static SearchFragment newInstance(AppData data) {
         SearchFragment fragment = new SearchFragment();
@@ -69,7 +71,7 @@ public class SearchFragment extends AppFragment {
         if (mData != null) {
             mSelectedSearchEntity = (SearchEntity) getValueWithKey("search_entity");
             mFrom = (int) getValueWithKey("from");
-            isDetail = (boolean) getValueWithKey("is_detail");
+            mSearchCallBack = (SearchCallBack) getValueWithKey("callback");
         }
 
         mListSearches = new ArrayList<>();
@@ -197,28 +199,13 @@ public class SearchFragment extends AppFragment {
         hm.put("search_entity", mSelectedSearchEntity);
         hm.remove("from");
 
-        backToSearchFragment(hm);
+        backToSearchFragment(mSelectedSearchEntity);
     }
 
-    protected void backToSearchFragment(HashMap<String, Object> hm) {
+    protected void backToSearchFragment(SearchEntity searchEntity) {
         AppManager.getInstance().clearCurrentFragment();
-
-        if (mFrom == Constants.Search.ORDER) {
-            if(isDetail) {
-                ListOrdersFragment orderFragment = ListOrdersFragment.newInstance(new AppData(hm));
-                orderFragment.setFragmentName("Orders");
-                orderFragment.setDetail(true);
-                AppManager.getInstance().replaceFragment(orderFragment);
-                AppManager.getInstance().getMenuTopController().setOnDetail(true);
-            } else {
-                AppManager.getInstance().openListOrders(hm);
-            }
-        } else if (mFrom == Constants.Search.CUSTOMER) {
-            AppManager.getInstance().openListCustomers(hm);
-        } else if (mFrom == Constants.Search.PRODUCT) {
-            AppManager.getInstance().openListProducts(hm);
-        } else {
-            AppManager.getInstance().openListAbandonedCarts(hm);
+        if(mSearchCallBack != null) {
+            mSearchCallBack.onSearch(searchEntity);
         }
     }
 

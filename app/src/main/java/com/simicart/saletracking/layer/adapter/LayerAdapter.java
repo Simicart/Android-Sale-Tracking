@@ -14,6 +14,7 @@ import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
+import com.simicart.saletracking.layer.callback.LayerCallback;
 import com.simicart.saletracking.layer.entity.LayerEntity;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 
@@ -33,6 +34,7 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
     protected HashMap<String, Object> hmData;
     protected LayerEntity mSelectedLayer;
     protected int mFrom;
+    protected LayerCallback mLayerCallback;
 
     public LayerAdapter(HashMap<String, Object> hmData) {
         this.hmData = hmData;
@@ -89,23 +91,9 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
             public void onClick(View view) {
                 AppManager.getInstance().clearCurrentFragment();
                 mSelectedLayer = layerEntity;
-                hmData.remove("from");
-                switch (mFrom) {
-                    case Constants.Layer.FILTER:
-                        hmData.remove("list_status_layer");
-                        hmData.put("status_layer", mSelectedLayer);
-                        break;
-                    case Constants.Layer.SORT:
-                        hmData.put("sort_layer", mSelectedLayer);
-                        break;
-                    case Constants.Layer.TIME:
-                        hmData.put("time_layer", mSelectedLayer);
-                        break;
-                    default:
-                        break;
+                if(mLayerCallback != null) {
+                    mLayerCallback.onLayer(mSelectedLayer);
                 }
-                AppManager.getInstance().openListOrders(hmData);
-//                AppManager.getInstance().removeFragment("Layer");
             }
         });
 
@@ -158,6 +146,8 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
                 default:
                     break;
             }
+
+            mLayerCallback = (LayerCallback) hmData.get("callback");
         }
     }
 
