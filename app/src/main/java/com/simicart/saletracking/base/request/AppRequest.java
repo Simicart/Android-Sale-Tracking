@@ -37,6 +37,7 @@ public class AppRequest {
     protected JSONObject mJSONResult;
     protected AppCollection mCollection;
     protected int mRequestMethod = Request.Method.GET;
+    protected boolean mAddParams = true;
 
     public AppRequest() {
         hmParams = new HashMap<>();
@@ -62,6 +63,8 @@ public class AppRequest {
                 AppLogging.logData("Response", response.toString());
                 try {
                     if (response != null) {
+                        mCollection = new AppCollection();
+                        mCollection.setJSONObject(response);
                         mJSONResult = response;
                         if (mJSONResult.has("errors")) {
                             JSONArray array = mJSONResult.getJSONArray("errors");
@@ -148,11 +151,10 @@ public class AppRequest {
             url = mCustomUrl;
         }
 
-        if (url.charAt(url.length() - 1) != '/') {
-            url += "/";
-        }
-
         if (mExtendUrl != null) {
+            if (url.charAt(url.length() - 1) != '/') {
+                url += "/";
+            }
             url = url + mExtendUrl;
         }
 
@@ -160,9 +162,11 @@ public class AppRequest {
             url = "https://" + url;
         }
 
-        String dataParameter = processDataParameter();
-        if (Utils.validateString(dataParameter)) {
-            url = url + "?" + dataParameter;
+        if(mAddParams) {
+            String dataParameter = processDataParameter();
+            if (Utils.validateString(dataParameter)) {
+                url = url + "?" + dataParameter;
+            }
         }
 
         return url;
@@ -284,5 +288,13 @@ public class AppRequest {
 
     public JSONObject getJSONParam() {
         return mJSONParams;
+    }
+
+    public boolean isAddParams() {
+        return mAddParams;
+    }
+
+    public void setAddParams(boolean mIsAddParams) {
+        this.mAddParams = mIsAddParams;
     }
 }

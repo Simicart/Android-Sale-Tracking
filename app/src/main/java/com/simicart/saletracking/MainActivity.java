@@ -53,6 +53,9 @@ import com.simicart.saletracking.notification.entity.NotificationEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -108,7 +111,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         AppManager.getInstance().initMixPanelWithToken("286b4016149732004b4ebb2f2891ffec");
 
-        new VersionAsync().execute();
+//        new VersionAsync().execute();
+
+        requestAppVersion();
     }
 
     public class VersionAsync extends AsyncTask<Void,Void,String> {
@@ -117,15 +122,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         protected String doInBackground(Void... voids) {
             String newVersion = null;
             try {
-                newVersion = Jsoup.connect("https://play.google.com/store/apps/details?id=com.simicart.saletracking&hl=it")
+                Document document = Jsoup.connect("https://play.google.com/store/apps/details?id=com.simicart.saletracking&hl=en")
                         .timeout(30000)
                         .userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
                         .referrer("http://www.google.com")
-                        .get()
-                        .select("div[itemprop=softwareVersion]")
-                        .first()
-                        .ownText();
-                AppLogging.logData("App Version", newVersion);
+                        .get();
+                Elements elements = document.select("div[itemprop=softwareVersion]");
+                if(elements != null && elements.size() > 0) {
+                    Element element = elements.first();
+                    if(element != null) {
+                        newVersion  = element.ownText();
+                    }
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -134,13 +142,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         @Override
         protected void onPostExecute(String s) {
-            if(s != null && !s.equals(AppManager.getInstance().getCurrentAppVersion())) {
-                showPopupUpdate();
-            } else {
-                AppPreferences.setAskUpdateApp(true);
-                AppManager.getInstance().setNeedUpdate(false);
-            }
+            checkAppVersionResult(s);
         }
+    }
+
+    public void checkAppVersionResult(String version) {
+        AppLogging.logData("App Version", "current: " + version);
+        if(version != null && !version.equals(AppManager.getInstance().getCurrentAppVersion())) {
+            showPopupUpdate();
+        } else {
+            AppPreferences.setAskUpdateApp(true);
+            AppManager.getInstance().setNeedUpdate(false);
+        }
+    }
+
+    public void requestAppVersion() {
+        AppRequest appVersionRequest = new AppRequest();
+        appVersionRequest.setCustomUrl("http://carreto.pt/tools/android-store-version/?package=com.simicart.saletracking");
+        appVersionRequest.setRequestSuccessCallback(new RequestSuccessCallback() {
+            @Override
+            public void onSuccess(AppCollection collection) {
+                if(collection != null) {
+                    JSONObject jsonObject = collection.getJSONObject();
+                    if(jsonObject != null && jsonObject.has("version")) {
+                        try {
+                            String version = jsonObject.getString("version");
+                            checkAppVersionResult(version);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        });
+        appVersionRequest.setAddParams(false);
+        appVersionRequest.request();
     }
 
     public void showPopupUpdate() {
