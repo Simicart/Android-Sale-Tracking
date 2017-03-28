@@ -1,8 +1,10 @@
 package com.simicart.saletracking.base.request;
 
 import android.os.AsyncTask;
+import android.util.Patterns;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -62,27 +64,7 @@ public class AppRequest {
             public void onResponse(JSONObject response) {
                 AppLogging.logData("Response", response.toString());
                 try {
-                    if (response != null) {
-                        mCollection = new AppCollection();
-                        mCollection.setJSONObject(response);
-                        mJSONResult = response;
-                        if (mJSONResult.has("errors")) {
-                            JSONArray array = mJSONResult.getJSONArray("errors");
-                            if (null != array && array.length() > 0) {
-                                JSONObject json = array.getJSONObject(0);
-                                String error = json.getString("message");
-                                if (Utils.validateString(error)) {
-                                    if (mRequestFailCallback != null) {
-                                        mRequestFailCallback.onFail(error);
-                                    } else {
-                                        AppNotify.getInstance().showError(error);
-                                    }
-                                }
-                            }
-                        } else {
-                            new ParseAsync().execute();
-                        }
-                    }
+                    processDataResponse(response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -90,20 +72,86 @@ public class AppRequest {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                String errorMessage = error.getMessage();
-                if (Utils.validateString(errorMessage)) {
-                    AppLogging.logData("Error", errorMessage);
-                    if (errorMessage.contains("Exception")) {
-                        errorMessage = "Some error occur. Please try again later!";
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+                    int statusCode = response.statusCode;
+                    if (statusCode == 301 || statusCode == 302) {
+                        String url = response.headers.get("location");
+                        if(Patterns.WEB_URL.matcher(url).matches()) {
+                            createRedirectRequest(url);
+                            return;
+                        }
                     }
-                    if (mRequestFailCallback != null) {
-                        mRequestFailCallback.onFail(errorMessage);
-                    } else {
-                        AppNotify.getInstance().showError(errorMessage);
-                    }
-                } else {
-                    AppNotify.getInstance().showError("Some error occur. Please try again later!");
+                    processError(error);
                 }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json; charset=utf-8");
+                return headers;
+            }
+        };
+        AppRequestController.getInstance().addToRequestQueue(jsonObjectRequest);
+    }
+
+    protected void processDataResponse(JSONObject response) throws JSONException {
+        if (response != null) {
+            mCollection = new AppCollection();
+            mCollection.setJSONObject(response);
+            mJSONResult = response;
+            if (mJSONResult.has("errors")) {
+                JSONArray array = mJSONResult.getJSONArray("errors");
+                if (null != array && array.length() > 0) {
+                    JSONObject json = array.getJSONObject(0);
+                    String error = json.getString("message");
+                    if (Utils.validateString(error)) {
+                        if (mRequestFailCallback != null) {
+                            mRequestFailCallback.onFail(error);
+                        } else {
+                            AppNotify.getInstance().showError(error);
+                        }
+                    }
+                }
+            } else {
+                new ParseAsync().execute();
+            }
+        }
+    }
+
+    protected void processError(VolleyError error) {
+        String errorMessage = error.getMessage();
+        if (Utils.validateString(errorMessage)) {
+            AppLogging.logData("Error", errorMessage);
+            if (errorMessage.contains("Exception")) {
+                errorMessage = "Some error occur. Please try again later!";
+            }
+            if (mRequestFailCallback != null) {
+                mRequestFailCallback.onFail(errorMessage);
+            } else {
+                AppNotify.getInstance().showError(errorMessage);
+            }
+        } else {
+            AppNotify.getInstance().showError("Some error occur. Please try again later!");
+        }
+    }
+
+    protected void createRedirectRequest(String redirectUrl) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(mRequestMethod, redirectUrl, getJSONParams(), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                AppLogging.logData("Response", response.toString());
+                try {
+                    processDataResponse(response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                processError(error);
             }
         }) {
             @Override
@@ -162,7 +210,7 @@ public class AppRequest {
             url = "https://" + url;
         }
 
-        if(mAddParams) {
+        if (mAddParams) {
             String dataParameter = processDataParameter();
             if (Utils.validateString(dataParameter)) {
                 url = url + "?" + dataParameter;
