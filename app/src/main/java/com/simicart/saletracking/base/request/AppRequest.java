@@ -151,7 +151,18 @@ public class AppRequest {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                processError(error);
+                NetworkResponse response = error.networkResponse;
+                if (response != null && response.data != null) {
+                    int statusCode = response.statusCode;
+                    if (statusCode == 301 || statusCode == 302) {
+                        String url = response.headers.get("location");
+                        if(Patterns.WEB_URL.matcher(url).matches()) {
+                            createRedirectRequest(url);
+                            return;
+                        }
+                    }
+                    processError(error);
+                }
             }
         }) {
             @Override
