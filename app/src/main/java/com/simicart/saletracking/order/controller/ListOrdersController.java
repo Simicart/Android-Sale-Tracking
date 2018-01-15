@@ -247,6 +247,7 @@ public class ListOrdersController extends AppController {
                         hmData.remove("from");
                         hmData.remove("list_status_layer");
                         mStatusFilter = layerEntity;
+                        mDelegate.updateFilterName(mStatusFilter.getLabel());
                         requestListOrders(Constants.TypeShowLoading.DIALOG);
                     }
                 });
@@ -289,6 +290,7 @@ public class ListOrdersController extends AppController {
                     public void onLayer(LayerEntity layerEntity) {
                         hmData.remove("from");
                         mTimeEntity = layerEntity;
+                        mDelegate.updateTimeFilterName(mTimeEntity.getLabel());
                         requestListOrders(Constants.TypeShowLoading.DIALOG);
                     }
                 });
@@ -314,6 +316,7 @@ public class ListOrdersController extends AppController {
             }
             if (hmData.containsKey("status_layer")) {
                 mStatusFilter = (LayerEntity) hmData.get("status_layer");
+                mDelegate.updateFilterName(mStatusFilter.getLabel());
             } else {
                 mStatusFilter = null;
             }

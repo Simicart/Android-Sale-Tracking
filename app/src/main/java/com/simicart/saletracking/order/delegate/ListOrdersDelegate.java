@@ -16,4 +16,8 @@ public interface ListOrdersDelegate extends AppDelegate {
 
     public void dismissRefresh();
 
+    public void updateTimeFilterName(String filter);
+
+    public void updateFilterName(String filter);
+
 }

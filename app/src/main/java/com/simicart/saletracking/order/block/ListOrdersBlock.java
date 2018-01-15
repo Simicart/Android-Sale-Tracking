@@ -7,7 +7,6 @@ import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -182,6 +181,20 @@ public class ListOrdersBlock extends AppBlock implements ListOrdersDelegate {
     @Override
     public void dismissRefresh() {
         srlRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void updateTimeFilterName(String filter) {
+        if(Utils.validateString(filter)) {
+            tvTime.setText(filter);
+        }
+    }
+
+    @Override
+    public void updateFilterName(String filter) {
+        if(Utils.validateString(filter)) {
+            tvFilter.setText(filter);
+        }
     }
 
     public void setOnListScroll(RecyclerView.OnScrollListener listener) {

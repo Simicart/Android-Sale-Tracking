@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -222,7 +221,7 @@ public class ProductDetailBlock extends AppBlock {
 
         String price = mProduct.getPrice();
         if (Utils.validateString(price)) {
-            tvProductPrice.setText(Utils.getPrice(price, "USD"));
+            tvProductPrice.setText(Utils.getPrice(price));
         }
 
         String productType = mProduct.getType();

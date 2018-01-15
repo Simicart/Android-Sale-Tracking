@@ -232,13 +232,13 @@ public class LayerAdapter extends RecyclerView.Adapter<LayerAdapter.LayerHolder>
 
         TimeLayerEntity yesterday = new TimeLayerEntity();
         yesterday.setFromDate(getDate(Calendar.DATE, -1, true));
-        yesterday.setToDate(getToDay());
+        yesterday.setToDate(getDate(Calendar.DATE, -1, true));
         yesterday.setLabel("Yesterday");
         yesterday.setKey("yesterday");
         mListLayers.add(yesterday);
 
         TimeLayerEntity last7Days = new TimeLayerEntity();
-        last7Days.setFromDate(getDate(Calendar.DATE, -7, true));
+        last7Days.setFromDate(getDate(Calendar.DATE, -6, true));
         last7Days.setToDate(getToDay());
         last7Days.setLabel("Last 7 Days");
         last7Days.setKey("7_days");

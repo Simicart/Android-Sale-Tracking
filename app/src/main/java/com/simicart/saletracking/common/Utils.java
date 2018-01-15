@@ -9,7 +9,6 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.text.Html;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -187,6 +186,32 @@ public class Utils {
         }
 
         return mPriceFormat.format(Double.parseDouble(price));
+    }
+
+    public static String getPrice(String price) {
+        int currencyPosition = AppPreferences.getCurrencyPosition();
+        price = getFormattedPrice(price);
+        String symbol = AppManager.getInstance().getCurrentUser().getBaseCurrency();
+        if(symbol == null) {
+            symbol = "USD";
+        }
+        switch (currencyPosition) {
+            case Constants.CurrencyPosition.LEFT:
+                price = symbol + price;
+                break;
+            case Constants.CurrencyPosition.RIGHT:
+                price = price + symbol;
+                break;
+            case Constants.CurrencyPosition.LEFT_SPACE:
+                price = symbol + " " + price;
+                break;
+            case Constants.CurrencyPosition.RIGHT_SPACE:
+                price = price + " " + symbol;
+                break;
+            default:
+                break;
+        }
+        return price;
     }
 
     public static String getPrice(String price, String symbol) {

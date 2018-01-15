@@ -74,7 +74,7 @@ public class ListProductsAdapter extends RecyclerView.Adapter<ListProductsAdapte
 
         String price = productEntity.getPrice();
         if (Utils.validateString(price)) {
-            holder.tvProductPrice.setText(Utils.getPrice(price, "USD"));
+            holder.tvProductPrice.setText(Utils.getPrice(price));
         }
 
         String productType = productEntity.getType();

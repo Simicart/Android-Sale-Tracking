@@ -44,15 +44,12 @@ import com.simicart.saletracking.dashboard.adapter.TopBestSellerAdapter;
 import com.simicart.saletracking.dashboard.chart.DateInMonthValueFormatter;
 import com.simicart.saletracking.dashboard.chart.IntegerValueFormatter;
 import com.simicart.saletracking.dashboard.chart.MonthInYearValueFormatter;
-import com.simicart.saletracking.dashboard.component.ChartComponent;
 import com.simicart.saletracking.dashboard.delegate.DashboardDelegate;
 import com.simicart.saletracking.dashboard.entity.ChartEntity;
 import com.simicart.saletracking.dashboard.entity.SaleEntity;
 import com.simicart.saletracking.layer.entity.TimeLayerEntity;
 import com.simicart.saletracking.order.entity.OrderEntity;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -157,22 +154,22 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
     public void showTotal(SaleEntity saleEntity) {
 
         float revenue = saleEntity.getTotalSaleRevenue();
-        tvRevenue.setText(Utils.getPrice(String.valueOf(revenue), "USD"));
+        tvRevenue.setText(Utils.getPrice(String.valueOf(revenue)));
 
         float tax = saleEntity.getTotalSaleTax();
-        tvTax.setText(Utils.getPrice(String.valueOf(tax), "USD"));
+        tvTax.setText(Utils.getPrice(String.valueOf(tax)));
 
         float shipping = saleEntity.getTotalSaleShipping();
-        tvShipping.setText(Utils.getPrice(String.valueOf(shipping), "USD"));
+        tvShipping.setText(Utils.getPrice(String.valueOf(shipping)));
 
         int quantity = saleEntity.getTotalSaleQuantity();
         tvQuantity.setText(String.valueOf(quantity));
 
         float lifetimeTotal = saleEntity.getLifeTimeSaleTotal();
-        tvLifeTimeSale.setText(Utils.getPrice(String.valueOf(lifetimeTotal), "USD"));
+        tvLifeTimeSale.setText(Utils.getPrice(String.valueOf(lifetimeTotal)));
 
         float average = saleEntity.getLifeTimeSaleAverage();
-        tvAverage.setText(Utils.getPrice(String.valueOf(average), "USD"));
+        tvAverage.setText(Utils.getPrice(String.valueOf(average)));
 
     }
 
@@ -239,7 +236,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
         mListTimeLayers = new ArrayList<>();
 
         TimeLayerEntity last7Days = new TimeLayerEntity();
-        last7Days.setFromDate(Utils.getDate(Calendar.DATE, -7, true));
+        last7Days.setFromDate(Utils.getDate(Calendar.DATE, -6, true));
         last7Days.setToDate(Utils.getToDay());
         last7Days.setLabel("Last 7 Days");
         last7Days.setKey("chart_last_7_days");
