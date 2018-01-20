@@ -13,14 +13,14 @@ public class BestSellerEntity extends AppEntity {
     protected String mSku;
     protected String mQtyOrdered;
 
-    private final String ORDER_ITEMS_NAME = "order_items_name";
+    private final String NAME = "name";
     private final String ENTITY_ID = "entity_id";
     private final String SKU = "sku";
     private final String ORDERED_QTY = "ordered_qty";
 
     @Override
     public void parse() {
-        mItemName = getString(ORDER_ITEMS_NAME);
+        mItemName = getString(NAME);
 
         mID = getString(ENTITY_ID);
 

@@ -50,6 +50,9 @@
 
         <activity android:name=".login.activity.QrCodeActivity">
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e2841d7a32176e6836f057cfd9e9fb2b1eeef0a3" />
     </application>
 
 </manifest>

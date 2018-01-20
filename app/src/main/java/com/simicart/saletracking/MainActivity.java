@@ -1,38 +1,21 @@
 package com.simicart.saletracking;
 
-import android.*;
-import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.simicart.saletracking.base.entity.AppData;
-import com.simicart.saletracking.base.fragment.AppFragment;
+import com.crashlytics.android.Crashlytics;
 import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.base.manager.AppNotify;
 import com.simicart.saletracking.base.manager.DialogCallBack;
@@ -60,6 +43,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.HashMap;
 
+import io.fabric.sdk.android.Fabric;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     protected boolean doubleBackToExitPressedOnce = false;
@@ -70,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         AppManager.getInstance().setCurrentActivity(this);
@@ -203,11 +189,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount();
+        int count = AppManager.getInstance().getManager().getBackStackEntryCount();
         if (count == 1) {
-            AppFragment backFragment = (AppFragment) getSupportFragmentManager().getFragments().get(0);
-            String fragmentName = backFragment.getFragmentName();
-            if (fragmentName != null && (fragmentName.equals("Dashboard") || fragmentName.equals("Login"))) {
+            Fragment backFragment = AppManager.getInstance().getManager().getFragments().get(0);
+            if (backFragment != null && (backFragment instanceof DashboardFragment || backFragment instanceof LoginFragment)) {
                 if (doubleBackToExitPressedOnce) {
                     finish();
                 }

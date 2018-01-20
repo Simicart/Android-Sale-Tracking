@@ -368,7 +368,7 @@ public class DashboardBlock extends AppBlock implements DashboardDelegate {
             }
         }
 
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Income Value (USD)");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Income Value (" + AppManager.getInstance().getCurrentUser().getBaseCurrency() + ")");
         lineDataSet.setColor(Color.parseColor("#cc0000"));
         lineDataSet.setLineWidth(1.5f);
         lineDataSet.setDrawCircles(false);

@@ -16,6 +16,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.simicart.saletracking.R;
 import com.simicart.saletracking.base.component.AppComponent;
+import com.simicart.saletracking.base.manager.AppManager;
 import com.simicart.saletracking.common.AppColor;
 import com.simicart.saletracking.common.Constants;
 import com.simicart.saletracking.common.Utils;
@@ -145,7 +146,7 @@ public class ChartComponent extends AppComponent {
             }
         }
 
-        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Income Value (USD)");
+        LineDataSet lineDataSet = new LineDataSet(lineEntries, "Income Value (" + AppManager.getInstance().getCurrentUser().getBaseCurrency() + ")");
         lineDataSet.setColor(Color.parseColor("#cc0000"));
         lineDataSet.setLineWidth(1.5f);
         lineDataSet.setDrawCircles(false);
